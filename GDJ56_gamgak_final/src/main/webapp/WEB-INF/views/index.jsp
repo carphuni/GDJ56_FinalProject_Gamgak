@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="path" value="${pageContext.request.contextPath }"/>  
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,10 +10,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!-- 부트스트랩 css/js -->
-    <link href="./bootstrap-5.2.3-dist/css/bootstrap.css" rel="stylesheet">
-    <script src="./bootstrap-5.2.3-dist/js/jquery-3.6.1.min.js"></script>
-    <!-- index css -->
-    <link href="./bootstrap-5.2.3-dist/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="${path }/resources/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Main css -->
+    <link rel="stylesheet" type="text/css" href="${path }/resources/css/index.css">
     <!-- Font Awesome icons (free version)-->
     <script src="https://kit.fontawesome.com/d87d902b0c.js" crossorigin="anonymous"></script>
 </head>
@@ -26,21 +28,21 @@
             </div>
             <div class="carousel-inner">
               <div class="carousel-item active">
-                <img src="./img/임시 이미지02.jpg" class="d-block w-100" alt="...">
+                <img src="${path }/resources/images/메인 이미지.jpg" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
                   <h5>First slide label</h5>
                   <p>Some representative placeholder content for the first slide.</p>
                 </div>
               </div>
               <div class="carousel-item">
-                <img src="./img/임시 이미지02.jpg" class="d-block w-100" alt="...">
+                <img src="${path }/resources/images/메인 이미지.jpg" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
                   <h5>Second slide label</h5>
                   <p>Some representative placeholder content for the second slide.</p>
                 </div>
               </div>
               <div class="carousel-item">
-                <img src="./img/임시 이미지02.jpg" class="d-block w-100" alt="...">
+                <img src="${path }/resources/images/메인 이미지.jpg" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
                   <h5>Third slide label</h5>
                   <p>Some representative placeholder content for the third slide.</p>
@@ -58,7 +60,7 @@
           </div>
           <!-- Login -->
         <div id="login-wrapper" class="col-sm-6">
-            <img id="logo-img" src="./img/2-1.png" >
+            <img id="logo-img" src="${path }/resources/images/로고.png" >
             <h3>감:각</h3>
             <h6>나만의 맛집 기록</h6>
             <div id="loginInput">
@@ -72,7 +74,7 @@
                     <label for="floatingPassword">Password</label>
                 </div>
                 <button id="loginButton" type="button" class="btn btn-danger">로그인</button>
-                <a><img id="kakaologin" src="./img/카카오 로그인.png"/></a>
+                <a><img id="kakaologin" src="${path }/resources/images/카카오 로그인.png"/></a>
                 <div id="loginEtc">
                     <a><span>회원가입</span></a>
                     <div id="colLine"></div>
@@ -101,11 +103,5 @@
             </footer>
         </div>
      </div>
-
-    <!-- 부트스트랩 js -->
-    <script src="./bootstrap-5.2.3-dist/js/bootstrap.js"></script>
-    <script>
-
-    </script>
 </body>
 </html>
