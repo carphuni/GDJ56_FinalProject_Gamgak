@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <!-- ºÎÆ®½ºÆ®·¦ css/js -->
+    <!-- ë¶€íŠ¸ìŠ¤íŠ¸ë© css/js -->
     <link href="./bootstrap-5.2.3-dist/css/bootstrap.css" rel="stylesheet">
     <script src="./bootstrap-5.2.3-dist/js/jquery-3.6.1.min.js"></script>
     <!-- index css -->
@@ -26,21 +26,21 @@
             </div>
             <div class="carousel-inner">
               <div class="carousel-item active">
-                <img src="./img/ÀÓ½Ã ÀÌ¹ÌÁö02.jpg" class="d-block w-100" alt="...">
+                <img src="./img/ì„ì‹œ ì´ë¯¸ì§€02.jpg" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
                   <h5>First slide label</h5>
                   <p>Some representative placeholder content for the first slide.</p>
                 </div>
               </div>
               <div class="carousel-item">
-                <img src="./img/ÀÓ½Ã ÀÌ¹ÌÁö02.jpg" class="d-block w-100" alt="...">
+                <img src="./img/ì„ì‹œ ì´ë¯¸ì§€02.jpg" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
                   <h5>Second slide label</h5>
                   <p>Some representative placeholder content for the second slide.</p>
                 </div>
               </div>
               <div class="carousel-item">
-                <img src="./img/ÀÓ½Ã ÀÌ¹ÌÁö02.jpg" class="d-block w-100" alt="...">
+                <img src="./img/ì„ì‹œ ì´ë¯¸ì§€02.jpg" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">
                   <h5>Third slide label</h5>
                   <p>Some representative placeholder content for the third slide.</p>
@@ -59,8 +59,8 @@
           <!-- Login -->
         <div id="login-wrapper" class="col-sm-6">
             <img id="logo-img" src="./img/2-1.png" >
-            <h3>°¨:°¢</h3>
-            <h6>³ª¸¸ÀÇ ¸ÀÁı ±â·Ï</h6>
+            <h3>ê°:ê°</h3>
+            <h6>ë‚˜ë§Œì˜ ë§›ì§‘ ê¸°ë¡</h6>
             <div id="loginInput">
                 <div id="rowLine"></div>
                 <div id="inputId" class="form-floating mb-3">
@@ -71,14 +71,14 @@
                     <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
                     <label for="floatingPassword">Password</label>
                 </div>
-                <button id="loginButton" type="button" class="btn btn-danger">·Î±×ÀÎ</button>
-                <a><img id="kakaologin" src="./img/Ä«Ä«¿À ·Î±×ÀÎ.png"/></a>
+                <button id="loginButton" type="button" class="btn btn-danger">ë¡œê·¸ì¸</button>
+                <a><img id="kakaologin" src="./img/ì¹´ì¹´ì˜¤ ë¡œê·¸ì¸.png"/></a>
                 <div id="loginEtc">
-                    <a><span>È¸¿ø°¡ÀÔ</span></a>
+                    <a><span>íšŒì›ê°€ì…</span></a>
                     <div id="colLine"></div>
-                    <a><span>¾ÆÀÌµğ Ã£±â</span></a>
+                    <a><span>ì•„ì´ë”” ì°¾ê¸°</span></a>
                     <div id="colLine"></div>
-                    <a><span>ºñ¹Ğ¹øÈ£ Ã£±â</span></a>
+                    <a><span>ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸°</span></a>
                 </div>
                 <div id="rowLine"></div>
             </div>
@@ -87,13 +87,13 @@
             <!-- Footer -->
             <footer>
                 <div>
-                    <span>¸Ş´º</span>
-                    <span>¸Ş´º</span>
-                    <span>¸Ş´º</span>
-                    <span>¸Ş´º</span>
-                    <span>¸Ş´º</span>
-                    <span>¸Ş´º</span>
-                    <span>¸Ş´º</span>
+                    <span>ë©”ë‰´</span>
+                    <span>ë©”ë‰´</span>
+                    <span>ë©”ë‰´</span>
+                    <span>ë©”ë‰´</span>
+                    <span>ë©”ë‰´</span>
+                    <span>ë©”ë‰´</span>
+                    <span>ë©”ë‰´</span>
                 </div>
                 <p>
                     &copy;2023 Gamgak from LDH
@@ -102,7 +102,7 @@
         </div>
      </div>
 
-    <!-- ºÎÆ®½ºÆ®·¦ js -->
+    <!-- ë¶€íŠ¸ìŠ¤íŠ¸ë© js -->
     <script src="./bootstrap-5.2.3-dist/js/bootstrap.js"></script>
     <script>
 
