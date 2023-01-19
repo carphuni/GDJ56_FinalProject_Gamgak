@@ -12,6 +12,11 @@ public class MainController {
 		return "index";
 	}
 	
+	@RequestMapping("/profile")
+	public String profile() {
+		return "ldh_profile/profile";
+	}
+	
 	@RequestMapping("/admin")
 	public String adminMainPage() {
 		return "psh_admin/main";
