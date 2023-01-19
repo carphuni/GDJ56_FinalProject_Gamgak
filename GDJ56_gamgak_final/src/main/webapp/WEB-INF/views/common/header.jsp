@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="path" value="${pageContext.request.contextPath }"/>     
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,10 +10,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!-- 부트스트랩 css/js -->
-    <link href="./bootstrap-5.2.3-dist/css/bootstrap.css" rel="stylesheet">
-    <script src="./bootstrap-5.2.3-dist/js/jquery-3.6.1.min.js"></script>
+    <link href="${path}/resources/css/bootstrap.css" rel="stylesheet">
+    <script src="${path}/resources/js/jquery-3.6.1.min.js"></script>
     <!-- Main css -->
-    <link href="./bootstrap-5.2.3-dist/css/mainProfile.css" rel="stylesheet">
+    <link href="${path}/resources/css/mainProfile.css" rel="stylesheet">
     <!-- Font Awesome icons (free version)-->
     <script src="https://kit.fontawesome.com/d87d902b0c.js" crossorigin="anonymous"></script>
 </head>
@@ -20,7 +22,7 @@
         <!-- Side NavBar -->
         <aside id="sidebar-wrapper" class="col-sm-3">
             <div id="sidebar" class="col-sm-3">
-                <img id="logo-img" src="./img/2-1.png" >
+                <img id="logo-img" src="${path}/resources/images/2-1.png" >
                 <nav class="nav flex-column">
                     <a class="nav-link active" aria-current="page" href="#">
                         <i class="fa-solid fa-circle-user"></i>
@@ -45,34 +47,9 @@
         <!-- Article -->
         <article id="main-wrapper">
             <!-- Main -->
-            <section>
-                <div id="meeting-wrapper"></div>
-                <div id="profile-wrapper"></div>
-            </section>
-            <!-- Footer -->
-            <footer>
-                <div>
-                    <span>메뉴</span>
-                    <span>메뉴</span>
-                    <span>메뉴</span>
-                    <span>메뉴</span>
-                    <span>메뉴</span>
-                    <span>메뉴</span>
-                    <span>메뉴</span>
-                </div>
-                <p>
-                    &copy;2023 Gamgak from LDH
-                </p>
-            </footer>
-        </article> 
             
-        
-    </div>
-
-    <!-- 부트스트랩 js -->
-    <script src="./bootstrap-5.2.3-dist/js/bootstrap.js"></script>
-    <script>
-
-    </script>
+            <!-- Footer -->
+            
+       
 </body>
 </html>

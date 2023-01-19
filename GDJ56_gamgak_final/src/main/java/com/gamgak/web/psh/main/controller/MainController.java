@@ -11,4 +11,9 @@ public class MainController {
 	public String mainPage() {
 		return "index";
 	}
+	
+	@RequestMapping("/admin")
+	public String adminMainPage() {
+		return "psh_admin/main";
+	}
 }
