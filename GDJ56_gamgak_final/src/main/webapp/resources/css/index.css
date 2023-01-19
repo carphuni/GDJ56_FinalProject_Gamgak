@@ -1,0 +1,108 @@
+html,body{
+    height:100dvh;
+}
+
+a{
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.border-line{
+    border : 1px solid coral;
+}
+
+#colLine{
+    border: 1px solid #dc3545;
+    height: 100%;
+}
+
+#rowLine{
+    border: 1px solid #dc3545;
+    width: 100%;
+}
+
+#basic-wrapper{
+    width: 100%;
+    display: flex;
+    font-family: '맑은 고딕';
+    height: 100dvh;
+}
+/* MainImage */
+#carouselExampleCaptions,.carousel-item{
+    height: 100dvh;
+}
+
+
+/* Login */
+#login-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+}
+
+#logo-img{
+    border-radius: 10%;
+    width: 6rem;
+    height: 6rem;
+}  
+
+h6{
+    margin-top: -0.5rem;
+}
+
+.form-floating>label{
+    font-size: 1rem;
+}
+
+#floatingInput,#floatingPassword{
+    height: 3rem;
+}
+
+#loginInput{
+    width: 30rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+    #loginInput>#inputId{
+        margin-top: 1rem;
+    }
+
+    #loginInput>#loginButton{
+        margin-top: 1rem;
+        font-size: 1.3rem;
+        padding: 0.2rem 0;
+    }
+
+    #loginInput #kakaologin{
+        margin-top: 1rem;
+        width: 100%;
+        border-radius: 0.3rem;
+    }
+
+    #loginInput>#loginEtc{
+        font-size: 0.8rem;
+        display: flex;
+        justify-content: center;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    #loginEtc *{
+        margin: 0 0.5rem;
+    }
+
+
+
+/* Footer */
+footer{
+    margin-top: 3rem;
+    font-weight: bold;
+    text-align: center;
+    color: rgb(134, 134, 134);
+}
