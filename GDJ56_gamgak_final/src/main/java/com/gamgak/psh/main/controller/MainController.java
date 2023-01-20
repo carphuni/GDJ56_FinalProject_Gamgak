@@ -1,4 +1,4 @@
-package com.gamgak.web.psh.main.controller;
+package com.gamgak.psh.main.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -6,16 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class MainController {
-
-	@RequestMapping("/")
-	public String mainPage() {
-		return "index";
-	}
-	
-	@RequestMapping("/profile")
-	public String profile() {
-		return "ldh_profile/profile";
-	}
 	
 	@RequestMapping("/admin")
 	public String adminMainPage() {

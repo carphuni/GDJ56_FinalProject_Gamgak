@@ -35,12 +35,12 @@
                                 <span>나는 미친 사람 ㅎㅎㅎ</span>
                             </div>
                         </div>
-                        <a><i class="fa-solid fa-gear fa-lg" data-bs-toggle="modal" data-bs-target="#exampleModal"></i></a>
+                        <a><i class="fa-solid fa-gear fa-lg" data-bs-toggle="modal" data-bs-target="#settingModal"></i></a>
                        
                         
                         <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
+                        <div class="modal fade" id="settingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <ul class="list-group">
                                     <li class="list-group-item">An item</li>
