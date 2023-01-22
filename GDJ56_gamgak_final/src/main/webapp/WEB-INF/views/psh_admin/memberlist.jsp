@@ -21,6 +21,9 @@
         </div>
         <!-- 구분선 -->
         <div id="sep"></div>
+         <!-- 내용 -->
+         <h2>회원관리</h2>
     </section>
 </div>
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/> 
