@@ -22,6 +22,16 @@ a{
     width: 100%;
 }
 
+/* Modal */
+.modal-dialog{
+	text-align: center;
+	width: 20rem;
+}
+
+.modal-dialog a{
+	padding: 0.7rem 0;
+}
+
 #basic-wrapper{
     width: 100%;
     display: flex;
@@ -83,6 +93,10 @@ a{
         .dropup:hover{
             cursor: pointer;
         }
+     
+     #insertModal .modal-dialog{
+     	width: 1140px;
+     }
 
    
 
@@ -164,6 +178,10 @@ a{
                 font-size: 0.5rem;
                 margin-left: 1rem;
             }
+            	
+            
+            	
+            	
 
         #info-2{
             display: flex;
@@ -196,7 +214,7 @@ a{
     #search-container{
         display: flex;
         justify-content: center;
-        margin-top: 1rem;
+        margin: 1rem 0;
         align-items: center;
     }
 
@@ -204,6 +222,33 @@ a{
             margin: 0 1rem;
             height: 1rem;
         }
+        
+    #search-item{
+    	display: flex;
+    	justify-content: center;
+    }
+    	#show-search{
+    		/* display: none; */
+    		width: 100%;
+    	}
+    	
+    	#area-search{
+    		display: none;
+    	}    
+    	
+    	#title-search{
+    		display: none;
+    		width: 100%;
+    	}
+        
+	    	#title-search>form{
+	    		display: flex;
+	    		width: 100%;
+	    	}    
+	    	
+	    		#title-search input{
+	    			margin-right: 1rem; 
+	    		}
 
     #card-container{
         display: flex;
