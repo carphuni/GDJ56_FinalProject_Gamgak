@@ -68,11 +68,11 @@
 	            <div id="loginInput">
 	                <div id="rowLine"></div>
 	                <div id="inputId" class="form-floating mb-3">
-	                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+	                    <input type="email" class="form-control" name="memberEmail" id="floatingInput" placeholder="name@example.com">
 	                    <label for="floatingInput">Email address</label>
 	                </div>
 	                <div class="form-floating">
-	                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+	                    <input type="password" class="form-control" name="memberPassword" id="floatingPassword" placeholder="Password">
 	                    <label for="floatingPassword">Password</label>
 	                </div>
 	                <button id="loginButton" type="submit" class="btn btn-danger">로그인</button>
