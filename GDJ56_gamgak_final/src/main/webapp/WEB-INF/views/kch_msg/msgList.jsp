@@ -22,7 +22,7 @@
 	<div id="msg_title">
 		<b id="titletext">메세지 목록</b>
 	</div>
-	<a href="#" class="chat_modal">
+	<a href="#" class="chat_modal" data-bs-toggle="modal" data-bs-target="#exampleModal">
 		<div id="list">
 			<div><img id="msg_profile" alt="" src="${path }/resources/images/프로필 기본 이미지.jpg"></div>
 			<div id="name_msg">
@@ -40,7 +40,45 @@
 
 <!-- 채팅방 -->
 <!-- 기능 구현 시 동적생성 해야함 -->
-<div class="modal">
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+			<div id="modal_sender">
+				<div id="moda_msg_text_r"><p>ㅋㅋㅋㅋㅋㅋ</p></div>
+			</div>	
+			<div id="modal_receiver">
+				<div><img id="modal_msg_profile" alt="" src="${path }/resources/images/프로필 기본 이미지.jpg"></div>
+				<div id="modal_name_msg">
+					<div id="modal_nickname"><b>차니니니니니</b></div>
+					<div id="moda_msg_text_s"><p>ㅋㅋㅋㅋㅋㅋ</p></div>
+					<!-- 입력창 -->
+					<div id="modal_msg">
+						<div id="modal_msg_text">
+							<input type="text" placeholder="내용을 입력해주세요">
+						</div>    
+						<div id="modal_msg_bt">
+							<button id="modal_msg_send">입력</button>
+						</div>
+			    	</div>					
+				</div>
+			</div>		
+        </div>
+<!--         <div class="modal-footer">
+			
+        </div> -->
+      </div>
+    </div>
+  </div>
+  
+  
+<%-- <div class="modal">
 	<div class="modal_content">
 		<div id="x">x</div>
 		<div id="model_sender">
@@ -76,6 +114,6 @@
 		});
 		  
 	});
-</script>
+</script> --%>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
