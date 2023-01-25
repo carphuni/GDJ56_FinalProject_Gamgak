@@ -63,17 +63,21 @@
             <img id="logo-img" src="${path }/resources/images/로고.png" >
             <h3>감:각</h3>
             <h6>나만의 맛집 기록</h6>
-            <div id="loginInput">
-                <div id="rowLine"></div>
-                <div id="inputId" class="form-floating mb-3">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-                    <label for="floatingInput">Email address</label>
-                </div>
-                <div class="form-floating">
-                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                    <label for="floatingPassword">Password</label>
-                </div>
-                <button id="loginButton" type="button" class="btn btn-danger">로그인</button>
+            
+            <form action="${path }/login" method="post">
+	            <div id="loginInput">
+	                <div id="rowLine"></div>
+	                <div id="inputId" class="form-floating mb-3">
+	                    <input type="email" class="form-control" name="memberEmail" id="floatingInput" placeholder="name@example.com">
+	                    <label for="floatingInput">Email address</label>
+	                </div>
+	                <div class="form-floating">
+	                    <input type="password" class="form-control" name="memberPassword" id="floatingPassword" placeholder="Password">
+	                    <label for="floatingPassword">Password</label>
+	                </div>
+	                <button id="loginButton" type="submit" class="btn btn-danger">로그인</button>
+                </form>
+                
                 <a><img id="kakaologin" src="${path }/resources/images/카카오 로그인.png"/></a>
                 <div id="loginEtc">
                     <a><span>회원가입</span></a>

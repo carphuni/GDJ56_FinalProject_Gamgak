@@ -10,7 +10,7 @@
                         <p>모임 이름</p>
                     </div>
                     <div id="meeting-item">
-                        <a><img id="meeting-img" src="${path }/resources/images/임시 이미지03.jpg"></a>
+                        <a href="" onclick="window.open('${path}/meetting/meettingchat.do','채팅방','_blank, resizable=no,width=1000px,height=720px,scrollbars=no')"><img id="meeting-img" src="${path }/resources/images/임시 이미지03.jpg"></a>
                         <p>모임 이름</p>
                     </div>
 

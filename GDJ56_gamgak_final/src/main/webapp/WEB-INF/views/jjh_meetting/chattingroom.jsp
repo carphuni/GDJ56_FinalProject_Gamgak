@@ -140,7 +140,7 @@
 		
 		websocket.onopen=(data)=>{
 			console.log(data)
-			websocket.send(JSON.stringify(new Chat("open",'qwe',"","","","")));
+			websocket.send(JSON.stringify(new Chat(1,10,4,'${loginMember.memberEmail}',msg,"","3","open")));
 		}
 		
 		websocket.onmessage=(response)=>{
@@ -155,7 +155,7 @@
 		
 		$("#sendBtn").click(e=>{
 			const msg=$("#msg").val();
-			const sendData=new Chat(1,10,"sdf","sdf",msg,"");
+			const sendData=new Chat("1","10","",'${loginMember.memberEmail}',msg,"","msg");
 			websocket.send(JSON.stringify(sendData));
 		});
 		
