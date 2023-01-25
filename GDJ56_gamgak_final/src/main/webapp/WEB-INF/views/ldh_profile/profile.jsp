@@ -65,39 +65,41 @@
                         </div>
                     </div>
                     <div id="rowLine"></div>
-                    <div id="search-container">
-                        <a><span style="border-bottom: 2px #dc3545 solid;" >내 맛집</span></a>
-                        <div id="colLine"></div>
-                        <a><span>지역별</span></a>
-                        <div id="colLine"></div>
-                        <a><span>검색</span></a>
-                    </div>
-                    <div id="search-item">
-	                    <button id="show-search" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#insertModal">맛집 기록</button>
-	                    <select id="area-search" class="form-select" >
-						  <option selected>지역 선택</option>
-						  <option value="서울">서울특별시</option>
-						  <option value="경기">경기도</option>
-						  <option value="인천">인천</option>
-						  <option value="강원">강원도</option>
-						  <option value="전북">전라북도</option>
-						  <option value="전남">전라남도</option>
-						  <option value="충북">충청북도</option>
-						  <option value="충남">충청남도</option>
-						  <option value="대전">대전</option>
-						  <option value="대구">대구</option>
-						  <option value="경북">경상북도</option>
-						  <option value="경남">경상남도</option>
-						  <option value="부산">부산</option>
-						  <option value="부산">울산</option>
-						  <option value="제주특별자치도">제주도</option>
-						</select>
-						<div id="title-search">
-							<form>
-								<input class="form-control" type="text" placeholder="제목, 카테고리 검색">
-								<button class="btn btn-danger col-sm-3" type="submit">검색</button>
-							</form>
-						</div>
+                    <div id="search">
+	                    <div id="search-container">
+	                        <span id="show-click" style="border-bottom: 2px #dc3545 solid;">내 맛집</span>
+	                        <div id="colLine"></div>
+	                        <span id="area-click" >지역별</span>
+	                        <div id="colLine"></div>
+	                        <span id="title-click">검색</span>
+	                    </div>
+	                    <div id="search-item">
+		                    <button id="show-search" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#insertModal">맛집 기록</button>
+		                    <select id="area-search" class="form-select" >
+							  <option selected>지역 선택</option>
+							  <option value="서울">서울특별시</option>
+							  <option value="경기">경기도</option>
+							  <option value="인천">인천</option>
+							  <option value="강원">강원도</option>
+							  <option value="전북">전라북도</option>
+							  <option value="전남">전라남도</option>
+							  <option value="충북">충청북도</option>
+							  <option value="충남">충청남도</option>
+							  <option value="대전">대전</option>
+							  <option value="경북">경상북도</option>
+							  <option value="경남">경상남도</option>
+							  <option value="부산">부산</option>
+							  <option value="대구">대구</option>
+							  <option value="부산">울산</option>
+							  <option value="제주특별자치도">제주도</option>
+							</select>
+							<div id="title-search">
+								<form>
+									<input class="form-control" type="text" placeholder="제목, 카테고리 검색">
+									<button class="btn btn-danger col-sm-3" type="submit">검색</button>
+								</form>
+							</div>
+	                    </div>
                     </div>
                     
                     <div id="card-container">
@@ -113,4 +115,6 @@
                     </div> 
                     
                 </div>
+                
+                
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
