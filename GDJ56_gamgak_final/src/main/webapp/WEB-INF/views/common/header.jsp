@@ -17,7 +17,7 @@
     <!-- Font Awesome icons (free version)-->
     <script src="https://kit.fontawesome.com/d87d902b0c.js" crossorigin="anonymous"></script>
     <!-- 카카오 지도 API -->
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5afb59a859566c6c4119b373bc6c474b"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ee03448a6bf04aae4a0e4b0695cff05a&libraries=services"></script>
     <!-- 찬희 css -->
     <link rel="stylesheet" type="text/css" href="${path }/resources/css/kch.css" >
     <!-- 지도 css -->
