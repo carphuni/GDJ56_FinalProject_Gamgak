@@ -1,4 +1,4 @@
-package com.gamgak.web.csk.member.model.entity;
+package com.gamgak.csk.member.model.entity;
 
 import java.util.Date;
 

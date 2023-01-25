@@ -1,4 +1,4 @@
-package com.gamgak.web.csk.member.controller;
+package com.gamgak.csk.member.controller;
 
 import javax.servlet.http.HttpSession;
 
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.gamgak.web.csk.member.model.entity.Member;
-import com.gamgak.web.csk.member.model.service.MemberService;
+import com.gamgak.csk.member.model.entity.Member;
+import com.gamgak.csk.member.model.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
 @SessionAttributes({"loginMember"})
@@ -25,7 +25,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/login")
-	@ResponseBody
+//	@ResponseBody
 	public String login(Member m, HttpSession session) {
 		Member loginMember=service.selectMemberById(m);
 		log.debug("{}"+loginMember);
@@ -33,7 +33,7 @@ public class MemberController {
 				loginMember!=null && loginMember.getMemberPassword().equals(m.getClass())) {
 			session.setAttribute("loginMember", loginMember);
 		}
-		return "redirect:/ldh_profile/profile";
+		return "ldh_profile/profile";
 	}
 
 }

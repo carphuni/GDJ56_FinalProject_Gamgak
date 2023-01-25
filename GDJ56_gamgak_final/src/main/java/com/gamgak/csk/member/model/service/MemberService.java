@@ -1,11 +1,11 @@
-package com.gamgak.web.csk.member.model.service;
+package com.gamgak.csk.member.model.service;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gamgak.web.csk.member.model.dao.MemberDao;
-import com.gamgak.web.csk.member.model.entity.Member;
+import com.gamgak.csk.member.model.dao.MemberDao;
+import com.gamgak.csk.member.model.entity.Member;
 
 @Service
 public class MemberService {
