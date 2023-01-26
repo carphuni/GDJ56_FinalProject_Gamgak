@@ -16,6 +16,9 @@
     <link rel="stylesheet" type="text/css" href="${path }/resources/css/mainProfile.css" >
     <!-- Font Awesome icons (free version)-->
     <script src="https://kit.fontawesome.com/d87d902b0c.js" crossorigin="anonymous"></script>
+    <!-- jQuery library -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
+    <script src="https:/code.jquery.com/jquery-3.6.1.min.js"></script>
 </head>
 <style>
     #logo-img{border-radius: 10%;width: 6rem;height: 6rem;}
@@ -27,10 +30,10 @@
             <div id="sidebar" class="col-sm-3">
                 <a href="${path}/profile"><img id="logo-img" src="${path }/resources/images/로고.png"/></a>
                 <nav class="nav flex-column">
-                    <a class="nav-link active" aria-current="page" href="${path}/admin">
+                    <a class="nav-link active" aria-current="page" href="${path}/admin/">
                         <i class="fa-solid fa-circle-user"></i>
                         <span>프로필 홈</span>
-                    </a><a class="nav-link active" aria-current="page" href="${path}/report">
+                    </a><a class="nav-link active" aria-current="page" href="${path}/admin/report.do">
                         <i class="fa-solid fa-magnifying-glass-chart position-relative">
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.3rem;">
                                 2
@@ -38,7 +41,7 @@
                             </span>
                         </i>
                         <span>신고 관리</span>
-                    </a><a class="nav-link active" aria-current="page" href="${path}/meeting">
+                    </a><a class="nav-link active" aria-current="page" href="${path}/admin/meeting.do">
                         <i class="fa-solid fa-people-group position-relative">
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.3rem;">
                                 1
@@ -46,7 +49,7 @@
                             </span>
                         </i>
                         <span>모임 관리</span>
-                    </a><a class="nav-link active" aria-current="page" href="${path}/member">
+                    </a><a class="nav-link active" aria-current="page" href="${path}/admin/member.do">
                         <i class="fa-solid fa-user-group position-relative">
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.3rem;">
                                 4
