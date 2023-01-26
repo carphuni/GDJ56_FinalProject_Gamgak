@@ -80,7 +80,7 @@
                 
                 <a><img id="kakaologin" src="${path }/resources/images/카카오 로그인.png"/></a>
                 <div id="loginEtc">
-                    <a><span>회원가입</span></a>
+                    <a href="${path }/enroll"><span>회원가입</span></a>
                     <div id="colLine"></div>
                     <a><span>아이디 찾기</span></a>
                     <div id="colLine"></div>

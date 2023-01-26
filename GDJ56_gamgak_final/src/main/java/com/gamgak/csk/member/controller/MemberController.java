@@ -29,11 +29,22 @@ public class MemberController {
 	public String login(Member m, HttpSession session) {
 		Member loginMember=service.selectMemberById(m);
 		log.debug("{}"+loginMember);
-		if(loginMember!=null&&
-				loginMember!=null && loginMember.getMemberPassword().equals(m.getClass())) {
+		if(loginMember!=null&&loginMember.getMemberPassword().equals(m.getClass())) {
 			session.setAttribute("loginMember", loginMember);
+			
+			
 		}
+		log.debug("세션이야"+"{}"+session.getAttribute("loginMember"));
 		return "ldh_profile/profile";
+	}
+	
+	@RequestMapping("/enroll")
+	public String enroll() {
+		return "csk_member/enrollMember";
+	}
+	@RequestMapping("enrollEnd")
+	public String enrollEnd() {
+		return "csk_member/enrollAuthentication";
 	}
 
 }
