@@ -71,7 +71,7 @@
            <div class="option">
                <div>
                    <form onsubmit="searchPlaces(); return false;">
-                       키워드 : <input type="text" value="" placeholder="장소를 입력해주세요" id="keyword" size="15"> 
+                       키워드 : <input type="text" value="이태원 맛집" id="keyword" size="15"> 
                        <button type="submit">검색하기</button> 
                    </form>
                </div>
@@ -83,7 +83,7 @@
    </div>
 </div>
 
-<!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ee03448a6bf04aae4a0e4b0695cff05a&libraries=services"></script> -->
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ee03448a6bf04aae4a0e4b0695cff05a&libraries=services"></script>
 <script>
 // 마커를 담을 배열입니다
 var markers = [];
@@ -124,11 +124,20 @@ function searchPlaces() {
 //장소검색이 완료됐을 때 호출되는 콜백함수 입니다
 function placesSearchCB(data, status, pagination) {
     if (status === kakao.maps.services.Status.OK) {
+        var bounds = new kakao.maps.LatLngBounds();
+        
+        for ( var i=0; i<data.length; i++ ) {
+            // 마커를 생성하고 지도에 표시합니다
+            var placePosition = new kakao.maps.LatLng(data[i].y, data[i].x);
 
-        // 정상적으로 검색이 완료됐으면
-        // 검색 목록과 마커를 표출합니다
-        placePosition(data);
+            // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+            // LatLngBounds 객체에 좌표를 추가합니다
+            bounds.extend(placePosition);
 
+        }
+        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+        map.setBounds(bounds);
+        
         // 현재 지도 영역의 정보 얻어오기
         getInfo();
         
@@ -143,38 +152,6 @@ function placesSearchCB(data, status, pagination) {
         return;
 
     }
-}
-
-
-//검색 결과 목록과 마커를 표출하는 함수입니다
-function placePosition(places) {
-
-    var listEl = document.getElementById('placesList'),   
-    menuEl = document.getElementById('menu_wrap'),
-    fragment = document.createDocumentFragment(), 
-    bounds = new kakao.maps.LatLngBounds(), 
-    listStr = '';
-    
-    // 검색 결과 목록에 추가된 항목들을 제거합니다
-    removeAllChildNods(listEl);
-
-    // 지도에 표시되고 있는 마커를 제거합니다
-    removeMarker();
-    
-    for ( var i=0; i<places.length; i++ ) {
-
-        // 마커를 생성하고 지도에 표시합니다
-        var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x);
-
-        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-        // LatLngBounds 객체에 좌표를 추가합니다
-        bounds.extend(placePosition);
-
-    }
-
-    // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-    map.setBounds(bounds);
-    console.log(places);
 }
 
 
@@ -226,7 +203,7 @@ function getInfo() {
           "neLon":neLatLng.getLng()
        },
        success:data=>{
-          console.log(data);
+         // console.log(data);
           displayPlaces(data);
        }
     })
@@ -260,16 +237,12 @@ function getListItem(index, places) {
     var el = document.createElement('li'),
     itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
                 '<div class="info">' +
-                '   <h5>' + places.RES_NAME + '</h5>';
-
-    if (places.road_address_name) {
-        itemStr += '    <span>' + places.RES_ADDRESS + '</span>' +
-                    '   <span class="jibun gray">' +  places.RES_ADDRESS  + '</span>';
-    } else {
-        itemStr += '    <span>' +  places.RES_ADDRESS  + '</span>'; 
-    }
-                 
-      itemStr += '  <span class="tel">' + places.RES_PHONE  + '</span>' +
+                '	<div id="places_info">' +
+                '   	<h5 id="places_res_name">' + places.RES_NAME + '</h5>' +
+                '			<h5 id="places_count">&nbsp; &nbsp; ♥ ' + places.COUNT + '</h5>' +
+                '	</div>' +
+				'	<span>' +  places.RES_ADDRESS  + '</span>' +
+				'	<span class="tel">' + places.RES_PHONE  + '</span>' +
                 '</div>';           
 
     el.innerHTML = itemStr;
@@ -281,6 +254,8 @@ function getListItem(index, places) {
 
 //검색 결과 목록과 마커를 표출하는 함수입니다
 function displayPlaces(places) {
+	
+	console.log('dd');
 
     var listEl = document.getElementById('placesList'),   
     menuEl = document.getElementById('menu_wrap'),
@@ -334,7 +309,7 @@ function displayPlaces(places) {
     menuEl.scrollTop = 0;
 
     // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-    map.setBounds(bounds);
+   // map.setBounds(bounds);
     console.log(places);
 }
 
@@ -379,6 +354,15 @@ function displayInfowindow(marker, title) {
     infowindow.setContent(content);
     infowindow.open(map, marker);
 }
+
+
+//---------- 여기까지 DB에 저장된 데이터 출력 ----------
+
+
+kakao.maps.event.addListener(map, 'idle', function() {        
+	//console.log('asdf');
+	getInfo();
+});
 </script>
 
 
