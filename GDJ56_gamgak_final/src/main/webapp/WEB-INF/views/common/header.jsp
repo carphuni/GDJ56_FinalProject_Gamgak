@@ -79,6 +79,7 @@
                     </ul>
                 </div>
         </aside>
+        
         <!-- Modal -->
         <div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		  <div class="modal-dialog modal-xl modal-dialog-centered">
@@ -88,7 +89,23 @@
 		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		      </div>
 		      <div class="modal-body">
-		        hthrhrhdfㅅ공ㅅㅇㅅㅅ요ㅗㅇㅅ곳곳ㄱㅇ송송ㄱ솟ㄱ옷ㅇ공ㅅ곳옹송송ㅅ옿ㅅㄱ옹ㄱ홍ㅎㅀ
+				<div class="map_wrap">
+				    <div id="insertMap" style="width:100%;height:20rem;position:relative;overflow:hidden;"></div>
+				
+				    <div id="menu_wrap" class="bg_white">
+				        <div class="option">
+				            <div>
+				                <form onsubmit="searchPlaces(); return false;">
+				                    키워드 : <input type="text" value="이태원 맛집" id="keyword" size="5"> 
+				                    <button type="submit">검색하기</button> 
+				                </form>
+				            </div>
+				        </div>
+				        <hr>
+				        <ul id="placesList"></ul>
+				        <div id="pagination"></div>
+				    </div>
+			    </div>
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
