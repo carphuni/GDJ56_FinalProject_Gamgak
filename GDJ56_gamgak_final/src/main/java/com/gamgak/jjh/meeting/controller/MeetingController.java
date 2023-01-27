@@ -1,7 +1,12 @@
 package com.gamgak.jjh.meeting.controller;
 
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -37,8 +42,10 @@ public class MeetingController {
 	}
 	
 	@RequestMapping("/meetting/meettingchat.do")
-	public ModelAndView meetingCaht(ModelAndView mv) {
+	public ModelAndView meetingCaht(ModelAndView mv, HttpSession session) {
 		mv.setViewName("/jjh_meetting/chattingroom");
+		mv.addObject("loginMember", session.getAttribute("loginMember"));
+		System.out.println("JJH_controller "+session.getAttribute("loginMember"));
 		return mv;
 	}
 

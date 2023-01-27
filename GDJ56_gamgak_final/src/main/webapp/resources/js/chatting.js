@@ -4,9 +4,8 @@ function addMsgSystem(msg){
 }
 
 function printMsg(myId,msg){
-    const $p=$("<p>").css("textAlign",(myId==msg.sender?"left":"right"))
-            .text(`${msg.sender} : ${msg.msg}`);
-
+    const $p=$("<p>").css("textAlign",(myId==msg.memberSender?"left":"right"))
+            .text(`${msg.memberSender} : ${msg.chattingContent}`);
             $("#chattingRoom").append($p);
 
 }

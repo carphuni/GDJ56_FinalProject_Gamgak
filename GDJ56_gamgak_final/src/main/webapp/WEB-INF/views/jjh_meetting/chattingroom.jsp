@@ -1,44 +1,142 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <!-- jQuery library -->
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
     <link rel="stylesheet" type="text/css" href="${path }/resources/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.6.1.min.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/chatting.js"></script>
-<div style="display: flex">
-    <div>
-        <div id="chattingRoom" style="display: flex; justify-content: space-between;  width: 750px; height: 600px; overflow-y: scroll;">
-            <div id="my" style="border: 1px yellow solid; height: 65px; width: 400px;">
-                <span>참_이슬언니</span>
-                <div>
-                    <img style="border: 1px saddlebrown solid; border-radius: 100%; width: 30px; height: 30px;">
-                    <span>우와왕</span>
-                </div>
-
-            </div>
-            <div id="other" style="border: 1px green solid; height: 65px; width: 400px; text-align: end;">
-                <span>JJ</span>
-                <div>
-                    <span>우와왕</span>
-                    <img style="border: 1px saddlebrown solid; border-radius: 100%; width: 30px; height: 30px;">
-                </div>
-
-            </div>
-        
+<div style="display: flex;">
+	<div>
+         <div id="chattingRoom" class="chattingRoom" style="border: 5px black solid; width: 750px; height: 600px; overflow-y: scroll;">
+             
+             
+  
+         
         </div>
         <div id="chatting input" style="display: flex; border: 1px black solid; width: 750px; height: 90px;  background-color: rgb(204, 205, 204);" >
-            <form style="margin: auto;">
-                <input id="msg" type="text" style="width: 550px; height: 50px;border: 1px white solid; border-radius: 5px;" placeholder="내용을 입력하세요">
+            <div style="margin: auto;">
+                <input id="inputmsg" type="text" style="width: 550px; height: 50px;border: 1px white solid; border-radius: 5px;" placeholder="내용을 입력하세요">
                 <!-- <input type="submit" class="btn btn-danger" value="입력"> -->
-                <button id="sendBtn" class="btn btn-danger">전송</button>
-            </form>
+				<!-- <div id="yourName">
+					<table class="inputTable">
+						<tr>
+							<th>사용자명</th>
+							<th><input type="text" name="userName" id="userName"></th>
+							<th><button onclick="chatName()" id="startBtn">이름 등록</button></th>
+						</tr>
+					</table>
+				</div> -->
+               <!--  <button id="sendBtn" onclick="send()" class="btn btn-danger">전송</button> -->
+                 <button id="sendBtn" class="btn btn-danger">전송</button>
+			</div>
             
 
         
         </div>
     
     </div>
+    <div>
+
+    </div>
+    
+    
+	<!-- <title>Chating</title>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+		}
+		.container{
+			width: 500px;
+			margin: 0 auto;
+			padding: 25px
+		}
+		.container h1{
+			text-align: left;
+			padding: 5px 5px 5px 15px;
+			color: #FFBB00;
+			border-left: 3px solid #FFBB00;
+			margin-bottom: 20px;
+		}
+		.chating{
+			background-color: #000;
+			width: 500px;
+			height: 500px;
+			overflow: auto;
+		}
+		.chating p{
+			color: #fff;
+			text-align: left;
+		}
+		input{
+			width: 330px;
+			height: 25px;
+		}
+		#yourMsg{
+			display: none;
+		}
+	</style>
+</head> -->
+
+<!-- <script type="text/javascript">
+	var ws;
+
+	function wsOpen(){
+		ws = new WebSocket("ws://" + location.host + "/jjh_meetting/chattingroom");
+		wsEvt();
+	}
+		
+	function wsEvt() {
+		ws.onopen = function(data){
+			//소켓이 열리면 초기화 세팅하기
+		}
+		
+		ws.onmessage = function(data) {
+			var msg = data.data;
+			if(msg != null && msg.trim() != ''){
+				$("#chattingRoom").append("<p>" + msg + "</p>");
+			}
+		}
+
+		document.addEventListener("keypress", function(e){
+			if(e.keyCode == 13){ //enter press
+				send();
+			}
+		});
+	}
+
+	function chatName(){
+		var userName = $("#userName").val();
+		if(userName == null || userName.trim() == ""){
+			alert("사용자 이름을 입력해주세요.");
+			$("#userName").focus();
+		}else{
+			wsOpen();
+			$("#yourName").hide();
+		}
+	}
+
+	function send() {
+		var uN = $("#userName").val();
+		var msg = $("#inputmsg").val();
+		ws.send(uN+" : "+msg);
+		$('#inputmsg').val("");
+	}
+</script> -->
+
+    
+    
+    
+    
+    
+    
+
+    
+    
+
+    
     <div>
         <style>
             #chatInfo{
@@ -135,12 +233,83 @@
 
 <!--채팅 js-->
 
- <script>
+<script>
+		var today = new Date();
+	
+		const websocket=new WebSocket("ws://localhost:9090/jjh_meetting/chattingroom");
+		//소켓을 만드는 역활
+		
+		websocket.onopen=(data)=>{
+			//연결이 되었을때 발생함
+			console.log("소켓연결"+data);
+			//websocket.send(JSON.stringify(new Message("open",'${loginMember.memberNickName}',"","","")));
+			websocket.send(JSON.stringify(new Chat("open",0,"",'${loginMember.memberNickName}',"",today,0)))
+			
+		}
+		
+		websocket.onmessage=(response)=>{
+			//데이터를 수신하였을때 발생함.
+			console.log("onmassage-response"+response);
+			const msg=JSON.parse(response.data);
+			console.log("onmassage-msg"+msg);
+			switch(msg.type){
+				case "system" : addMsgSystem(msg);break; 
+				case "msg" : printMsg('${loginMember.memberNickName}',msg);break;
+			}
+		}
+		
+		
+		
+		$("#sendBtn").click(e=>{
+			const msg=$("#inputmsg").val();
+			//const sendData=new Message("msg",'${loginMember.memberNickName}',"",msg,"");
+			const sendData=new Chat("msg",0,"",'${loginMember.memberNickName}',msg,today,0);
+			websocket.send(JSON.stringify(sendData));
+			$("#inputmsg").val('');
+		});
+		
+		class Message{
+			constructor(type,sender,reciever,msg,room){
+				this.type=type;
+				this.sender=sender;
+				this.reciever=reciever;
+				this.msg=msg;
+				this.room=room;
+			}
+		}
+		
+		class Chat{
+			constructor(type, meetingNo, memberReceuver,memberSender,chattingContent,chattingEnrollDate,chattingUnreadCnt){
+				this.type=type;
+				this.meetingNo=meetingNo;
+				this.memberReceuver=memberReceuver;
+				this.memberSender=memberSender;
+				this.chattingContent=chattingContent;
+				this.chattingEnrollDate=chattingEnrollDate;
+				this.chattingUnreadCnt=chattingUnreadCnt;
+			}
+		}
+		
+		
+	</script>	
+
+
+
+
+
+
+
+
+
+
+
+ <!-- <script>
+ 		var today=new Date();
 		const websocket=new WebSocket("ws://localhost:9090/jjh_meetting/chattingroom");
 		
 		websocket.onopen=(data)=>{
 			console.log(data)
-			websocket.send(JSON.stringify(new Chat(1,10,4,'${loginMember.memberEmail}',msg,"","3","open")));
+			websocket.send(JSON.stringify(new Chat(1,10,4,20,msg,today,3,"open")));
 		}
 		
 		websocket.onmessage=(response)=>{
@@ -155,7 +324,7 @@
 		
 		$("#sendBtn").click(e=>{
 			const msg=$("#msg").val();
-			const sendData=new Chat("1","10","",'${loginMember.memberEmail}',msg,"","msg");
+			const sendData=new Chat(1,10,4,20,msg,today,3,"open");
 			websocket.send(JSON.stringify(sendData));
 		});
 		
@@ -173,7 +342,7 @@
 				this.Type=Type;
 			}
 		}
-	</script>
+	</script> -->
 
 
 
