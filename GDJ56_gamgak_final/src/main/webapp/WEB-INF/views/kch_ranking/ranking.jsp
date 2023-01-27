@@ -71,13 +71,13 @@
            <div class="option">
                <div>
                    <form onsubmit="searchPlaces(); return false;">
-                       키워드 : <input type="text" value="이태원 맛집" id="keyword" size="15"> 
+                       키워드 : <input type="text" value="이태원 맛집" id="keywordch" size="15" autocomplete="off"> 
                        <button type="submit">검색하기</button> 
                    </form>
                </div>
            </div>
            <hr>
-           <ul id="placesList"></ul>
+           <ul id="placesListch"></ul>
            <div id="pagination"></div>
        </div>
    </div>
@@ -109,7 +109,7 @@ searchPlaces();
 // 키워드 검색을 요청하는 함수입니다
 function searchPlaces() {
    
-    var keyword = document.getElementById('keyword').value;
+    var keyword = document.getElementById('keywordch').value;
 
     if (!keyword.replace(/^\s+|\s+$/g, '')&&!keyword.equals("")) {
         alert('키워드를 입력해주세요!');
@@ -185,7 +185,7 @@ function getInfo() {
     // 영역의 북동쪽 좌표를 얻어옵니다 
     var neLatLng = bounds.getNorthEast(); 
     
-    var listEl = document.getElementById('placesList'),   
+    var listEl = document.getElementById('placesListch'),   
     menuEl = document.getElementById('menu_wrap'),
     fragment = document.createDocumentFragment(), 
     bounds = new kakao.maps.LatLngBounds(), 
@@ -217,7 +217,8 @@ function addMarker(position, idx, title) {
         imgOptions =  {
             spriteSize : new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
             spriteOrigin : new kakao.maps.Point(0, (idx*46)+10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-            offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+            offset: new kakao.maps.Point(13, 37), // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+            alt:title
         },
         markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
             marker = new kakao.maps.Marker({
@@ -235,7 +236,8 @@ function addMarker(position, idx, title) {
 //검색결과 항목을 Element로 반환하는 함수입니다
 function getListItem(index, places) {
     var el = document.createElement('li'),
-    itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
+    itemStr = '<p id="list'+index+'">' +
+    		'<span class="markerbg marker_' + (index+1) + '"></span>' +
                 '<div class="info">' +
                 '	<div id="places_info">' +
                 '   	<h5 id="places_res_name">' + places.RES_NAME + '</h5>' +
@@ -254,10 +256,7 @@ function getListItem(index, places) {
 
 //검색 결과 목록과 마커를 표출하는 함수입니다
 function displayPlaces(places) {
-	
-	console.log('dd');
-
-    var listEl = document.getElementById('placesList'),   
+    var listEl = document.getElementById('placesListch'),   
     menuEl = document.getElementById('menu_wrap'),
     fragment = document.createDocumentFragment(), 
     bounds = new kakao.maps.LatLngBounds(), 
@@ -273,17 +272,17 @@ function displayPlaces(places) {
 
         // 마커를 생성하고 지도에 표시합니다
         var placePosition = new kakao.maps.LatLng(places[i].RES_LAT, places[i].RES_LON),
-            marker = addMarker(placePosition, i), 
+            marker = addMarker(placePosition, i,places[i].RES_NAME), 
             itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
 
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
         // LatLngBounds 객체에 좌표를 추가합니다
         bounds.extend(placePosition);
 
-        // 마커와 검색결과 항목에 mouseover 했을때
-        // 해당 장소에 인포윈도우에 장소명을 표시합니다
-        // mouseout 했을 때는 인포윈도우를 닫습니다
         (function(marker, title) {
+            // 마커와 검색결과 항목에 mouseover 했을때
+            // 해당 장소에 인포윈도우에 장소명을 표시합니다
+            // mouseout 했을 때는 인포윈도우를 닫습니다
             kakao.maps.event.addListener(marker, 'mouseover', function() {
                 displayInfowindow(marker, title);
             });
@@ -291,6 +290,18 @@ function displayPlaces(places) {
             kakao.maps.event.addListener(marker, 'mouseout', function() {
                 infowindow.close();
             });
+            
+        	// 마커 클릭 시 해당 식당 목록 맨위로 출력
+            kakao.maps.event.addListener(marker, 'click', function() {
+                const title=$(marker.ca).attr("alt");
+              	$("#placesListch>li").css("backgroundColor","");
+                $("#placesListch>li").each((i,e)=>{
+                	if($(e).find("#places_res_name").text()==title){
+                		$(e).parent().prepend(e);
+                		$(e).css("backgroundColor","#FFC6C6");
+                	}
+                });
+          	});
 
             itemEl.onmouseover =  function () {
                 displayInfowindow(marker, title);
@@ -299,10 +310,11 @@ function displayPlaces(places) {
             itemEl.onmouseout =  function () {
                 infowindow.close();
             };
-        })(marker, places[i].place_name);
+        })(marker, places[i].RES_NAME);
 
         fragment.appendChild(itemEl);
-    }
+    }        
+
 
     // 검색결과 항목들을 검색결과 목록 Element에 추가합니다
     listEl.appendChild(fragment);
@@ -312,7 +324,6 @@ function displayPlaces(places) {
    // map.setBounds(bounds);
     console.log(places);
 }
-
 
 // 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
 function displayPagination(pagination) {

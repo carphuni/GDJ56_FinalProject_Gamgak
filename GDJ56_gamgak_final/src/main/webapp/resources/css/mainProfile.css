@@ -22,6 +22,15 @@ a{
     width: 100%;
 }
 
+/* Modal */
+.modal-dialog{
+   text-align: center;
+}
+
+.modal-dialog a{
+   padding: 0.7rem 0;
+}
+
 
 /* Basic */
 #basic-wrapper{
@@ -40,7 +49,7 @@ a{
     background-color: white;
     border: 1px solid rgb(177, 177, 177);
     position: fixed;
-    padding: 2.5rem 1.8rem;
+    padding: 7dvh 1.8rem;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
@@ -86,7 +95,6 @@ a{
             cursor: pointer;
         }
      
-  
 	/* Modal */
 	#insertModal-dialog{
 	  	width: 1140px;
@@ -148,8 +156,6 @@ a{
 	#insert_pagination a {display:inline-block;margin-right:10px;}
 	#insert_pagination .on {font-weight: bold; cursor: default;color:#777;}
 	
-   
-
 
 
 /* Main */
@@ -232,10 +238,10 @@ a{
                 font-size: 0.5rem;
                 margin-left: 1rem;
             }
-            	
+               
             
-            	
-            	
+               
+               
 
         #info-2{
             display: flex;
@@ -269,55 +275,55 @@ a{
     	width: 20rem;
     }
 
-	#search{
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
+   #search{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+   }
 
-	    #search-container{
-	        display: flex;
-	        justify-content: center;
-	        margin: 1rem 0;
-	        align-items: center;
-	    }
-			
-			#search-container>span{
-	            cursor: pointer
-	        }
-			
-	        #search-container #colLine{
-	            margin: 0 1rem;
-	            height: 1rem;
-	        }
-	        
-	    #search-item{
-	    	display: flex;
-	    	justify-content: center;
-	    	width: 95%;
-	    }
-	    	#show-search{
-	    		/* display: none; */
-	    		width: 100%;
-	    	}
-	    	
-	    	#area-search{
-	    		display: none;
-	    	}    
-	    	
-	    	#title-search{
-	    		display: none;
-	    		width: 100%;
-	    	}
-	        
-		    	#title-search>form{
-		    		display: flex;
-		    		width: 100%;
-		    	}    
-		    	
-		    		#title-search input{
-		    			margin-right: 1rem; 
-		    		}
+       #search-container{
+           display: flex;
+           justify-content: center;
+           margin: 1rem 0;
+           align-items: center;
+       }
+         
+         #search-container>span{
+               cursor: pointer
+           }
+         
+           #search-container #colLine{
+               margin: 0 1rem;
+               height: 1rem;
+           }
+           
+       #search-item{
+          display: flex;
+          justify-content: center;
+          width: 95%;
+       }
+          #show-search{
+             /* display: none; */
+             width: 100%;
+          }
+          
+          #area-search{
+             display: none;
+          }    
+          
+          #title-search{
+             display: none;
+             width: 100%;
+          }
+           
+             #title-search>form{
+                display: flex;
+                width: 100%;
+             }    
+             
+                #title-search input{
+                   margin-right: 1rem; 
+                }
 
     #card-container{
         display: flex;
