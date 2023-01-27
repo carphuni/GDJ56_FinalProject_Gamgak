@@ -71,13 +71,13 @@
            <div class="option">
                <div>
                    <form onsubmit="searchPlaces(); return false;">
-                       키워드 : <input type="text" value="이태원 맛집" id="keyword" size="15" autocomplete="off"> 
+                       키워드 : <input type="text" value="이태원 맛집" id="keywordch" size="15" autocomplete="off"> 
                        <button type="submit">검색하기</button> 
                    </form>
                </div>
            </div>
            <hr>
-           <ul id="placesList"></ul>
+           <ul id="placesListch"></ul>
            <div id="pagination"></div>
        </div>
    </div>
@@ -109,7 +109,7 @@ searchPlaces();
 // 키워드 검색을 요청하는 함수입니다
 function searchPlaces() {
    
-    var keyword = document.getElementById('keyword').value;
+    var keyword = document.getElementById('keywordch').value;
 
     if (!keyword.replace(/^\s+|\s+$/g, '')&&!keyword.equals("")) {
         alert('키워드를 입력해주세요!');
@@ -185,7 +185,7 @@ function getInfo() {
     // 영역의 북동쪽 좌표를 얻어옵니다 
     var neLatLng = bounds.getNorthEast(); 
     
-    var listEl = document.getElementById('placesList'),   
+    var listEl = document.getElementById('placesListch'),   
     menuEl = document.getElementById('menu_wrap'),
     fragment = document.createDocumentFragment(), 
     bounds = new kakao.maps.LatLngBounds(), 
@@ -236,7 +236,8 @@ function addMarker(position, idx, title) {
 //검색결과 항목을 Element로 반환하는 함수입니다
 function getListItem(index, places) {
     var el = document.createElement('li'),
-    itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
+    itemStr = '<p id="list'+index+'">' +
+    		'<span class="markerbg marker_' + (index+1) + '"></span>' +
                 '<div class="info">' +
                 '	<div id="places_info">' +
                 '   	<h5 id="places_res_name">' + places.RES_NAME + '</h5>' +
@@ -255,7 +256,7 @@ function getListItem(index, places) {
 
 //검색 결과 목록과 마커를 표출하는 함수입니다
 function displayPlaces(places) {
-    var listEl = document.getElementById('placesList'),   
+    var listEl = document.getElementById('placesListch'),   
     menuEl = document.getElementById('menu_wrap'),
     fragment = document.createDocumentFragment(), 
     bounds = new kakao.maps.LatLngBounds(), 
@@ -293,8 +294,8 @@ function displayPlaces(places) {
         	// 마커 클릭 시 해당 식당 목록 맨위로 출력
             kakao.maps.event.addListener(marker, 'click', function() {
                 const title=$(marker.ca).attr("alt");
-              	$("#placesList>li").css("backgroundColor","");
-                $("#placesList>li").each((i,e)=>{
+              	$("#placesListch>li").css("backgroundColor","");
+                $("#placesListch>li").each((i,e)=>{
                 	if($(e).find("#places_res_name").text()==title){
                 		$(e).parent().prepend(e);
                 		$(e).css("backgroundColor","#FFC6C6");
