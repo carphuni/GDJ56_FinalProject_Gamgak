@@ -1,0 +1,17 @@
+#orLine{
+    display:flex; 
+    justify-content: space-evenly;
+    margin-top: 1rem;
+}
+/* hr{
+	border:1px silver solid; 
+}
+ */
+#hrLine{
+	width: 45%;
+}
+#hrLine>span{
+	width: 150px; 
+	text-align:center;
+}
+

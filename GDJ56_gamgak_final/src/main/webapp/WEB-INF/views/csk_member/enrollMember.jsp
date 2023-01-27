@@ -14,6 +14,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Main css -->
     <link rel="stylesheet" type="text/css" href="${path }/resources/css/index.css">
+    <link rel="stylesheet" type="text/css" href="${path }/resources/css/member.css">
     <!-- Font Awesome icons (free version)-->
     <script src="https://kit.fontawesome.com/d87d902b0c.js" crossorigin="anonymous"></script>
 </head>
@@ -59,53 +60,56 @@
             </button>
           </div>
           <!-- Login -->
-        <div id="login-wrapper" class="col-sm-6">
-            <img id="logo-img" src="${path }/resources/images/로고.png" >
+          <div id="login-wrapper" class="col-sm-6">
+          	
+          	<img id="logo-img" src="${path }/resources/images/로고.png" >
             <h3>감:각</h3>
-            <h6>나만의 맛집 기록</h6>
-            
-            <form action="${path }/login" method="post">
+          	<h6>나만의 맛집 기록</h6>
+            <form action="${path }/enrollEnd" method="post">
 	            <div id="loginInput">
-	                <div id="rowLine"></div>
-	                <div id="inputId" class="form-floating mb-3">
-	                    <input type="email" class="form-control" name="memberEmail" id="floatingInput" placeholder="name@example.com">
-	                    <label for="floatingInput">Email address</label>
+		            <a><img id="kakaologin" src="${path }/resources/images/카카오 로그인.png"/></a>
+            		<div id="orLine">
+	                	<hr id="hrLine">
+	                	<span>또는</span>
+	                	<hr id="hrLine">
+            		</div>
+	                
+	             	<div id="inputId" class="form-floating mb">
+	                    <input type="email" class="form-control" name="memberEmail" id="floatingInput" placeholder="name@example.com" required>
+	                    <label for="floatingInput">이메일 주소</label>
+	                    <div class="non-data">
+                			* 이메일을 입력해주세요.
+              			</div>
+	                </div>
+	             	<div id="inputId" class="form-floating mb">
+	                    <input type="email" class="form-control" name="memberName" id="floatingInput" placeholder="Name" required>
+	                    <label for="floatingInput">이름</label>
+	                    <div class="non-data">
+                			* 이름을 입력해주세요.
+              			</div>
+	                </div>
+	             	<div id="inputId" class="form-floating mb-3">
+	                    <input type="email" class="form-control" name="memberNickName" id="floatingInput" placeholder="NickName" required>
+	                    <label for="floatingInput">닉네임</label>
+	                    <div class="non-data">
+                			* 별명을 입력해주세요.
+              			</div>
 	                </div>
 	                <div class="form-floating">
-	                    <input type="password" class="form-control" name="memberPassword" id="floatingPassword" placeholder="Password">
-	                    <label for="floatingPassword">Password</label>
+	                    <input type="password" class="form-control" name="memberPassword" id="floatingPassword" placeholder="Password" required>
+	                    <label for="floatingPassword">비밀번호</label>
+	                    <div class="non-data">
+                			* 비밀번호를 입력해주세요.
+              			</div>
 	                </div>
-	                <button id="loginButton" type="submit" class="btn btn-danger">로그인</button>
-                </form>
-                
-                <a><img id="kakaologin" src="${path }/resources/images/카카오 로그인.png"/></a>
-                <div id="loginEtc">
-                    <a href="${path }/enroll"><span>회원가입</span></a>
-                    <div id="colLine"></div>
-                    <a><span>아이디 찾기</span></a>
-                    <div id="colLine"></div>
-                    <a><span>비밀번호 찾기</span></a>
-                </div>
-                <div id="rowLine"></div>
-            </div>
-
-
-            <!-- Footer -->
-            <footer>
-                <div>
-                    <span>메뉴</span>
-                    <span>메뉴</span>
-                    <span>메뉴</span>
-                    <span>메뉴</span>
-                    <span>메뉴</span>
-                    <span>메뉴</span>
-                    <span>메뉴</span>
-                </div>
-                <p>
-                    &copy;2023 Gamgak from LDH
-                </p>
-            </footer>
-        </div>
-     </div>
+	                <button id="loginButton" type="submit" class="btn btn-danger">회원가입</button>
+	        	</div>
+        	</form>
+    	</div>
+	</div>
+	
+	<script>
+	
+	</script>
 </body>
 </html>
