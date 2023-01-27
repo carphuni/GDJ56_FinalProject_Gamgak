@@ -12,7 +12,7 @@ import com.gamgak.csk.member.model.entity.Member;
 import com.gamgak.csk.member.model.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
-@SessionAttributes({"loginMember"})
+//@SessionAttributes({"loginMember"})
 @Slf4j
 @Controller
 public class MemberController {
@@ -28,14 +28,10 @@ public class MemberController {
 //	@ResponseBody
 	public String login(Member m, HttpSession session) {
 		Member loginMember=service.selectMemberById(m);
-		log.debug("{}"+loginMember);
-		if(loginMember!=null&&loginMember.getMemberPassword().equals(m.getClass())) {
+		if(loginMember!=null&&loginMember.getMemberPassword().equals(m.getMemberPassword())) {
 			session.setAttribute("loginMember", loginMember);
-			
-			
 		}
-		log.debug("세션이야"+"{}"+session.getAttribute("loginMember"));
-		return "ldh_profile/profile";
+		return "redirect:/profile";
 	}
 	
 	@RequestMapping("/enroll")
@@ -45,6 +41,10 @@ public class MemberController {
 	@RequestMapping("enrollEnd")
 	public String enrollEnd() {
 		return "csk_member/enrollAuthentication";
+	}
+	@RequestMapping("myinfo")
+	public String myPage() {
+		return "csk_member/myInfo";
 	}
 
 }

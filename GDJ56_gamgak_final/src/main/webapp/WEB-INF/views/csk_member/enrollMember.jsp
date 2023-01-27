@@ -18,6 +18,18 @@
     <!-- Font Awesome icons (free version)-->
     <script src="https://kit.fontawesome.com/d87d902b0c.js" crossorigin="anonymous"></script>
 </head>
+
+<style>
+/* 	div#enroll-container{width:400px; margin:0 auto; text-align:center;}
+	div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
+	div#enroll-container form{display:relative;}*/
+	div#login-wrapper span.guide{display:none;font-size:12px;
+									position:relative;top:12px;right:10px;} 
+	div#login-wrapper span.ok{color:green}
+	div#enroll-container span.error{color:red}
+</style>
+
+
 <body>
     <div id="basic-wrapper">
         <!-- MainImageCarousel -->
@@ -59,13 +71,13 @@
               <span class="visually-hidden">Next</span>
             </button>
           </div>
-          <!-- Login -->
+          <!-- Sign Up -->
           <div id="login-wrapper" class="col-sm-6">
           	
           	<img id="logo-img" src="${path }/resources/images/로고.png" >
             <h3>감:각</h3>
           	<h6>나만의 맛집 기록</h6>
-            <form action="${path }/enrollEnd" method="post">
+            <form action="${path }/enrollEnd" method="post" onsubmit="return fn_invalidate();">
 	            <div id="loginInput">
 		            <a><img id="kakaologin" src="${path }/resources/images/카카오 로그인.png"/></a>
             		<div id="orLine">
@@ -77,39 +89,41 @@
 	             	<div id="inputId" class="form-floating mb">
 	                    <input type="email" class="form-control" name="memberEmail" id="floatingInput" placeholder="name@example.com" required>
 	                    <label for="floatingInput">이메일 주소</label>
-	                    <div class="non-data">
-                			* 이메일을 입력해주세요.
-              			</div>
+<!-- 	                    <span id="emailOk" class="ok">이메일 사용이 가능합니다.</span> class 중복가능 id 중복 불가능
+						<span id="emailError" class="error">이메일 사용이 불가능합니다. 다른 이메일을 입력해주세요.</span> -->
 	                </div>
 	             	<div id="inputId" class="form-floating mb">
-	                    <input type="email" class="form-control" name="memberName" id="floatingInput" placeholder="Name" required>
+	                    <input type="email" class="form-control" name="memberName" id="floatingInput" maxlength="10" placeholder="Name" required>
 	                    <label for="floatingInput">이름</label>
-	                    <div class="non-data">
-                			* 이름을 입력해주세요.
-              			</div>
+<!-- 	                    <span id="nameError" class="error">2자 이상 10자 이하 입력해주세요.</span>
+    					<input type="hidden" id="nameCheck"/> 유효성 검사 -->
 	                </div>
-	             	<div id="inputId" class="form-floating mb-3">
-	                    <input type="email" class="form-control" name="memberNickName" id="floatingInput" placeholder="NickName" required>
+	             	<div id="inputId" class="form-floating mb">
+	                    <input type="email" class="form-control" name="memberNickName" id="floatingInput" maxlength="10" placeholder="NickName" required>
 	                    <label for="floatingInput">닉네임</label>
-	                    <div class="non-data">
-                			* 별명을 입력해주세요.
-              			</div>
+<!-- 						<span id="nickNamError" class="error">2자 이상 10자 이하 입력해주세요.</span> -->
 	                </div>
-	                <div class="form-floating">
-	                    <input type="password" class="form-control" name="memberPassword" id="floatingPassword" placeholder="Password" required>
+	                <div class="form-floating mb-3">
+	                    <input type="password" class="form-control" name="memberPassword" id="floatingPassword" minlength="8" placeholder="Password" required>
 	                    <label for="floatingPassword">비밀번호</label>
-	                    <div class="non-data">
-                			* 비밀번호를 입력해주세요.
-              			</div>
+ <!-- 						<span id="passwordError" class="guide error">8자 이상 입력해주세요.</span> -->
 	                </div>
-	                <button id="loginButton" type="submit" class="btn btn-danger">회원가입</button>
+	                <div class="form-floating mb">
+	                    <input type="password" class="form-control" name="memberPassword" id="floatingPassword" minlength="8" placeholder="Password Check" required autocomplete="off" required>
+	                    <label for="floatingPasswordCk">비밀번호 확인</label>
+<!-- 						<span id="passwordErrorCk" class="guide error">비밀번호가 다릅니다.</span>
+						<span id="passwordOk" class="guide ok">비밀번호가 일치합니다.</span> -->
+	                </div>
+	                <button id="loginButton" type="submit" class="btn btn-danger" onclick="enroll_check">회원가입</button>
 	        	</div>
         	</form>
     	</div>
 	</div>
 	
-	<script>
-	
+	<script>	
+		const fn_invalidate=()=>{
+			
+		}
 	</script>
 </body>
 </html>
