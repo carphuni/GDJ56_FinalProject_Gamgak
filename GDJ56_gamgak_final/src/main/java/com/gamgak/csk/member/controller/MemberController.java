@@ -12,7 +12,7 @@ import com.gamgak.csk.member.model.entity.Member;
 import com.gamgak.csk.member.model.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
-@SessionAttributes({"loginMember"})
+//@SessionAttributes({"loginMember"})
 @Slf4j
 @Controller
 public class MemberController {
@@ -29,7 +29,7 @@ public class MemberController {
 	public String login(Member m, HttpSession session) {
 		Member loginMember=service.selectMemberById(m);
 		log.debug("{}"+loginMember);
-		if(loginMember!=null&&loginMember.getMemberPassword().equals(m.getClass())) {
+		if(loginMember!=null&&loginMember.getMemberPassword().equals(m.getMemberPassword())) {
 			session.setAttribute("loginMember", loginMember);
 			
 			
