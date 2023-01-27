@@ -21,12 +21,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity
-@SequenceGenerator(name = "seq_memberno",sequenceName = "seq_memberno",allocationSize = 1)
-public class Member {
+//@Entity
+//@SequenceGenerator(name = "seq_memberno",sequenceName = "seq_memberno",allocationSize = 1)
+public class Member{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_memberno")
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_memberno")
 	private Long member_no;
 	private String member_name;
 	private String member_email;//아이디

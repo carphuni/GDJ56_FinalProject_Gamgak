@@ -17,7 +17,6 @@
     <!-- Font Awesome icons (free version)-->
     <script src="https://kit.fontawesome.com/d87d902b0c.js" crossorigin="anonymous"></script>
     <!-- jQuery library -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
     <script src="https:/code.jquery.com/jquery-3.6.1.min.js"></script>
 </head>
 <style>

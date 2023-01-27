@@ -19,9 +19,9 @@ public class MainController {
 	}
 	
 
-	@RequestMapping("/profile")
-	public String profile() {
-		return "ldh_profile/profile";
-	}
+//	@RequestMapping("/profile")
+//	public String profile() {
+//		return "ldh_profile/profile";
+//	}
 	
 }

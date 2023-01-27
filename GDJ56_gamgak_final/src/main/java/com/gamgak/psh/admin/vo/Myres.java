@@ -19,15 +19,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
-@SequenceGenerator(name = "seq_myresno",sequenceName = "seq_myresno",allocationSize = 1)
+//@Entity
+//@SequenceGenerator(name = "seq_myresno",sequenceName = "seq_myresno",allocationSize = 1)
 public class Myres{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_myresno")
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_myresno")
 	private Long myres_no; 
-	@ManyToOne
-	@JoinColumn(name = "member")
+//	@ManyToOne
+//	@JoinColumn(name = "member")
 	private Member member;
 	
 	private Long res_no;
