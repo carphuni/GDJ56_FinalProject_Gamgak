@@ -36,17 +36,19 @@
 <script>
     let cPage;
     let numPerpage;
+    let functionN;
     (() => {
-        memberlist(cPage)
+        memberlist(cPage,functionN)
     })();
 
-    function memberlist(cPage){
+    function memberlist(cPage,functionN){
         $("#memberList").empty();
         $("#pageBar").empty();
         $.ajax({
             url:"${path}/admin/selectmember.do",
             data:{
                 cPage:cPage,
+                functionN:"memberlist"
                 // numPerpage:numPerpage
             },
             success:data=>{

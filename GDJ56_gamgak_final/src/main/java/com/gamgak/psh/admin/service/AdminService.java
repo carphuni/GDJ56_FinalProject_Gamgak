@@ -40,9 +40,9 @@ public class AdminService {
 		return dao.selectMyresList(no);
 	}
 	
-	public List<Map> selectMeetingData() {
+	public List<Map> selectMeetingData(Map param) {
 		
-		return dao.selectMeetingList();
+		return dao.selectMeetingList(param);
 	}
 	
 	public List<Map> selectReportData(String tableN) {

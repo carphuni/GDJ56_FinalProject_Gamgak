@@ -2,7 +2,7 @@ package com.gamgak.psh.admin.common;
 
 public class PageFactory {
 	
-	public static String getPage(int cPage, int numPerpage, int totalData, String url) {
+	public static String getPage(int cPage, int numPerpage, int totalData, String url,String functionN) {
 		//pagebar를 만들어서 반환해주는 기능을 하는 메소드
 		String pageBar="";
 		int totalPage=(int)Math.ceil((double)totalData/numPerpage);
@@ -19,7 +19,7 @@ public class PageFactory {
 			pageBar+="</span>";
 		}else {
 			pageBar+="<span class='page-item'>";
-			pageBar+="<a class='page-link' href='javascript:memberlist("+(pageNo-1)+")'>이전</a>";
+			pageBar+="<a class='page-link' href='javascript:"+functionN+"("+(pageNo-1)+")'>이전</a>";
 //			pageBar+="<a class='page-link' href='"+url+"?cPage="+(pageNo-1)+"'>이전</a>";
 			pageBar+="</span>";
 		}
@@ -31,7 +31,7 @@ public class PageFactory {
 				pageBar+="</span>";
 			}else {
 				pageBar+="<span class='page-item'>";
-				pageBar+="<a class='page-link' href='javascript:memberlist("+(pageNo)+")'>"
+				pageBar+="<a class='page-link' href='javascript:"+functionN+"("+(pageNo)+")'>"
 //				pageBar+="<a class='page-link' href='"+url+"?cPage="+(pageNo)+"'>"
 				+pageNo+"</a>";
 				pageBar+="</span>";
@@ -46,7 +46,7 @@ public class PageFactory {
 			pageBar+="</span>";
 		}else {
 			pageBar+="<span class='page-item'>";
-			pageBar+="<a class='page-link' href='javascript:memberlist("+(pageNo)+")'>다음</a>";
+			pageBar+="<a class='page-link' href='javascript:"+functionN+"("+(pageNo)+")'>다음</a>";
 //			pageBar+="<a class='page-link' href='"+url+"?cPage="+(pageNo)+"'>다음</a>";
 			pageBar+="</span>";
 		}

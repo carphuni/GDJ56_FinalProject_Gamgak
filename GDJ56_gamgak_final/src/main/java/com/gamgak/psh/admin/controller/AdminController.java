@@ -49,16 +49,16 @@ public class AdminController {
 	
 	@RequestMapping("/selectmember.do")
 	@ResponseBody
-	public Map<String,Object> selectMemberAll(@RequestParam(value="cPage",defaultValue="1")int cPage) {
+	public Map<String,Object> selectMemberAll(@RequestParam(value="cPage",defaultValue="1")int cPage,String functionN) {
 		Map<String,Object> memberlist=new HashMap<String, Object>();
 //		@RequestParam(value="numPerpage",defaultValue="5") int numPerpage
-		System.out.println(cPage);
+		
 		int numPerpage=5;
 		String table="MEMBER";
 		int total=service.selectCount(table);
 		memberlist.put("list",service.selectMemberData(Map.of("cPage",cPage,"numPerpage",numPerpage)));
-		memberlist.put("pageBar",PageFactory.getPage(cPage, numPerpage, total,"member.do"));
-		System.out.println(memberlist);
+		memberlist.put("pageBar",PageFactory.getPage(cPage, numPerpage, total,"member.do",functionN));
+		
 		return memberlist;
 	}
 	
@@ -78,8 +78,17 @@ public class AdminController {
 	
 	@RequestMapping("/selectmeeting.do")
 	@ResponseBody
-	public List<Map> selectMeetingAll() {
-		return service.selectMeetingData();
+	public Map<String,Object> selectMeetingAll(@RequestParam(value="cPage",defaultValue="1")int cPage,String functionN) {
+		Map<String,Object> meetinglist=new HashMap<String, Object>();
+//		@RequestParam(value="numPerpage",defaultValue="5") int numPerpage
+		
+		int numPerpage=5;
+		String table="MEETING";
+		int total=service.selectCount(table);
+		meetinglist.put("list",service.selectMeetingData(Map.of("cPage",cPage,"numPerpage",numPerpage)));
+		meetinglist.put("pageBar",PageFactory.getPage(cPage, numPerpage, total,"meeting.do",functionN));
+		
+		return meetinglist;
 	}
 	
 	@RequestMapping("/report.do")

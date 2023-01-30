@@ -28,11 +28,11 @@ public interface AdminMemberDao{
 	})
 	List<Map> selectMyresList(long no);
 	
-	@Select("select * from meeting")
+	@Select("select * from(select rownum as rnum, data.* from(select * from meeting)data) where rnum between (${cPage}-1)*${numPerpage}+1 and ${cPage}*${numPerpage}")
 	@Results({
 		@Result(property="MEETING_DATE", column="MEETING_DATE",jdbcType = JdbcType.TIMESTAMP, javaType = String.class)
 		})
-	List<Map> selectMeetingList();
+	List<Map> selectMeetingList(Map param);
 	
 	@Select("select * from ${tableN} t left join report r on r.report_no=t.report_no order by r.report_no")
 	@Results({
