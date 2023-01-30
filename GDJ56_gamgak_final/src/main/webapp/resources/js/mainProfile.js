@@ -69,18 +69,17 @@ $("#insertModal").on('shown.bs.modal', ()=>{
 	var infowindow = new kakao.maps.InfoWindow({zIndex:1});
 
 	//임시 객체 저장
-	var  positions = [];
+	var  positions = {};
 
-	function savePositions(e){
-		
-		positions.push(e);
+	function savePositionsOne(e){
+		$.extend(positions,e);
 	}
 	
 	// 키워드로 장소를 검색합니다
 	//searchPlaces();
 	
 	// 키워드 검색을 요청하는 함수입니다
-	function searchPlaces() {
+	function dhsearchPlaces() {
 	
 	    var keyword =$('#insert_keyword').val();
 	
@@ -132,11 +131,8 @@ $("#insertModal").on('shown.bs.modal', ()=>{
 	    // 지도에 표시되고 있는 마커를 제거합니다
 	    removeMarker();
 	    
-		positions.splice(0);
 
 	    for ( var i=0; i<places.length; i++ ) {
-			console.log(places[i]);
-			savePositions(places[i]);
 	        // 마커를 생성하고 지도에 표시합니다
 	        var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
 	            marker = addMarker(placePosition, i), 
@@ -149,7 +145,7 @@ $("#insertModal").on('shown.bs.modal', ()=>{
 	        // 마커와 검색결과 항목에 mouseover 했을때
 	        // 해당 장소에 인포윈도우에 장소명을 표시합니다
 	        // mouseout 했을 때는 인포윈도우를 닫습니다
-	        (function(marker, title) {
+	        (function(marker, title, placeInfo) {
 	            kakao.maps.event.addListener(marker, 'mouseover', function() {
 	                displayInfowindow(marker, title);
 	            });
@@ -167,14 +163,17 @@ $("#insertModal").on('shown.bs.modal', ()=>{
 	            };
 
 				itemEl.onclick = function (e) {
-					console.log(title);
+					savePositionsOne(placeInfo);
+					$("#insert_placesList>li").css('border','0px')
+					$(e.target).closest('li').css('border','red 2px solid');
+					$("#insertLocation>span").text(title);
+					console.log(positions);
 				};
-	        })(marker, places[i].place_name);
+	        })(marker, places[i].place_name, places[i]);
 	
 	        fragment.appendChild(itemEl);
 	    }
 
-		console.log(positions);
 
 	
 	    // 검색결과 항목들을 검색결과 목록 Element에 추가합니다

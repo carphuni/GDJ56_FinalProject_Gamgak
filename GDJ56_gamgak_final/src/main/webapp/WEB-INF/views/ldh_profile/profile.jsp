@@ -74,7 +74,7 @@
 	                        <span id="title-click">검색</span>
 	                    </div>
 	                    <div id="search-item">
-		                    <button id="show-search" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#insertModal">맛집 기록</button>
+		                    <button id="show-search" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#insertModal">새 맛집 기록</button>
 		                    <select id="area-search" class="form-select" >
 							  <option selected>지역 선택</option>
 							  <option value="서울">서울특별시</option>
