@@ -41,30 +41,34 @@
     })();
 
     function userreport(){
-        $("#reportList").empty();
+       $("#reportList").empty();
         $.ajax({
-            url:"${path}/admin/selectreport.do",
+            url:"${path}/admin/userreport.do",
+            data:{
+                "tableN":"USERREPORT"
+            },
             success:data=>{
                 const tr=$("<tr>"); 
-                    tr.append($("<th style='border:1px solid'>").text("번호"))
-                    tr.append($("<th style='border:1px solid'>").text("이름"))
-                    tr.append($("<th style='border:1px solid'>").text("이메일"))
-                    tr.append($("<th style='border:1px solid'>").text("성별"))
-                    tr.append($("<th style='border:1px solid'>").text("닉네임"))
-                    tr.append($("<th style='border:1px solid'>").text("가입날짜"))
-                    tr.append($("<th style='border:1px solid'>").text("식당 저장 수"))
+                    tr.append($("<th style='border:1px solid'>").text("신고번호"))
+                    tr.append($("<th style='border:1px solid'>").text("신고제목"))
+                    tr.append($("<th style='border:1px solid'>").text("회원 번호"))
+                    tr.append($("<th style='border:1px solid'>").text("신고 날짜"))
+                    tr.append($("<th style='border:1px solid'>").text("신고 사유"))
+                    tr.append($("<th style='border:1px solid'>").text("신고 태그"))
+                    
                     $("#reportList").append(tr)    
                 data.forEach(v => {
                     // console.log(v.member_no, v.introduce)
                     console.log(v)
                     let tr2=$("<tr>")
                     let a=$("<a>")
-                    tr2.append($("<td style='border:1px solid'>").text(v.MEMBER_NO))
-                    tr2.append($("<td style='border:1px solid'>").text(v.MEMBER_NAME)) 
-                    tr2.append($("<td style='border:1px solid'>").text(v.MEMBER_EMAIL)) 
-                    tr2.append($("<td style='border:1px solid'>").text(v.MEMBER_GENDER)) 
-                    tr2.append($("<td style='border:1px solid'>").text(v.MEMBER_NICKNAME)) 
-                    tr2.append($("<td style='border:1px solid'>").text(v.MEMBER_ENROLLDATE))
+                    tr2.append($("<td style='border:1px solid'>").text(v.REPORT_NO))
+                    tr2.append($("<td style='border:1px solid'>").text(v.REPORT_TITLE)) 
+                    tr2.append($("<td style='border:1px solid'>").text(v.MEMBER_NO)) 
+                    tr2.append($("<td style='border:1px solid'>").text(v.REPORT_DATE)) 
+                    tr2.append($("<td style='border:1px solid'>").text(v.REPORT_REASON)) 
+                    tr2.append($("<td style='border:1px solid'>").text(v.REPORT_TAG))
+                    
                     $("#reportList").append(tr2)    
                             
                 });
@@ -75,28 +79,32 @@
     function myresreport(){
         $("#reportList").empty();
         $.ajax({
-            url:"${path}/admin/selectreport.do",
+            url:"${path}/admin/myresreport.do",
+            data:{
+                "tableN":"MYRESREPORT"
+            },
             success:data=>{
                 const tr=$("<tr>"); 
-                    tr.append($("<th style='border:1px solid'>").text("번호"))
-                    tr.append($("<th style='border:1px solid'>").text("이름"))
-                    tr.append($("<th style='border:1px solid'>").text("이메일"))
-                    tr.append($("<th style='border:1px solid'>").text("성별"))
-                    tr.append($("<th style='border:1px solid'>").text("닉네임"))
-                    tr.append($("<th style='border:1px solid'>").text("가입날짜"))
-                    tr.append($("<th style='border:1px solid'>").text("식당 저장 수"))
+                    tr.append($("<th style='border:1px solid'>").text("신고번호"))
+                    tr.append($("<th style='border:1px solid'>").text("신고제목"))
+                    tr.append($("<th style='border:1px solid'>").text("회원 번호"))
+                    tr.append($("<th style='border:1px solid'>").text("신고 날짜"))
+                    tr.append($("<th style='border:1px solid'>").text("신고 사유"))
+                    tr.append($("<th style='border:1px solid'>").text("신고 태그"))
+                    
                     $("#reportList").append(tr)    
                 data.forEach(v => {
                     // console.log(v.member_no, v.introduce)
                     console.log(v)
                     let tr2=$("<tr>")
                     let a=$("<a>")
-                    tr2.append($("<td style='border:1px solid'>").text(v.MEMBER_NO))
-                    tr2.append($("<td style='border:1px solid'>").text(v.MEMBER_NAME)) 
-                    tr2.append($("<td style='border:1px solid'>").text(v.MEMBER_EMAIL)) 
-                    tr2.append($("<td style='border:1px solid'>").text(v.MEMBER_GENDER)) 
-                    tr2.append($("<td style='border:1px solid'>").text(v.MEMBER_NICKNAME)) 
-                    tr2.append($("<td style='border:1px solid'>").text(v.MEMBER_ENROLLDATE))
+                    tr2.append($("<td style='border:1px solid'>").text(v.REPORT_NO))
+                    tr2.append($("<td style='border:1px solid'>").text(v.REPORT_TITLE)) 
+                    tr2.append($("<td style='border:1px solid'>").text(v.MYRES_NO)) 
+                    tr2.append($("<td style='border:1px solid'>").text(v.REPORT_DATE)) 
+                    tr2.append($("<td style='border:1px solid'>").text(v.REPORT_REASON)) 
+                    tr2.append($("<td style='border:1px solid'>").text(v.REPORT_TAG))
+                    
                     $("#reportList").append(tr2)    
                             
                 });
@@ -107,29 +115,35 @@
     function meetingreport(){
         $("#reportList").empty();
         $.ajax({
-            url:"${path}/admin/selectreport.do",
+            url:"${path}/admin/meetingreport.do",
+            data:{
+                "tableN":"MEETINGREPORT"
+            },
             success:data=>{
                 const tr=$("<tr>"); 
-                    tr.append($("<th style='border:1px solid'>").text("번호"))
-                    tr.append($("<th style='border:1px solid'>").text("이름"))
-                    tr.append($("<th style='border:1px solid'>").text("이메일"))
-                    tr.append($("<th style='border:1px solid'>").text("성별"))
-                    tr.append($("<th style='border:1px solid'>").text("닉네임"))
-                    tr.append($("<th style='border:1px solid'>").text("가입날짜"))
-                    tr.append($("<th style='border:1px solid'>").text("식당 저장 수"))
+                    tr.append($("<th style='border:1px solid'>").text("신고번호"))
+                    tr.append($("<th style='border:1px solid'>").text("신고제목"))
+                    tr.append($("<th style='border:1px solid'>").text("회원 번호"))
+                    tr.append($("<th style='border:1px solid'>").text("신고 날짜"))
+                    tr.append($("<th style='border:1px solid'>").text("신고 사유"))
+                    tr.append($("<th style='border:1px solid'>").text("신고 태그"))
+                    
+                
+                        
                     $("#reportList").append(tr)    
                 data.forEach(v => {
                     // console.log(v.member_no, v.introduce)
                     console.log(v)
                     let tr2=$("<tr>")
                     let a=$("<a>")
-                    tr2.append($("<td style='border:1px solid'>").text(v.MEMBER_NO))
-                    tr2.append($("<td style='border:1px solid'>").text(v.MEMBER_NAME)) 
-                    tr2.append($("<td style='border:1px solid'>").text(v.MEMBER_EMAIL)) 
-                    tr2.append($("<td style='border:1px solid'>").text(v.MEMBER_GENDER)) 
-                    tr2.append($("<td style='border:1px solid'>").text(v.MEMBER_NICKNAME)) 
-                    tr2.append($("<td style='border:1px solid'>").text(v.MEMBER_ENROLLDATE))
-                    $("#reportList").append(tr2)    
+                    tr2.append($("<td style='border:1px solid'>").text(v.REPORT_NO))
+                    tr2.append($("<td style='border:1px solid'>").text(v.REPORT_TITLE)) 
+                    tr2.append($("<td style='border:1px solid'>").text(v.MEETING_NO)) 
+                    tr2.append($("<td style='border:1px solid'>").text(v.REPORT_DATE)) 
+                    tr2.append($("<td style='border:1px solid'>").text(v.REPORT_REASON)) 
+                    tr2.append($("<td style='border:1px solid'>").text(v.REPORT_TAG))
+                    
+                    $("#reportList").append(tr2)
                             
                 });
             }

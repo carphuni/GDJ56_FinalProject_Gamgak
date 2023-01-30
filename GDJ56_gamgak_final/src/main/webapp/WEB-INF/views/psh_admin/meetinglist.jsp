@@ -32,10 +32,12 @@
 </div>
 <script>
     (() => {
-        meetinglist()
+        let cPage=1
+        let numPerpage=5
+        meetinglist(cPage,numPerpage)
     })();
 
-    function meetinglist(){
+    function meetinglist(cPage,numPerpage){
         $.ajax({
             url:"${path}/admin/selectmeeting.do",
             success:data=>{
@@ -52,7 +54,7 @@
                     tr.append($("<th style='border:1px solid'>").text("최대 나이"))
                     tr.append($("<th style='border:1px solid'>").text("모임 지역"))
                     tr.append($("<th style='border:1px solid'>").text("상세 주소"))
-                    $("#meetingList").append(tr)    
+                    $("#meetingList").append(tr);    
                 data.forEach(v => {
                     // console.log(v)
                     console.log(v)

@@ -1,22 +1,29 @@
 package com.gamgak.psh.admin.controller;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gamgak.psh.admin.service.AdminService;
 import com.gamgak.psh.admin.vo.Member;
 import com.gamgak.psh.admin.vo.Myres;
+import com.gamgak.psh.admin.common.PageFactory;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -42,9 +49,17 @@ public class AdminController {
 	
 	@RequestMapping("/selectmember.do")
 	@ResponseBody
-	public List<Map> selectMemberAll() {
-		//System.out.println(service.selectMemberData());
-		return service.selectMemberData();
+	public Map<String,Object> selectMemberAll(@RequestParam(value="cPage",defaultValue="1")int cPage) {
+		Map<String,Object> memberlist=new HashMap<String, Object>();
+//		@RequestParam(value="numPerpage",defaultValue="5") int numPerpage
+		System.out.println(cPage);
+		int numPerpage=5;
+		String table="MEMBER";
+		int total=service.selectCount(table);
+		memberlist.put("list",service.selectMemberData(Map.of("cPage",cPage,"numPerpage",numPerpage)));
+		memberlist.put("pageBar",PageFactory.getPage(cPage, numPerpage, total,"member.do"));
+		System.out.println(memberlist);
+		return memberlist;
 	}
 	
 	@RequestMapping("/myresview.do")
@@ -64,7 +79,6 @@ public class AdminController {
 	@RequestMapping("/selectmeeting.do")
 	@ResponseBody
 	public List<Map> selectMeetingAll() {
-		System.out.println(service.selectMeetingData());
 		return service.selectMeetingData();
 	}
 	
@@ -72,12 +86,28 @@ public class AdminController {
 	public String adminReportPage() {
 		return "psh_admin/reportlist";
 	}
-	@RequestMapping("/selectreport.do")
-	public ModelAndView adminReportPage(ModelAndView mv) {
-		mv.addObject(service.selectReportData());
-		mv.setViewName("psh_admin/reportlist");
-		return mv;
+	
+	@RequestMapping("/userreport.do")
+	@ResponseBody
+	public List<Map> selectUserReport(@RequestParam String tableN) {
+		List<Map> users=service.selectReportData(tableN);
+		return service.selectReportData(tableN);
 	}
 	
+	@RequestMapping("/myresreport.do")
+	@ResponseBody
+	public List<Map> selectMyresReport(@RequestParam String tableN) {
+		return service.selectReportData(tableN);
+	}
+	
+	@RequestMapping("/meetingreport.do")
+	@ResponseBody
+	public List<Map> selectMeetingReport(@RequestParam String tableN) {
+		List<Map> meetings=service.selectReportData(tableN);
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		
+		return service.selectReportData(tableN);
+	}
 	
 }

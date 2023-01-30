@@ -28,17 +28,30 @@
 
             </table>
          </div>
+         <div id="pageBar">
+
+         </div>
     </section>
 </div>
 <script>
+    let cPage;
+    let numPerpage;
     (() => {
-        memberlist()
+        memberlist(cPage)
     })();
 
-    function memberlist(){
+    function memberlist(cPage){
+        $("#memberList").empty();
+        $("#pageBar").empty();
         $.ajax({
             url:"${path}/admin/selectmember.do",
+            data:{
+                cPage:cPage,
+                // numPerpage:numPerpage
+            },
             success:data=>{
+                console.log(data.pageBar)
+                console.log(data.list)
                 const tr=$("<tr>"); 
                     tr.append($("<th style='border:1px solid'>").text("번호"))
                     tr.append($("<th style='border:1px solid'>").text("이름"))
@@ -47,8 +60,9 @@
                     tr.append($("<th style='border:1px solid'>").text("닉네임"))
                     tr.append($("<th style='border:1px solid'>").text("가입날짜"))
                     tr.append($("<th style='border:1px solid'>").text("식당 저장 수"))
+                    tr.append($("<th style='border:1px solid'>").text("유저 신고 수"))
                     $("#memberList").append(tr)    
-                data.forEach(v => {
+                data.list.forEach(v => {
                     // console.log(v.member_no, v.introduce)
                     console.log(v)
                     let tr2=$("<tr>")
@@ -62,9 +76,11 @@
                     // a.attr("href","http://localhost:9090/admin/myresview.do")
                     a.attr("href","http://localhost:9090/admin/myresview.do?no="+v.MEMBER_NO).text(v.MYRES_CNT)
                     tr2.append($("<td style='border:1px solid'>").append(a))
+                    tr2.append($("<td style='border:1px solid'>").text(v.REPORT_CNT))    
                     $("#memberList").append(tr2)    
                             
                 });
+                $("#pageBar").append(data.pageBar)
             }
         })
     }
