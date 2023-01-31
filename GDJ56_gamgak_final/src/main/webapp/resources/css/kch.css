@@ -176,6 +176,17 @@
 	  /* margin-top: -100px;  */
 	  margin-left: -300px;
 	}
+	#chat{
+		overflow-y: auto;
+		height: 428px;
+		flex: initial;
+
+
+
+		
+
+	}
+
 /* 		#x{
 			font-size: 25px;
 			text-align: right;
@@ -187,10 +198,10 @@
 			display: flex;
 			justify-content: flex-end;
 		}		
-			#moda_msg_text_r{
+			#modal_msg_text_r{
 				height: auto;
 			}		
-				#moda_msg_text_r>p{
+				#modal_msg_text_r>p{
 					background-color: rgb(243, 156, 18);
 					color: white;
 					font-size: 13px;
@@ -213,11 +224,12 @@
 				#modal_nickname{
 					font-size: 14px;
 					margin-bottom: 10px;
+					text-align: left;
 				}		
-				#moda_msg_text_s{
+				#modal_msg_text_s{
 					 height: 25px;
 				}
-					#moda_msg_text_s>p{
+					#modal_msg_text_s>p{
 						background-color: #dc3545;
 						color: white;
 						font-size: 13px;
@@ -260,3 +272,19 @@
 					height: 40px;
 					font-size: 13px;
 				}
+				
+
+#modal_msg_time_s, #modal_msg_time_r{
+	font-size: 11px;
+	padding: 10px;
+}
+
+#modal_msg_t{
+	display: flex;
+}
+
+
+				
+				
+				
+				

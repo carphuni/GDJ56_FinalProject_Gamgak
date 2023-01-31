@@ -13,7 +13,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gamgak.jjh.meeting.model.vo.ChatHandler;
+import com.gamgak.kch.msg.vo.ChatHandler;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,17 +52,19 @@ public class ChattingServer extends TextWebSocketHandler{
 			//ObjectMapper mapper=new ObjectMapper();
 			ChatHandler msg=mapper.readValue(message.getPayload(),ChatHandler.class);
 			log.debug("{}",msg);
+			System.out.println(msg);
 			
 			switch(msg.getType()) {
 			case "open" : addClient(session,msg); break; //client정보에 추가
 			case "msg" : sendMessage(msg); break; //메세지를 클라이언트에게 전달
 			case "system" : sendAdminMessage(); break; //시스템정보를 클라이언트에게 전달
+			case "msgCh" : sendMessageCh(msg);break;
 			}
 	    }
 	    
 	    
 	    private void addClient(WebSocketSession session, ChatHandler msg) throws IOException{
-	    	System.out.println("접속");
+	    	//System.out.println("접속");
 			session.getAttributes().put("info", msg);
 			sessionMap.put(msg.getMemberSender(), session);
 			SendMessage adminmsg=new SendMessage("system","","",msg.getMemberSender()+"가 접속했습니다.","");
@@ -88,8 +90,6 @@ public class ChattingServer extends TextWebSocketHandler{
 			for(String id:sessionMap.keySet()) {
 				WebSocketSession client=sessionMap.get(id);
 				client.sendMessage(new TextMessage(mapper.writeValueAsString(msg)));
-				
-				
 			}
 			
 		}
@@ -118,10 +118,17 @@ public class ChattingServer extends TextWebSocketHandler{
 	    }
 
 
-
-
-
-
+// ---------------------------------------------------------------------
+		private void sendMessageCh(ChatHandler msg) throws IOException{
+			
+			for(String id:sessionMap.keySet()) {
+				WebSocketSession client=sessionMap.get(id);
+				System.out.println("1대1 메세지 : "+msg);
+				System.out.println("1대1"+client);
+				client.sendMessage(new TextMessage(mapper.writeValueAsString(msg)));
+			}
+			
+		}
 
 
 
