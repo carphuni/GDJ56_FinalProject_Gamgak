@@ -28,9 +28,10 @@ public class ProfileController {
 	@RequestMapping("/profile")
 	public String profile(Model model) {
 		Member loginMember=(Member)httpSession.getAttribute("loginMember");
-		model.addAttribute("myResCount", service.selectMyResCount(loginMember.getMemberNo()));
-		model.addAttribute("friendCount", loginMember);
-   	 	model.addAttribute("meetingCount", loginMember);
+		int memberNo=loginMember.getMemberNo();
+		model.addAttribute("myResCount", service.selectMyResCount(memberNo));
+		model.addAttribute("friendCount", service.selectFriendCount(memberNo));
+   	 	model.addAttribute("meetingCount", service.selectMeetingCount(memberNo));
 		return "ldh_profile/profile";
 	}
 

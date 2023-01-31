@@ -23,6 +23,13 @@ public class ProfileService {
 		return dao.selectMyResCount(session, memberNo);
 	}
 
+	public int selectFriendCount(int memberNo) {
+		return dao.selectFriendCount(session, memberNo);
+	}
+	
+	public int selectMeetingCount(int memberNo) {
+		return dao.selectMeetingCount(session, memberNo);
+	}
 	
 	
 }
