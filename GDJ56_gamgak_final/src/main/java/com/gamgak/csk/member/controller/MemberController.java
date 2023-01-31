@@ -4,9 +4,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.gamgak.csk.member.model.entity.Member;
 import com.gamgak.csk.member.model.service.MemberService;
@@ -26,7 +25,7 @@ public class MemberController {
    
    @RequestMapping("/login")
 //   @ResponseBody
-   public String login(Member m, HttpSession session) {
+   public String login(Member m, HttpSession session, Model model) {
       Member loginMember=service.selectMemberById(m);
       if(loginMember!=null&&loginMember.getMemberPassword().equals(m.getMemberPassword())) {
          session.setAttribute("loginMember", loginMember);

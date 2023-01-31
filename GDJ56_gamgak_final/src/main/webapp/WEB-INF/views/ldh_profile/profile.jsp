@@ -33,20 +33,20 @@
                         
                         <div id="info">
                             <div id="info-1">
-                                <span>gnsl2808@naver.com</span>
+                                <span><c:out value="${loginMember.memberEmail }"/></span>
                                 <button id="edit-profile" type="button" class="btn btn-danger">프로필 편집</button>
                                 
                             </div>
                             <div id="info-2" >
-                                <div><span>내 맛집 기록</span><span id="res-num">193</span></div>
+                                <div><span>내 맛집 기록</span><span id="res-num"><c:out value="${myResCount}"/></span></div>
                                 <div id="colLine"></div>
                                 <a><span>친구</span><span id="fri-num">0</span></a>
                                 <div id="colLine"></div>
                                 <a><span>모임</span><span id="fri-num">3</span></a>
                             </div>
-                            <div id="info-3">존잘 이동훈</div>
+                            <div id="info-3"><c:out value="${loginMember.memberNickName }"/></div>
                             <div id="info-d4">
-                                <span>나는 미친 사람 ㅎㅎㅎ</span>
+                                <span><c:out value="${loginMember.introduce }"/></span>
                             </div>
                         </div>
                         <a><i class="fa-solid fa-gear fa-lg" data-bs-toggle="modal" data-bs-target="#settingModal"></i></a>

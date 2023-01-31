@@ -13,5 +13,6 @@ public class MemberDao {
 		System.out.println("dao"+m);
 		return session.selectOne("member.selectMemberById",m);
 	}
+	
 
 }
