@@ -45,20 +45,24 @@ $("#title-click").click((e)=>{
 		
 });
 
-$("#insertModal").on('shown.bs.modal', ()=>{
-	// 마커를 담을 배열입니다
-	var markers = [];
-	
-	var mapContainer = $('#insertMap')[0], // 지도를 표시할 div 
-	    mapOption = {
+// 지도를 생성합니다    
+let mapContainerLdh = $('#insertMap')[0], // 지도를 표시할 div 
+	    mapOptionLdh = {
 	        center: new kakao.maps.LatLng(37.47789829947013, 126.87901846929363), // 지도의 중심좌표
 	        level: 3 // 지도의 확대 레벨
 	    };  
-	
-	// 지도를 생성합니다    
-	var map = new kakao.maps.Map(mapContainer, mapOption); 
-	
-	// 장소 검색 객체를 생성합니다
+var map;
+
+$("#insertModal").on('shown.bs.modal', ()=>{
+	map=new kakao.maps.Map(mapContainerLdh, mapOptionLdh); 
+})
+
+
+
+// 마커를 담을 배열입니다
+	var markers = [];
+
+// 장소 검색 객체를 생성합니다
 	var ps = new kakao.maps.services.Places();  
 	
 	// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
@@ -73,12 +77,12 @@ $("#insertModal").on('shown.bs.modal', ()=>{
 	}
 	
 	// 키워드로 장소를 검색합니다
-	searchPlaces();
+	//searchPlaces();
 	
 	// 키워드 검색을 요청하는 함수입니다
 	function searchPlaces() {
 	
-	    var keyword =$('#keyword').val();
+	    var keyword =$('#insert_keyword').val();
 	
 	    if (!keyword.replace(/^\s+|\s+$/g, '')) {
 	        alert('키워드를 입력해주세요!');
@@ -86,7 +90,7 @@ $("#insertModal").on('shown.bs.modal', ()=>{
 	    }
 	
 	    // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
-	    ps.keywordSearch( keyword, placesSearchCB,{size:2} ); 
+	    ps.keywordSearch( keyword, placesSearchCB,{size:15} ); 
 	}
 	
 	// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
@@ -116,8 +120,8 @@ $("#insertModal").on('shown.bs.modal', ()=>{
 	// 검색 결과 목록과 마커를 표출하는 함수입니다
 	function displayPlaces(places) {
 	
-	    var listEl = document.getElementById('placesList'), 
-	    menuEl = document.getElementById('menu_wrap'),
+	    var listEl = document.getElementById('insert_placesList'), 
+	    menuEl = document.getElementById('insert_menu_wrap'),
 	    fragment = document.createDocumentFragment(), 
 	    bounds = new kakao.maps.LatLngBounds(), 
 	    listStr = '';
@@ -161,6 +165,10 @@ $("#insertModal").on('shown.bs.modal', ()=>{
 	            itemEl.onmouseout =  function () {
 	                infowindow.close();
 	            };
+
+				itemEl.onclick = function (e) {
+					console.log(title);
+				};
 	        })(marker, places[i].place_name);
 	
 	        fragment.appendChild(itemEl);
@@ -196,7 +204,7 @@ $("#insertModal").on('shown.bs.modal', ()=>{
 	                '</div>';           
 	
 	    el.innerHTML = itemStr;
-	    el.className = 'item';
+	    el.className = 'insert_item';
 	
 	    return el;
 	}
@@ -232,7 +240,7 @@ $("#insertModal").on('shown.bs.modal', ()=>{
 	
 	// 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
 	function displayPagination(pagination) {
-	    var paginationEl = document.getElementById('pagination'),
+	    var paginationEl = document.getElementById('insert_pagination'),
 	        fragment = document.createDocumentFragment(),
 	        i; 
 	
@@ -276,7 +284,10 @@ $("#insertModal").on('shown.bs.modal', ()=>{
 	        el.removeChild (el.lastChild);
 	    }
 	}
-})
 
+
+
+
+	
 
 
