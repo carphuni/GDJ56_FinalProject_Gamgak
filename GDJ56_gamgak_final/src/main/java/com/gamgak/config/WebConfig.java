@@ -32,7 +32,7 @@ public class WebConfig implements WebSocketConfigurer, WebMvcConfigurer {
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(chattingServer, "/jjh_meetting/chattingroom").setAllowedOrigins("*");
+		registry.addHandler(chattingServer, "/chatting_Server").setAllowedOrigins("*");
 	}
 	
 

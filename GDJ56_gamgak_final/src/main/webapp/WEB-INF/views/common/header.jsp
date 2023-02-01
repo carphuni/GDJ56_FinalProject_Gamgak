@@ -13,8 +13,8 @@
     <!-- 부트스트랩 css/js -->
     <link rel="stylesheet" type="text/css" href="${path }/resources/css/bootstrap.min.css" >
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Main css -->
-    <link rel="stylesheet" type="text/css" href="${path }/resources/css/mainProfile.css" >
+    <!-- jQuery -->
+	<script src = "${path }/resources/js/jquery-3.6.1.min.js"></script>
     <!-- Font Awesome icons (free version)-->
     <script src="https://kit.fontawesome.com/d87d902b0c.js" crossorigin="anonymous"></script>
     <!-- 카카오 지도 API -->
@@ -23,15 +23,15 @@
     <link rel="stylesheet" type="text/css" href="${path }/resources/css/kch.css" >
     <!-- 지도 css -->
     <link rel="stylesheet" type="text/css" href="${path }/resources/css/map.css" >
-    <!-- jQuery -->
-	<script src = "${path }/resources/js/jquery-3.6.1.min.js"></script>
+    <!-- Main css -->
+    <link rel="stylesheet" type="text/css" href="${path }/resources/css/mainProfile.css" >
 </head>
 <body>
     <div id="basic-wrapper">
         <!-- Side NavBar -->
         <aside id="sidebar-wrapper" class="col-sm-3">
             <div id="sidebar" class="col-sm-3">
-                <img id="logo-img" src="${path }/resources/images/로고.png"/>
+                <img id="logo-img" src="${path }/resources/images/로고.png" class="col-1"/>
                 <nav class="nav flex-column">
                     <a class="nav-link active" aria-current="page" href="${path }/profile">
                         <i class="fa-solid fa-circle-user"></i>
@@ -45,7 +45,7 @@
                         <i class="fa-solid fa-magnifying-glass-chart"></i>
                         <span>인기 맛집 및 검색</span>
                     </a>
-                    <a class="nav-link active" aria-current="page" href="${path }meetting/meettinglist.do">
+                    <a class="nav-link active" aria-current="page" href="${path }/meetting/meettinglist.do">
 
                         <i class="fa-solid fa-people-group"></i>
                         <span>모임</span>
@@ -59,7 +59,7 @@
                         </i>
                         <span>친구</span>
                     </a>
-                    <a class="nav-link active" aria-current="page" href="${path }/msg">
+                    <a class="nav-link active" aria-current="page" href="${path }/msg/msgList.do">
                         <i class="fa-solid fa-envelope position-relative">
                             <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle" style="width: 0.5rem;">
                                 <span class="visually-hidden">New alerts</span>
@@ -82,38 +82,51 @@
         
         <!-- Modal -->
         <div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		  <div class="modal-dialog modal-xl modal-dialog-centered">
+		  <div  id="insertModal-dialog" class="modal-dialog modal-xl modal-dialog-centered">
+		    <div class="modal-content" >
+		      <div class="modal-header">
+		        <h1 class="modal-title fs-5" id="exampleModalLabel">새 맛집 기록</h1>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div id="insertModal-body" class="modal-body">
+			    <div id="insertMap" class="col-sm-6"></div>
+			    <div id="insert_menu_wrap" class="bg_white col-sm-6">
+			        <div class="insert_option">
+		                <form onsubmit="searchPlaces(); return false;" style="display: flex;width: 100%">
+		                    <input value="이태원 맛집" id="insert_keyword" class="form-control" type="text" placeholder="식당 검색">
+		                    <button type="submit" class="btn btn-danger">검색하기</button> 
+		                </form>
+			        </div>
+			        <hr>
+			        <ul id="insert_placesList"></ul>
+			        <hr>
+			        <div id="insert_pagination"></div>
+			    </div>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#insertModal2">다음</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>   
+		<div class="modal fade" id="insertModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div  id="insertModal-dialog" class="modal-dialog modal-xl modal-dialog-centered">
 		    <div class="modal-content" >
 		      <div class="modal-header">
 		        <h1 class="modal-title fs-5" id="exampleModalLabel">새 맛집 기록</h1>
 		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		      </div>
 		      <div class="modal-body">
-				<div class="map_wrap">
-				    <div id="insertMap" style="width:100%;height:20rem;position:relative;overflow:hidden;"></div>
 				
-				    <div id="menu_wrap" class="bg_white">
-				        <div class="option">
-				            <div>
-				                <form onsubmit="searchPlaces(); return false;">
-				                    키워드 : <input type="text" value="이태원 맛집" id="keyword" size="5"> 
-				                    <button type="submit">검색하기</button> 
-				                </form>
-				            </div>
-				        </div>
-				        <hr>
-				        <ul id="placesList"></ul>
-				        <div id="pagination"></div>
-				    </div>
-			    </div>
 		      </div>
 		      <div class="modal-footer">
-		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+		        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#insertModal">이전</button>
 		        <button type="button" class="btn btn-danger">저장하기</button>
 		      </div>
 		    </div>
 		  </div>
-		</div>      
+		</div>    
+		   
         <!-- Article -->
         <article id="main-wrapper">
             <!-- Main -->
