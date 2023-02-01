@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gamgak.csk.member.model.entity.Member;
+import com.gamgak.csk.member.model.service.MailService;
 import com.gamgak.csk.member.model.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,11 +22,13 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class MemberController {
    private MemberService service;
+   private MailService mailservice;
 
    @Autowired 
-   public MemberController(MemberService service) {
+   public MemberController(MemberService service, MailService mailservice) {
       super();
       this.service = service;
+      this.mailservice = mailservice;
    }
    
    @RequestMapping("/login")
@@ -67,10 +70,12 @@ public class MemberController {
 	   return m==null?false:true;
    }
    
-//   @PostMapping("/enroll/mailConfirm")
-//   @ResponseBody
-//   public String mailConfirm(@RequestParam("memberEmail") String email) throws Exception{
-//	   String code=registermail
-//   }
+   @PostMapping("/enroll/mailAuth")
+   @ResponseBody
+   public String mailConfirm(@RequestParam("memberEmail") String memberEmail) throws Exception{
+	   String code=mailservice.sendSimpleMessage(memberEmail);
+	   System.out.println("인증코드 : "+code);
+	   return code;
+   }
 
 }
