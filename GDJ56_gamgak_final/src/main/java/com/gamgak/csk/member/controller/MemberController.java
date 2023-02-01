@@ -1,12 +1,16 @@
 package com.gamgak.csk.member.controller;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.gamgak.csk.member.model.entity.Member;
 import com.gamgak.csk.member.model.service.MemberService;
@@ -38,13 +42,35 @@ public class MemberController {
    public String enroll() {
       return "csk_member/enrollMember";
    }
-   @RequestMapping("enrollEnd")
+   @RequestMapping("/enrollEnd")
    public String enrollEnd() {
+	   
       return "csk_member/enrollAuthentication";
    }
-   @RequestMapping("myinfo")
+   @RequestMapping("/myinfo")
    public String myPage() {
       return "csk_member/myInfo";
    }
+   @RequestMapping("/duplicateEmail")
+   @ResponseBody
+   public boolean duplicateEmail(String memberEmail, HttpServletResponse response) throws IOException{
+	   Member m=service.selectMemberById(Member.builder().memberEmail(memberEmail).build());
+	   log.debug("이메일"+"{}"+m);
+	   return m==null?false:true;
+   }
+   
+   @RequestMapping("/duplicateNickName")
+   @ResponseBody
+   public boolean duplicateNickName(String memberNickName, HttpServletResponse response) throws IOException{
+	   Member m=service.selectMemberByNickName(Member.builder().memberNickName(memberNickName).build());
+	   log.debug("닉네임"+"{}"+m);
+	   return m==null?false:true;
+   }
+   
+//   @PostMapping("/enroll/mailConfirm")
+//   @ResponseBody
+//   public String mailConfirm(@RequestParam("memberEmail") String email) throws Exception{
+//	   String code=registermail
+//   }
 
 }

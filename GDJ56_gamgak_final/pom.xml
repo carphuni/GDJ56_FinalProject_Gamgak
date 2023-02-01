@@ -79,6 +79,11 @@
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
+		<!-- 메일라이브러리 -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
 		
 	</dependencies>
 	
