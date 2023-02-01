@@ -217,7 +217,12 @@
                    
                 </div>
                 <div style="margin: 2px;">
-                    <button type="button"  style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px;" data-bs-toggle="modal" data-bs-target="#meettingreport">모임신고하기</button>
+                	<c:if test="${loginMember.memberNickName eq 'admin' }">
+	                    <button type="button"  style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px;" data-bs-toggle="modal" data-bs-target="#meettingreport">삭제하기</button>
+                	</c:if>
+                	<c:if test="${loginMember.memberNickName != 'admin' }">
+	                    <button type="button"  style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px;" data-bs-toggle="modal" data-bs-target="#meettingreport">모임신고하기</button>
+                	</c:if>
                     <button type="button"  style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px;">나가기</button>
                 </div>
             </div>

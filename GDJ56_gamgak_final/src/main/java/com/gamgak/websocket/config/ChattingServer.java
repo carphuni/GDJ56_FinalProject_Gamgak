@@ -87,6 +87,8 @@ public class ChattingServer extends TextWebSocketHandler{
 			
 			for(String id:sessionMap.keySet()) {
 				WebSocketSession client=sessionMap.get(id);
+				System.out.println("sendMessage : "+client);
+				System.out.println("sendMessage : "+msg);
 				client.sendMessage(new TextMessage(mapper.writeValueAsString(msg)));
 				
 				

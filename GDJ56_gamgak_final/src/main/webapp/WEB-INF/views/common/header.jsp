@@ -45,7 +45,7 @@
                         <i class="fa-solid fa-magnifying-glass-chart"></i>
                         <span>인기 맛집 및 검색</span>
                     </a>
-                    <a class="nav-link active" aria-current="page" href="${path }meetting/meettinglist.do">
+                    <a class="nav-link active" aria-current="page" href="${path }/meetting/meettinglist.do">
 
                         <i class="fa-solid fa-people-group"></i>
                         <span>모임</span>
