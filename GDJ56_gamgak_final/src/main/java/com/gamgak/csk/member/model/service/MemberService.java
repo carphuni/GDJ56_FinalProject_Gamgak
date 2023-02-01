@@ -28,8 +28,5 @@ public class MemberService {
 	public Member selectMemberByNickName(Member m) {
 		return dao.selectMemberByNickName(session,m);
 	}
-
-
-
 	
 }

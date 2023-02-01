@@ -31,7 +31,7 @@
                 <nav class="nav flex-column">
                     <a class="nav-link active" aria-current="page" href="${path}/admin/">
                         <i class="fa-solid fa-circle-user"></i>
-                        <span>프로필 홈</span>
+                        <span>관리자 홈</span>
                     </a><a class="nav-link active" aria-current="page" href="${path}/admin/report.do">
                         <i class="fa-solid fa-magnifying-glass-chart position-relative">
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.3rem;">

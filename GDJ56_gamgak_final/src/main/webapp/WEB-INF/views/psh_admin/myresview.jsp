@@ -27,6 +27,7 @@
          <div id="myresBox">
             <table id="myresList">
                 <tr id="myrestr">
+                    <th><input id="selectAll" type="checkbox" onclick="selectAll()"></th>
                     <th>회원번호</th>
                     <th>식당저장 번호</th>
                     <th>저장 날짜</th>
@@ -36,11 +37,12 @@
                 <c:if test="${not empty myreslist }">
                 	<c:forEach var="my" items="${myreslist }">
 	                	<tr>
-	                    	<td><c:out value="${my.MEMBER_NO }"/></td>
-	                    	<td><a href="${path}/profile"><c:out value="${my.MYRES_NO }"/></a></td>
-	                    	<td><c:out value="${my.MYRES_SAVE_DATE }"/></td>
-	                    	<td><c:out value="${my.MYRES_MEMO }"/></td>
-	                    	<td><c:out value="${my.MYRES_YN }"/></td>
+	                    	<td><input name="myrescheck" type="checkbox"></td>
+                            <td><c:out value="${my.member_no }"/></td>
+	                    	<td><a href="${path}/profile"><c:out value="${my.myres_no }"/></a></td>
+	                    	<td><c:out value="${my.myres_save_date }"/></td>
+	                    	<td><c:out value="${my.myres_memo }"/></td>
+	                    	<td><c:out value="${my.myres_yn }"/></td>
 	                	</tr>
                 	</c:forEach>
                 </c:if>
@@ -48,5 +50,21 @@
          </div>
     </section>
 </div>
+<script>
+     //체크박스 전체선택 함수
+     function selectAll(){
+        const myrescheck=document.querySelectorAll("input[name='myrescheck']")
+        // console.log($("#selectAll").prop("checked"))
+        if($("#selectAll").prop("checked")){
+            for(var i=0;i<myrescheck.length;i++){
+                myrescheck[i].checked=true
+            }
+        }else{
+            for(var i=0;i<myrescheck.length;i++){
+                myrescheck[i].checked=false
+            }
+        }
+    };
+</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/> 

@@ -30,9 +30,10 @@ public class Myres{
 	private Long myres_no; 
 //	@ManyToOne
 //	@JoinColumn(name = "member")
-	private Member member;
+	private int member_no;
 	
 	private Long res_no;
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date myres_save_date;
 	private String myres_memo;
 	private String myres_yn;

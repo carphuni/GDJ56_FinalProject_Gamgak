@@ -22,7 +22,11 @@
         <!-- 구분선 -->
         <div id="sep"></div>
          <!-- 내용 -->
-         <h2>회원관리</h2>
+         <div>
+            <h2>회원관리</h2>
+            <button onclick="deletemem()">회원탈퇴</button>
+         </div>
+         
          <div id="memberListBox">
             <table id="memberList">
 
@@ -37,10 +41,58 @@
     let cPage;
     let numPerpage;
     let functionN;
+    //처음 로딩시 실행
     (() => {
         memberlist(cPage,functionN)
     })();
 
+    //체크박스 전체선택 함수
+    function selectAll(){
+        const memcheck=document.querySelectorAll("input[name=memcheck]")
+        // console.log($("#selectAll").prop("checked"))
+        console.log()
+        if($("#selectAll").prop("checked")){
+            for(var i=0;i<memcheck.length;i++){
+                // console.log(memcheck[i].value)
+                memcheck[i].checked=true
+            }
+        }else{
+            for(var i=0;i<memcheck.length;i++){
+                memcheck[i].checked=false
+            }
+        }
+    };
+    
+    //체크박스 값 가져와서 delete
+    function deletemem(){
+        const delmem=document.querySelectorAll("input[name=memcheck]:checked")
+        nodata=[];
+        // let nodata="";
+        for(let i=0;i<delmem.length;i++){
+            // console.log(delmem[i].value)
+            nodata.push(delmem[i].value)
+        }
+        // console.log(JSON.stringify(nodata))
+        $.ajax({
+            url:"${path}/admin/deletemember.do",
+            // dataType:"JSON",
+            traditional: true,
+            data:{
+                "nodata":JSON.stringify(nodata),
+                "tableN":"MEMBER",
+                "columnN":"MEMBER_NO"
+            },
+            success:data=>{
+                console.log(data.result);
+                for(let i=0;i<data.result.length;i++){
+                    let total=+Number(data.result[i])
+                }
+                if(total=data.result.length)memberlist();
+            }
+        })
+    }
+
+    //리스트 출력
     function memberlist(cPage,functionN){
         $("#memberList").empty();
         $("#pageBar").empty();
@@ -52,9 +104,11 @@
                 // numPerpage:numPerpage
             },
             success:data=>{
-                console.log(data.pageBar)
-                console.log(data.list)
-                const tr=$("<tr>"); 
+                // console.log(data.pageBar)
+                // console.log(data.list)
+                const tr=$("<tr>");
+                const checkbox=$("<input id='selectAll' type='checkbox'>").attr("onclick","selectAll()")
+                    tr.append($("<th style='border:1px solid'>").append(checkbox)) 
                     tr.append($("<th style='border:1px solid'>").text("번호"))
                     tr.append($("<th style='border:1px solid'>").text("이름"))
                     tr.append($("<th style='border:1px solid'>").text("이메일"))
@@ -66,15 +120,17 @@
                     $("#memberList").append(tr)    
                 data.list.forEach(v => {
                     // console.log(v.member_no, v.introduce)
-                    console.log(v)
+                    // console.log(v)
                     let tr2=$("<tr>")
                     let a=$("<a>")
+                    tr2.append($("<td style='border:1px solid'>").append($("<input name='memcheck' type='checkbox' value="+v.MEMBER_NO+">")))
                     tr2.append($("<td style='border:1px solid'>").text(v.MEMBER_NO))
                     tr2.append($("<td style='border:1px solid'>").text(v.MEMBER_NAME)) 
                     tr2.append($("<td style='border:1px solid'>").text(v.MEMBER_EMAIL)) 
                     tr2.append($("<td style='border:1px solid'>").text(v.MEMBER_GENDER)) 
                     tr2.append($("<td style='border:1px solid'>").text(v.MEMBER_NICKNAME)) 
-                    tr2.append($("<td style='border:1px solid'>").text(v.MEMBER_ENROLLDATE))
+                    let enrolldate=v.MEMBER_ENROLLDATE
+                    tr2.append($("<td style='border:1px solid'>").text(enrolldate.slice(0,10)))
                     // a.attr("href","http://localhost:9090/admin/myresview.do")
                     a.attr("href","http://localhost:9090/admin/myresview.do?no="+v.MEMBER_NO).text(v.MYRES_CNT)
                     tr2.append($("<td style='border:1px solid'>").append(a))

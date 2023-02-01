@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gamgak.kch.msg.common.PageFactory;
 import com.gamgak.kch.msg.service.MsgService;
+import com.gamgak.psh.admin.vo.Member;
 
 @Controller
 @RequestMapping("/msg")
@@ -39,8 +40,6 @@ public class MsgController {
 		System.out.println(loginMemberNo+cPage+numPerpage);
 		int total=service.selectMsgCount(loginMemberNo);
 		System.out.println(total);
-		//List<Map> list=service.selectMsgList(loginMemberNo,Map.of("cPage",cPage,"numPerpage",numPerpage));
-		//int totalData=service.selectMsgCount();
 		list.put("list",service.selectMsgList(Map.of("loginMemberNo",loginMemberNo,"cPage",cPage,"numPerpage",numPerpage)));
 		list.put("pageBar",PageFactory.getPage(loginMemberNo,cPage, numPerpage, total,"selectMsgList.do"));
 		System.out.println(list);
@@ -54,6 +53,23 @@ public class MsgController {
 	public List<Map> selectChatList(int personalChatroomNo, int loginMemberNo){
 		List<Map> list=service.selectChatList(personalChatroomNo, loginMemberNo);
 		return list;
+	}
+	
+	//메세지 저장
+	@RequestMapping("/insertMsg.do")
+	@ResponseBody
+	public int insertMsg(int personalChatroomNo,int receiverNo, int senderNo, String content) {
+		int result=service.insertMsg(personalChatroomNo,receiverNo,senderNo,content);
+		return result;
+	}
+	
+	//같은방 회원 정보 가져오기
+	@RequestMapping("/chatroomMember.do")
+	@ResponseBody
+	public Map chatroomMember(int personalChatroomNo, int loginMemberNo) {
+		Map m=new HashMap();
+		m.put("data",service.chatroomMember(personalChatroomNo,loginMemberNo));
+		return m;
 	}
 
 }

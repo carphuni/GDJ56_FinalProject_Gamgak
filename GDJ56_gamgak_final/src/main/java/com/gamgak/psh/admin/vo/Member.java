@@ -38,6 +38,7 @@ public class Member{
 	private String introduce;
 	private String profile_oriname;
 	private String profile_rename;
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date member_enrolldate;
 	
 //	@OneToMany(mappedBy = "member")
