@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
                 <div id="meeting-wrapper">
@@ -16,54 +17,109 @@
                 </div>
                 <div id="profile-wrapper">
                     <div id="subheader-wrapper" style="display: flex; justify-content: space-between;">
-                        <select style="border: 1px #a89e9f solid; border-radius: 5px; height: 40px; width: 200px;">
-                            <option value="경기도">경기도</option>
-                            <option value="강원도">강원도</option>
-                            <option value="서울특별시">서울특별시</option>
-                            <option value="충청남도">충청남도</option>
-                            <option value="충청북도">충청북도</option>
-                            <option value="전라남도">전라남도</option>
-                            <option>전라북도</option>
-                            <option>경상남도</option>
-                            <option>경상북도</option>
-                            <option>제주도</option>
-                            <option>인천광역시</option>
-                            <option>울산광역시</option>
-                            <option>부산광역시</option>
-                            <option>광주광역시</option>
-                            <option>대전광역시</option>
+                        <select style="border: 1px #a89e9f solid; border-radius: 5px; height: 40px; width: 200px;text-align: center; ">
+                           <option selected>====지역 선택====</option>
+                                <option value="경기도">경기도</option>
+                                <option value="강원도">강원도</option>
+                                <option value="서울특별시">서울특별시</option>
+                                <option value="충청남도">충청남도</option>
+                                <option value="충청북도">충청북도</option>
+                                <option value="전라남도">전라남도</option>
+                                <option value="전라남도">전라북도</option>
+                                <option value="경상남도">경상남도</option>
+                                <option value="경상북도">경상북도</option>
+                                <option value="제주도">제주도</option>
+                                <option value="인천광역시">인천광역시</option>
+                                <option value="울산광역시">울산광역시</option>
+                                <option value="부산광역시">부산광역시</option>
+                                <option value="광주광역시">광주광역시</option>
+                                <option value="대전광역시">대전광역시</option>
                         </select>
 
                         <button class="btn btn-danger" onclick="location.assign('${path}/meetting/meettingenroll.do')">모임생성</button>
                     </div>
                     <br>
-                    <div style="display: flex; border: 5px #dc3545 solid; border-radius: 1rem; padding: 1rem" >
-                        <div style="display: flex; flex-direction: column;" class="col-10">
-                            <span style="font-weight: bolder;">모집중</span>
-                            <span style="font-weight: bolder; font-size: 18px;">치킨먹으면서 축구 보실분 구해요</span>
-                            <div style="font-weight: bolder;">
-                                <img src="${path }/resources/images/사람들.png" style="height: 30; width: 30;"/>
-                                <span>
-                                    누구나 참여 가능 [
-                                    <span id="curNum">
-                                        4
-                                    </span>
-                                        /
-                                    <span id="maxNum">
-                                        6
-                                    </span>]</span>
-                            </div>
-                            <span style="font-weight: bolder;">시간미정</span>
-                        </div>
-                        <div style="text-align: end; display: flex; flex-direction: column; justify-content: space-between;" class="col-2 " >
-                            
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#meettingjoin" >신청하기</button><br>
-                                <span style="font-weight: bolder; font-size: 23px;" >경기도</span>
-                        </div>
-                       
-
-
-                    </div>
+                    <c:choose>
+                    	<c:when test="${empty meeting}">
+                    		<div>조회된 게시물이 없습니다.</div>
+                    	</c:when>
+                    	<c:otherwise>
+                    		<c:forEach var="m" items="${meeting }">
+			                    <div style="display: flex; border: 3.5px #dc3545 solid; border-radius: 1rem; padding: 1rem; margin: 0.5rem" >
+			                        <div style="display: flex; flex-direction: column;" class="col-10">
+			                        	<c:if test="${m.meetingPeopleNum eq m.meetingCurrentCount}">
+			                        		<span style="font-weight: bolder; color: #C1BEBB">모집완료</span>
+			                        	</c:if>
+			                        	<c:if test="${m.meetingPeopleNum > m.meetingCurrentCount}">
+			                        		<span style="font-weight: bolder; color: #F3921C">모집중</span>
+			                        	</c:if>
+			                   
+			                            <span style="font-weight: bolder; font-size: 18px;">${m.meetingTitle }</span>
+			                            <div style="font-weight: bolder;">
+			                                <img src="${path }/resources/images/사람들.png" style="height: 30; width: 30;"/>
+			                                <span>
+			                                	 <c:choose>
+			                                		
+			                                	 	<c:when test="${ m.meetingGender eq '무관' }">
+			                                			<span>성별 무관 | </span> <span>${m.meetingMinAge }~${m.meetingMaxAge }세</span>
+			                                			 
+			                                		</c:when>
+			                                		 <c:when test="${m.meetingGender eq '무관' || m.meetingMinAge eq 1 && m.meetingMaxAge eq 99}">
+			                                			<span>누구나 참여 가능</span>
+			                                			 <%-- <span>${m.meetingMinAge}</span> 
+			                                			 <span>${m.meetingMaxAge} </span> 
+			                                			 <span>성별 ${m.meetingGender}</span>  --%>
+			                                		</c:when>
+			                                		<%-- <c:when test="${m.meetingMinAge  eq 1 && m.meetingMaxAge eq 99}">
+			                        
+			                                			<span>${m.meetingGender}모임 |</span><span> 나이대 무관</span>
+			                                			 -
+			                                		</c:when>  --%>
+			                                		<c:otherwise>
+			                                			<span>${m.meetingGender}모임 | </span> <span> ${m.meetingMinAge }~${m.meetingMaxAge }세</span>
+			                                		</c:otherwise>   
+			                                		
+			                                	</c:choose> 
+			                                    <%-- <span>${m.meetingGender } 모임</span> <span>${m.meetingMinAge }~${m.meetingMaxAge }세</span>누구나 참여 가능 
+			                                    [ --%>
+			                                    <span id="curNum">
+			                                        [ ${m.meetingCurrentCount }
+			                                    </span>
+			                                        /
+			                                    <span id="maxNum">
+			                                        ${m.meetingPeopleNum }
+			                                    </span>]</span>
+			                            </div>
+			                            <c:choose>
+			                            	<c:when test="${empty m.meetingDate }">
+			                            		 <span style="font-weight: bolder;">날짜 미정</span>
+			                            	</c:when>
+			                            	<c:otherwise>
+			                            		<span style="font-weight: bolder;">${m.meetingDate}</span>
+			                            	</c:otherwise>
+			                            </c:choose>
+			                            
+			                        </div>
+			                        <div style="text-align: end; display: flex; flex-direction: column; justify-content: space-between;" class="col-2 " >
+			                            	<c:if test="${loginMember.memberNickName eq 'admin' }">
+			                                	<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#meettingjoin" >삭제하기</button><br>
+			                                </c:if>
+			                                <c:if test="${loginMember.memberNickName != 'admin' && (m.meetingPeopleNum > m.meetingCurrentCount)}">
+			                                	<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#meettingjoin" >신청하기</button><br>
+			                                </c:if>
+			                                <c:if test="${loginMember.memberNickName != 'admin' && (m.meetingPeopleNum eq m.meetingCurrentCount)}">
+			                                	<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#meettingjoin" disabled="disabled" style="background-color: #C1BEBB; border: 1px #C1BEBB solid; color: black">모집완료</button><br>
+			                                </c:if>
+			                                <span style="font-weight: bolder; font-size: 23px;" >${m.meetingArea}</span>
+			                        </div>
+			                       
+			
+			
+			                    </div>
+                    			
+                    		</c:forEach>
+                    	</c:otherwise>
+                    </c:choose>
                     <div>
                         <button class="btn btn-danger" onclick="location.assign('${path}/meetting/meettingmanage.do')">관리</button>
 
@@ -92,7 +148,7 @@
           </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-danger" z>참여하기</button>
+            <button type="button" class="btn btn-danger" >참여하기</button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소하기</button>
          
         </div>

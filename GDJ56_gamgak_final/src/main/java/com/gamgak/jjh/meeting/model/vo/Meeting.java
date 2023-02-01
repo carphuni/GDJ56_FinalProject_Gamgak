@@ -1,7 +1,7 @@
 package com.gamgak.jjh.meeting.model.vo;
 
 import java.sql.Date;
-
+import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,20 +11,20 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class Meeting {
-	private Integer meetingNo;
-	private Integer memberLeaderNo;
+	private int meetingNo;
+	private int memberLeaderNo;
 	private String meetingTitle;
 	private String meetingGender;
 	private String meetingOriname;
 	private String meetingRename;
 	private int meetingPeopleNum;
 	private int meetingCurrentCount;
-	private Date meetingDate;
+	private String meetingDate;
 	private Date meetingEnrollDate;
 	private int meetingMinAge;
 	private int meetingMaxAge;
-	private int meetingArea;
+	private String meetingArea;
+	private String meetingDetailAddr;
 
 }
