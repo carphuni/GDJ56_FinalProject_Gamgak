@@ -3,6 +3,7 @@ package com.gamgak.psh.admin.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
@@ -24,9 +25,9 @@ public interface AdminMemberDao{
 	
 	@Select("select * from myres where member_no=${no}")
 	@Results({
-		@Result(property="MYRES_MEMO", column="MYRES_MEMO",jdbcType = JdbcType.CLOB, javaType = String.class)
+		@Result(property="myres_memo", column="MYRES_MEMO",jdbcType = JdbcType.CLOB, javaType = String.class)
 	})
-	List<Map> selectMyresList(long no);
+	List<Myres> selectMyresList(long no);
 	
 	@Select("select * from(select rownum as rnum, data.* from(select * from meeting)data) where rnum between (${cPage}-1)*${numPerpage}+1 and ${cPage}*${numPerpage}")
 	@Results({
@@ -34,9 +35,12 @@ public interface AdminMemberDao{
 		})
 	List<Map> selectMeetingList(Map param);
 	
-	@Select("select * from ${tableN} t left join report r on r.report_no=t.report_no order by r.report_no")
+	@Select("select * from(select rownum as rnum,data.*from(select * from ${tableN} t left join report r on r.report_no=t.report_no order by r.report_no)data) where rnum between (${cPage}-1)*${numPerpage}+1 and ${cPage}*${numPerpage}")
 	@Results({
 			@Result(property="REPORT_REASON", column="REPORT_REASON",jdbcType = JdbcType.CLOB, javaType = String.class)
 	})
-	List<Map> selectReportList(String table);
+	List<Map> selectReportList(Map param);
+	
+	@Delete("delete from ${tableN} where ${columnN}=${no}")
+	int deleteData(int no,String tableN,String columnN);
 }

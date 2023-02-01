@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gamgak.psh.admin.dao.AdminMemberDao;
@@ -35,7 +36,7 @@ public class AdminService {
 		return dao.selectMemberData(param);
 	}
 	
-	public List<Map> selectMyresList(long no) {
+	public List<Myres> selectMyresList(long no) {
 		
 		return dao.selectMyresList(no);
 	}
@@ -45,10 +46,18 @@ public class AdminService {
 		return dao.selectMeetingList(param);
 	}
 	
-	public List<Map> selectReportData(String tableN) {
+	public List<Map> selectReportData(Map param) {
 		
-		return dao.selectReportList(tableN);
-	}	
+		return dao.selectReportList(param);
+	}
+	@Transactional
+	public int deleteData(int no,String tableN,String columnN) {
+		System.out.println(no);
+		System.out.println(tableN);
+		System.out.println(columnN);
+		int result=dao.deleteData(no,tableN,columnN);
+		return result;
+	}
 //	public List<Object[]> selectMemberData2() {
 //		
 //		return (List<Object[]>)memberdao2.findAll();
