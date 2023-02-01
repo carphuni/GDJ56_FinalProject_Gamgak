@@ -2,6 +2,10 @@ package com.gamgak.psh.admin.vo;
 
 import java.sql.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +24,9 @@ public class Meeting {
 	private String meeting_gender;
 	private int meeting_peoplenum;
 	private int meeting_current_count;
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date meeting_date;
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date meeting_enroll_date;
 	private int meeting_minage;
 	private int meeting_maxage;

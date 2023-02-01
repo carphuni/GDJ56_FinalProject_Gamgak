@@ -1,6 +1,6 @@
 package com.gamgak.psh.admin.vo;
 
-import java.util.Date;
+import java.sql.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,9 +30,10 @@ public class Myres{
 	private Long myres_no; 
 //	@ManyToOne
 //	@JoinColumn(name = "member")
-	private Member member;
+	private int member_no;
 	
 	private Long res_no;
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Date myres_save_date;
 	private String myres_memo;
 	private String myres_yn;

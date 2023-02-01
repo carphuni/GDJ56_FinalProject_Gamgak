@@ -45,7 +45,7 @@
                         <i class="fa-solid fa-magnifying-glass-chart"></i>
                         <span>인기 맛집 및 검색</span>
                     </a>
-                    <a class="nav-link active" aria-current="page" href="${path }meetting/meettinglist.do">
+                    <a class="nav-link active" aria-current="page" href="${path }/meetting/meettinglist.do">
 
                         <i class="fa-solid fa-people-group"></i>
                         <span>모임</span>
@@ -59,7 +59,7 @@
                         </i>
                         <span>친구</span>
                     </a>
-                    <a class="nav-link active" aria-current="page" href="${path }/msg">
+                    <a class="nav-link active" aria-current="page" href="${path }/msg/msgList.do">
                         <i class="fa-solid fa-envelope position-relative">
                             <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle" style="width: 0.5rem;">
                                 <span class="visually-hidden">New alerts</span>
