@@ -241,7 +241,7 @@
 <script>
 		var today = new Date();
 	
-		const websocket=new WebSocket("ws://localhost:9090/jjh_meetting/chattingroom");
+		const websocket=new WebSocket("ws://localhost:9090/chatting_Server");
 		//소켓을 만드는 역활
 		
 		websocket.onopen=(data)=>{
