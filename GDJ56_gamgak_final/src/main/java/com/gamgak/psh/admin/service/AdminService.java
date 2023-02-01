@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gamgak.psh.admin.dao.AdminMemberDao;
 //import com.gamgak.psh.admin.dao.MemberDao2;
 import com.gamgak.psh.admin.vo.Member;
@@ -25,9 +26,13 @@ public class AdminService {
 //		this.memberdao2=memberdao2;
 	}
 	
-	public List<Map> selectMemberData() {
+	public int selectCount(String table) {
+		return dao.selectCount(table);
+	}
+	
+	public List<Map> selectMemberData(Map param) {
 		
-		return dao.selectMemberData();
+		return dao.selectMemberData(param);
 	}
 	
 	public List<Map> selectMyresList(long no) {
@@ -35,13 +40,14 @@ public class AdminService {
 		return dao.selectMyresList(no);
 	}
 	
-	public List<Map> selectMeetingData() {
+	public List<Map> selectMeetingData(Map param) {
 		
-		return dao.selectMeetingList();
-	}	
-	public List<Map> selectReportData() {
+		return dao.selectMeetingList(param);
+	}
+	
+	public List<Map> selectReportData(String tableN) {
 		
-		return dao.selectReportList();
+		return dao.selectReportList(tableN);
 	}	
 //	public List<Object[]> selectMemberData2() {
 //		

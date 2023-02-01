@@ -28,16 +28,29 @@
 
             </table>
          </div>
+         <div id="pageBar">
+
+         </div>
     </section>
 </div>
 <script>
+    let cPage;
+    let numPerpage;
+    let functionN;
     (() => {
-        meetinglist()
+        meetinglist(cPage,functionN)
     })();
 
-    function meetinglist(){
+    function meetinglist(cPage,functionN){
+        $("#meetingList").empty();
+        $("#pageBar").empty();
         $.ajax({
             url:"${path}/admin/selectmeeting.do",
+            data:{
+                cPage:cPage,
+                functionN:"meetinglist"
+                // numPerpage:numPerpage
+            },
             success:data=>{
                 const tr=$("<tr>"); 
                     tr.append($("<th style='border:1px solid'>").text("모임 번호"))
@@ -52,8 +65,8 @@
                     tr.append($("<th style='border:1px solid'>").text("최대 나이"))
                     tr.append($("<th style='border:1px solid'>").text("모임 지역"))
                     tr.append($("<th style='border:1px solid'>").text("상세 주소"))
-                    $("#meetingList").append(tr)    
-                data.forEach(v => {
+                    $("#meetingList").append(tr);    
+                data.list.forEach(v => {
                     // console.log(v)
                     console.log(v)
                     let tr2=$("<tr>")
@@ -74,6 +87,7 @@
                     $("#meetingList").append(tr2)    
                             
                 });
+                $("#pageBar").append(data.pageBar)
             }
         })
     }

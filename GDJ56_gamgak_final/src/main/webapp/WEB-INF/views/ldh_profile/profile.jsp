@@ -19,7 +19,7 @@
                         <a><img id="profile-img" src="${path }/resources/images/프로필 기본 이미지.jpg" data-bs-toggle="modal" data-bs-target="#imgModal"/></a>
                         <!-- Modal -->
                         <div class="modal fade" id="imgModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
+                            <div id="imgModal-dialog" class="modal-dialog modal-dialog-centered">
 	                            <div class="modal-content">
 	                                <div id="img-modal-list" class="list-group">
 									  <div class="list-group-item list-group-item-action" style="padding: 1.5rem">프로필 사진 바꾸기</div>
@@ -52,7 +52,7 @@
                         <a><i class="fa-solid fa-gear fa-lg" data-bs-toggle="modal" data-bs-target="#settingModal"></i></a>
                         <!-- Modal -->
                         <div class="modal fade" id="settingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
+                            <div id="settingModal-dialog" class="modal-dialog modal-dialog-centered">
 	                            <div class="modal-content">
 	                                <div id="setting-modal-list" class="list-group">
 									  <a href="#" class="list-group-item list-group-item-action">비밀번호 변경</a>
