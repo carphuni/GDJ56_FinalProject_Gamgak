@@ -93,7 +93,7 @@
 			    <div id="insert_menu_wrap" class="bg_white col-sm-6">
 			        <div class="insert_option">
 		                <form onsubmit="dhsearchPlaces(); return false;" style="display: flex;width: 100%">
-		                    <input value="이태원 맛집" id="insert_keyword" class="form-control" type="text" placeholder="식당 검색">
+		                    <input id="insert_keyword" class="form-control" type="text" placeholder="식당 검색">
 		                    <button type="submit" class="btn btn-danger">검색하기</button> 
 		                </form>
 			        </div>
@@ -116,44 +116,48 @@
 		        <h1 class="modal-title fs-5" id="exampleModalLabel">새 맛집 기록</h1>
 		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		      </div>
-		      <div id="insertModal-body" class="modal-body">
-				<a onclick="insertMyResImage" href="#" class="col-sm-6">
-					<div>
-						<img src="${path }/resources/images/이미지 추가.png" style="width: 5rem"/>
-						<p style="">클릭하여 이미지 추가</p>
-					</div>
-				</a>
-				<div id="insertMyResInfo" class="col-sm-6">
-					<div id="myResProfile">
-						<img id="profile-img" src="${path }/resources/images/프로필 기본 이미지.jpg" data-bs-toggle="modal" data-bs-target="#imgModal"/>
-						<span><c:out value="${loginMember.memberEmail}"/></span>
-					</div>
-					<textarea rows="10rem" class="col-sm-12" placeholder="문구 입력.."></textarea>
-					<div style="display: flex;justify-content: flex-end; margin-right: 1rem;margin-top: 1rem;">
-						<span>0</span>/2200
-					</div>
-					<hr>
-					<div id="insertLocation">
-						<span>위치를 설정해주세요</span>
-						<i class="fa-solid fa-location-dot"></i>
-					</div>
-					<hr>
-					<div id="insertShare">
-						<span>공유 여부</span>
-						<div class="form-check form-switch">
-							<input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+		      <form id="insertModal-body" class="modal-body" action="${path }/profile/insertmyres.do" enctype="multipart/form-data" method="post" onsubmit="alert('서브밋됨')">
+					<a id="insertMyResImage" onclick="$('#mypic').click();" class="col-sm-6">
+						<div>
+							<img src="${path }/resources/images/이미지 추가.png" style="width: 5rem"/>
+							<p style="">클릭하여 이미지 추가</p>
 						</div>
+					</a>
+					<input type="file" id="mypic" name="upFile" multiple style="display: none;"/>
+					<div id="insertMyResInfo" class="col-sm-6">
+						<div id="myResProfile">
+							<img id="profile-img" src="${path }/resources/images/프로필 기본 이미지.jpg" data-bs-toggle="modal" data-bs-target="#imgModal"/>
+							<span><c:out value="${loginMember.memberEmail}"/></span>
+						</div>
+						<textarea name="myres_memo" rows="10rem" class="col-sm-12" placeholder="문구 입력.." maxlength="2199"></textarea>
+						<div id="textNum" style="">
+							<span>0</span>/2200
+						</div>
+						<hr>
+						<div id="insertLocation">
+							<span>위치를 설정해주세요</span>
+							<i class="fa-solid fa-location-dot"></i>
+						</div>
+						<hr>
+						<div id="insertShare">
+							<span>공유 여부</span>
+							<div class="form-check form-switch">
+								<input name="myres_yn" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+							</div>
+						</div>
+						<hr>
 					</div>
-					<hr>
-				</div>
-		      </div>
-		      <div class="modal-footer">
+					<input type="hidden" name="restaurant"/>
+				</form>   
+		     	<div class="modal-footer">
 		        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#insertModal">이전</button>
-		        <button type="button" class="btn btn-danger">저장하기</button>
+		        <button id="myResSave" class="btn btn-danger">저장하기</button>
 		      </div>
 		    </div>
 		  </div>
-		</div>    
+		</div>
+		
+			 	
 		   
         <!-- Article -->
         <article id="main-wrapper">

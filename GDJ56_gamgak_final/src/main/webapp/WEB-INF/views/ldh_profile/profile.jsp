@@ -106,9 +106,33 @@
                         <div class="card">
                             <img src="${path }/resources/images/임시 이미지03.jpg" class="card-img-top" onerror="this.src='./img/이미지 없음.jpg'">
                             <div class="card-body">
-                                <span id="card-title">동훈이네 치킨</span>
-                                <span id="card-category">치킨 / 호프</span>
-                                <span id="card-address">서울시 금천구 독산동 1009-1</span>
+                                <span id="card-title">대현이네 쭈꾸미</span>
+                                <span id="card-category">쭈꾸미</span>
+                                <span id="card-address">춘천 어딘가</span>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="${path }/resources/images/임시 이미지03.jpg" class="card-img-top" onerror="this.src='./img/이미지 없음.jpg'">
+                            <div class="card-body">
+                                <span id="card-title">도균이네 이자카야</span>
+                                <span id="card-category">주류 > 이자카야</span>
+                                <span id="card-address">이 세상 어딘가에 있을 거시다</span>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="${path }/resources/images/임시 이미지03.jpg" class="card-img-top" onerror="this.src='./img/이미지 없음.jpg'">
+                            <div class="card-body">
+                                <span id="card-title">도마카세균</span>
+                                <span id="card-category">주류 > 비싼집</span>
+                                <span id="card-address">곧 존재할 예정</span>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="${path }/resources/images/임시 이미지03.jpg" class="card-img-top" onerror="this.src='./img/이미지 없음.jpg'">
+                            <div class="card-body">
+                                <span id="card-title">린소링네 23년전통 양념의 장인 반찬가게</span>
+                                <span id="card-category">발로란트 > 반찬</span>
+                                <span id="card-address">양념의 장인 이제는 본인이 잡아줬으면...</span>
                             </div>
                         </div>
                        

@@ -30,7 +30,7 @@ public class MemberController {
       if(loginMember!=null&&loginMember.getMemberPassword().equals(m.getMemberPassword())) {
          session.setAttribute("loginMember", loginMember);
       }
-      return "redirect:/profile";
+      return "redirect:/profile/";
    }
    
    @RequestMapping("/enroll")

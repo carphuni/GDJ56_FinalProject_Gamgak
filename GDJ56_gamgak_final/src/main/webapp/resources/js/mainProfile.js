@@ -284,6 +284,65 @@ $("#insertModal").on('shown.bs.modal', ()=>{
 	    }
 	}
 
+//textarea 글자 수 동적 변경
+$("textarea[name='myres_memo").keyup((e)=>{
+	$("#textNum>span").text($(e.target).val().length);
+})
+
+
+//header.jsp 맛집 저장 Modal 저장 클릭 시 식당 객체 전달
+$("#myResSave").click(()=>{
+	//위치 설정을 안했을 시에 return false
+	if($("#insertLocation>span").text()=="위치를 설정해주세요"){
+		alert("위치를 설정해주세요");
+		return false;
+	}
+
+	let restaurant=JSON.stringify(positions);
+	
+	$("input[name='restaurant").val(restaurant);
+
+	$("form#insertModal-body").submit();
+
+	// //formData 선언
+	// const myResFormData= new FormData();
+	// console.log($("textarea[name='myres_memo'").val());
+	// console.log($("input[name='myres_yn").is(':checked'));
+	// console.log(positions);
+	// console.log($("input[name='mypic_oriname'")[0].files);
+	// //필요데이터 formData에 저장
+	// myResFormData.append("myres_memo",$("textarea[name='myres_memo'").val());
+	// myResFormData.append("myres_yn",$("input[name='myres_yn").is(':checked'));
+	// myResFormData.append("restaurant",positions);
+	// myResFormData.append("files",$("input[name='mypic_oriname'")[0].files);
+
+	// for (const value of myResFormData.values()) {
+	// 	console.log(value);
+	//   }
+
+	
+	
+	// $.ajax({
+	// 	type : "POST", // HTTP method type(GET, POST) 형식이다.
+	// 	url : "/profile/insertmyres.do", // 컨트롤러에서 대기중인 URL 주소이다.
+	// 	processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식합니다
+    //     contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식합니다
+	// 	data : myResFormData, // Json 형식의 데이터이다.
+	// 	success : function(response){ // 비동기통신의 성공일경우 success콜백으로 들어옵니다. 'res'는 응답받은 데이터이다.
+	// 		console.log(response);
+	// 		location.assign(response);
+	// 	},
+	// 	error : function(XMLHttpRequest, textStatus, errorThrown){ // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
+	// 		alert("통신 실패.")
+	// 	}
+	// });
+})
+
+
+
+
+
+
 
 
 
