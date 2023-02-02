@@ -177,6 +177,65 @@
 						},
 						success:data=>{
 							msgRead(data,loginMemberNo,personalChatroomNo);
+							
+							// ---------- 채팅 ---------- 
+							
+							var today = new Date();
+
+							const websocket=new WebSocket("ws://localhost:9090/chatting_Server");
+							
+							websocket.onopen=(data)=>{
+								console.log(data);
+								
+								websocket.send(JSON.stringify(new Chat("open","",1,"",'${loginMember.memberNickName}',"",today,"")))
+							}
+							
+							websocket.onmessage=(response)=>{
+								console.log("onmassage-response"+response);
+								const msg=JSON.parse(response.data);
+								console.log("onmassage-msg"+msg);
+								switch(msg.type){
+									case "system" : addMsgSystemCh(msg);break; 
+									case "msgCh" : printMsgCh('${loginMember.memberNickName}',msg);break;
+								}
+							}
+							
+							//메세지 입력버튼
+							$("#modal_msg_send").click(e=>{
+								const msg=$(".msg_text").val();
+								console.log("채팅내용 : "+msg);
+								
+								//같은 방에 있는 회원정보 가져와서 서버로 보내주기
+								$.ajax({
+									url:"${path}/msg/chatroomMember.do",
+									data:{
+										"personalChatroomNo":personalChatroomNo,
+										"loginMemberNo":${loginMember.memberNo}
+									},
+									success:data=>{
+										console.log(data.data);
+										// 서버로 메세지 보내기
+										const sendData=new Chat("msgCh","",data.data.PERSONAL_CHATROOM_NO,data.data.MEMBER_NICKNAME,'${loginMember.memberNickName}',msg,today,1);
+										console.log(sendData);
+										websocket.send(JSON.stringify(sendData));
+										$(".msg_text").val('');
+										$(".msg_text").attr("placeholder","내용을 입력해주세요");					
+										
+										//보낸 메세지 DB에 저장하기
+								  		$.ajax({
+											url:"${path}/msg/insertMsg.do",
+											data:{
+												"personalChatroomNo":personalChatroomNo,
+												"receiverNo":memberNo10,
+												"senderNo":${loginMember.memberNo},
+												"content":msg
+											},
+											success:data=>{
+											}  
+								  		})
+									}
+								})
+							});
 						}
 					}) 
 				}

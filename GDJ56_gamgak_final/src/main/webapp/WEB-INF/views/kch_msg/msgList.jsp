@@ -188,7 +188,6 @@
  	$('#exampleModal').on('hidden.bs.modal', function () {
  		msgList(cPage,loginMemberNo)
 	}) 
-    
 	
 	//처음 채팅방 들어갔을 때 채팅 대화 목록 출력
  	function msgPrint(){
@@ -215,7 +214,6 @@
 		}); 
 	}	
 
-
 	// ---------- 채팅 ---------- 
 	
 	var today = new Date();
@@ -235,7 +233,6 @@
 		switch(msg.type){
 			case "system" : addMsgSystemCh(msg);break; 
 			case "msgCh" : printMsgCh('${loginMember.memberNickName}',msg);break;
-
 		}
 	}
 	
@@ -274,7 +271,6 @@
 		  		})
 			}
 		})
-		
 		//msgList(cPage,loginMemberNo)
 	});
 	

@@ -242,11 +242,22 @@ function getListItem(index, places) {
                 '	<div id="places_info">' +
                 '   	<h5 id="places_res_name">' + places.RES_NAME + '</h5>' +
                 '			<h5 id="places_count">&nbsp; &nbsp; ♥ ' + places.COUNT + '</h5>' +
-                '	</div>' +
-				'	<span>' +  places.RES_ADDRESS  + '</span>' +
-				'	<span class="tel">' + places.RES_PHONE  + '</span>' +
-                '</div>';           
-
+                '	</div>';
+                if(places.RES_ADDRESS!=null&&places.RES_PHONE!=null){
+                	itemStr+=
+        				'	<span>' +  places.RES_ADDRESS  + '</span>' +
+        				'	<span class="tel">' + places.RES_PHONE  + '</span>' +
+                        '</div>'; 
+                }else if(places.RES_ADDRESS!=null){
+                	itemStr+=
+                		'	<span>' +  places.RES_ADDRESS  + '</span>' +
+                		'</div>'; 
+                }else if(places.RES_PHONE!=null){
+                	itemStr+=
+                		'	<span class="tel">' + places.RES_PHONE  + '</span>' +
+                		'</div>'; 
+                }
+                
     el.innerHTML = itemStr;
     el.className = 'item';
 
