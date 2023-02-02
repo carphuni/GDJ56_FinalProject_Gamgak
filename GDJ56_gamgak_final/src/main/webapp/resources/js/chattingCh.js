@@ -35,7 +35,8 @@ function printMsgCh(myId,msg){
 	$('#chat').scrollTop($('#chat')[0].scrollHeight);
 }
 
-function selectMsgList(data){
+//채팅 목록 출력
+function selectMsgList(data,loginMemberNo){
 	//console.log(data)
 	data.list.forEach(v => {
 		console.log(v)
@@ -57,10 +58,12 @@ function selectMsgList(data){
 		const $divMsgOut=$("<div>").attr("id","msg_out_div");
 		const $msgOutBt=$("<button>").attr("id","msg_out_bt");
 		const $hidden=$("<input>").attr({"type":"hidden","class":"hidden"});
-		
-		
 		$divImg.append($img);
-		$b.text(v.MEMBER_NICKNAME);
+		if(loginMemberNo!=v.MEMBER_RECEIVER_NO){
+			$b.text(v.MEMBER_NICKNAME_R);
+		}else{
+			$b.text(v.MEMBER_NICKNAME_S);
+		}
 		$divNickname.append($b);
 		$pText.text(v.CHATTING_CONTENT);
 		$divMsgText.append($pText);
@@ -87,21 +90,20 @@ function selectMsgList(data){
 	const $pageBar=$("<div>").attr("id","pageBar");
 	$pageBar.append(data.pageBar);
 	$("#totalpage").append($pageBar);
-	
 	msgPrint();
 }
 
 
-//채팅방 들어갔을 때 기존 채팅목록
-function msgRead(data,loginMemberNo){
-	data.forEach(v => {
+//채팅방 들어갔을 때 기존 대화 출력
+function msgRead(data,loginMemberNo,personalChatroomNo){
+	  data.forEach(v => {
 		//대화내용
 	    const $p=$("<p>");
 	    $p.text(v.CHATTING_CONTENT);
 	    //시간
 	    let chattingEnrollDate=v.CHATTING_ENROLL_DATE
 	    
-	    if(loginMemberNo==v.MEMBER_RECEIVER_NO){
+	    if(loginMemberNo==v.MEMBER_SENDER_NO){
 			const $divRr=$("<div>").attr("id","modal_sender");
 			const $divR=$("<div>").attr("id","modal_msg_text_r");
 			const $divTr=$("<div>").attr("id","modal_msg_time_r");
@@ -110,7 +112,6 @@ function msgRead(data,loginMemberNo){
 			$divRr.append($divTr);
 			$divRr.append($divR);
 			$("#chat").append($divRr);
-	
 		}else{
 			const $div=$("<div>").attr("id","chat_img");
 			const $divSs=$("<div>").attr("id","modal_receiver");
@@ -127,17 +128,10 @@ function msgRead(data,loginMemberNo){
 			$divN.append($b);
 			$divS.append($p);
 			$divTs.text(chattingEnrollDate.substr(11,5));
-			
 			$divTR.append($divReadS);
 			$divTR.append($divTs);	
-			
 			$divT.append($divS);
-			
-
-			
-			
 			$divT.append($divTR);			
-			
 			$divmsg.append($divN);
 			$divmsg.append($divT);
 			$div.append($img);
@@ -145,7 +139,10 @@ function msgRead(data,loginMemberNo){
 			$divSs.append($divmsg);
 			$("#chat").append($divSs);
 		}
-
 	});
+	const $inputH=$("<input>").attr({"type":"hidden","id":"personalChatroomNo"});
+	$inputH.text(personalChatroomNo);
+	$("#modal_msg_send").append($inputH);
 	$('#chat').scrollTop($('#chat')[0].scrollHeight);
+	
 }

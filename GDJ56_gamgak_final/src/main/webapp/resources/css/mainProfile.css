@@ -8,6 +8,10 @@ a{
     cursor: pointer;
 }
 
+a:hover{
+	color: inherit;
+}
+
 .border-line{
     border : 1px solid coral;
 }
@@ -156,12 +160,68 @@ a{
 	#insert_pagination a {display:inline-block;margin-right:10px;}
 	#insert_pagination .on {font-weight: bold; cursor: default;color:#777;}
 	
+		a#insertMyResImage{
+			height:100%;
+			background-color:rgb(234, 234, 234);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		
+        #insertMyResInfo{
+            margin: 0 0.5rem;
+        }
+        	
+        	#myResProfile{
+        		display: flex;
+        		align-items:center;
+        		height: 2.5rem;
+        		padding: 0.3rem;
+        		margin:1rem 0;
+        	}
+        	
+        	#myResProfile>img{
+        		margin-right: 0.5rem;
+        	}
+
+            #insertMyResInfo>textarea{
+                border: none;
+                resize: none;
+            }
+            
+            #insertMyResInfo>textarea:focus{
+            	outline: none;
+            }
+
+            #textNum{
+                display: flex;
+                justify-content: flex-end; 
+                margin-right: 1rem;
+                margin-top: 1rem;
+            }
+
+        #insertLocation{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin:0 2rem 0 1rem;
+        }
+        
+        #insertShare{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin:0 1rem;
+        }
+        
+        
 
 
 /* Main */
 #main-wrapper{
     width: 100%;
-    height: 100dvh;
+    min-height: 100dvh;
+    height: 100%;
     background-color: rgb(238, 238, 238);
     padding: 30px 80px;
     display: flex;
@@ -269,6 +329,7 @@ a{
 
     i.fa-gear{
         margin-left: 1rem;
+        margin-top: 1rem;
     }
     
     #settingModal-dialog{

@@ -69,18 +69,17 @@ $("#insertModal").on('shown.bs.modal', ()=>{
 	var infowindow = new kakao.maps.InfoWindow({zIndex:1});
 
 	//임시 객체 저장
-	var  positions = [];
+	var  positions = {};
 
-	function savePositions(e){
-		
-		positions.push(e);
+	function savePositionsOne(e){
+		$.extend(positions,e);
 	}
 	
 	// 키워드로 장소를 검색합니다
 	//searchPlaces();
 	
 	// 키워드 검색을 요청하는 함수입니다
-	function searchPlaces() {
+	function dhsearchPlaces() {
 	
 	    var keyword =$('#insert_keyword').val();
 	
@@ -132,11 +131,8 @@ $("#insertModal").on('shown.bs.modal', ()=>{
 	    // 지도에 표시되고 있는 마커를 제거합니다
 	    removeMarker();
 	    
-		positions.splice(0);
 
 	    for ( var i=0; i<places.length; i++ ) {
-			console.log(places[i]);
-			savePositions(places[i]);
 	        // 마커를 생성하고 지도에 표시합니다
 	        var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
 	            marker = addMarker(placePosition, i), 
@@ -149,7 +145,7 @@ $("#insertModal").on('shown.bs.modal', ()=>{
 	        // 마커와 검색결과 항목에 mouseover 했을때
 	        // 해당 장소에 인포윈도우에 장소명을 표시합니다
 	        // mouseout 했을 때는 인포윈도우를 닫습니다
-	        (function(marker, title) {
+	        (function(marker, title, placeInfo) {
 	            kakao.maps.event.addListener(marker, 'mouseover', function() {
 	                displayInfowindow(marker, title);
 	            });
@@ -167,14 +163,17 @@ $("#insertModal").on('shown.bs.modal', ()=>{
 	            };
 
 				itemEl.onclick = function (e) {
-					console.log(title);
+					savePositionsOne(placeInfo);
+					$("#insert_placesList>li").css('border','0px')
+					$(e.target).closest('li').css('border','red 2px solid');
+					$("#insertLocation>span").text(title);
+					console.log(positions);
 				};
-	        })(marker, places[i].place_name);
+	        })(marker, places[i].place_name, places[i]);
 	
 	        fragment.appendChild(itemEl);
 	    }
 
-		console.log(positions);
 
 	
 	    // 검색결과 항목들을 검색결과 목록 Element에 추가합니다
@@ -284,6 +283,65 @@ $("#insertModal").on('shown.bs.modal', ()=>{
 	        el.removeChild (el.lastChild);
 	    }
 	}
+
+//textarea 글자 수 동적 변경
+$("textarea[name='myres_memo").keyup((e)=>{
+	$("#textNum>span").text($(e.target).val().length);
+})
+
+
+//header.jsp 맛집 저장 Modal 저장 클릭 시 식당 객체 전달
+$("#myResSave").click(()=>{
+	//위치 설정을 안했을 시에 return false
+	if($("#insertLocation>span").text()=="위치를 설정해주세요"){
+		alert("위치를 설정해주세요");
+		return false;
+	}
+
+	let restaurant=JSON.stringify(positions);
+	
+	$("input[name='restaurant").val(restaurant);
+
+	$("form#insertModal-body").submit();
+
+	// //formData 선언
+	// const myResFormData= new FormData();
+	// console.log($("textarea[name='myres_memo'").val());
+	// console.log($("input[name='myres_yn").is(':checked'));
+	// console.log(positions);
+	// console.log($("input[name='mypic_oriname'")[0].files);
+	// //필요데이터 formData에 저장
+	// myResFormData.append("myres_memo",$("textarea[name='myres_memo'").val());
+	// myResFormData.append("myres_yn",$("input[name='myres_yn").is(':checked'));
+	// myResFormData.append("restaurant",positions);
+	// myResFormData.append("files",$("input[name='mypic_oriname'")[0].files);
+
+	// for (const value of myResFormData.values()) {
+	// 	console.log(value);
+	//   }
+
+	
+	
+	// $.ajax({
+	// 	type : "POST", // HTTP method type(GET, POST) 형식이다.
+	// 	url : "/profile/insertmyres.do", // 컨트롤러에서 대기중인 URL 주소이다.
+	// 	processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식합니다
+    //     contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식합니다
+	// 	data : myResFormData, // Json 형식의 데이터이다.
+	// 	success : function(response){ // 비동기통신의 성공일경우 success콜백으로 들어옵니다. 'res'는 응답받은 데이터이다.
+	// 		console.log(response);
+	// 		location.assign(response);
+	// 	},
+	// 	error : function(XMLHttpRequest, textStatus, errorThrown){ // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
+	// 		alert("통신 실패.")
+	// 	}
+	// });
+})
+
+
+
+
+
 
 
 

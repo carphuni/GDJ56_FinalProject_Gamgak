@@ -33,16 +33,16 @@
                         
                         <div id="info">
                             <div id="info-1">
-                                <span>gnsl2808@naver.com</span>
+                                <span><c:out value="${loginMember.memberEmail }"/></span>
                                 <button id="edit-profile" type="button" class="btn btn-danger">프로필 편집</button>
                                 
                             </div>
                             <div id="info-2" >
-                                <div><span>내 맛집 기록</span><span id="res-num">193</span></div>
+                                <div><span>내 맛집 기록</span><span id="res-num"><c:out value="${myResCount}"/></span></div>
                                 <div id="colLine"></div>
-                                <a><span>친구</span><span id="fri-num">0</span></a>
+                                <a><span>친구</span><span id="fri-num"><c:out value="${friendCount}"/></span></a>
                                 <div id="colLine"></div>
-                                <a type="button" data-bs-toggle="modal" data-bs-target="#meetingList"><span>모임</span><span id="fri-num">3</span></a>
+  								<a data-bs-toggle="modal" data-bs-target="#meetingList"><span>모임</span><span id="fri-num"><c:out value="${meetingCount}"/></span></a>
                                 
                                 <!-- jj의 모달! -->
 									<div class="modal fade" id="meetingList" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -139,10 +139,11 @@
                                 
                                 
                                 
+
                             </div>
-                            <div id="info-3">존잘 이동훈</div>
+                            <div id="info-3"><c:out value="${loginMember.memberNickName }"/></div>
                             <div id="info-d4">
-                                <span>나는 미친 사람 ㅎㅎㅎ</span>
+                                <span><c:out value="${loginMember.introduce }"/></span>
                             </div>
                         </div>
                         <a><i class="fa-solid fa-gear fa-lg" data-bs-toggle="modal" data-bs-target="#settingModal"></i></a>
@@ -170,7 +171,7 @@
 	                        <span id="title-click">검색</span>
 	                    </div>
 	                    <div id="search-item">
-		                    <button id="show-search" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#insertModal">맛집 기록</button>
+		                    <button id="show-search" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#insertModal">새 맛집 기록</button>
 		                    <select id="area-search" class="form-select" >
 							  <option selected>지역 선택</option>
 							  <option value="서울">서울특별시</option>
@@ -202,9 +203,33 @@
                         <div class="card">
                             <img src="${path }/resources/images/임시 이미지03.jpg" class="card-img-top" onerror="this.src='./img/이미지 없음.jpg'">
                             <div class="card-body">
-                                <span id="card-title">동훈이네 치킨</span>
-                                <span id="card-category">치킨 / 호프</span>
-                                <span id="card-address">서울시 금천구 독산동 1009-1</span>
+                                <span id="card-title">대현이네 쭈꾸미</span>
+                                <span id="card-category">쭈꾸미</span>
+                                <span id="card-address">춘천 어딘가</span>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="${path }/resources/images/임시 이미지03.jpg" class="card-img-top" onerror="this.src='./img/이미지 없음.jpg'">
+                            <div class="card-body">
+                                <span id="card-title">도균이네 이자카야</span>
+                                <span id="card-category">주류 > 이자카야</span>
+                                <span id="card-address">이 세상 어딘가에 있을 거시다</span>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="${path }/resources/images/임시 이미지03.jpg" class="card-img-top" onerror="this.src='./img/이미지 없음.jpg'">
+                            <div class="card-body">
+                                <span id="card-title">도마카세균</span>
+                                <span id="card-category">주류 > 비싼집</span>
+                                <span id="card-address">곧 존재할 예정</span>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <img src="${path }/resources/images/임시 이미지03.jpg" class="card-img-top" onerror="this.src='./img/이미지 없음.jpg'">
+                            <div class="card-body">
+                                <span id="card-title">린소링네 23년전통 양념의 장인 반찬가게</span>
+                                <span id="card-category">발로란트 > 반찬</span>
+                                <span id="card-address">양념의 장인 이제는 본인이 잡아줬으면...</span>
                             </div>
                         </div>
                        
@@ -212,5 +237,5 @@
                     
                 </div>
                 
-                
+<script src="${path}/resources/js/mainProfile.js"></script>               
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
