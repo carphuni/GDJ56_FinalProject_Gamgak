@@ -152,6 +152,7 @@
 				<!-- </div> -->
     </div>
   </div>
+  </div>
   
 <script>
 	let cPage;
@@ -160,7 +161,8 @@
     (() => {
 		cPage=1,
 		loginMemberNo=${loginMember.memberNo}
-        msgList(cPage,loginMemberNo) 
+        msgList(cPage,loginMemberNo)
+        
     })();
 	
     //채팅방 목록 출력
@@ -190,6 +192,7 @@
 	
 	//처음 채팅방 들어갔을 때 채팅 대화 목록 출력
  	function msgPrint(){
+		
 		$(".chat_modal").click(e=>{
 			$("#chat").empty();
 			$("#personalChatroomNo").remove();
@@ -221,6 +224,7 @@
 	
 	websocket.onopen=(data)=>{
 		console.log(data);
+		
 		websocket.send(JSON.stringify(new Chat("open","",1,"",'${loginMember.memberNickName}',"",today,"")))
 	}
 	
@@ -231,6 +235,7 @@
 		switch(msg.type){
 			case "system" : addMsgSystemCh(msg);break; 
 			case "msgCh" : printMsgCh('${loginMember.memberNickName}',msg);break;
+
 		}
 	}
 	
@@ -269,6 +274,8 @@
 		  		})
 			}
 		})
+		
+		//msgList(cPage,loginMemberNo)
 	});
 	
 
