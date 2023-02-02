@@ -20,6 +20,5 @@
             </footer>
         </article> 
     </div>
-    <script src="${path}/resources/js/mainProfile.js"></script>
 </body>
 </html>
