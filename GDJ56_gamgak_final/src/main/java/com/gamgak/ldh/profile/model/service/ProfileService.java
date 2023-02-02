@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.gamgak.ldh.profile.model.dao.ProfileDao;
 import com.gamgak.ldh.profile.model.vo.MyPic;
+import com.gamgak.ldh.profile.model.vo.MyRes;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,6 +42,11 @@ public class ProfileService {
 		return dao.selectMeetingCount(session, memberNo);
 	}
 	
+	//내 저장한 맛집 조회
+	public List<MyRes> selectMyResAll(int memberNo){
+		return dao.selectMyResAll(session, memberNo);
+	}
+	
 	//맛집 저장
 	public int insertMyRes(Map param) {
 		//식당 저장 후 map에 저장
@@ -57,7 +63,7 @@ public class ProfileService {
 			List<MyPic> files=(List<MyPic>)param.get("files");
 			
 			for(MyPic p : files ) {
-				p.setMyResNo((int)param.get("myResNo"));
+				p.getMyres().setMyResNo((int)param.get("myResNo"));
 				result1+=dao.insertMyPic(session, p);
 			}
 			//이미지 등록 수와 INSERT RETURN INT값이 같을 때

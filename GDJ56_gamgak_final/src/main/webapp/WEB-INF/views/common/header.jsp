@@ -33,7 +33,7 @@
             <div id="sidebar" class="col-sm-3">
                 <img id="logo-img" src="${path }/resources/images/로고.png" class="col-1"/>
                 <nav class="nav flex-column">
-                    <a class="nav-link active" aria-current="page" href="${path }/profile">
+                    <a class="nav-link active" aria-current="page" href="${path }/profile/">
                         <i class="fa-solid fa-circle-user"></i>
                         <span>프로필 홈</span>
                     </a>

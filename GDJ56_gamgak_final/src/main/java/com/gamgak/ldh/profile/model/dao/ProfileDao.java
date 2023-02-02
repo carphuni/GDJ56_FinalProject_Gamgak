@@ -1,11 +1,13 @@
 package com.gamgak.ldh.profile.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.gamgak.ldh.profile.model.vo.MyPic;
+import com.gamgak.ldh.profile.model.vo.MyRes;
 
 @Repository
 public class ProfileDao {
@@ -23,6 +25,11 @@ public class ProfileDao {
 	//모임 카운트 가져오기
 	public int selectMeetingCount(SqlSessionTemplate session, int memberNo){
 		return session.selectOne("profile.selectMeetingCount",memberNo);
+	}
+	
+	//내 저장한 맛집 조회
+	public List<MyRes> selectMyResAll(SqlSessionTemplate session, int memberNo){
+		return session.selectList("profile.selectMyResAll",memberNo);
 	}
 	
 	//식당 저장

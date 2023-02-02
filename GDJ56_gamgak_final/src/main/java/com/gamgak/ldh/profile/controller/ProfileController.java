@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gamgak.csk.member.model.entity.Member;
 import com.gamgak.ldh.profile.model.service.ProfileService;
 import com.gamgak.ldh.profile.model.vo.MyPic;
+import com.gamgak.ldh.profile.model.vo.MyRes;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,6 +52,8 @@ public class ProfileController {
 		mv.addObject("friendCount", service.selectFriendCount(memberNo));
 		//모임 카운트 가져오기
 		mv.addObject("meetingCount", service.selectMeetingCount(memberNo));
+		//내 맛집 조회
+		mv.addObject("myResList", service.selectMyResAll(memberNo));
 		//프로필 화면 jsp
    	 	mv.setViewName("ldh_profile/profile");
    	 	
@@ -108,8 +111,9 @@ public class ProfileController {
 				try {
 					f.transferTo(new File(path+reFileName));
 					files.add(new MyPic().builder()
+							.myres(new MyRes())
 							.myPicOriName(oriFileName)
-							.myPicRename(reFileName)
+							.myPicReName(reFileName)
 							.build());
 				}catch(IOException e) {
 					e.printStackTrace();

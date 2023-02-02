@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
                 <div id="meeting-wrapper">
@@ -198,40 +199,18 @@
 							</div>
 	                    </div>
                     </div>
-                    
                     <div id="card-container">
-                        <div class="card">
-                            <img src="${path }/resources/images/임시 이미지03.jpg" class="card-img-top" onerror="this.src='./img/이미지 없음.jpg'">
-                            <div class="card-body">
-                                <span id="card-title">대현이네 쭈꾸미</span>
-                                <span id="card-category">쭈꾸미</span>
-                                <span id="card-address">춘천 어딘가</span>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="${path }/resources/images/임시 이미지03.jpg" class="card-img-top" onerror="this.src='./img/이미지 없음.jpg'">
-                            <div class="card-body">
-                                <span id="card-title">도균이네 이자카야</span>
-                                <span id="card-category">주류 > 이자카야</span>
-                                <span id="card-address">이 세상 어딘가에 있을 거시다</span>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="${path }/resources/images/임시 이미지03.jpg" class="card-img-top" onerror="this.src='./img/이미지 없음.jpg'">
-                            <div class="card-body">
-                                <span id="card-title">도마카세균</span>
-                                <span id="card-category">주류 > 비싼집</span>
-                                <span id="card-address">곧 존재할 예정</span>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="${path }/resources/images/임시 이미지03.jpg" class="card-img-top" onerror="this.src='./img/이미지 없음.jpg'">
-                            <div class="card-body">
-                                <span id="card-title">린소링네 23년전통 양념의 장인 반찬가게</span>
-                                <span id="card-category">발로란트 > 반찬</span>
-                                <span id="card-address">양념의 장인 이제는 본인이 잡아줬으면...</span>
-                            </div>
-                        </div>
+	                    <c:forEach var="myres" items="${myResList }">
+	                        <div class="card">
+	                            <img src="${path }/resources/upload/myres/${not empty myres.myPic? myres.myPic[0].myPicReName:''}" class="card-img-top" onerror="this.src='${path }/resources/images/이미지 없음.jpg'">
+	                            <div class="card-body">
+	                                <span id="card-title">${myres.restaurant.resName }</span>
+	                                <span id="card-category">${myres.restaurant.resCategory }</span>
+	                                <span id="card-address">${myres.restaurant.resAddress }</span>
+	                                <span id="card-memo">${fn:substring(myres.myResMemo,0,10)}...</span>
+	                            </div>
+	                        </div>
+	                    </c:forEach>
                        
                     </div> 
                     
