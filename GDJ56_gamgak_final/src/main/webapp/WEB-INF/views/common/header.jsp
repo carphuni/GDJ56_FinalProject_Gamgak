@@ -116,7 +116,7 @@
 		        <h1 class="modal-title fs-5" id="exampleModalLabel">새 맛집 기록</h1>
 		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		      </div>
-		      <form id="insertModal-body" class="modal-body" action="${path }/profile/insertmyres.do" enctype="multipart/form-data" method="post" onsubmit="alert('서브밋됨')">
+		      <form id="insertModal-body" class="modal-body" action="${path }/profile/insertmyres.do" enctype="multipart/form-data" method="post">
 					<a id="insertMyResImage" onclick="$('#mypic').click();" class="col-sm-6">
 						<div>
 							<img src="${path }/resources/images/이미지 추가.png" style="width: 5rem"/>

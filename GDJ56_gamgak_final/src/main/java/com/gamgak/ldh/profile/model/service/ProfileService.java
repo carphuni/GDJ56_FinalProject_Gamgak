@@ -1,5 +1,6 @@
 package com.gamgak.ldh.profile.model.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -7,8 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gamgak.ldh.profile.model.dao.ProfileDao;
+import com.gamgak.ldh.profile.model.vo.MyPic;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class ProfileService {
 	
 	private ProfileDao dao;
@@ -40,15 +45,39 @@ public class ProfileService {
 	public int insertMyRes(Map param) {
 		//식당 저장 후 map에 저장
 		int result=dao.insertRestaurant(session, (Map)param.get("restaurant"));
-		System.out.println(result);
-		System.out.println(param.get("resNo"));
-//		param.put("resNo", resNo);
-//		//맛집 저장 후 map에 저장
-//		int myResNo=dao.insertMyRes(session, param);
-//		param.put("myResNo", myResNo);
-//		//맛집 사진 저장
-		
+		log.debug("식당 저장 결과 : {}",result);
+		//맛집 저장 후 map에 저장
+		result=dao.insertMyRes(session, param);
+		log.debug("맛집 저장 결과 : {}",result);
+		log.debug("MYRES PK : {}",param.get("myResNo"));
+		//맛집 저장 성공 시
+		if(result>0) {
+			//맛집 사진 저장
+			int result1=0;
+			List<MyPic> files=(List<MyPic>)param.get("files");
+			
+			for(MyPic p : files ) {
+				p.setMyResNo((int)param.get("myResNo"));
+				result1+=dao.insertMyPic(session, p);
+			}
+			//이미지 등록 수와 INSERT RETURN INT값이 같을 때
+			if(result1==files.size()) {
+				//commit
+//				session.commit();
+//				session.close();
+				log.debug("맛집 사진 저장 결과 : {} 커밋",result1);
+				return result1;
+			}else {
+				//rollback
+//				session.rollback();
+//				session.close();
+				log.debug("맛집 사진 저장 결과 : {} 롤백",result1);
+			}
+			
+		}
 		return 0;
+		
+		
 	}
 	
 	

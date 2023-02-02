@@ -5,6 +5,8 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.gamgak.ldh.profile.model.vo.MyPic;
+
 @Repository
 public class ProfileDao {
 	
@@ -32,9 +34,14 @@ public class ProfileDao {
 		}
 	}
 	
-//	//맛집 저장
-//	public int insertMyRes(SqlSessionTemplate session, Map param) {
-//		return session.insert("profile.insertMyRes",param);
-//	}
+	//맛집 저장
+	public int insertMyRes(SqlSessionTemplate session, Map param) {
+		return session.insert("profile.insertMyRes",param);
+	}
+	
+	//맛집 사진 저장
+	public int insertMyPic(SqlSessionTemplate session, MyPic myPic) {
+		return session.insert("profile.insertMyPic", myPic);
+	}
 	
 }

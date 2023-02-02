@@ -25,6 +25,8 @@ public class MemberService {
 		return dao.selectMemberById(session,m);
 	}
 	
-
+	public Member selectMemberByNickName(Member m) {
+		return dao.selectMemberByNickName(session,m);
+	}
 	
 }

@@ -42,7 +42,104 @@
                                 <div id="colLine"></div>
                                 <a><span>친구</span><span id="fri-num"><c:out value="${friendCount}"/></span></a>
                                 <div id="colLine"></div>
-                                <a><span>모임</span><span id="fri-num"><c:out value="${meetingCount}"/></span></a>
+  								<a data-bs-toggle="modal" data-bs-target="#meetingList"><span>모임</span><span id="fri-num"><c:out value="${meetingCount}"/></span></a>
+                                
+                                <!-- jj의 모달! -->
+									<div class="modal fade" id="meetingList" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+									  <div class="modal-dialog modal-lg modal-dialog-centered">
+									    <div class="modal-content">
+									      <div class="modal-header">
+									        <h5 class="modal-title">My 모임 리스트</h5>
+									        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									      </div>
+									      <div class="modal-body">
+											<a>
+												<div style="border: 3.5px #dc3545 solid; display: flex; border-radius: 1rem; padding: 1rem; justify-content: space-between;">
+													<div style="display: flex;">
+														<img style="border: 1px black solid; border-radius: 100%; height: 60px; width: 60px;">
+														<div style="display: flex; flex-direction: column; padding: 0px 0px 0px 10px; text-align: left;">
+															<div>
+																<label>모임제목</label>
+																<span>[ 3 /</span><span> 5 ]</span>
+															</div>
+																<span>나이대 : 20~30세</span>
+															<div>
+																<span>성별 : 무관 | 성별 : 남자</span>
+																
+															</div>
+															
+														</div>
+	
+													</div>
+													<div style="display: flex; flex-direction: column; ">
+														<button class="btn btn-danger" type="button" style="margin: 0px 0px 5px 0px" data-bs-target="#applymeetingList" data-bs-toggle="modal">신청현황</button>
+														<button class="btn btn-danger" type="button">수정하기</button>
+													</div>
+												</div>
+											  </div>
+
+											</a>
+									      <div class="modal-footer">
+									        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+									        <button type="button" class="btn btn-primary">Save changes</button>
+									      </div>
+									    </div>
+									  </div>
+									</div>        
+
+									<div class="modal fade" id="applymeetingList" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+										<div class="modal-dialog modal-lg  modal-dialog-centered ">
+										  <div class="modal-content">
+											<div class="modal-header">
+											  <h5 class="modal-title">모임 신청 현황</h5>
+											  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body">
+											  <a>
+												  <div style="border: 3.5px #dc3545 solid; display: flex; border-radius: 1rem; padding: 1rem; justify-content: space-between;">
+													  <div style="display: flex; ">
+														  <img style="border: 1px black solid; border-radius: 100%; height: 60px; width: 60px;">
+														  <div style="display: flex; flex-direction: column; padding: 0px 0px 0px 10px;">
+															  <label>닉네임 : 동훈간다</label>
+															  <label>나이 : 27살</label>
+														  </div>
+														  <div style="display: flex; flex-direction: column; padding: 0px 0px 0px 10px;">
+															<label>성별 : 남자</label>
+															<label>신고 횟수 : 0회</label>
+														  </div>
+	  
+													  </div>
+													  <div>
+
+														  <button class="btn btn-danger" type="button" style="margin: 0px 0px 5px 0px">신청 수락</button>
+														  <button class="btn btn-danger" type="button" style="margin: 0px 0px 5px 0px">신청 거부</button>
+													  </div>
+														  
+													  
+												  </div>
+												</div>
+  
+											  </a>
+											<div class="modal-footer">
+											  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+											  <button type="button" class="btn btn-primary">Save changes</button>
+											</div>
+										  </div>
+										</div>
+									  </div>        
+									   <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->               
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+
                             </div>
                             <div id="info-3"><c:out value="${loginMember.memberNickName }"/></div>
                             <div id="info-d4">
@@ -140,5 +237,5 @@
                     
                 </div>
                 
-                
+<script src="${path}/resources/js/mainProfile.js"></script>               
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
