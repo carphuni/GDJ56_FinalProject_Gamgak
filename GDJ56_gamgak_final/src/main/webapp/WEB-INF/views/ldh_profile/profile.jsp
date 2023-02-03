@@ -221,24 +221,41 @@
                 </div>
 <script>
 	let profileCPage=1;
-	$(window).scroll(function profileScroll() {
+	let profileURL="/profile/scrollselectMyresAll";
+	$("#show-click").click(()=>{
+		profileURL="/profile/scrollselectMyresAll";
+		$(window).on("scroll",()=>{
+			profileScroll();
+		});
+	})
+	$("#area-click").click(()=>{
+		profileURL="/profile/scrollselectMyresArea";
+		$(window).on("scroll",()=>{
+			profileScroll();
+		});
+	})
+	$("#title-click").click(()=>{
+		profileURL="/profile/scrollselectMyresTitle";
+		$(window).on("scroll",()=>{
+			profileScroll();
+		});
+	})
+	
+	//스크롤 시 페이징 처리
+	function profileScroll() {
 		 if (Math.round($(window).scrollTop())-16> $(document).height() - $(window).height()) {
 			profileCPage++;
-		    console.log(profileCPage);
-		    console.log("스크롤 제일 밑 감지")
 		    $("#profileLoading").show();
 		    $.ajax({
 		        type: "GET",
-		        url: "/profile/scrollselectMyresAll",
+		        url: profileURL,
 		       	data: {"cPage": profileCPage},
 		        error: function() {
 		          console.log('통신실패!!');
 		        },
 		        success: function(result) {
-		        	console.log(result.myResList);
 		        	result.myResList.forEach((el)=>{
 		        		let cardDiv=$("<div>").addClass("card")
-		        		console.log(el.myPic);
 		        		let cardImg=$("<img>").addClass("card-img-top").attr("src", el.myPic.myPicReName!=null?"/resources/upload/myres/"+el.myPic.myPicReName:"").attr("onerror","this.src='/resources/images/이미지 없음.jpg'");
 		        		let cardBobyDiv=$("<div>").addClass("card-body");
 		        		
@@ -256,16 +273,6 @@
 		        		cardDiv.append(cardBobyDiv);
 		        		
 		        		$("#card-container").append(cardDiv); 
-		        		
-		        		/* <div class="card">
-	                        <img src="${not empty myres.myPic? "/resources/upload/myres/"+=myres.myPic[0].myPicReName:''}" class="card-img-top" onerror="this.src='${path }/resources/images/이미지 없음.jpg'">
-	                        <div class="card-body">
-	                            <span id="card-title">${myres.restaurant.resName }</span>
-	                            <span id="card-category">${myres.restaurant.resCategory }</span>
-	                            <span id="card-address">${myres.restaurant.resAddress }</span>
-	                            <span id="card-memo">${fn:substring(myres.myResMemo,0,10)}...</span>
-	                        </div>
-                    	</div>	 */
 		        	})
 		        	$("#profileLoading").hide();
 		        	if(result.myResList.length==0){
@@ -276,7 +283,12 @@
 		    
 		 } 
 		
-	})
+	}
+	
+	
+	$(window).scroll(()=>{
+		profileScroll();
+	});
 </script> 
 <script src="${path}/resources/js/mainProfile.js"></script>               
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
