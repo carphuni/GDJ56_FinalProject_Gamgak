@@ -25,9 +25,9 @@ import com.gamgak.psh.admin.vo.Myres;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
 import com.gamgak.psh.admin.common.PageFactory;
 
-import lombok.extern.slf4j.Slf4j;
+//import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+//@Slf4j
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -53,30 +53,45 @@ public class AdminController {
 	
 	@RequestMapping("/selectmember.do")
 	@ResponseBody
-	public Map<String,Object> selectMemberAll(@RequestParam(value="cPage",defaultValue="1")int cPage,String functionN) {
+	public Map<String,Object> selectMemberAll(@RequestParam(value="cPage",defaultValue="1")int cPage,
+			String ynval,String functionN,String yn) {
 		Map<String,Object> memberlist=new HashMap<String, Object>();
 //		@RequestParam(value="numPerpage",defaultValue="5") int numPerpage
-		
+//		System.out.println(ynval);
 		int numPerpage=5;
 		String table="MEMBER";
-		int total=service.selectCount(table);
-		List<Map> list=service.selectMemberData(Map.of("cPage",cPage,"numPerpage",numPerpage));
 		
+		//회원 수
+		int total=service.selectCount(Map.of("table",table,"yn",yn,"ynval","N"));
+		memberlist.put("totalmem", total);
+		//탈퇴회원 수
+		memberlist.put("authmem",service.selectCount(Map.of("table",table,"yn",yn,"ynval","Y")));
+		List<Map> list=service.selectMemberData(Map.of("cPage",cPage,"numPerpage",numPerpage,"yn",yn,"ynval",ynval));
+		System.out.println(total);
 		memberlist.put("list",list);
 		memberlist.put("pageBar",PageFactory.getPage(cPage, numPerpage, total,"member.do",functionN));
 		
 		return memberlist;
 	}
-	
 	@RequestMapping("/myresview.do")
-	public ModelAndView myresView(ModelAndView mv,long no) {
+	public String myresView( Model m,int no) {
+		m.addAttribute("no",no);
+		return "/psh_admin/myresview";
+	}
+	@RequestMapping("/selectmyres.do")
+	@ResponseBody
+	public Map<String,Object> selectMyresAll(@RequestParam(value="cPage",defaultValue="1")int cPage,
+			String functionN,int no,String tableN,String yn,String ynval) {
+		Map<String,Object> myreslist=new HashMap<String, Object>();
+		int numPerpage=5;
+		String table="MYRES";
 		
-		//List<Myres> list=service.selectMyresList(no);
-		//System.out.println(list);
-		mv.addObject("myreslist",service.selectMyresList(no));
-		System.out.println(mv);
-		mv.setViewName("/psh_admin/myresview");
-		return mv;
+		int total=service.selectCountNo(Map.of("table",table,"tableN",tableN,"no",no,"yn",yn,"ynval",ynval));
+//		System.out.println(total);
+		myreslist.put("member",service.selectMember(no));
+		myreslist.put("list",service.selectMyresList(Map.of("cPage",cPage,"numPerpage",numPerpage,"no",no,"tableN",tableN,"table",table,"yn",yn)));
+		myreslist.put("pageBar",PageFactory.getPage(cPage, numPerpage, total,"myresview.do",functionN));
+		return myreslist;
 	}
 	
 	@RequestMapping("/meeting.do")
@@ -86,15 +101,23 @@ public class AdminController {
 	
 	@RequestMapping("/selectmeeting.do")
 	@ResponseBody
-	public Map<String,Object> selectMeetingAll(@RequestParam(value="cPage",defaultValue="1")int cPage,String functionN) {
+	public Map<String,Object> selectMeetingAll(@RequestParam(value="cPage",defaultValue="1")int cPage,
+			String functionN,String tableN,String yn,String ynval) {
 		Map<String,Object> meetinglist=new HashMap<String, Object>();
 //		@RequestParam(value="numPerpage",defaultValue="5") int numPerpage
 		
 		int numPerpage=5;
 		String table="MEETING";
-		int total=service.selectCount(table);
-		meetinglist.put("list",service.selectMeetingData(Map.of("cPage",cPage,"numPerpage",numPerpage)));
+		
+		int total=service.selectCount(Map.of("table",table,"yn",yn,"ynval","N"));
+		meetinglist.put("totalmt", total);
+		//탈퇴회원 수
+		meetinglist.put("authmt",service.selectCount(Map.of("table",table,"yn",yn,"ynval","Y")));
+		List<Map> list=service.selectMeetingData(Map.of("cPage",cPage,"numPerpage",numPerpage,"yn",yn,"ynval",ynval));
+		System.out.println(total);
+		meetinglist.put("list",list);
 		meetinglist.put("pageBar",PageFactory.getPage(cPage, numPerpage, total,"meeting.do",functionN));
+		
 		
 		return meetinglist;
 	}
@@ -106,11 +129,11 @@ public class AdminController {
 	
 	@RequestMapping("/userreport.do")
 	@ResponseBody
-	public Map<String,Object> selectUserReport(@RequestParam String tableN,@RequestParam(value="cPage",defaultValue="1")int cPage,String functionN) {
+	public Map<String,Object> selectUserReport(@RequestParam String tableN,@RequestParam(value="cPage",defaultValue="1")int cPage,String functionN,String yn) {
 		Map<String,Object> reportlist=new HashMap<String, Object>();
 		int numPerpage=5;
-		int total=service.selectCount(tableN);
-		reportlist.put("list",service.selectReportData(Map.of("cPage",cPage,"numPerpage",numPerpage,"tableN",tableN)));
+		int total=service.selectCount(Map.of("table",tableN,"yn",yn));
+		reportlist.put("list",service.selectReportData(Map.of("cPage",cPage,"numPerpage",numPerpage,"tableN",tableN,"yn",yn)));
 		reportlist.put("pageBar",PageFactory.getPage(cPage, numPerpage, total,"meeting.do",functionN));
 		
 		System.out.println(reportlist);
@@ -119,11 +142,11 @@ public class AdminController {
 	
 	@RequestMapping("/myresreport.do")
 	@ResponseBody
-	public Map<String,Object> selectMyresReport(@RequestParam String tableN,@RequestParam(value="cPage",defaultValue="1")int cPage,String functionN) {
+	public Map<String,Object> selectMyresReport(@RequestParam String tableN,@RequestParam(value="cPage",defaultValue="1")int cPage,String functionN,String yn) {
 		Map<String,Object> reportlist=new HashMap<String, Object>();
 		int numPerpage=5;
-		int total=service.selectCount(tableN);
-		reportlist.put("list",service.selectReportData(Map.of("cPage",cPage,"numPerpage",numPerpage,"tableN",tableN)));
+		int total=service.selectCount(Map.of("tableN",tableN));
+		reportlist.put("list",service.selectReportData(Map.of("cPage",cPage,"numPerpage",numPerpage,"tableN",tableN,"yn",yn)));
 		reportlist.put("pageBar",PageFactory.getPage(cPage, numPerpage, total,"meeting.do",functionN));
 		
 		return reportlist;
@@ -131,29 +154,27 @@ public class AdminController {
 	
 	@RequestMapping("/meetingreport.do")
 	@ResponseBody
-	public Map<String,Object> selectMeetingReport(@RequestParam String tableN,@RequestParam(value="cPage",defaultValue="1")int cPage,String functionN) {
+	public Map<String,Object> selectMeetingReport(@RequestParam String tableN,@RequestParam(value="cPage",defaultValue="1")int cPage,String functionN,String yn) {
 		Map<String,Object> reportlist=new HashMap<String, Object>();
 		int numPerpage=5;
-		int total=service.selectCount(tableN);
-		reportlist.put("list",service.selectReportData(Map.of("cPage",cPage,"numPerpage",numPerpage,"tableN",tableN)));
+		int total=service.selectCount(Map.of("tableN",tableN,"yn",yn));
+		reportlist.put("list",service.selectReportData(Map.of("cPage",cPage,"numPerpage",numPerpage,"tableN",tableN,"yn",yn)));
 		reportlist.put("pageBar",PageFactory.getPage(cPage, numPerpage, total,"meeting.do",functionN));
 		
 		return reportlist;
 	}
 	
-	@RequestMapping("/deletemember.do")
+	@RequestMapping("/deletedata.do")
 	@ResponseBody
-	public Map<String,Object> deleteSomething(@RequestParam Map nodata, String tableN,String columnN) {
+	public Map<String,Object> deleteData(@RequestParam Map nodata, String tableN,String columnN,String yn) {
 		String data=(String)(nodata.get("nodata"));
+		System.out.println(nodata);
 		Map result=new HashMap();
 		List total=new ArrayList();
-//		System.out.println(data);
 		String datas=data.substring(data.length()-(data.length()-1),data.length()-1);
 		String list[]=datas.split(",");
 		for(int i=0;i<list.length;i++) {
-//			System.out.println(Integer.parseInt(list[i].substring(list[i].length()-(list[i].length()-1),list[i].length()-1)));
-			int result1=service.deleteData(Integer.parseInt(list[i].substring(list[i].length()-(list[i].length()-1),list[i].length()-1)),tableN,columnN);
-//			System.out.println(result1);
+			int result1=service.deleteData(Integer.parseInt(list[i].substring(list[i].length()-(list[i].length()-1),list[i].length()-1)),tableN,columnN,yn);
 			total.add(result1);
 		}
 		result.put("result", total);

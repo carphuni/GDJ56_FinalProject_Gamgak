@@ -26,7 +26,30 @@ public interface MsgDao {
 	@Insert("INSERT INTO CHAT VALUES(SEQ_CHATNO.NEXTVAL, NULL, #{personalChatroomNo}, #{receiverNo}, #{senderNo}, #{content}, DEFAULT, 0)")
 	int insertMsg(int personalChatroomNo, int receiverNo, int senderNo, String content);
 	
+	//같은방 회원 정보 가져오기
 	@Select("SELECT * FROM MEMBER JOIN ENTERCHAT USING (MEMBER_NO) WHERE PERSONAL_CHATROOM_NO=#{personalChatroomNo} AND MEMBER_NO!=#{loginMemberNo}")
 	Map chatroomMember(int personalChatroomNo, int loginMemberNo);
+	
+	//방이 있는지 확인
+	@Select("SELECT * FROM(SELECT * FROM ENTERCHAT JOIN(SELECT PERSONAL_CHATROOM_NO FROM ENTERCHAT WHERE MEMBER_NO=#{loginMember}) USING (PERSONAL_CHATROOM_NO) WHERE MEMBER_NO!=#{loginMember})WHERE MEMBER_NO=#{memberNo}")
+	Map chatroomCheck(int loginMember, int memberNo);
+	
+	//채팅방 번호 생성
+	@Insert("INSERT INTO PERSONALCHATROOM VALUES(SEQ_PERSONALCHATROOMNO.NEXTVAL)")
+	int personalChatRoomInsert();
+	
+	//생성된 채팅방 번호 가져오기
+	@Select("SELECT MAX(PERSONAL_CHATROOM_NO) FROM PERSONALCHATROOM")
+	int personalChatRoomNo();
+	
+	//로그인회원 대화방참여에 추가
+	@Insert("INSERT INTO ENTERCHAT VALUES(#{loginMemberNo}, NULL, #{chatRoomNo})")
+	int enterchatInsert(int loginMemberNo, int chatRoomNo);
+	
+	//친구 대화방참여에 추가
+	@Insert("INSERT INTO ENTERCHAT VALUES(#{memberNo}, NULL, #{chatRoomNo})")
+	int enterchatFriend(int memberNo, int chatRoomNo);
+	
+
 	
 }

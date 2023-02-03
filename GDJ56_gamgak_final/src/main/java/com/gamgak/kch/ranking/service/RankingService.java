@@ -21,9 +21,13 @@ public class RankingService {
 		this.dao=dao;
 	}
 	
-	
 	public List<Map> searchPlace(double swLat,double swLon,double neLat,double neLon){
 		return dao.searchPlace(swLat,swLon,neLat,neLon);
+	}
+
+	//카테고리별 검색
+	public List<Map> rankingCategory(String tag){
+		return dao.rankingCategory(tag);
 	}
 	
 }
