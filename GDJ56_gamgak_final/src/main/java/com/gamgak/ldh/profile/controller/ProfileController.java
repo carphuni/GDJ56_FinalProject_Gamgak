@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gamgak.csk.member.model.entity.Member;
+import com.gamgak.jjh.meeting.model.vo.Meeting;
 import com.gamgak.ldh.profile.model.service.ProfileService;
 import com.gamgak.ldh.profile.model.vo.MyPic;
 import com.gamgak.ldh.profile.model.vo.MyRes;
@@ -53,16 +54,30 @@ public class ProfileController {
 		mv.addObject("friendCount", service.selectFriendCount(memberNo));
 		//모임 카운트 가져오기
 		mv.addObject("meetingCount", service.selectMeetingCount(memberNo));
+		
 		//페이지 관련 변수 선언
 		int cPage=1;
 		int numPerpage=8;
 		//내 맛집 조회
 		mv.addObject("myResList", service.selectMyResAll(Map.of("memberNo",memberNo,"cPage",cPage,"numPerpage",numPerpage)));
+		
+		//로그인한 모임 정보 가져오기-jjh
+		mv.addObject("meetinginfo",service.selectMeetingInfo(memberNo));
+		List<Meeting> mee =service.selectMeetingInfo(memberNo);
+		System.out.println(mee);
+		
 		//프로필 화면 jsp
    	 	mv.setViewName("ldh_profile/profile");
    	 	
 		return mv;
 	}
+	//모임참여신청내역출력 -jjh
+	@RequestMapping("meeting/signuplist.do")
+	public ModelAndView signupmeeting(ModelAndView mv) {
+		mv.addObject("meetingsi");
+		return mv;
+	}
+	
 	
 	@RequestMapping("/scrollselectMyresAll")
 	@ResponseBody

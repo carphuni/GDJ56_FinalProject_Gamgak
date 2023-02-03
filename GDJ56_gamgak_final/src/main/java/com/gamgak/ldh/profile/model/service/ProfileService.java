@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gamgak.jjh.meeting.model.vo.Meeting;
 import com.gamgak.ldh.profile.model.dao.ProfileDao;
 import com.gamgak.ldh.profile.model.vo.MyPic;
 import com.gamgak.ldh.profile.model.vo.MyRes;
@@ -40,6 +41,11 @@ public class ProfileService {
 	//모임 카운트 가져오기
 	public int selectMeetingCount(int memberNo) {
 		return dao.selectMeetingCount(session, memberNo);
+	}
+	
+	//로그인한 사용자 모임 정보 가져오기 -jjh
+	public List<Meeting> selectMeetingInfo(int memberNo){
+		return dao.selectMeetingInfo(session,memberNo);
 	}
 	
 	//내 저장한 맛집 조회

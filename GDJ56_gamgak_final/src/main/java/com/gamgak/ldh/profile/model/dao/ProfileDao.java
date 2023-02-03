@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.gamgak.jjh.meeting.model.vo.Meeting;
 import com.gamgak.ldh.profile.model.vo.MyPic;
 import com.gamgak.ldh.profile.model.vo.MyRes;
 
@@ -26,6 +27,10 @@ public class ProfileDao {
 	//모임 카운트 가져오기
 	public int selectMeetingCount(SqlSessionTemplate session, int memberNo){
 		return session.selectOne("profile.selectMeetingCount",memberNo);
+	}
+	//로그인한 사용자의 모임 정보 가져오기-jjh
+	public List<Meeting> selectMeetingInfo(SqlSessionTemplate session,int memberNo){
+		return session.selectList("profile.selectMeetingInfo",memberNo);
 	}
 	
 	//내 저장한 맛집 조회
