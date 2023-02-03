@@ -1,10 +1,13 @@
 package com.gamgak.ldh.profile.model.dao;
 
+import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.gamgak.jjh.meeting.model.vo.Meeting;
 import com.gamgak.ldh.profile.model.vo.MyPic;
 
 @Repository
@@ -23,6 +26,10 @@ public class ProfileDao {
 	//모임 카운트 가져오기
 	public int selectMeetingCount(SqlSessionTemplate session, int memberNo){
 		return session.selectOne("profile.selectMeetingCount",memberNo);
+	}
+	//로그인한 사용자의 모임 정보 가져오기-jjh
+	public List<Meeting> selectMeetingInfo(SqlSessionTemplate session,int memberNo){
+		return session.selectList("profile.selectMeetingInfo",memberNo);
 	}
 	
 	//식당 저장

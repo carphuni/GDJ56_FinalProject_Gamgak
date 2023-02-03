@@ -23,5 +23,9 @@ public class MeetingDao {
 	public int meetingjoin(SqlSessionTemplate session,Map m) {
 		return session.insert("meeting.meetingjoin",m);
 	}
+	
+	public int meetingjoin(SqlSessionTemplate session,Meeting mee) {
+		return session.insert("meeting.meetingjoin2",mee);
+	}
 
 }
