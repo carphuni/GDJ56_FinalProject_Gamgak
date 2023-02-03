@@ -11,15 +11,19 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gamgak.csk.member.model.entity.Member;
+import com.gamgak.jjh.meeting.model.vo.Meeting;
 import com.gamgak.ldh.profile.model.service.ProfileService;
 import com.gamgak.ldh.profile.model.vo.MyPic;
+import com.gamgak.ldh.profile.model.vo.MyRes;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,7 +46,6 @@ public class ProfileController {
 	//프로필 화면
 	@RequestMapping("/")
 	public ModelAndView profile(ModelAndView mv) {
-		
 		//Session에 저장된 회원 pk 가져오기
 		int memberNo=((Member)httpSession.getAttribute("loginMember")).getMemberNo();
 		//저장한 맛집 카운트 가져오기
@@ -51,10 +54,41 @@ public class ProfileController {
 		mv.addObject("friendCount", service.selectFriendCount(memberNo));
 		//모임 카운트 가져오기
 		mv.addObject("meetingCount", service.selectMeetingCount(memberNo));
+		
+		//페이지 관련 변수 선언
+		int cPage=1;
+		int numPerpage=8;
+		//내 맛집 조회
+		mv.addObject("myResList", service.selectMyResAll(Map.of("memberNo",memberNo,"cPage",cPage,"numPerpage",numPerpage)));
+		
+		//로그인한 모임 정보 가져오기-jjh
+		mv.addObject("meetinginfo",service.selectMeetingInfo(memberNo));
+		List<Meeting> mee =service.selectMeetingInfo(memberNo);
+		System.out.println(mee);
+		
 		//프로필 화면 jsp
    	 	mv.setViewName("ldh_profile/profile");
    	 	
 		return mv;
+	}
+	//모임참여신청내역출력 -jjh
+	@RequestMapping("meeting/signuplist.do")
+	public ModelAndView signupmeeting(ModelAndView mv) {
+		mv.addObject("meetingsi");
+		return mv;
+	}
+	
+	
+	@RequestMapping("/scrollselectMyresAll")
+	@ResponseBody
+	public Map scrollselectMyresAll(int cPage) {
+		//Session에 저장된 회원 pk 가져오기
+		int memberNo=((Member)httpSession.getAttribute("loginMember")).getMemberNo();
+		//numPerpage 설정
+		int numPerpage=8;
+		Map m=Map.of("myResList", service.selectMyResAll(Map.of("memberNo",memberNo,"cPage",cPage,"numPerpage",numPerpage)));
+		return m;
+   	 	
 	}
 	
 	//맛집 저장
@@ -97,7 +131,7 @@ public class ProfileController {
 		for(MultipartFile f : upFile) {
 			//전송파일이 있으면...
 			if(!f.isEmpty()) {
-				//파일 리네임 처리ㅣ
+				//파일 리네임 처리
 				String oriFileName=f.getOriginalFilename();
 				String ext=oriFileName.substring(oriFileName.lastIndexOf("."));
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
@@ -109,7 +143,7 @@ public class ProfileController {
 					f.transferTo(new File(path+reFileName));
 					files.add(new MyPic().builder()
 							.myPicOriName(oriFileName)
-							.myPicRename(reFileName)
+							.myPicReName(reFileName)
 							.build());
 				}catch(IOException e) {
 					e.printStackTrace();

@@ -4,22 +4,26 @@ package com.gamgak.jjh.meeting.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gamgak.jjh.meeting.model.service.MeetingService;
 import com.gamgak.jjh.meeting.model.vo.Meeting;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
+@Slf4j
 public class MeetingController {
 	private MeetingService service;
 	
@@ -40,9 +44,22 @@ public class MeetingController {
 		mv.setViewName("/jjh_meetting/meettinglist");
 		return mv;
 	}
+	@RequestMapping("/meetting/meettingjoin.do")
+	public ModelAndView meetingjoin(ModelAndView mv ,@RequestParam Map m ) {
+		log.debug("테스트 {}",m);
+		System.out.println("joinmeeting"+m);
+
+		int result =service.meetingjoin(m);
+		mv.addObject("msg",result>0?"모임 참여 신청 성공":"모임 참여 신청 실패");
+		mv.addObject("loc","/meetting/meettinglist.do");
+		mv.setViewName("/jjh_meetting/msg");
+		
+		return mv;
+	}
+	
 	
 	@RequestMapping("/meetting/enrollmeettingEnd.do")
-	public ModelAndView meetingenrollEnd(Meeting mee,ModelAndView mv, HttpSession session, MultipartFile[] fileupload ) {
+	public ModelAndView meetingenrollEnd(Map m,Meeting mee,ModelAndView mv, HttpSession session, MultipartFile[] fileupload ) {
 		System.out.println(mee);
 		System.out.println(fileupload);
 		String meeDate=mee.getMeetingDate();
@@ -60,7 +77,7 @@ public class MeetingController {
 			
 		}
 		
-		mee.setMeetingGender(meeDate);
+		//mee.setMeetingGender(meeDate);
 		
 		//파일업로드하기
 		 // 저장위치가져오기
@@ -98,6 +115,7 @@ public class MeetingController {
 				}
 			}
 			}
+		System.out.println("insert 전 데이터"+mee);
 		int result =service.insertMeeting(mee);
 		System.out.println("insert data : "+mee);
 		mv.addObject("msg",result>0?"모임 생성 성공":"모임 생성 실패");

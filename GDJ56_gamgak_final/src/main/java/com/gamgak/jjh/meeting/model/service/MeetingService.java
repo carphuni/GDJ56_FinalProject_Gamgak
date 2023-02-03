@@ -1,6 +1,7 @@
 package com.gamgak.jjh.meeting.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +22,24 @@ public class MeetingService {
 		this.dao=dao;
 		this.session=session;
 	}
+//	모임장이 모임 등록
 	public int insertMeeting(Meeting mee) {
-		return dao.insertMeeting(session,mee);
+		
+		int result=dao.insertMeeting(session,mee);
+		if(result>0) {
+			return dao.meetingjoin(session,mee);
+		}else {
+			return 0;
+		}
+		 
 	}
-	
+//	모임 정보를 불러오기
 	public List<Meeting> selectMeetingList() {
 		return dao.selectMeetingList(session);
+	}
+//	모임 참여기능
+	public int meetingjoin(Map m) {
+		return dao.meetingjoin(session,m);
 	}
 
 }

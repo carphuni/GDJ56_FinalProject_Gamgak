@@ -71,7 +71,8 @@
             data:{
                 "tableN":"USERREPORT",
                 cPage:cPage,
-                functionN:"userreport"
+                functionN:"userreport",
+                yn:"SOLVE_YN"
             },
             success:data=>{
                 const tr=$("<tr>");
@@ -115,7 +116,8 @@
             data:{
                 "tableN":"MYRESREPORT",
                 cPage:cPage,
-                functionN:"myresreport"
+                functionN:"myresreport",
+                yn:"SOLVE_YN"
             },
             success:data=>{
                 const tr=$("<tr>");
@@ -159,7 +161,8 @@
             data:{
                 "tableN":"MEETINGREPORT",
                 cPage:cPage,
-                functionN:"meetingreport"
+                functionN:"meetingreport",
+                yn:"SOLVE_YN"
             },
             success:data=>{
                 const tr=$("<tr>"); 

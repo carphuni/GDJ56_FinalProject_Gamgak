@@ -26,5 +26,6 @@ public class Meeting {
 	private int meetingMaxAge;
 	private String meetingArea;
 	private String meetingDetailAddr;
+	private String del_yn;
 
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
                 <div id="meeting-wrapper">
@@ -42,7 +43,156 @@
                                 <div id="colLine"></div>
                                 <a><span>친구</span><span id="fri-num"><c:out value="${friendCount}"/></span></a>
                                 <div id="colLine"></div>
-                                <a><span>모임</span><span id="fri-num"><c:out value="${meetingCount}"/></span></a>
+  								<a data-bs-toggle="modal" data-bs-target="#meetingList"><span>모임</span><span id="fri-num"><c:out value="${meetingCount}"/></span></a>
+                                
+                                 <!-- jj의 모달!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+                                
+                           <div class="modal fade" id="meetingList" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                             <div class="modal-dialog modal-lg modal-dialog-centered">
+                               <div class="modal-content">
+                                 <div class="modal-header">
+                                   <h5 class="modal-title">My 모임 리스트</h5>
+                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                 </div>
+                                 <div class="modal-body">
+									<c:forEach var="m" items="${meetinginfo }">
+                                              
+		                                 <a>
+		                                    <div style="border: 3.5px #dc3545 solid; display: flex; border-radius: 1rem; padding: 1rem; justify-content: space-between; margin: 1rem">
+		                                       <div style="display: flex;">
+		                                          <img src="${path }/resources/upload/meeting/${m.meetingRename}" style="border: 1px black solid; border-radius: 100%; height: 60px; width: 60px;">
+		                                          <div style="display: flex; flex-direction: column; padding: 0px 0px 0px 10px; text-align: left;">
+		                                             <div>
+		                                                <label>${m.meetingTitle }</label>
+                                                    <label style="display: none;" id="memberLeaderNo" >${m.memberLeaderNo}</label>
+                                                    <label style="display: none;" id="meetingNo">${m.meetingNo}</label>
+		                                                <span>[ 3 /</span><span> 5 ]</span>
+		                                             </div>
+		                                                <span>나이대 : 20~30세</span>
+		                                             <div>
+		                                                <span>성별 : 무관 | 성별 : 남자</span>
+		                                                
+		                                             </div>
+
+		   
+		                                       </div>
+		                                       <div style="display: flex; flex-direction: column; ">
+		                                          <button id="signupmeetingList" onclick="signupmeetingList('${m.memberLeaderNo}','${m.meetingNo}')" class="btn btn-danger" type="button" style="margin: 0px 0px 5px 0px" data-bs-target="#applymeetingList" data-bs-toggle="modal">신청현황</button>
+		                                          <button class="btn btn-danger" type="button">수정하기</button>
+		                                       </div>
+		                                    </div>
+                                        </div>
+		                        
+		
+		                                 </a>
+                                     
+	                                 </c:forEach>
+                                   </div>
+                                   <script type="text/javascript">
+                                      function signupmeetingList(a,b){
+                                        console.log(a,b);
+
+
+                                        $.ajax({
+                                          type : "POST",
+                                          url : "meeting/signuplist.do",
+                                          data :{
+                                            memberLeaderNo : a,
+                                            meetingNo :b
+                                          },
+                                          success : function(data){
+
+                                          },
+                                            error :function(){
+                                              alert("참여신청이 되지않았습니다.")
+                                            }
+                                        })
+                                      }
+
+
+  
+                                        // $("#signupmeetingList").click(function(){
+                                        //   var memberLeaderNo=$("#memberLeaderNo").text();
+                                        //   console.log(memberLeaderNo);
+                                        //   var meetingNo=$("#meetingNo").text();
+                                        //   console.log(meetingNo);
+
+                                      //   //  $.ajax(
+                                      //   //    {
+                                      //   //      type : "POST",
+                                      //   //      url : "meeting/signuolist.do"
+                                      //   //    }
+                                      //   //  )
+                                        // });
+                                    </script>
+                                   
+                                 
+                                 
+                                 <div class="modal-footer">
+                                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                   <button type="button" class="btn btn-primary">Save changes</button>
+                                 </div>
+                               </div>
+                             </div>
+                           </div>        
+
+                           <div class="modal fade" id="applymeetingList" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                              <div class="modal-dialog modal-lg  modal-dialog-centered ">
+                                <div class="modal-content">
+                                 <div class="modal-header">
+                                   <h5 class="modal-title">모임 신청 현황</h5>
+                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                 </div>
+                                 <div class="modal-body">
+                                   <a>
+                                      <div style="border: 3.5px #dc3545 solid; display: flex; border-radius: 1rem; padding: 1rem; justify-content: space-between;">
+                                         <div style="display: flex; ">
+                                            <img style="border: 1px black solid; border-radius: 100%; height: 60px; width: 60px;">
+                                            <div style="display: flex; flex-direction: column; padding: 0px 0px 0px 10px;">
+                                               <label>닉네임 : 동훈간다</label>
+                                               <label>나이 : 27살</label>
+                                            </div>
+                                            <div style="display: flex; flex-direction: column; padding: 0px 0px 0px 10px;">
+                                             <label>성별 : 남자</label>
+                                             <label>신고 횟수 : 0회</label>
+                                            </div>
+     
+                                         </div>
+                                         <div>
+
+                                            <button class="btn btn-danger" type="button" style="margin: 0px 0px 5px 0px">신청 수락</button>
+                                            <button class="btn btn-danger" type="button" style="margin: 0px 0px 5px 0px">신청 거부</button>
+                                         </div>
+                                            
+                                         
+                                      </div>
+                                    </div>
+  
+                                   </a>
+                                 <div class="modal-footer">
+                                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                   <button type="button" class="btn btn-primary">Save changes</button>
+                                 </div>
+                                </div>
+                              </div>
+                             
+                             </div> 
+                             
+                                    
+                              <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->               
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+
                             </div>
                             <div id="info-3"><c:out value="${loginMember.memberNickName }"/></div>
                             <div id="info-d4">
@@ -101,44 +251,96 @@
 							</div>
 	                    </div>
                     </div>
-                    
                     <div id="card-container">
-                        <div class="card">
-                            <img src="${path }/resources/images/임시 이미지03.jpg" class="card-img-top" onerror="this.src='./img/이미지 없음.jpg'">
-                            <div class="card-body">
-                                <span id="card-title">대현이네 쭈꾸미</span>
-                                <span id="card-category">쭈꾸미</span>
-                                <span id="card-address">춘천 어딘가</span>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="${path }/resources/images/임시 이미지03.jpg" class="card-img-top" onerror="this.src='./img/이미지 없음.jpg'">
-                            <div class="card-body">
-                                <span id="card-title">도균이네 이자카야</span>
-                                <span id="card-category">주류 > 이자카야</span>
-                                <span id="card-address">이 세상 어딘가에 있을 거시다</span>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="${path }/resources/images/임시 이미지03.jpg" class="card-img-top" onerror="this.src='./img/이미지 없음.jpg'">
-                            <div class="card-body">
-                                <span id="card-title">도마카세균</span>
-                                <span id="card-category">주류 > 비싼집</span>
-                                <span id="card-address">곧 존재할 예정</span>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img src="${path }/resources/images/임시 이미지03.jpg" class="card-img-top" onerror="this.src='./img/이미지 없음.jpg'">
-                            <div class="card-body">
-                                <span id="card-title">린소링네 23년전통 양념의 장인 반찬가게</span>
-                                <span id="card-category">발로란트 > 반찬</span>
-                                <span id="card-address">양념의 장인 이제는 본인이 잡아줬으면...</span>
-                            </div>
-                        </div>
+	                    <c:forEach var="myres" items="${myResList }">
+	                        <div class="card">
+	                            <img src="${not empty myres.myPic? "/resources/upload/myres/"+=myres.myPic.myPicReName:''}" class="card-img-top" onerror="this.src='${path }/resources/images/이미지 없음.jpg'">
+	                            <div class="card-body">
+	                                <span id="card-title">${myres.restaurant.resName }</span>
+	                                <span id="card-category">${myres.restaurant.resCategory }</span>
+	                                <span id="card-address">${myres.restaurant.resAddress }</span>
+	                                <span id="card-memo">${fn:substring(myres.myResMemo,0,10)}...</span>
+	                            </div>
+	                        </div>
+	                    </c:forEach>
                        
                     </div> 
-                    
+                    <div class="d-flex justify-content-center" >
+						<div id="profileLoading" class="spinner-border text-danger" role="status" style="display: none">
+						  <span class="visually-hidden">Loading...</span>
+						</div>
+					</div>
                 </div>
-                
-                
+<script>
+	let profileCPage=1;
+	let profileURL="/profile/scrollselectMyresAll";
+	$("#show-click").click(()=>{
+		profileURL="/profile/scrollselectMyresAll";
+		$(window).on("scroll",()=>{
+			profileScroll();
+		});
+	})
+	$("#area-click").click(()=>{
+		profileURL="/profile/scrollselectMyresArea";
+		$(window).on("scroll",()=>{
+			profileScroll();
+		});
+	})
+	$("#title-click").click(()=>{
+		profileURL="/profile/scrollselectMyresTitle";
+		$(window).on("scroll",()=>{
+			profileScroll();
+		});
+	})
+	
+	//스크롤 시 페이징 처리
+	function profileScroll() {
+		 if (Math.round($(window).scrollTop())-16> $(document).height() - $(window).height()) {
+			profileCPage++;
+		    $("#profileLoading").show();
+		    $.ajax({
+		        type: "GET",
+		        url: profileURL,
+		       	data: {"cPage": profileCPage},
+		        error: function() {
+		          console.log('통신실패!!');
+		        },
+		        success: function(result) {
+		        	result.myResList.forEach((el)=>{
+		        		let cardDiv=$("<div>").addClass("card")
+		        		let cardImg=$("<img>").addClass("card-img-top").attr("src", el.myPic.myPicReName!=null?"/resources/upload/myres/"+el.myPic.myPicReName:"").attr("onerror","this.src='/resources/images/이미지 없음.jpg'");
+		        		let cardBobyDiv=$("<div>").addClass("card-body");
+		        		
+		        		let cardTitleSpan=$("<span>").attr("id","card-title").html(el.restaurant.resName);
+		        		let cardCategorySpan=$("<span>").attr("id","card-category").html(el.restaurant.resCategory);
+		        		let cardAddressSpan=$("<span>").attr("id","card-address").html(el.restaurant.resAddress);
+		        		let cardMemoSpan=$("<span>").attr("id","card-memo").html(el.myResMemo);
+		        		
+		        		cardBobyDiv.append(cardTitleSpan);
+		        		cardBobyDiv.append(cardCategorySpan);
+		        		cardBobyDiv.append(cardAddressSpan);
+		        		cardBobyDiv.append(cardMemoSpan);
+		        		
+		        		cardDiv.append(cardImg);
+		        		cardDiv.append(cardBobyDiv);
+		        		
+		        		$("#card-container").append(cardDiv); 
+		        	})
+		        	$("#profileLoading").hide();
+		        	if(result.myResList.length==0){
+			        	$(window).off("scroll");
+		        	}
+		        }
+			});   
+		    
+		 } 
+		
+	}
+	
+	
+	$(window).scroll(()=>{
+		profileScroll();
+	});
+</script> 
+<script src="${path}/resources/js/mainProfile.js"></script>               
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

@@ -13,5 +13,5 @@ public class MyPic {
 	private int myPicNo;
 	private int myResNo;
 	private String myPicOriName;
-	private String myPicRename;
+	private String myPicReName;
 }

@@ -27,8 +27,12 @@ public class AdminService {
 //		this.memberdao2=memberdao2;
 	}
 	
-	public int selectCount(String table) {
-		return dao.selectCount(table);
+	public int selectCount(Map param) {
+		return dao.selectCount(param);
+	}
+	
+	public int selectCountNo(Map param) {
+		return dao.selectCountNo(param);
 	}
 	
 	public List<Map> selectMemberData(Map param) {
@@ -36,9 +40,9 @@ public class AdminService {
 		return dao.selectMemberData(param);
 	}
 	
-	public List<Myres> selectMyresList(long no) {
+	public List<Map> selectMyresList(Map param) {
 		
-		return dao.selectMyresList(no);
+		return dao.selectMyresList(param);
 	}
 	
 	public List<Map> selectMeetingData(Map param) {
@@ -50,12 +54,14 @@ public class AdminService {
 		
 		return dao.selectReportList(param);
 	}
+	
+	public Member selectMember(int no) {
+		return dao.selectMember(no);
+	}
+	
 	@Transactional
-	public int deleteData(int no,String tableN,String columnN) {
-		System.out.println(no);
-		System.out.println(tableN);
-		System.out.println(columnN);
-		int result=dao.deleteData(no,tableN,columnN);
+	public int deleteData(int no,String tableN,String columnN,String yn) {
+		int result=dao.deleteData(no,tableN,columnN,yn);
 		return result;
 	}
 //	public List<Object[]> selectMemberData2() {
