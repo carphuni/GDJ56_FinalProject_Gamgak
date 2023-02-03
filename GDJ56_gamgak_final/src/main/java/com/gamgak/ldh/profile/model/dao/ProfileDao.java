@@ -3,6 +3,7 @@ package com.gamgak.ldh.profile.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -28,8 +29,8 @@ public class ProfileDao {
 	}
 	
 	//내 저장한 맛집 조회
-	public List<MyRes> selectMyResAll(SqlSessionTemplate session, int memberNo){
-		return session.selectList("profile.selectMyResAll",memberNo);
+	public List<MyRes> selectMyResAll(SqlSessionTemplate session, Map param){
+		return session.selectList("profile.selectMyResAll",param.get("memberNo"),new RowBounds((((int)param.get("cPage"))-1)*(int)param.get("numPerpage"),(int)param.get("numPerpage")));
 	}
 	
 	//식당 저장

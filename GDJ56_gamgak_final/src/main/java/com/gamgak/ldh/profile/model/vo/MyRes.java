@@ -20,5 +20,5 @@ public class MyRes {
 	private String myResYn;
 	private String delYn;
 	private Restaurant restaurant;
-	private List<MyPic> myPic;
+	private MyPic myPic;
 }

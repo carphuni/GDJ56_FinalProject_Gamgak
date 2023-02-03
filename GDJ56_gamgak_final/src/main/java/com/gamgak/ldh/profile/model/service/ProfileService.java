@@ -43,8 +43,8 @@ public class ProfileService {
 	}
 	
 	//내 저장한 맛집 조회
-	public List<MyRes> selectMyResAll(int memberNo){
-		return dao.selectMyResAll(session, memberNo);
+	public List<MyRes> selectMyResAll(Map param){
+		return dao.selectMyResAll(session, param);
 	}
 	
 	//맛집 저장
@@ -63,7 +63,7 @@ public class ProfileService {
 			List<MyPic> files=(List<MyPic>)param.get("files");
 			
 			for(MyPic p : files ) {
-				p.getMyres().setMyResNo((int)param.get("myResNo"));
+				p.setMyResNo((int)param.get("myResNo"));
 				result1+=dao.insertMyPic(session, p);
 			}
 			//이미지 등록 수와 INSERT RETURN INT값이 같을 때

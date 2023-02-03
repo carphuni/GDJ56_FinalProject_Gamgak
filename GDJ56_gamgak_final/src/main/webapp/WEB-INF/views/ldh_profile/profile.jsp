@@ -202,7 +202,7 @@
                     <div id="card-container">
 	                    <c:forEach var="myres" items="${myResList }">
 	                        <div class="card">
-	                            <img src="${path }/resources/upload/myres/${not empty myres.myPic? myres.myPic[0].myPicReName:''}" class="card-img-top" onerror="this.src='${path }/resources/images/이미지 없음.jpg'">
+	                            <img src="${not empty myres.myPic? "/resources/upload/myres/"+=myres.myPic.myPicReName:''}" class="card-img-top" onerror="this.src='${path }/resources/images/이미지 없음.jpg'">
 	                            <div class="card-body">
 	                                <span id="card-title">${myres.restaurant.resName }</span>
 	                                <span id="card-category">${myres.restaurant.resCategory }</span>
@@ -213,8 +213,70 @@
 	                    </c:forEach>
                        
                     </div> 
-                    
+                    <div class="d-flex justify-content-center" >
+						<div id="profileLoading" class="spinner-border text-danger" role="status" style="display: none">
+						  <span class="visually-hidden">Loading...</span>
+						</div>
+					</div>
                 </div>
-                
+<script>
+	let profileCPage=1;
+	$(window).scroll(function profileScroll() {
+		 if (Math.round($(window).scrollTop())-16> $(document).height() - $(window).height()) {
+			profileCPage++;
+		    console.log(profileCPage);
+		    console.log("스크롤 제일 밑 감지")
+		    $("#profileLoading").show();
+		    $.ajax({
+		        type: "GET",
+		        url: "/profile/scrollselectMyresAll",
+		       	data: {"cPage": profileCPage},
+		        error: function() {
+		          console.log('통신실패!!');
+		        },
+		        success: function(result) {
+		        	console.log(result.myResList);
+		        	result.myResList.forEach((el)=>{
+		        		let cardDiv=$("<div>").addClass("card")
+		        		console.log(el.myPic);
+		        		let cardImg=$("<img>").addClass("card-img-top").attr("src", el.myPic.myPicReName!=null?"/resources/upload/myres/"+el.myPic.myPicReName:"").attr("onerror","this.src='/resources/images/이미지 없음.jpg'");
+		        		let cardBobyDiv=$("<div>").addClass("card-body");
+		        		
+		        		let cardTitleSpan=$("<span>").attr("id","card-title").html(el.restaurant.resName);
+		        		let cardCategorySpan=$("<span>").attr("id","card-category").html(el.restaurant.resCategory);
+		        		let cardAddressSpan=$("<span>").attr("id","card-address").html(el.restaurant.resAddress);
+		        		let cardMemoSpan=$("<span>").attr("id","card-memo").html(el.myResMemo);
+		        		
+		        		cardBobyDiv.append(cardTitleSpan);
+		        		cardBobyDiv.append(cardCategorySpan);
+		        		cardBobyDiv.append(cardAddressSpan);
+		        		cardBobyDiv.append(cardMemoSpan);
+		        		
+		        		cardDiv.append(cardImg);
+		        		cardDiv.append(cardBobyDiv);
+		        		
+		        		$("#card-container").append(cardDiv); 
+		        		
+		        		/* <div class="card">
+	                        <img src="${not empty myres.myPic? "/resources/upload/myres/"+=myres.myPic[0].myPicReName:''}" class="card-img-top" onerror="this.src='${path }/resources/images/이미지 없음.jpg'">
+	                        <div class="card-body">
+	                            <span id="card-title">${myres.restaurant.resName }</span>
+	                            <span id="card-category">${myres.restaurant.resCategory }</span>
+	                            <span id="card-address">${myres.restaurant.resAddress }</span>
+	                            <span id="card-memo">${fn:substring(myres.myResMemo,0,10)}...</span>
+	                        </div>
+                    	</div>	 */
+		        	})
+		        	$("#profileLoading").hide();
+		        	if(result.myResList.length==0){
+			        	$(window).off("scroll");
+		        	}
+		        }
+			});   
+		    
+		 } 
+		
+	})
+</script> 
 <script src="${path}/resources/js/mainProfile.js"></script>               
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

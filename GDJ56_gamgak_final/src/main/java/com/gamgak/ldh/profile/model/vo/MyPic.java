@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MyPic {
 	private int myPicNo;
-	private MyRes myres;
+	private int myResNo;
 	private String myPicOriName;
 	private String myPicReName;
 }
