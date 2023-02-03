@@ -152,6 +152,7 @@
 				<!-- </div> -->
     </div>
   </div>
+  </div>
   
 <script>
 	let cPage;
@@ -177,30 +178,38 @@
 	       },
 	       success:data=>{
 	    	  console.log("데이터 보내기")
-	          console.log(data);
-	          selectMsgList(data); //출력 js
+	          console.log(loginMemberNo);
+	          selectMsgList(data,loginMemberNo);
 	       }
 	    })		
 	}
+    
+    //채팅방 닫으면 목록 새로고침
+ 	$('#exampleModal').on('hidden.bs.modal', function () {
+ 		msgList(cPage,loginMemberNo)
+	}) 
+    
 	
 	//처음 채팅방 들어갔을 때 채팅 대화 목록 출력
  	function msgPrint(){
 		
 		$(".chat_modal").click(e=>{
 			$("#chat").empty();
-			const test1=e.delegateTarget;
+			$("#personalChatroomNo").remove();
+			const personalChatroomNo=e.delegateTarget.lastChild.lastElementChild.firstChild.data //클릭한 채팅방 번호
 			console.log(e);
-			console.log(test1.lastChild.lastElementChild.firstChild.data);
+			//console.log(test1.lastChild.lastElementChild.firstChild.data);
 			$.ajax({
 				url:"${path}/msg/selectChatList.do",
 				data:{
-					"personalChatroomNo":test1.lastChild.lastElementChild.firstChild.data,
+					"personalChatroomNo":personalChatroomNo,
 					loginMemberNo:loginMemberNo
 				},
 				success:data=>{
 					console.log(data);
 					console.log(loginMemberNo);
-					msgRead(data,loginMemberNo);
+					console.log(personalChatroomNo);
+					msgRead(data,loginMemberNo,personalChatroomNo);
 				}
 			})
 		}); 
@@ -231,16 +240,42 @@
 	}
 	
 	$("#modal_msg_send").click(e=>{
-		const msg1=$(".msg_text").val();
-		console.log("채팅내용 : "+msg1);
+		const personalChatroomNo=$("#personalChatroomNo").text(); 
+		const msg=$(".msg_text").val();
+		console.log("채팅내용 : "+msg);
 		
-		// 서버로 메세지 보내기
-		const sendData=new Chat("msgCh","",1,"",'${loginMember.memberNickName}',msg1,today,"");
-		console.log(sendData);
-		websocket.send(JSON.stringify(sendData));
-		$(".msg_text").val('');
-		$(".msg_text").attr("placeholder","내용을 입력해주세요");
-
+		//같은 방에 있는 회원정보 가져와서 서버로 보내주기
+		$.ajax({
+			url:"${path}/msg/chatroomMember.do",
+			data:{
+				"personalChatroomNo":personalChatroomNo,
+				"loginMemberNo":${loginMember.memberNo}
+			},
+			success:data=>{
+				console.log(data.data);
+				// 서버로 메세지 보내기
+				const sendData=new Chat("msgCh","",data.data.PERSONAL_CHATROOM_NO,data.data.MEMBER_NICKNAME,'${loginMember.memberNickName}',msg,today,1);
+				console.log(sendData);
+				websocket.send(JSON.stringify(sendData));
+				$(".msg_text").val('');
+				$(".msg_text").attr("placeholder","내용을 입력해주세요");					
+				
+				//보낸 메세지 DB에 저장하기
+		  		$.ajax({
+					url:"${path}/msg/insertMsg.do",
+					data:{
+						"personalChatroomNo":personalChatroomNo,
+						"receiverNo":data.data.MEMBER_NO,
+						"senderNo":${loginMember.memberNo},
+						"content":msg
+					},
+					success:data=>{
+					}  
+		  		})
+			}
+		})
+		
+		//msgList(cPage,loginMemberNo)
 	});
 	
 

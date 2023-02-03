@@ -17,16 +17,21 @@
     <link rel="stylesheet" type="text/css" href="${path }/resources/css/member.css">
     <!-- Font Awesome icons (free version)-->
     <script src="https://kit.fontawesome.com/d87d902b0c.js" crossorigin="anonymous"></script>
+    <script src = "${path }/resources/js/jquery-3.6.1.min.js"></script>
 </head>
 
 <style>
 /* 	div#enroll-container{width:400px; margin:0 auto; text-align:center;}
 	div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
 	div#enroll-container form{display:relative;}*/
-	div#login-wrapper span.guide{display:none;font-size:12px;
-									position:relative;top:12px;right:10px;} 
+/* 	div#login-wrapper span.guide{display:none;font-size:12px;position:relative;top:12px;right:10px;} 
 	div#login-wrapper span.ok{color:green}
 	div#enroll-container span.error{color:red}
+ */
+/*  div#login-wrapper span.guide{display:none;font-size:12px;position:relative;top:12px;right:10px;}  */
+ div#login-wrapper span.guide{display:none;position:relative;} 
+	.ok{color:green}
+	.error{color:red}
 </style>
 
 
@@ -87,43 +92,147 @@
             		</div>
 	                
 	             	<div id="inputId" class="form-floating mb">
-	                    <input type="email" class="form-control" name="memberEmail" id="floatingInput" placeholder="name@example.com" required>
-	                    <label for="floatingInput">이메일 주소</label>
-<!-- 	                    <span id="emailOk" class="ok">이메일 사용이 가능합니다.</span> class 중복가능 id 중복 불가능
-						<span id="emailError" class="error">이메일 사용이 불가능합니다. 다른 이메일을 입력해주세요.</span> -->
+	                    <input type="text" class="form-control" name="memberEmail" id="email" placeholder="name@example.com" required>
+	                    <label for="email">이메일 주소</label>
+ 	                    <span id="emailOk" class="guide ok">이메일 사용이 가능합니다.</span>
+						<span id="emailError" class="guide error">*이메일 사용이 불가능합니다. 다른 이메일을 입력해주세요.</span> 
 	                </div>
 	             	<div id="inputId" class="form-floating mb">
-	                    <input type="email" class="form-control" name="memberName" id="floatingInput" maxlength="10" placeholder="Name" required>
-	                    <label for="floatingInput">이름</label>
-<!-- 	                    <span id="nameError" class="error">2자 이상 10자 이하 입력해주세요.</span>
-    					<input type="hidden" id="nameCheck"/> 유효성 검사 -->
+	                    <input type="text" class="form-control" name="memberNickName" id="nickName" minlength="2" maxlength="10" placeholder="NickName" required>
+	                    <label for="nickName">닉네임 *2자 이상 10자 이하</label>
+ 						<span id="nickNamError" class="guide error">*사용중인 별칭입니다.</span>
 	                </div>
-	             	<div id="inputId" class="form-floating mb">
-	                    <input type="email" class="form-control" name="memberNickName" id="floatingInput" maxlength="10" placeholder="NickName" required>
-	                    <label for="floatingInput">닉네임</label>
-<!-- 						<span id="nickNamError" class="error">2자 이상 10자 이하 입력해주세요.</span> -->
+	             	<div id="inputId" class="form-floating mb-3">
+	                    <input type="text" class="form-control" name="memberName" id="name" placeholder="Name" required>
+	                    <label for="name">이름 *2자 이상 10자 이하</label>
+  	                    <span id="nameError" class="guide error">*한글 또는 영문이름만 입력가능합니다.</span>
 	                </div>
 	                <div class="form-floating mb-3">
-	                    <input type="password" class="form-control" name="memberPassword" id="floatingPassword" minlength="8" placeholder="Password" required>
-	                    <label for="floatingPassword">비밀번호</label>
- <!-- 						<span id="passwordError" class="guide error">8자 이상 입력해주세요.</span> -->
+	                    <input type="password" class="form-control" name="memberPassword" id="password" placeholder="Password" required>
+	                    <label for="password">비밀번호 *8자 이상, 영문자, 숫자, 특수기호 포함</label>
+  						<span id="passwordError" class="guide error">*8자 이상, 영문자, 숫자, 특수기호 혼합하여 입력해주세요.</span> 
 	                </div>
 	                <div class="form-floating mb">
-	                    <input type="password" class="form-control" name="memberPassword" id="floatingPassword" minlength="8" placeholder="Password Check" required autocomplete="off" required>
-	                    <label for="floatingPasswordCk">비밀번호 확인</label>
-<!-- 						<span id="passwordErrorCk" class="guide error">비밀번호가 다릅니다.</span>
-						<span id="passwordOk" class="guide ok">비밀번호가 일치합니다.</span> -->
+	                    <input type="password" class="form-control" name="memberPasswordCk" id="passwordCk" placeholder="Password Check" autocomplete="off" required>
+	                    <label for="passwordCk">비밀번호 확인</label>
+  						<span id="passwordErrorCk" class="guide error">*비밀번호가 일치하지않습니다.</span>
+						<span id="passwordOk" class="guide ok">비밀번호가 일치합니다.</span>
+						<span id="pwresult"></span>
+
 	                </div>
-	                <button id="loginButton" type="submit" class="btn btn-danger" onclick="enroll_check">회원가입</button>
+	                <button id="loginButton" type="submit" class="btn btn-danger">회원가입</button>
 	        	</div>
         	</form>
     	</div>
 	</div>
 	
-	<script>	
-		const fn_invalidate=()=>{
-			
-		}
+	<script>
+		$(()=>{
+			$("#passwordCk").blur(e=>{
+				const pw=$("#password").val();
+				const pwck=$(e.target).val();
+				if(pw==pwck && pw!=''){
+					$("#passwordOk").show();
+					$("#passwordErrorCk").hide();
+				} else if(pw!=pwck){
+					$("#passwordErrorCk").show();
+					$("#passwordOk").hide();
+				} 
+			});
+		});
+  		$(()=>{
+			$("#password").keyup(e=>{
+				$("#passwordErrorCk").hide();
+				$("#passwordOk").hide();
+			});
+		}); 
+		
+ 		const fn_invalidate=()=>{
+ 			
+ 			let idResult=false;
+ 			let nickResult=false;
+ 			let result=false;
+ 			
+ 			//이메일 중복검사
+ 	   		$.ajax({
+ 	 			url:"${path}/duplicateEmail",
+ 	 			data:{memberEmail:$("#email").val()},
+ 	 			//동기처리 true(default), false에 대한 값을 넘겨야해!!(동기)
+ 	 			async:false,
+ 	 			success:data=>{
+ 	 				if(!data){ //email 있으면 true, 없으면 false
+ 	 					$("#emailError").hide();
+ 	 					idResult=true;
+ 	 				}else{
+ 	 					//console.log(data);
+ 	 					$("#emailError").show();
+ 	 				}
+ 	 			}
+ 	 			
+ 	   		});
+ 			//닉네임 중복검사
+  	   		$.ajax({
+ 	   			url:"${path}/duplicateNickName",
+ 	   			data:{memberNickName:$("input[name=memberNickName]").val()},
+ 	   			async:false,
+ 	   			success:data=>{
+ 	 				if(!data){
+ 	 					nickResult=true;
+ 	 				}else{
+ 	 					$("#nickNamError").show();
+ 	 				}
+ 	   			}
+ 	   		});
+ 			
+ 			if(idResult!=true || nickResult!=true){
+ 				result = false;
+ 			}
+
+ 			else if(idResult==true&&nickResult==true){
+				//정규표현식
+				const email=$("input[name=memberEmail]").val().trim();
+				const emailReg= /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/; 
+				if(!emailReg.test(email)){
+					$("#emailError").show();
+					result=false;
+				} 	else {
+					$("#emailError").hide();
+					result=true;
+				}		
+	  			const membername=$("#name").val();
+				let nameReg=/^[가-힣a-zA-Z]{2,10}$/;
+				if(!nameReg.test(membername)){
+					$("#nameError").show();
+					result=false;
+				} else{
+					$("#nameError").hide();
+					result=true;
+					
+				}
+				const nickName=$("#nickName").val().trim();
+				if(!nameReg.test(nickName)){
+					$("#nickNamError").show();
+					result=false;
+				}else{
+					$("#nickNamError").hide();
+					result=true;
+				}
+		 	   	const password=$("#password").val().trim();
+				const passwordReg=/^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{8,}$/;
+				if(!passwordReg.test(password)){
+					$("#passwordError").show();
+					$("#passwordOk").hide();
+					result=false;
+				} else{
+					$("#passwordError").hide();
+					$("#passwordOk").show();
+					result=true;
+				}
+			}
+			return result; 
+		} 		
 	</script>
+	
+`
 </body>
 </html>

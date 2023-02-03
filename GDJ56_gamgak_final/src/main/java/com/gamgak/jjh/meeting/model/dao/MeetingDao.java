@@ -1,6 +1,7 @@
 package com.gamgak.jjh.meeting.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -17,6 +18,10 @@ public class MeetingDao {
 	
 	public List<Meeting> selectMeetingList(SqlSessionTemplate session) {
 		return session.selectList("meeting.selectMeetingList");
+	}
+	
+	public int meetingjoin(SqlSessionTemplate session,Map m) {
+		return session.insert("meeting.meetingjoin",m);
 	}
 
 }

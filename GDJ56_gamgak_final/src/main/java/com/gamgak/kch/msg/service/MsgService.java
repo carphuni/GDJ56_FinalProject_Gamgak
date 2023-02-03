@@ -3,9 +3,9 @@ package com.gamgak.kch.msg.service;
 import java.util.List;
 import java.util.Map;
 
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.gamgak.kch.msg.dao.MsgDao;
 
@@ -36,7 +36,48 @@ public class MsgService {
 		return dao.selectChatList(personalChatroomNo, loginMemberNo);
 	}
 
+	//대화 저장
+	@Transactional
+	public int insertMsg(int personalChatroomNo, int receiverNo, int senderNo, String content) {
+		int result=dao.insertMsg(personalChatroomNo, receiverNo, senderNo, content);
+		return result;
+	}
 	
+	//같은방 회원 정보 가져오기
+	public Map chatroomMember(int personalChatroomNo, int loginMemberNo) {
+		return dao.chatroomMember(personalChatroomNo, loginMemberNo);
+	}
 	
+	//방이 있는지 확인
+	public Map chatroomCheck(int loginMember, int memberNo) {
+		return dao.chatroomCheck(loginMember, memberNo);
+	}
+	
+	//채팅방 번호 생성
+	@Transactional
+	public int personalChatRoomInsert() {
+		int result=dao.personalChatRoomInsert();
+		return result;
+	}
+	
+	//생성된 채팅방 번호 가져오기
+	public int personalChatRoomNo() {
+		int result=dao.personalChatRoomNo();
+		return result;
+	}
+	
+	//로그인회원 대화방참여에 추가
+	@Transactional
+	public int enterchatInsert(int loginMemberNo, int chatRoomNo) {
+		int result=dao.enterchatInsert(loginMemberNo, chatRoomNo);
+		return result;
+	}
+	
+	//친구 대화방참여에 추가
+	@Transactional
+	public int enterchatFriend(int memberNo, int chatRoomNo) {
+		int result=dao.enterchatFriend(memberNo, chatRoomNo);
+		return result;
+	}
 
 }

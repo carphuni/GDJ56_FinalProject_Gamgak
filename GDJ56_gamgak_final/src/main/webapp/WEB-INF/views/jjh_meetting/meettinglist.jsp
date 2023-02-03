@@ -105,7 +105,7 @@
 			                                	<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#meettingjoin" >삭제하기</button><br>
 			                                </c:if>
 			                                <c:if test="${loginMember.memberNickName != 'admin' && (m.meetingPeopleNum > m.meetingCurrentCount)}">
-			                                	<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#meettingjoin" >신청하기</button><br>
+			                                	<button type="button"  class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#meettingjoin" >신청하기</button><br>
 			                                </c:if>
 			                                <c:if test="${loginMember.memberNickName != 'admin' && (m.meetingPeopleNum eq m.meetingCurrentCount)}">
 			                                	<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#meettingjoin" disabled="disabled" style="background-color: #C1BEBB; border: 1px #C1BEBB solid; color: black">모집완료</button><br>
@@ -116,7 +116,36 @@
 			
 			
 			                    </div>
-                    			
+			                    <!-- Modal -->
+								  <div class="modal fade" id="meettingjoin" tabindex="-1" aria-labelledby="#meettingjoin" aria-hidden="true">
+								    <div class="modal-dialog">
+								      <div class="modal-content">
+								        <div class="modal-header">
+								            <h2 style="font-weight: bolder;">모임에 참여하시겠습니까?</h2>
+								          <!-- <h1 class="modal-title fs-5" id="exampleModalLabel">모임에 참여하시겠습니까?</h1> -->
+								          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								        </div>
+								        <div class="modal-body">
+								          <div>
+								            <p style="font-size: 18px; ">
+								                모임에 참여하면 모임장의 승인 후<br>자동적으로 채팅방으로 이동이 됩니다.<br>
+								                <span style="color: #dc3545;">
+								                    그리고
+								                </span>
+								                사용자의 기본정보(이름, 나이, 성별, 신고내역)가 모임장에게 전송이 됩니다.</p>
+								
+								          </div>
+								        </div>
+								        <div class="modal-footer">
+								        	
+								            <button type="button" class="btn btn-danger" onclick="location.assign('${path}/meetting/meettingjoin.do?memberNo=${loginMember.memberNo }&meetingNo=${m.meetingNo} ')" >참여하기</button>
+								            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소하기</button>
+								         
+								        </div>
+								      </div>
+								    </div>
+								  </div>
+								                    			
                     		</c:forEach>
                     	</c:otherwise>
                     </c:choose>
@@ -127,38 +156,12 @@
 
                     <!-- Button trigger modal -->
   
-  <!-- Modal -->
-  <div class="modal fade" id="meettingjoin" tabindex="-1" aria-labelledby="#meettingjoin" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-            <h2 style="font-weight: bolder;">모임에 참여하시겠습니까?</h2>
-          <!-- <h1 class="modal-title fs-5" id="exampleModalLabel">모임에 참여하시겠습니까?</h1> -->
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div>
-            <p style="font-size: 18px; ">
-                모임에 참여하면 모임장의 승인 후<br>자동적으로 채팅방으로 이동이 됩니다.<br>
-                <span style="color: #dc3545;">
-                    그리고
-                </span>
-                사용자의 기본정보(이름, 나이, 성별, 신고내역)가 모임장에게 전송이 됩니다.</p>
-
-          </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-danger" >참여하기</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소하기</button>
-         
-        </div>
-      </div>
-    </div>
-  </div>
+  
                     
                    
                     
                 </div>
+         
                
               
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

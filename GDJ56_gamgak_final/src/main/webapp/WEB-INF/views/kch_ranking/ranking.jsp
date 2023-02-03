@@ -203,7 +203,7 @@ function getInfo() {
           "neLon":neLatLng.getLng()
        },
        success:data=>{
-         // console.log(data);
+          //console.log(data);
           displayPlaces(data);
        }
     })
@@ -370,10 +370,10 @@ function displayInfowindow(marker, title) {
 //---------- 여기까지 DB에 저장된 데이터 출력 ----------
 
 
-kakao.maps.event.addListener(map, 'idle', function() {        
+ kakao.maps.event.addListener(map, 'idle', function() {        
 	//console.log('asdf');
 	getInfo();
-});
+}); 
 </script>
 
 

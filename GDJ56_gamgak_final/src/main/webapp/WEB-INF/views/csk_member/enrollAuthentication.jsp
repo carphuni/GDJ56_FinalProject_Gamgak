@@ -82,5 +82,17 @@
            	</form>
           </div>
 	</div>
+	
+	<script>
+		$(()=>{
+			$.axax({
+				type: "POST",
+				url: "/enroll/mailAuth",
+				data: {"memberEmail",$}
+			})
+			
+			
+		});
+	</script>
 </body>
 </html>

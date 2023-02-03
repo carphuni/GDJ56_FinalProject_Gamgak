@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="${path }/resources/css/bootstrap.min.css" >
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- jQuery -->
-	<script src = "${path }/resources/js/jquery-3.6.1.min.js"></script>
+   <script src = "${path }/resources/js/jquery-3.6.1.min.js"></script>
     <!-- Font Awesome icons (free version)-->
     <script src="https://kit.fontawesome.com/d87d902b0c.js" crossorigin="anonymous"></script>
     <!-- 카카오 지도 API -->
@@ -39,7 +39,7 @@
                     </a>
                     <a class="nav-link active" aria-current="page" data-bs-toggle="modal" data-bs-target="#insertModal">
                         <i class="fa-solid fa-plus"></i>
-                        <span>맛집 기록</span>
+                        <span>새 맛집 기록</span>
                     </a>
                     <a class="nav-link active" aria-current="page" href="${path }/ranking">
                         <i class="fa-solid fa-magnifying-glass-chart"></i>
@@ -82,51 +82,83 @@
         
         <!-- Modal -->
         <div class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		  <div  id="insertModal-dialog" class="modal-dialog modal-xl modal-dialog-centered">
-		    <div class="modal-content" >
-		      <div class="modal-header">
-		        <h1 class="modal-title fs-5" id="exampleModalLabel">새 맛집 기록</h1>
-		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-		      </div>
-		      <div id="insertModal-body" class="modal-body">
-			    <div id="insertMap" class="col-sm-6"></div>
-			    <div id="insert_menu_wrap" class="bg_white col-sm-6">
-			        <div class="insert_option">
-		                <form onsubmit="searchPlaces(); return false;" style="display: flex;width: 100%">
-		                    <input value="이태원 맛집" id="insert_keyword" class="form-control" type="text" placeholder="식당 검색">
-		                    <button type="submit" class="btn btn-danger">검색하기</button> 
-		                </form>
-			        </div>
-			        <hr>
-			        <ul id="insert_placesList"></ul>
-			        <hr>
-			        <div id="insert_pagination"></div>
-			    </div>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#insertModal2">다음</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>   
-		<div class="modal fade" id="insertModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		  <div  id="insertModal-dialog" class="modal-dialog modal-xl modal-dialog-centered">
-		    <div class="modal-content" >
-		      <div class="modal-header">
-		        <h1 class="modal-title fs-5" id="exampleModalLabel">새 맛집 기록</h1>
-		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-		      </div>
-		      <div class="modal-body">
-				
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#insertModal">이전</button>
-		        <button type="button" class="btn btn-danger">저장하기</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>    
-		   
+        <div  id="insertModal-dialog" class="modal-dialog modal-xl modal-dialog-centered">
+          <div class="modal-content" >
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">새 맛집 기록</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="insertModal-body" class="modal-body">
+             <div id="insertMap" class="col-sm-6"></div>
+             <div id="insert_menu_wrap" class="bg_white col-sm-6">
+                 <div class="insert_option">
+                      <form onsubmit="dhsearchPlaces(); return false;" style="display: flex;width: 100%">
+                          <input id="insert_keyword" class="form-control" type="text" placeholder="식당 검색">
+                          <button type="submit" class="btn btn-danger">검색하기</button> 
+                      </form>
+                 </div>
+                 <hr>
+                 <ul id="insert_placesList"></ul>
+                 <hr>
+                 <div id="insert_pagination"></div>
+             </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#insertModal2">다음</button>
+            </div>
+          </div>
+        </div>
+      </div>   
+      <div class="modal fade" id="insertModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div  id="insertModal-dialog" class="modal-dialog modal-xl modal-dialog-centered">
+          <div class="modal-content" >
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">새 맛집 기록</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="insertModal-body" class="modal-body" action="${path }/profile/insertmyres.do" enctype="multipart/form-data" method="post">
+               <a id="insertMyResImage" onclick="$('#mypic').click();" class="col-sm-6">
+                  <div>
+                     <img src="${path }/resources/images/이미지 추가.png" style="width: 5rem"/>
+                     <p style="">클릭하여 이미지 추가</p>
+                  </div>
+               </a>
+               <input type="file" id="mypic" name="upFile" multiple style="display: none;"/>
+               <div id="insertMyResInfo" class="col-sm-6">
+                  <div id="myResProfile">
+                     <img id="profile-img" src="${path }/resources/images/프로필 기본 이미지.jpg" data-bs-toggle="modal" data-bs-target="#imgModal"/>
+                     <span><c:out value="${loginMember.memberEmail}"/></span>
+                  </div>
+                  <textarea name="myres_memo" rows="10rem" class="col-sm-12" placeholder="문구 입력.." maxlength="2199"></textarea>
+                  <div id="textNum" style="">
+                     <span>0</span>/2200
+                  </div>
+                  <hr>
+                  <div id="insertLocation">
+                     <span>위치를 설정해주세요</span>
+                     <i class="fa-solid fa-location-dot"></i>
+                  </div>
+                  <hr>
+                  <div id="insertShare">
+                     <span>공유 여부</span>
+                     <div class="form-check form-switch">
+                        <input name="myres_yn" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                     </div>
+                  </div>
+                  <hr>
+               </div>
+               <input type="hidden" name="restaurant"/>
+            </form>   
+              <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#insertModal">이전</button>
+              <button id="myResSave" class="btn btn-danger">저장하기</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+             
+         
         <!-- Article -->
         <article id="main-wrapper">
             <!-- Main -->
