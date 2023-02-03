@@ -30,5 +30,4 @@ public class Member {
 	private Date memberEnrollDate;
 	private String profileOriName;
 	private String profileReName;
-	
 }

@@ -15,8 +15,10 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 @Service
 public class MailService {
+	
 	@Autowired
 	JavaMailSender mailSender;
+	
 	private String pw;
 	public MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException {
 		System.out.println("to : " + to);

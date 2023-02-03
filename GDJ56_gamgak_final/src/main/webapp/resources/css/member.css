@@ -18,3 +18,6 @@
 #email,#name,#nickName,#password,#passwordCk{
     height: 3rem;
 }
+div#login-wrapper span.guide{display:none;position:relative;} 
+	.ok{color:green}
+	.error{color:red}
