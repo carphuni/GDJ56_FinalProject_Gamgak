@@ -19,22 +19,6 @@
     <script src="https://kit.fontawesome.com/d87d902b0c.js" crossorigin="anonymous"></script>
     <script src = "${path }/resources/js/jquery-3.6.1.min.js"></script>
 </head>
-
-<style>
-/* 	div#enroll-container{width:400px; margin:0 auto; text-align:center;}
-	div#enroll-container input, div#enroll-container select {margin-bottom:10px;}
-	div#enroll-container form{display:relative;}*/
-/* 	div#login-wrapper span.guide{display:none;font-size:12px;position:relative;top:12px;right:10px;} 
-	div#login-wrapper span.ok{color:green}
-	div#enroll-container span.error{color:red}
- */
-/*  div#login-wrapper span.guide{display:none;font-size:12px;position:relative;top:12px;right:10px;}  */
- div#login-wrapper span.guide{display:none;position:relative;} 
-	.ok{color:green}
-	.error{color:red}
-</style>
-
-
 <body>
     <div id="basic-wrapper">
         <!-- MainImageCarousel -->
@@ -90,8 +74,7 @@
 	                	<span>또는</span>
 	                	<hr id="hrLine">
             		</div>
-	                
-	             	<div id="inputId" class="form-floating mb">
+	             	<div id="inputId" class="form-floating mb" style="flex">
 	                    <input type="text" class="form-control" name="memberEmail" id="email" placeholder="name@example.com" required>
 	                    <label for="email">이메일 주소</label>
  	                    <span id="emailOk" class="guide ok">이메일 사용이 가능합니다.</span>
@@ -157,14 +140,12 @@
  	   		$.ajax({
  	 			url:"${path}/duplicateEmail",
  	 			data:{memberEmail:$("#email").val()},
- 	 			//동기처리 true(default), false에 대한 값을 넘겨야해!!(동기)
  	 			async:false,
  	 			success:data=>{
- 	 				if(!data){ //email 있으면 true, 없으면 false
+ 	 				if(!data){ 
  	 					$("#emailError").hide();
  	 					idResult=true;
  	 				}else{
- 	 					//console.log(data);
  	 					$("#emailError").show();
  	 				}
  	 			}
@@ -183,6 +164,19 @@
  	 				}
  	   			}
  	   		});
+  			//이메일 인증 코드 보내기
+ 		   	$(()=>{
+ 		   		$.ajax({
+ 		   			type:"POST",
+ 		   			url:"${path}/enroll/mailAuth",
+ 		   			data:{memberEmail:$("#email").val()},
+ 		   			async:false,
+  		   			success:data=>{
+						sessionStorage.setItem("emailCode",data);	 		   			
+ 		   			}
+ 		   		});
+ 		   		
+ 		   	});	
  			
  			if(idResult!=true || nickResult!=true){
  				result = false;
@@ -230,9 +224,8 @@
 				}
 			}
 			return result; 
-		} 		
+		}
+
 	</script>
 	
-`
-</body>
 </html>

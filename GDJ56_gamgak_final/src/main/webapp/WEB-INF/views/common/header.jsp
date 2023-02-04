@@ -33,7 +33,7 @@
             <div id="sidebar" class="col-sm-3">
                 <img id="logo-img" src="${path }/resources/images/로고.png" class="col-1"/>
                 <nav class="nav flex-column">
-                    <a class="nav-link active" aria-current="page" href="${path }/profile/">
+                    <a class="nav-link active" aria-current="page" href="${path }/profile">
                         <i class="fa-solid fa-circle-user"></i>
                         <span>프로필 홈</span>
                     </a>
@@ -50,7 +50,7 @@
                         <i class="fa-solid fa-people-group"></i>
                         <span>모임</span>
                     </a>
-                    <a class="nav-link active" aria-current="page" href="${path }/msg/friend.do">
+                    <a class="nav-link active" aria-current="page" href="#">
                         <i class="fa-solid fa-user-group position-relative">
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.3rem;">
                                 99+

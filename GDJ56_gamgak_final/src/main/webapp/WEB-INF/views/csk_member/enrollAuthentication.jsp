@@ -65,34 +65,31 @@
           	<img id="logo-img" src="${path }/resources/images/로고.png" >
             <h3>감:각</h3>
           	<h6>나만의 맛집 기록</h6>
-            <form action="${path }/enrollEnd" method="post">
+            <form action="" method="post">
 	            <div id="loginInput">
 	                
 	                <div style="display:flex; justify-content:center;flex-direction: column; align-items: center;">
+	                	
 	                	<div>
-	                		<p>name@example.com 으로 인증번호가 전송되었습니다. <br> 인증번호를 입력해 주세요.</p>
+	                		<p>${member.memberEmail} 으로 인증번호가 전송되었습니다. <br> 인증번호를 입력해 주세요.</p>
 	                	</div>
 	                	<div>
-			            	<input type="" class="" name="memberEmail" id="" placeholder="인증번호" style="width: 300px; height:50px;">
+			            	<input type="text" class="" name="memberEmail" id="" placeholder="인증번호" style="width: 300px; height:50px;" value="">
 			            </div>
 	                	
-	                	</div>
-	              <button id="loginButton" type="submit" class="btn btn-danger">회원가입</button>
-	              </div>
+	                </div>
+	              	<button id="loginButton" type="submit" class="btn btn-danger">회원가입</button>
+	        	</div>
+	        	<div>
+	        		<input type="hidden" class="" name="memberEmail" id="" style="width: 300px; height:50px;" value="${member.memberEmail}">
+	        		<input type="hidden" class="" name="memberNickName" id="" style="width: 300px; height:50px;" value="${member.memberNickName}">
+	        		<input type="hidden" class="" name="memberName" id="" style="width: 300px; height:50px;" value="${member.memberName}">
+	        		<input type="hidden" class="" name="memberPasswrod" id="" style="width: 300px; height:50px;" value="${member.memberPassword}">
+	        	</div>
            	</form>
           </div>
 	</div>
-	
-	<script>
-		$(()=>{
-			$.axax({
-				type: "POST",
-				url: "/enroll/mailAuth",
-				data: {"memberEmail",$}
-			})
-			
-			
-		});
-	</script>
+
+
 </body>
 </html>
