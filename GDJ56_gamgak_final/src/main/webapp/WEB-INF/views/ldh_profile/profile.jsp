@@ -244,10 +244,10 @@
 							  <option value="제주특별자치도">제주도</option>
 							</select>
 							<div id="title-search">
-								<form>
+								<div>
 									<input class="form-control" type="text" placeholder="제목, 카테고리 검색">
-									<button class="btn btn-danger col-sm-3" type="submit">검색</button>
-								</form>
+									<button class="btn btn-danger col-sm-3">검색</button>
+								</div>
 							</div>
 	                    </div>
                     </div>
@@ -272,36 +272,142 @@
 					</div>
                 </div>
 <script>
+	//dataClass
+	let profileData={};
+	//기본 cPage
 	let profileCPage=1;
+	//지역별 검색 시 변수 설정
+	let profileArea="";
+	//제목, 카테고리 검색 시 변수 설정
+	let profileSearch="";
+	//기본 스크롤 페이징 주소
 	let profileURL="/profile/scrollselectMyresAll";
+	
+	
+	//내 맛집 클릭 시
 	$("#show-click").click(()=>{
+		//cPage 초기화
+		profileCPage=1;
+		//스크롤 페이징 주소 변경
 		profileURL="/profile/scrollselectMyresAll";
+		//key "area,search" 삭제
+		profileArea="";
+		delete profileData.area;
+		profileSearch="";
+		delete profileData.search;
+		//스크롤 이벤트 살리기
 		$(window).on("scroll",()=>{
 			profileScroll();
 		});
+		$.ajax({
+	        type: "GET",
+	        url: "/profile/selectMyresAll",
+	       	data: profileData,
+	        error: function() {
+	          console.log('통신실패!!');
+	        },
+	        success: function(result) {
+	        	if($.trim(result)==""){
+	        		$("#card-container").html("<div style='text-align: center;width:100%;margin-top:1rem;'>조회된 결과가 없습니다</div>");
+	        	}else{
+	        		$("#card-container").html(result);
+	        	}
+	        }
+		});   
 	})
+	
+	//지역별 클릭시
 	$("#area-click").click(()=>{
-		profileURL="/profile/scrollselectMyresArea";
-		$(window).on("scroll",()=>{
-			profileScroll();
-		});
+		//selectbox option 초기화
+		$($("#area-search")[0][0]).prop("selected", true);
 	})
-	$("#title-click").click(()=>{
-		profileURL="/profile/scrollselectMyresTitle";
+	
+	//지역별 select 변경시
+	$("#area-search").change((e)=>{
+		//key "search" 삭제
+		profileSearch="";
+		delete profileData.search;
+		//스크롤 페이징 주소 변경
+		profileURL="/profile/scrollselectMyresArea";
+		//스크롤 이벤트 살리기
 		$(window).on("scroll",()=>{
 			profileScroll();
 		});
+		//cPage 초기화
+		profileCPage=1;
+		//선택한 지역 value 초기화
+		profileArea=$(e.target).val();
+		//profileData에 key:value추가
+		profileData.area=profileArea;
+		$.ajax({
+	        type: "GET",
+	        url: "/profile/selectMyresArea",
+	       	data: profileData,
+	        error: function() {
+	          console.log('통신실패!!');
+	        },
+	        success: function(result) {
+	        	if($.trim(result)==""){
+	        		$("#card-container").html("<div style='text-align: center;width:100%;margin-top:1rem;'>조회된 결과가 없습니다</div>");
+	        	}else{
+	        		$("#card-container").html(result);
+	        	}
+	        }
+		});   
+	})
+	
+	//검색 클릭 시
+	$("#title-click").click(()=>{
+		$("#title-search input").val("");
+	})
+	
+	//제목, 카테고리 검색 시
+	$("#title-search button").click(()=>{
+		//key "area" 삭제
+		profileArea="";
+		delete profileData.area;
+		//스크롤 페이징 주소 변경
+		profileURL="/profile/scrollselectMyresTitle";
+		//스크롤 이벤트 살리기
+		$(window).on("scroll",()=>{
+			profileScroll();
+		});
+		//cPage 초기화
+		profileCPage=1;
+		//제목,카테고리 input value 초기화
+		profileSearch=$("#title-search input").val();
+		//profileData에 key:value추가
+		profileData.search=profileSearch;
+		$.ajax({
+	        type: "GET",
+	        url: "/profile/selectMyresTitle",
+	       	data: profileData,
+	        error: function() {
+	          console.log('통신실패!!');
+	        },
+	        success: function(result) {
+	        	if($.trim(result)==""){
+	        		$("#card-container").html("<div style='text-align: center;width:100%;margin-top:1rem;'>조회된 결과가 없습니다</div>");
+	        	}else{
+	        		$("#card-container").html(result);
+	        	}
+	        }
+		});   
 	})
 	
 	//스크롤 시 페이징 처리
 	function profileScroll() {
 		 if (Math.round($(window).scrollTop())-16> $(document).height() - $(window).height()) {
 			profileCPage++;
+			profileData.cPage=profileCPage;
+			//지역별 검색시 profileData객체에 key:value 추가
+			if(profileArea!="")profileData.area=profileArea;
+			console.log(profileData);
 		    $("#profileLoading").show();
 		    $.ajax({
 		        type: "GET",
 		        url: profileURL,
-		       	data: {"cPage": profileCPage},
+		       	data: profileData,
 		        error: function() {
 		          console.log('통신실패!!');
 		        },
@@ -327,7 +433,9 @@
 		        		$("#card-container").append(cardDiv); 
 		        	})
 		        	$("#profileLoading").hide();
+		        	//조회된 데이터가 없을 때 
 		        	if(result.myResList.length==0){
+		        		//스크롤 이벤트 삭제
 			        	$(window).off("scroll");
 		        	}
 		        }

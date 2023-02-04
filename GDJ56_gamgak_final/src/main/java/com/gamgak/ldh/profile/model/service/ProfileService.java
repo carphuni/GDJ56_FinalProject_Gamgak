@@ -53,6 +53,16 @@ public class ProfileService {
 		return dao.selectMyResAll(session, param);
 	}
 	
+	//내 저장한 맛집 지역별 조회
+	public List<MyRes> selectMyResArea(Map param){
+		return dao.selectMyResArea(session, param);
+	}
+	
+	//내 저장한 맛집 제목,카테고리별 조회
+	public List<MyRes> selectMyResTitle(Map param){
+		return dao.selectMyResTitle(session, param);
+	}
+	
 	//맛집 저장
 	public int insertMyRes(Map param) {
 		//식당 저장 후 map에 저장
