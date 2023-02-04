@@ -30,4 +30,8 @@ public class RankingService {
 		return dao.rankingCategory(tag);
 	}
 	
+	public Map rankingListClick(int resNo) {
+		return dao.rankingListClick(resNo);
+	}
+	
 }
