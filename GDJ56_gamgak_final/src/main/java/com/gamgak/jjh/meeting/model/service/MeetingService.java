@@ -24,7 +24,14 @@ public class MeetingService {
 	}
 //	모임장이 모임 등록
 	public int insertMeeting(Meeting mee) {
-		return dao.insertMeeting(session,mee);
+		
+		int result=dao.insertMeeting(session,mee);
+		if(result>0) {
+			return dao.meetingjoin(session,mee);
+		}else {
+			return 0;
+		}
+		 
 	}
 //	모임 정보를 불러오기
 	public List<Meeting> selectMeetingList() {

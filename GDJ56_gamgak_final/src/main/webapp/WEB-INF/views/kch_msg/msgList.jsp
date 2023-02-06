@@ -33,25 +33,52 @@
 				<div id="nickname"><b>차니니니니니</b></div>
 			</div>
 			<div id="msg_out_div"><button id="chattingstart" class="chat_modal" data-bs-toggle="modal" data-bs-target="#exampleModal">채팅</button></div>
-		</div>
+		</div> --%>
 
 
-	<a href="#" class="chat_modal" data-bs-toggle="modal" data-bs-target="#exampleModal">
-		<div id="list">
-			<div id="divImg"><img id="msg_profile" alt="" src="${path }/resources/images/프로필 기본 이미지.jpg"></div>
-			<div id="name_msg">
-				<div id="nickname"><b>차니니니니니</b></div>
-				<div id="msg_text"><p>ㅋㅋㅋㅋㅋㅋ</p></div>
-			</div>
-			<div id="count_time">
-				<div id="div_span"><span id="msg_count"> 10 </span></div>
-				<div id="msg_time"><p>17:52</p></div>
-			</div>
-			<div id="msg_out_div"><button id="msg_out_bt">나가기</button></div>
-		</div>
-	</a> --%>
+	
+<%-- 		<div id="list">
+			<a href="#" class="chat_modal" data-bs-toggle="modal" data-bs-target="#exampleModal">
+				<div id="divImg"><img id="msg_profile" alt="" src="${path }/resources/images/프로필 기본 이미지.jpg"></div>
+				<div id="nmct">
+					<div id="name_msg">
+						<div id="nickname"><b>차니니니니니</b></div>
+						<div id="msg_text"><p>ㅋㅋㅋㅋㅋㅋ</p></div>
+					</div>
+					<div id="count_time">
+						<!-- <div id="div_span"><span id="msg_count"> 1 </span></div> -->
+						<div id="div_span"><span class="badge rounded-pill text-bg-danger">10</span></div>
+						<div id="msg_time"><p>17:52</p></div>
+					</div>
+				</div>
+			</a>
+			<div id="msg_out_div"><button class="msg_out_bt">나가기</button></div>
+		</div> --%>
+	
 
 </div>
+
+<!-- 나가기 확인창 -->
+  <div class="modal fade" id="outChatCheck" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <br>채팅방을 나가시겠습니까?<br>
+          (기존 대화 목록은 삭제됩니다.)<br><br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="deleteChat">
+          	예
+          </button>        
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 <!-- 채팅방 -->
@@ -65,7 +92,9 @@
         </div>
         <div class="modal-body" id="chat">
 
-			<div id="modal_sender">
+<%-- 			<div id="modal_sender">
+				<div id="modal_msg_read_r">1</div>	
+				<div id="modal_msg_time_r">19:20</div>			
 				<div id="modal_msg_text_r"><p>ㅋㅋㅋㅋㅋㅋ시작</p></div>
 			</div>	
 			<div id="modal_receiver">
@@ -75,67 +104,8 @@
 					<div id="modal_msg_text_s"><p>ㅋㅋㅋㅋㅋㅋ</p></div>
 					<!-- 입력창 -->
 				</div>
-			</div>
+			</div> --%>
 
-			<div id="modal_sender">
-				<div id="modal_msg_text_r"><p>ㅋㅋㅋㅋㅋㅋ</p></div>
-			</div>	
-			<div id="modal_receiver">
-				<div><img id="modal_msg_profile" alt="" src="${path }/resources/images/프로필 기본 이미지.jpg"></div>
-				<div id="modal_name_msg">
-					<div id="modal_nickname"><b>차니니니니니</b></div>
-					<div id="modal_msg_text_s"><p>ㅋㅋㅋㅋㅋㅋ</p></div>
-					<!-- 입력창 -->
-				</div>
-			</div>
-
-			<div id="modal_sender">
-				<div id="modal_msg_text_r"><p>ㅋㅋㅋㅋㅋㅋ</p></div>
-			</div>	
-			<div id="modal_receiver">
-				<div><img id="modal_msg_profile" alt="" src="${path }/resources/images/프로필 기본 이미지.jpg"></div>
-				<div id="modal_name_msg">
-					<div id="modal_nickname"><b>차니니니니니</b></div>
-					<div id="modal_msg_text_s"><p>ㅋㅋㅋㅋㅋㅋ</p></div>
-					<!-- 입력창 -->
-				</div>
-			</div>
-
-			<div id="modal_sender">
-				<div id="modal_msg_text_r"><p>ㅋㅋㅋㅋㅋㅋ</p></div>
-			</div>	
-			<div id="modal_receiver">
-				<div><img id="modal_msg_profile" alt="" src="${path }/resources/images/프로필 기본 이미지.jpg"></div>
-				<div id="modal_name_msg">
-					<div id="modal_nickname"><b>차니니니니니</b></div>
-					<div id="modal_msg_text_s"><p>ㅋㅋㅋㅋㅋㅋ</p></div>
-					<!-- 입력창 -->
-				</div>
-			</div>
-
-			<div id="modal_sender">
-				<div id="modal_msg_text_r"><p>ㅋㅋㅋㅋㅋㅋ</p></div>
-			</div>	
-			<div id="modal_receiver">
-				<div><img id="modal_msg_profile" alt="" src="${path }/resources/images/프로필 기본 이미지.jpg"></div>
-				<div id="modal_name_msg">
-					<div id="modal_nickname"><b>차니니니니니</b></div>
-					<div id="modal_msg_text_s"><p>ㅋㅋㅋㅋㅋㅋ</p></div>
-					<!-- 입력창 -->
-				</div>
-			</div>
-
-			<div id="modal_sender">
-				<div id="modal_msg_text_r"><p>ㅋㅋㅋㅋㅋㅋ</p></div>
-			</div>	
-			<div id="modal_receiver">
-				<div><img id="modal_msg_profile" alt="" src="${path }/resources/images/프로필 기본 이미지.jpg"></div>
-				<div id="modal_name_msg">
-					<div id="modal_nickname"><b>차니니니니니</b></div>
-					<div id="modal_msg_text_s"><p>ㅋㅋㅋㅋㅋㅋ끝</p></div>
-					<!-- 입력창 -->
-				</div>
-			</div>
 							
 
 
@@ -188,17 +158,42 @@
  	$('#exampleModal').on('hidden.bs.modal', function () {
  		msgList(cPage,loginMemberNo)
 	}) 
-    
 	
-	//처음 채팅방 들어갔을 때 채팅 대화 목록 출력
+	//채팅방 클릭 시
  	function msgPrint(){
-		
 		$(".chat_modal").click(e=>{
-			$("#chat").empty();
+			const personalChatroomNo=e.delegateTarget.lastChild.firstChild.data //클릭한 채팅방 번호
+			//안읽은 메세지 리스트 가져오기
+			$.ajax({
+				url:"${path}/msg/unreadList.do",
+				data:{
+					"personalChatroomNo":personalChatroomNo,
+					loginMemberNo:loginMemberNo
+				},
+				success:data=>{
+					//안읽은 메세지가 있다면
+					if(data.data!=null){
+						//읽음처리하기
+						console.log(data);
+						console.log(data.data.MIN);
+						$.ajax({
+							url:"${path}/msg/updateReadcount.do",
+							data:{
+								"min":data.data.MIN,
+								"max":data.data.MAX,
+								"personalChatroomNo":personalChatroomNo
+							},
+							success:data=>{
+							}
+						})
+					}
+				}
+			})
+			//기존 대화 목록 출력
+			//$("#chat").empty();
 			$("#personalChatroomNo").remove();
-			const personalChatroomNo=e.delegateTarget.lastChild.lastElementChild.firstChild.data //클릭한 채팅방 번호
-			console.log(e);
-			//console.log(test1.lastChild.lastElementChild.firstChild.data);
+			//console.log(e.delegateTarget.lastChild.firstChild.data);
+			
 			$.ajax({
 				url:"${path}/msg/selectChatList.do",
 				data:{
@@ -214,7 +209,33 @@
 			})
 		}); 
 	}	
-
+    
+    //나가기 버튼 누르면 예 버튼에 채팅방 번호 hidden으로 넣어주기
+ 	$(document).on("click",".msg_out_bt",function(e){
+ 		const personalChatroomNo=e.target.attributes.value.textContent; //채팅방번호
+ 		const $deleteHidden=$("<input>").attr({"type":"hidden","id":"deleteChatHidden"});
+ 		$deleteHidden.text(personalChatroomNo);
+ 		$("#deleteChat").append($deleteHidden);
+ 	})
+    
+    //나가기 버튼 -> modal -> 예 -> enterchat에서 삭제
+   	$("#deleteChat").click(e=>{
+		const personalChatroomNo=$("#deleteChatHidden").text();
+		console.log(personalChatroomNo);
+   		$.ajax({
+			url:"${path}/msg/deleteChatroom.do",
+			data:{
+				"personalChatroomNo":personalChatroomNo,
+				loginMemberNo:loginMemberNo
+			},
+			success:data=>{
+				console.log(data);
+				//closeModal();
+				//msgList(cPage,loginMemberNo);
+				location.reload();
+			}
+		})   
+	});
 
 	// ---------- 채팅 ---------- 
 	
@@ -235,7 +256,6 @@
 		switch(msg.type){
 			case "system" : addMsgSystemCh(msg);break; 
 			case "msgCh" : printMsgCh('${loginMember.memberNickName}',msg);break;
-
 		}
 	}
 	
@@ -274,7 +294,6 @@
 		  		})
 			}
 		})
-		
 		//msgList(cPage,loginMemberNo)
 	});
 	

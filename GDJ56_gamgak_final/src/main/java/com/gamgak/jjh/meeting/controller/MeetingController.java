@@ -59,7 +59,7 @@ public class MeetingController {
 	
 	
 	@RequestMapping("/meetting/enrollmeettingEnd.do")
-	public ModelAndView meetingenrollEnd(Meeting mee,ModelAndView mv, HttpSession session, MultipartFile[] fileupload ) {
+	public ModelAndView meetingenrollEnd(Map m,Meeting mee,ModelAndView mv, HttpSession session, MultipartFile[] fileupload ) {
 		System.out.println(mee);
 		System.out.println(fileupload);
 		String meeDate=mee.getMeetingDate();
@@ -77,7 +77,7 @@ public class MeetingController {
 			
 		}
 		
-		mee.setMeetingGender(meeDate);
+		//mee.setMeetingGender(meeDate);
 		
 		//파일업로드하기
 		 // 저장위치가져오기
@@ -115,6 +115,7 @@ public class MeetingController {
 				}
 			}
 			}
+		System.out.println("insert 전 데이터"+mee);
 		int result =service.insertMeeting(mee);
 		System.out.println("insert data : "+mee);
 		mv.addObject("msg",result>0?"모임 생성 성공":"모임 생성 실패");

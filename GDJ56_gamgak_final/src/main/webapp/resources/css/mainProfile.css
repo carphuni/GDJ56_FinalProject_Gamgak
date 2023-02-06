@@ -377,9 +377,11 @@ a:hover{
              width: 100%;
           }
            
-             #title-search>form{
+             #title-search>div{
                 display: flex;
                 width: 100%;
+                padding-bottom: 0;
+
              }    
              
                 #title-search input{
@@ -401,12 +403,17 @@ a:hover{
                 flex-direction: column;
             }
                 #card-title{
+                    font-size: 1rem;
                     font-weight: bold;
                 }
                 
-                #card-category, #card-address{
-                    font-size: 0.8rem;
+                #card-category, #card-address, #card-memo{
+                    font-size: 0.6rem;
                     color: #3b3b3b;
+                }
+
+                #card-memo{
+                    height:100%;display: flex;align-items:flex-end;
                 }
         
         

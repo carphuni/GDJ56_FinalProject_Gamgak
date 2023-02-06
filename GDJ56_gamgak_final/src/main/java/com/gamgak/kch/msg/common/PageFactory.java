@@ -4,11 +4,20 @@ public class PageFactory {
 	
 	public static String getPage(int loginMemberNo,int cPage, int numPerpage, int totalData, String url) {
 		//pagebar를 만들어서 반환해주는 기능을 하는 메소드
+		System.out.println("cPage"+cPage);
+		System.out.println("num"+numPerpage);
+		System.out.println("total"+totalData);
+
+		
 		String pageBar="";
 		int totalPage=(int)Math.ceil((double)totalData/numPerpage);
 		int pageBarSize=5;
 		int pageNo=((cPage-1)/pageBarSize)*pageBarSize+1;
 		int pageEnd=pageNo+pageBarSize-1;
+		System.out.println("total"+totalPage);
+		System.out.println("pageNo"+pageNo);
+		System.out.println("pageEnd"+pageEnd);
+
 		
 		
 		pageBar="<span class='pagination justify-content-center pagination-sm'>";

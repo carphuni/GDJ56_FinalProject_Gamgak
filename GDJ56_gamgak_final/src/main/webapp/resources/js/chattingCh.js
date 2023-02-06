@@ -48,15 +48,16 @@ function selectMsgList(data,loginMemberNo){
 		const $divList=$("<div>").attr("id","list");
 		const $divImg=$("<div>").attr("id","divImg");
 		const $img=$("<img>").attr("id","modal_msg_profile").attr("src","/resources/images/프로필 기본 이미지.jpg");
+		const $divNmct=$("<div>").attr("id","nmct");
 		const $divNameMsg=$("<div>").attr("id","name_msg");
 		const $divNickname=$("<div>").attr("id","nickname");
 		const $divMsgText=$("<div>").attr("id","msg_text");
 		const $divCountTime=$("<div>").attr("id","count_time");
 		const $divSpan=$("<div>").attr("id","div_span");
-		const $span=$("<span>").attr("id","msg_count");
+		const $span=$("<span>").attr("class","badge rounded-pill text-bg-danger");
 		const $divMsgTime=$("<div>").attr("id","msg_time");
 		const $divMsgOut=$("<div>").attr("id","msg_out_div");
-		const $msgOutBt=$("<button>").attr("id","msg_out_bt");
+		const $msgOutBt=$("<button>").attr({"class":"msg_out_bt","value":v.PERSONAL_CHATROOM_NO,"data-bs-toggle":"modal","data-bs-target":"#outChatCheck"});
 		const $hidden=$("<input>").attr({"type":"hidden","class":"hidden"});
 		$divImg.append($img);
 		if(loginMemberNo!=v.MEMBER_RECEIVER_NO){
@@ -69,7 +70,9 @@ function selectMsgList(data,loginMemberNo){
 		$divMsgText.append($pText);
 		$divNameMsg.append($divNickname);
 		$divNameMsg.append($divMsgText);
-		$span.text("10");
+		if(v.UNREAD!=null){
+			$span.text(v.UNREAD);
+		}
 		$divSpan.append($span);
 		$pTime.text(chattingEnrollDate.substr(0,10));
 		$divMsgTime.append($pTime);
@@ -77,14 +80,15 @@ function selectMsgList(data,loginMemberNo){
 		$divCountTime.append($divMsgTime);
 		$msgOutBt.text("나가기");
 		$divMsgOut.append($msgOutBt);
-		$divList.append($divImg);
-		$divList.append($divNameMsg);
-		$divList.append($divCountTime);
-		$divList.append($divMsgOut);
+		$a.append($divImg);
+		$divNmct.append($divNameMsg);
+		$divNmct.append($divCountTime);		
+		$a.append($divNmct);
 		$hidden.text(v.PERSONAL_CHATROOM_NO);
-		$divList.append($hidden);
-		$a.append($divList);
-		$("#msgAll").append($a);
+		$a.append($hidden);
+		$divList.append($a);
+		$divList.append($divMsgOut);
+		$("#msgAll").append($divList);
 		$("#totalpage").append($("#msgAll"));
 	});
 	const $pageBar=$("<div>").attr("id","pageBar");
@@ -107,8 +111,13 @@ function msgRead(data,loginMemberNo,personalChatroomNo){
 			const $divRr=$("<div>").attr("id","modal_sender");
 			const $divR=$("<div>").attr("id","modal_msg_text_r");
 			const $divTr=$("<div>").attr("id","modal_msg_time_r");
+			const $divRead=$("<div>").attr("id","modal_msg_read_r");
 			$divR.append($p);
+			if(v.CHATTING_UNREAD_CNT==1){
+				$divRead.text(v.CHATTING_UNREAD_CNT);
+			}
 			$divTr.text(chattingEnrollDate.substr(11,5));
+			$divRr.append($divRead);
 			$divRr.append($divTr);
 			$divRr.append($divR);
 			$("#chat").append($divRr);

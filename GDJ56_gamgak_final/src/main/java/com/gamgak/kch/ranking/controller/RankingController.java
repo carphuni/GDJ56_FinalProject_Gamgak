@@ -1,5 +1,6 @@
 package com.gamgak.kch.ranking.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +36,22 @@ public class RankingController {
 			@RequestParam(value="neLon") double neLon) {
 		List<Map> list=service.searchPlace(swLat,swLon,neLat,neLon);
 		return list;
+	}
 
+	//카테고리별 검색
+	@RequestMapping("/rankingCategory.do")
+	@ResponseBody
+	public List<Map> rankingCategory(String tag){
+		List<Map> list=service.rankingCategory(tag);
+		return list;
+	}
 	
+	//인기순위에서 식당 이름 클릭
+	@RequestMapping("/rankingListClick.do")
+	@ResponseBody
+	public Map rankingListClick(int resNo) {
+		Map m=new HashMap();
+		m.put("data",service.rankingListClick(resNo));
+		return m;
 	}
 }

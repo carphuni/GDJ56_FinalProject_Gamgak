@@ -1,6 +1,6 @@
-/* div{
+/*   div{
 	border: 1px solid red;
-} */
+}  */ 
 
 /* 실시간 맛집 순위 (ranking.jsp) */
 #totalpage{
@@ -38,7 +38,7 @@
 				margin-top: 20px;
 				/* margin: auto; */
 			}
-				#tagbutton1{
+				.tagbutton1{
 					width: 120px;
 					height: 40px;
 					background-color: #dc3545;
@@ -46,17 +46,14 @@
 					font-size: 13px;
 					border: none;
 					border-radius: 5px;
-
-					/* margin-right: 20px; */
 				}
-				#tagbutton2{
+				.tagbutton2{
 					width: 120px;
 					height: 40px;
 					background-color: #E6E6E6;
 					font-size: 13px;
 					border: none;
 					border-radius: 5px;
-					margin-left: 32px;
 				}			
 			#ranking{
 				background-color: #E6E6E6;
@@ -70,29 +67,29 @@
 			}
 				#toptenleft, #toptenright{
 					display: flex;
-					margin-right: 30px;
 				}
-					#topten{
-						justify-content: center;
+					#topten1, #topten2{
+						/* justify-content: center; */
 						font-size: 13px;
 						display: flex;
 						flex-direction : column;	
 						text-align: left;
 						padding: 10px;
-						width: 150px;
+						width: fit-content;
 					}
-						#topten>a{
+						#topten1>a, #topten2>a{
 							padding: 10px;
 						}
-					#change{
+					#change1, #change2{
 						justify-content: center;
 						font-size: 13px;
 						display: flex;
 						flex-direction : column;	
-						text-align: left;
+						/* text-align: left; */
+						padding-top: 1rem;
 					}
-						#change>a{
-							padding: 10px;
+						#change1>p, #change2>p{
+							padding: 2px;
 						}
 
 /* 지도 */
@@ -109,6 +106,10 @@
 #msg_title{
 	text-align: center;
 }
+.chat_modal{
+	display: flex;
+}
+
 #list{
 	display: flex;
 	padding: 20px;
@@ -142,12 +143,17 @@
 			font-weight: bold;
 			border-radius: 50%;
 			padding: 2px;
+			min-width: 100px;
 		}
 		#msg_count_div{
 			width: 100px;
 			height: 100px;
 		}	
-	#msg_out_bt{
+		#msg_out_div{
+			margin-right: 10px;
+		}
+		
+	.msg_out_bt{
 		width: 55px;
 		height: 30px;
 		background-color: #dc3545;
@@ -165,6 +171,7 @@
   background: rgba(0,0,0,0.8); 
   display: none;
 } */
+
 	#modal-content1{
 	  width: 700px; 
 	  height: 600px;
@@ -278,9 +285,21 @@
 	font-size: 11px;
 	padding: 10px;
 }
+#modal_msg_read_r{
+	font-size: 11px;
+	color: #dc3545;
+	padding-top: 10px;
+}
 
 #modal_msg_t{
 	display: flex;
+}
+
+
+#nmct{
+	display: flex;
+	justify-content: flex-end;
+	width: 545px;
 }
 
 
