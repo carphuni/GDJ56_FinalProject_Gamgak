@@ -34,24 +34,24 @@
                         <span>관리자 홈</span>
                     </a><a class="nav-link active" aria-current="page" href="${path}/admin/report.do">
                         <i class="fa-solid fa-magnifying-glass-chart position-relative">
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.3rem;">
-                                2
+                            <span id="redata" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.3rem;">
+                                ${redata}
                                 <span class="visually-hidden">unread messages</span>
                             </span>
                         </i>
                         <span>신고 관리</span>
                     </a><a class="nav-link active" aria-current="page" href="${path}/admin/meeting.do">
                         <i class="fa-solid fa-people-group position-relative">
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.3rem;">
-                                1
+                            <span id="mtdata" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.3rem;">
+                                ${mtdata}
                                 <span class="visually-hidden">unread messages</span>
                             </span>
                         </i>
                         <span>모임 관리</span>
                     </a><a class="nav-link active" aria-current="page" href="${path}/admin/member.do">
                         <i class="fa-solid fa-user-group position-relative">
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.3rem;">
-                                4
+                            <span id="memdata" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.3rem;">
+                                ${memdata}
                                 <span class="visually-hidden">unread messages</span>
                             </span>
                         </i>
