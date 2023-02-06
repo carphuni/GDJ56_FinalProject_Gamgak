@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.gamgak.csk.member.model.entity.Member;
 import com.gamgak.csk.member.model.service.MailService;
@@ -24,17 +25,19 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberController {
    private MemberService service;
    private MailService mailservice;
+   private final HttpSession session;
 
    @Autowired 
-   public MemberController(MemberService service, MailService mailservice) {
+   public MemberController(MemberService service, MailService mailservice, HttpSession session) {
       super();
       this.service = service;
       this.mailservice = mailservice;
+      this.session = session;
    }
    
    @RequestMapping("/login")
 //   @ResponseBody
-   public String login(Member m, HttpSession session, Model model) {
+   public String login(Member m, Model model) {
       Member loginMember=service.selectMemberById(m);
       if(loginMember!=null&&loginMember.getMemberPassword().equals(m.getMemberPassword())) {
          session.setAttribute("loginMember", loginMember);
@@ -46,29 +49,33 @@ public class MemberController {
    public String enroll() {
 	   return "csk_member/enrollMember";
    }
-   @RequestMapping("/enrollEnd")
-   public String enrollEnd(Member m, Model model, HttpServletRequest request) {
+   @RequestMapping("/mailAuthEnd")
+   public String mailAuthEnd(Member m, Model model, HttpServletRequest request) {
 	   model.addAttribute("member",m);
-	   String emailCode=request.getParameter("emailCode");
-	   log.debug("메일코드 : ",emailCode); //안오넹
+	   log.debug("첫번재 이메일인증 전 {}",m);
 	   return "csk_member/enrollAuthentication";
    }
-//   @RequestMapping("/signup")
-//   public ModelAndView enrollEnd(Member m, ModelAndView mv) {
-//	   //받아야할 파라미터 : m, hidden으로 전달된 input emailPw
-//	   log.debug("파라미터로 전달된 member : {}",m);
-//	   int result=service.insertMember(m);
-//	   log.debug("인서트 성공?"+result);
-//	   if(result>0) {
-//		   mv.addObject("msg","가입을 축하드립니다.");
-//		   mv.addObject("loc","/member/info");
-//	   } else {
-//		   mv.addObject("msg","인증번호가 옳바르지 않습니다");
-//		   mv.addObject("loc","/enrollEnd");
-//	   }
-//	   mv.setViewName("csk_member/msg");
-//      return mv;
-//   }
+   @RequestMapping("/enrollEnd")
+   public ModelAndView enrollEnd(Member member, ModelAndView mv, String emailCode) {
+	   int result=0;
+	   log.debug("코드 입력값 {}",emailCode);
+	   log.debug("세션 member : {}",member);
+	   String code=(String)session.getAttribute("code");
+	   log.debug("코드값 {}",code);
+	   
+	   if(emailCode.equals(code)) {
+		   result=service.insertMember(member);
+	   }
+	   if(result>0) {
+		   mv.addObject("enrollMessage","가입을 축하드립니다.");
+		   mv.setViewName("index");
+	   } else {
+		   mv.addObject("member",member);
+		   mv.addObject("enrollMessage","회원가입에 실패했습니다. 다시 시도해주세요.");
+		   mv.setViewName("csk_member/enrollAuthentication");
+	   }
+      return mv;
+   }
    @RequestMapping("/myinfo")
    public String myPage() {
       return "csk_member/myInfo";

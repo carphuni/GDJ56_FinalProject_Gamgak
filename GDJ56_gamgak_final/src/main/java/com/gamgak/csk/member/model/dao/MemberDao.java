@@ -10,7 +10,6 @@ import com.gamgak.csk.member.model.entity.Member;
 public class MemberDao {
 	//public interface MemberDao extends JpaRepository<Member, Long>{
 	public Member selectMemberById(SqlSessionTemplate session,Member m){
-		System.out.println("dao"+m);
 		return session.selectOne("member.selectMemberById",m);
 	}
 	public Member selectMemberByNickName(SqlSessionTemplate session, Member m) {
@@ -18,7 +17,7 @@ public class MemberDao {
 	}
 	public int insertMember(SqlSessionTemplate session, Member m) {
 		System.out.println("member"+m);
-		return session.selectOne("member.insertMember",m);
+		return session.insert("member.insertMember",m);
 	}
 
 }

@@ -66,7 +66,7 @@
           	<img id="logo-img" src="${path }/resources/images/로고.png" >
             <h3>감:각</h3>
           	<h6>나만의 맛집 기록</h6>
-            <form action="${path }/enrollEnd" method="post" onsubmit="return fn_invalidate();">
+            <form action="${path }/mailAuthEnd" method="post" onsubmit="return fn_invalidate();">
 	            <div id="loginInput">
 		            <a><img id="kakaologin" src="${path }/resources/images/카카오 로그인.png"/></a>
             		<div id="orLine">

@@ -21,8 +21,6 @@ public class MailService {
 	
 	private String pw;
 	public MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException {
-		System.out.println("to : " + to);
-		System.out.println("pw : " + pw);
 		MimeMessage msg=mailSender.createMimeMessage();
 		msg.addRecipients(RecipientType.TO, to);
 		msg.setSubject("감각 회원가입 이메일 인증"); //이메일 제목
