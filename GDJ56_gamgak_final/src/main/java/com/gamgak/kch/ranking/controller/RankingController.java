@@ -46,6 +46,7 @@ public class RankingController {
 		return list;
 	}
 	
+	//인기순위에서 식당 이름 클릭
 	@RequestMapping("/rankingListClick.do")
 	@ResponseBody
 	public Map rankingListClick(int resNo) {

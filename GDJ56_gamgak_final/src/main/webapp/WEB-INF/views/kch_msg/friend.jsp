@@ -21,7 +21,7 @@
 <div id="modalClick">
 	<p>user09</p>
 	<button onclick="chatStartx()">채팅</button>
-	<input type="hidden" id="memberNo10" value="10">
+	<input type="hidden" id="memberNo10" value="23">
 </div>
 
 <!-- 채팅창 -->

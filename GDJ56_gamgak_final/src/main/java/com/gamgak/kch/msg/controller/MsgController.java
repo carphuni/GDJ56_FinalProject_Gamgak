@@ -116,5 +116,39 @@ public class MsgController {
 		int result=service.enterchatFriend(memberNo, chatRoomNo);
 		return result;
 	}
+	
+	//enterchat에서 삭제
+	@RequestMapping("/deleteChatroom.do")
+	@ResponseBody
+	public int deleteChatroom(int personalChatroomNo, int loginMemberNo) {
+		int result=service.deleteChatroom(personalChatroomNo, loginMemberNo);
+		return result;
+	}
+	
+	//안읽은 메세지 리스트
+	@RequestMapping("/unreadList.do")
+	@ResponseBody
+	public Map unreadList(int personalChatroomNo, int loginMemberNo){
+		Map m=new HashMap();
+		m.put("data",service.unreadList(personalChatroomNo, loginMemberNo));
+		return m;
+	}
+	
+	//읽음처리
+	@RequestMapping("/updateReadcount.do")
+	@ResponseBody
+	public int updateReadCount(int min, int max, int personalChatroomNo) {
+		int result=service.updateReadCount(min, max, personalChatroomNo);
+		return result;
+	}
+	
+	//헤더 안읽은 메세지 수
+	@RequestMapping("/unreadCount.do")
+	@ResponseBody
+	public Map unreadCount(int loginMemberNo) {
+		Map m=new HashMap();
+		m.put("data",service.unreadCount(loginMemberNo));
+		return m;
+	}
 
 }
