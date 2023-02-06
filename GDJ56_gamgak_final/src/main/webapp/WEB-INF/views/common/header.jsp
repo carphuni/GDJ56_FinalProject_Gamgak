@@ -50,7 +50,7 @@
                         <i class="fa-solid fa-people-group"></i>
                         <span>모임</span>
                     </a>
-                    <a class="nav-link active" aria-current="page" href="${path }/msg/friend.do">
+                    <a class="nav-link active" aria-current="page" href="#">
                         <i class="fa-solid fa-user-group position-relative">
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.3rem;">
                                 99+

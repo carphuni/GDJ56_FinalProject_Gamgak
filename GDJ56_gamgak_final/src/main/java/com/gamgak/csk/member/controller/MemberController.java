@@ -12,12 +12,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.gamgak.csk.member.model.entity.Member;
 import com.gamgak.csk.member.model.service.MailService;
 import com.gamgak.csk.member.model.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
-//@SessionAttributes({"loginMember"})
 @Slf4j
 @Controller
 public class MemberController {
@@ -43,13 +44,32 @@ public class MemberController {
    
    @RequestMapping("/enroll")
    public String enroll() {
-      return "csk_member/enrollMember";
+	   return "csk_member/enrollMember";
    }
    @RequestMapping("/enrollEnd")
-   public String enrollEnd() {
-	   
-      return "csk_member/enrollAuthentication";
+   public String enrollEnd(Member m, Model model) {
+	   log.debug("파라미터로 전달된 member : {}",m);
+//	   log.debug("메일코드 ",mailCode); //안오넹
+	   model.addAttribute("member",m);
+//	   HttpSession session=(Httpser)
+	   return "csk_member/enrollAuthentication";
    }
+//   @RequestMapping("/signup")
+//   public ModelAndView enrollEnd(Member m, ModelAndView mv) {
+//	   //받아야할 파라미터 : m, hidden으로 전달된 input emailPw
+//	   log.debug("파라미터로 전달된 member : {}",m);
+//	   int result=service.insertMember(m);
+//	   log.debug("인서트 성공?"+result);
+//	   if(result>0) {
+//		   mv.addObject("msg","가입을 축하드립니다.");
+//		   mv.addObject("loc","/member/info");
+//	   } else {
+//		   mv.addObject("msg","인증번호가 옳바르지 않습니다");
+//		   mv.addObject("loc","/enrollEnd");
+//	   }
+//	   mv.setViewName("csk_member/msg");
+//      return mv;
+//   }
    @RequestMapping("/myinfo")
    public String myPage() {
       return "csk_member/myInfo";
@@ -74,7 +94,7 @@ public class MemberController {
    @ResponseBody
    public String mailConfirm(@RequestParam("memberEmail") String memberEmail) throws Exception{
 	   String code=mailservice.sendSimpleMessage(memberEmail);
-	   System.out.println("인증코드 : "+code);
+	   System.err.println("인증코드 : "+code);
 	   return code;
    }
 

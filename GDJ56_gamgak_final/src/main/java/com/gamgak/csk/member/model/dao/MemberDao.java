@@ -16,6 +16,9 @@ public class MemberDao {
 	public Member selectMemberByNickName(SqlSessionTemplate session, Member m) {
 		return session.selectOne("member.selectMemberByNickName",m);
 	}
-	
+	public int insertMember(SqlSessionTemplate session, Member m) {
+		System.out.println("member"+m);
+		return session.selectOne("member.insertMember",m);
+	}
 
 }
