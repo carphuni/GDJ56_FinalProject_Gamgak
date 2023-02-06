@@ -28,7 +28,14 @@
         <!-- 내용 -->
         <div id="mtdata">
             <table id="dataList">
-                    
+                <tr>
+                    <th>누적 모임 수</th>
+                    <th>삭제 모임 수</th>
+                </tr>
+                <tr>
+                    <td>${totalmeeting}</td>
+                    <td>${delmt}</td>
+                </tr>              
             </table>
         </div>
         <div id="headtext" onclick="meetinglist(cPage,ynval);">
@@ -138,7 +145,6 @@
         if(ynval==null)ynval="N"
         $("#meetingList").empty();
         $("#pageBar").empty();
-        $("#dataList").empty();
         $.ajax({
             url:"${path}/admin/selectmeeting.do",
             data:{
@@ -150,17 +156,6 @@
                 // numPerpage:numPerpage
             },
             success:data=>{
-                //데이터 소계
-                const datatr=$("<tr>");
-                datatr.append($("<th style='border:1px solid'>").text("현재 모임 수"))
-                datatr.append($("<th style='border:1px solid'>").text("삭제 모임 수"))
-                // datatr.append($("<th style='border:1px solid'>").text("신규회원 수"))
-                $("#dataList").append(datatr)
-
-                const datatr2=$("<tr>")
-                datatr2.append($("<td  style='border:1px solid'>").text(data.totalmt))
-                datatr2.append($("<td  style='border:1px solid'>").text(data.authmt))
-                $("#dataList").append(datatr2)
                 
                 //모임 리스트
                 const tr=$("<tr>");

@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
-<jsp:include page="/WEB-INF/views/common/adminheader.jsp"/>
+<jsp:include page="/WEB-INF/views/common/adminheader.jsp">
+    <jsp:param name="title" value="회원가입"/>
+</jsp:include>
 <style>
      #adInfo{display: flex; flex-direction: row;justify-content: center;}
     #adimg{width: 100px; height: 100px; margin-right: 50px;}
@@ -28,7 +30,14 @@
          <!-- 내용 -->
         <div id="memdata">
             <table id="dataList">
-                    
+                <tr>
+                    <th>누적 회원 수</th>
+                    <th>정지 회원 수</th>
+                </tr>
+                <tr>
+                    <td>${total}</td>
+                    <td>${authmem}</td>
+                </tr>            
             </table>
         </div>
         <div id="headtext" onclick="memberlist(cPage,ynval);">
@@ -126,13 +135,12 @@
             })
         }
     }
+
     //탈퇴회원 리스트 출력
     function deletememlist(){
         let ynval="Y"
         memberlist(cPage,ynval);
     }
-
-    
 
     //리스트 출력
     function memberlist(cPage,ynval){
@@ -140,7 +148,6 @@
         if(ynval==null)ynval="N"
         $("#memberList").empty();
         $("#pageBar").empty();
-        $("#dataList").empty();
         $.ajax({
             url:"${path}/admin/selectmember.do",
             data:{
@@ -156,18 +163,7 @@
                 // console.log(data.list)
                 // console.log(data.totalmem)
                 // console.log(data.authmem)
-                //데이터 소계
-                const datatr=$("<tr>");
-                datatr.append($("<th style='border:1px solid'>").text("현재 회원 수"))
-                datatr.append($("<th style='border:1px solid'>").text("탈퇴회원 수"))
-                // datatr.append($("<th style='border:1px solid'>").text("신규회원 수"))
-                $("#dataList").append(datatr)
-
-                const datatr2=$("<tr>")
-                datatr2.append($("<td  style='border:1px solid'>").text(data.totalmem))
-                datatr2.append($("<td  style='border:1px solid'>").text(data.authmem))
-                $("#dataList").append(datatr2)
-
+              
                 //회원 리스트
                 const tr=$("<tr>");
                 const checkbox=$("<input id='selectAll' type='checkbox'>").attr("onclick","selectAll()")
