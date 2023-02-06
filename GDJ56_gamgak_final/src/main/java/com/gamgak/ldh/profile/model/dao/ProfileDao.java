@@ -38,6 +38,16 @@ public class ProfileDao {
 		return session.selectList("profile.selectMyResAll",param.get("memberNo"),new RowBounds((((int)param.get("cPage"))-1)*(int)param.get("numPerpage"),(int)param.get("numPerpage")));
 	}
 	
+	//내 저장한 맛집 지역별 조회
+	public List<MyRes> selectMyResArea(SqlSessionTemplate session,Map param){
+		return session.selectList("profile.selectMyResArea",param,new RowBounds((((int)param.get("cPage"))-1)*(int)param.get("numPerpage"),(int)param.get("numPerpage")));
+	}
+	
+	//내 저장한 맛집 제목,카테고리별 조회
+	public List<MyRes> selectMyResTitle(SqlSessionTemplate session,Map param){
+		return session.selectList("profile.selectMyResTitle",param,new RowBounds((((int)param.get("cPage"))-1)*(int)param.get("numPerpage"),(int)param.get("numPerpage")));
+	}
+	
 	//식당 저장
 	public int insertRestaurant(SqlSessionTemplate session, Map restaurant) {
 		try{

@@ -79,5 +79,27 @@ public class MsgService {
 		int result=dao.enterchatFriend(memberNo, chatRoomNo);
 		return result;
 	}
+	
+	//enterchat에서 삭제
+	public int deleteChatroom(int personalChatroomNo, int loginMemberNo) {
+		int result=dao.deleteChatroom(personalChatroomNo, loginMemberNo);
+		return result;
+	}
+	
+	//안읽은 메세지 리스트
+	public Map unreadList(int personalChatroomNo, int loginMemberNo){
+		return dao.unreadList(personalChatroomNo, loginMemberNo);
+	}
+	
+	//읽음처리
+	public int updateReadCount(int min, int max, int personalChatroomNo) {
+		int result=dao.updateReadCount(min, max, personalChatroomNo);
+		return result;
+	}
+	
+	//헤더 안읽은 메세지 수
+	public Map unreadCount(int loginMemberNo) {
+		return dao.unreadCount(loginMemberNo);
+	}
 
 }

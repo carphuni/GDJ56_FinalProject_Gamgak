@@ -50,7 +50,7 @@
                         <i class="fa-solid fa-people-group"></i>
                         <span>모임</span>
                     </a>
-                    <a class="nav-link active" aria-current="page" href="#">
+                    <a class="nav-link active" aria-current="page" href="${path }/msg/friend.do">
                         <i class="fa-solid fa-user-group position-relative">
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.3rem;">
                                 99+
@@ -61,9 +61,13 @@
                     </a>
                     <a class="nav-link active" aria-current="page" href="${path }/msg/msgList.do">
                         <i class="fa-solid fa-envelope position-relative">
-                            <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle" style="width: 0.5rem;">
+<!--                             <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle" style="width: 0.5rem;">
                                 <span class="visually-hidden">New alerts</span>
-                            </span>
+                            </span> -->
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="unreadChat" style="font-size: 0.3rem;">
+                                
+                                <span class="visually-hidden">unread messages</span>
+                            </span>                            
                         </i>
                         <span>메세지</span>
                     </a>
@@ -119,7 +123,7 @@
             <form id="insertModal-body" class="modal-body" action="${path }/profile/insertmyres.do" enctype="multipart/form-data" method="post">
                <a id="insertMyResImage" onclick="$('#mypic').click();" class="col-sm-6">
                   <div>
-                     <img src="${path }/resources/images/이미지 추가.png" style="width: 5rem"/>
+                     <img src="${path }/resources/images/프로필 기본 이미지.jpg" style="width: 5rem"/>
                      <p style="">클릭하여 이미지 추가</p>
                   </div>
                </a>
@@ -163,3 +167,24 @@
         <article id="main-wrapper">
             <!-- Main -->
             <section>
+ 
+<script>
+	//안읽은 메세지 수
+ 	(() => {
+		$.ajax({
+			url:"${path}/msg/unreadCount.do",
+			data:{
+				"loginMemberNo":${loginMember.memberNo},
+			},
+			success:data=>{
+				console.log(data);
+				if(data.data!=null){
+					$("#unreadChat").text(data.data.COUNT);
+				}else{
+					$("#unreadChat").text(0);
+				}
+				
+			}
+		})
+	})(); 
+</script>

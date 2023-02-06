@@ -81,7 +81,7 @@
    </div>
 </div>
 
-<!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ee03448a6bf04aae4a0e4b0695cff05a&libraries=services"></script> -->
+
 <script>
 //맛집 순위 자동실행
 	(() => {
@@ -112,9 +112,47 @@
 		})
 	})
 	
+ 	//순위 리스트에서 식당 클릭 시
+	$(document).on("click",".ranking_res_name",function(e){
+		console.log(e);
+		const resNo=e.target.attributes.value.textContent;
+		$.ajax({
+			url:"${path}/rankingListClick.do",
+			data:{
+				"resNo":resNo
+			},
+			success:data=>{
+				console.log(data);
+				rankingListClick(data);
+			}
+		})
+	})
 	
+	function rankingListClick(data){
+		var listEl = document.getElementById('placesListch'),   
+	    menuEl = document.getElementById('menu_wrap'),
+	    fragment = document.createDocumentFragment(), 
+	    bounds = new kakao.maps.LatLngBounds(), 
+	    listStr = '';
+		
+	    // 검색 결과 목록에 추가된 항목들을 제거합니다
+	    removeAllChildNods(listEl);
 	
-	
+	    // 지도에 표시되고 있는 마커를 제거합니다
+	    removeMarker();
+		
+	 	// 마커를 생성하고 지도에 표시합니다
+	    var placePosition = new kakao.maps.LatLng(data.data.RES_LAT, data.data.RES_LON);
+		
+        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+        // LatLngBounds 객체에 좌표를 추가합니다
+        bounds.extend(placePosition);
+        
+        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+        map.setBounds(bounds);
+    		
+
+    }
 	
 	
 	//--------------------------------------------------------------------------------------------------

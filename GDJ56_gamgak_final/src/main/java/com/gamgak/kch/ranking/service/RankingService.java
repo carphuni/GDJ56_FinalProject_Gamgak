@@ -30,4 +30,9 @@ public class RankingService {
 		return dao.rankingCategory(tag);
 	}
 	
+	//인기순위에서 식당 이름 클릭
+	public Map rankingListClick(int resNo) {
+		return dao.rankingListClick(resNo);
+	}
+	
 }
