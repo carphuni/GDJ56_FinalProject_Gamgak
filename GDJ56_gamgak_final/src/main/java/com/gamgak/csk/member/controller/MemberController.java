@@ -2,6 +2,7 @@ package com.gamgak.csk.member.controller;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -46,9 +47,10 @@ public class MemberController {
 	   return "csk_member/enrollMember";
    }
    @RequestMapping("/enrollEnd")
-   public String enrollEnd(Member m, Model model, HttpSession session, String emailCode) {
+   public String enrollEnd(Member m, Model model, HttpServletRequest request) {
 	   model.addAttribute("member",m);
-	   log.debug("메일코드 ", session.getAttribute(emailCode)); //안오넹
+	   String emailCode=request.getParameter("emailCode");
+	   log.debug("메일코드 : ",emailCode); //안오넹
 	   return "csk_member/enrollAuthentication";
    }
 //   @RequestMapping("/signup")

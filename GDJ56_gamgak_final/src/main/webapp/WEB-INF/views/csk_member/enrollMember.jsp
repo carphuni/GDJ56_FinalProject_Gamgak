@@ -170,9 +170,10 @@
  		   			type:"POST",
  		   			url:"${path}/enroll/mailAuth",
  		   			data:{memberEmail:$("#email").val()},
+ 		   			datatype:"script",
  		   			async:false,
   		   			success:data=>{
-						sessionStorage.setItem("emailCode",data);	 		   			
+						$("#emailCode").script(data);	 		   			
  		   			}
  		   		});
  		   		
