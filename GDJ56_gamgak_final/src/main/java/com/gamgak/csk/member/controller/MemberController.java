@@ -7,12 +7,11 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.gamgak.csk.member.model.entity.Member;
 import com.gamgak.csk.member.model.service.MailService;
@@ -47,11 +46,9 @@ public class MemberController {
 	   return "csk_member/enrollMember";
    }
    @RequestMapping("/enrollEnd")
-   public String enrollEnd(Member m, Model model) {
-	   log.debug("파라미터로 전달된 member : {}",m);
-//	   log.debug("메일코드 ",mailCode); //안오넹
+   public String enrollEnd(Member m, Model model, HttpSession session, String emailCode) {
 	   model.addAttribute("member",m);
-//	   HttpSession session=(Httpser)
+	   log.debug("메일코드 ", session.getAttribute(emailCode)); //안오넹
 	   return "csk_member/enrollAuthentication";
    }
 //   @RequestMapping("/signup")
@@ -92,8 +89,9 @@ public class MemberController {
    
    @PostMapping("/enroll/mailAuth")
    @ResponseBody
-   public String mailConfirm(@RequestParam("memberEmail") String memberEmail) throws Exception{
+   public String mailConfirm(HttpSession session, @RequestParam("memberEmail") String memberEmail) throws Exception{
 	   String code=mailservice.sendSimpleMessage(memberEmail);
+	   session.setAttribute("code", code);
 	   System.err.println("인증코드 : "+code);
 	   return code;
    }
