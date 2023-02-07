@@ -81,6 +81,7 @@ public class MsgService {
 	}
 	
 	//나가기버튼 enterchat 수정
+	@Transactional
 	public int updateChatroom(int personalChatroomNo, int loginMemberNo) {
 		int result=dao.updateChatroom(personalChatroomNo, loginMemberNo);
 		return result;
@@ -92,6 +93,7 @@ public class MsgService {
 	}
 	
 	//읽음처리
+	@Transactional
 	public int updateReadCount(int min, int max, int personalChatroomNo) {
 		int result=dao.updateReadCount(min, max, personalChatroomNo);
 		return result;
@@ -103,6 +105,7 @@ public class MsgService {
 	}
 	
 	//같은 방 회원 나가기 여부 수정
+	@Transactional
 	public int updateChatOut(int personalChatroomNo, int loginMemberNo) {
 		return dao.updateChatOut(personalChatroomNo, loginMemberNo);
 	}
@@ -113,6 +116,7 @@ public class MsgService {
 	}
 	
 	//로그인 회원의 방 나가기 여부 수정
+	@Transactional
 	public int updateLoginMemberChatOut(int personalChatroomNo, int loginMemberNo) {
 		return dao.updateLoginMemberChatOut(personalChatroomNo, loginMemberNo);
 	}
