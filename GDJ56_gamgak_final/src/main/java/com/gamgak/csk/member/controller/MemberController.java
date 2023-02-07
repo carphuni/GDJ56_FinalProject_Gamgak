@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,19 +26,19 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberController {
    private MemberService service;
    private MailService mailservice;
-   private final HttpSession session;
+   private BCryptPasswordEncoder passwordEncoder;
 
    @Autowired 
-   public MemberController(MemberService service, MailService mailservice, HttpSession session) {
+   public MemberController(MemberService service, MailService mailservice, BCryptPasswordEncoder passwordEncoder) {
       super();
       this.service = service;
       this.mailservice = mailservice;
-      this.session = session;
+      this.passwordEncoder = passwordEncoder;
    }
    
    @RequestMapping("/login")
 //   @ResponseBody
-   public String login(Member m, Model model) {
+   public String login(Member m, Model model, HttpSession session) {
       Member loginMember=service.selectMemberById(m);
       if(loginMember!=null&&loginMember.getMemberPassword().equals(m.getMemberPassword())) {
          session.setAttribute("loginMember", loginMember);
@@ -56,7 +57,7 @@ public class MemberController {
 	   return "csk_member/enrollAuthentication";
    }
    @RequestMapping("/enrollEnd")
-   public ModelAndView enrollEnd(Member member, ModelAndView mv, String emailCode) {
+   public ModelAndView enrollEnd(Member member, ModelAndView mv, String emailCode, HttpSession session) {
 	   int result=0;
 	   log.debug("코드 입력값 {}",emailCode);
 	   log.debug("세션 member : {}",member);
