@@ -117,11 +117,11 @@ public class MsgController {
 		return result;
 	}
 	
-	//enterchat에서 삭제
-	@RequestMapping("/deleteChatroom.do")
+	//나가기버튼 enterchat 수정
+	@RequestMapping("/updateChatroom.do")
 	@ResponseBody
-	public int deleteChatroom(int personalChatroomNo, int loginMemberNo) {
-		int result=service.deleteChatroom(personalChatroomNo, loginMemberNo);
+	public int updateChatroom(int personalChatroomNo, int loginMemberNo) {
+		int result=service.updateChatroom(personalChatroomNo, loginMemberNo);
 		return result;
 	}
 	
@@ -149,6 +149,29 @@ public class MsgController {
 		Map m=new HashMap();
 		m.put("data",service.unreadCount(loginMemberNo));
 		return m;
+	}
+	
+	//같은 방 회원 나가기 여부 수정
+	@RequestMapping("/updateChatOut.do")
+	@ResponseBody
+	public int updateChatOut(int personalChatroomNo, int loginMemberNo) {
+		return service.updateChatOut(personalChatroomNo, loginMemberNo);
+	}
+	
+	//로그인 회원의 해당 방 정보
+	@RequestMapping("/chatroomLoginMember.do")
+	@ResponseBody
+	public Map chatroomLoginMember(int personalChatroomNo, int loginMemberNo) {
+		Map m=new HashMap();
+		m.put("data",service.chatroomLoginMember(personalChatroomNo, loginMemberNo));
+		return m;
+	}
+	
+	//로그인 회원의 방 나가기 여부 수정
+	@RequestMapping("/updateLoginMemberChatOut.do")
+	@ResponseBody
+	public int updateLoginMemberChatOut(int personalChatroomNo, int loginMemberNo) {
+		return service.updateLoginMemberChatOut(personalChatroomNo, loginMemberNo);
 	}
 
 }
