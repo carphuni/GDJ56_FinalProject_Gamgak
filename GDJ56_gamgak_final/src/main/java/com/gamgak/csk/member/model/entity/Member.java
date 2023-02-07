@@ -1,5 +1,6 @@
 package com.gamgak.csk.member.model.entity;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -38,12 +39,20 @@ public class Member implements UserDetails{
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
-		return List.of(new SimpleGrantedAuthority("MEMBER"));
+		List<GrantedAuthority> auth=new ArrayList();
+		auth.add(new SimpleGrantedAuthority("USER"));
+		if(memberEmail.equals("admin@admin.com")) auth.add(new SimpleGrantedAuthority("ADMIN"));
+		return auth;
 	}
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return memberEmail;
+		return this.memberEmail;
+	}
+	@Override
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return this.memberPassword;
 	}
 	@Override
 	public boolean isAccountNonExpired() {
@@ -65,13 +74,5 @@ public class Member implements UserDetails{
 		// TODO Auto-generated method stub
 		return true;
 	}
-
-	@Override
-	public String getPassword() {
-		// TODO Auto-generated method stub
-		return memberPassword;
-	}
-	
-	
 	
 }

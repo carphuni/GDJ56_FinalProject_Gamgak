@@ -67,7 +67,7 @@
           	<img id="logo-img" src="${path }/resources/images/로고.png" >
             <h3>감:각</h3>
           	<h6>나만의 맛집 기록</h6>
-            <form action="${path}/enrollEnd" method="post">
+            <form action="${path}/enroll/enrollEnd" method="post">
 	            <div id="loginInput">
 	                
 	                <div style="display:flex; justify-content:center;flex-direction: column; align-items: center;">

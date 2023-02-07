@@ -20,24 +20,30 @@ public class SecurityConfig {
 	}
 	
 	@Bean
-	public SecurityFilterChain authenticationPath(HttpSecurity security) throws Exception {
-		return security.csrf().disable()
-				.formLogin()
-					.successForwardUrl("/loginsuccess")
-					.and()
-				.authorizeHttpRequests()
-					//간보기패킷 cors에러여부를 확인하는 패킷
-					.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-					.antMatchers("/resources/**").permitAll()
-					.antMatchers("/").permitAll()
-					.antMatchers("/logout").permitAll()
-					.antMatchers("/**").hasAnyAuthority("USER")
-					.and()
-				.logout()
-					.logoutUrl("/logout")
-					.and()
-				.authenticationProvider(provider)
-				.build();
+	public SecurityFilterChain authenticationPath(HttpSecurity http) throws Exception {
+		return http.csrf().disable() //CSRF 공격에 대한 방어 해제
+			.formLogin()
+				.usernameParameter("memberEmail")
+				.passwordParameter("memberPassword")
+				.loginPage("/login")
+				.loginProcessingUrl("/login.do")
+//				.successForwardUrl("/profile/")
+				.defaultSuccessUrl("/profile/")
+				.and()
+			.authorizeHttpRequests()
+				//간보기패킷 cors에러여부를 확인하는 패킷
+				.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+				.antMatchers("/","/resources/**","/enroll/**").permitAll()
+//				.antMatchers("/logout").permitAll()
+				.antMatchers("/**").hasAnyAuthority("USER")
+				.antMatchers("/admin/**").hasAnyAuthority("ADMIN")
+				.and()
+//			.logout()
+//				.logoutUrl("/logout")
+//				.and()
+			.authenticationProvider(provider)
+			.build();
+
 	}
 	
 }
