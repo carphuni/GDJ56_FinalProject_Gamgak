@@ -177,7 +177,12 @@
                     tr.append($("<th style='border:1px solid'>").text("식당 저장 수"))
                     tr.append($("<th style='border:1px solid'>").text("유저 신고 수"))
                     tr.append($("<th style='border:1px solid'>").text("유저 권한"))
-                    $("#memberList").append(tr)    
+                    $("#memberList").append(tr)
+                if(data.list.length==0){
+                    let tr2=$("<tr>")
+                    tr2.append($("<td colspan='14' style='border:1px solid'>").text("저장식당이 없습니다"))
+                    $("#membertList").append(tr2)    
+                }else{    
                 data.list.forEach(v => {
                     // console.log(v.member_no, v.introduce)
                     // console.log(v)
@@ -192,7 +197,7 @@
                     let enrolldate=v.MEMBER_ENROLLDATE
                     tr2.append($("<td style='border:1px solid'>").text(enrolldate.slice(0,10)))
                     // a.attr("href","http://localhost:9090/admin/myresview.do")
-                    a.attr("href","http://localhost:9090/admin/myresview.do?no="+v.MEMBER_NO).text(v.MYRES_CNT)
+                    a.attr("href","http://localhost:9090/admin/memberview.do?no="+v.MEMBER_NO).text(v.MYRES_CNT)
                     tr2.append($("<td style='border:1px solid'>").append(a))
                     tr2.append($("<td style='border:1px solid'>").text(v.REPORT_CNT))
                     tr2.append($("<td style='border:1px solid'>").text(v.AUTHORITY_YN))    
@@ -201,6 +206,7 @@
                 });
                 $("#pageBar").append(data.pageBar)
             }
+        }
         })
     }
 </script>

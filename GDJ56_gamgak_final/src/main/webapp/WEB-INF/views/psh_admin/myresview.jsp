@@ -9,6 +9,7 @@
     #myrestr>th,td{border:1px solid}
     #headbox{display: flex; flex-direction: row; width: 100%;justify-content: space-between}
     #myresList{width: 100%;}
+    #searchbox{display: flex; flex-direction: row;justify-content: center;}
 </style>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <div id="profile-wrapper">
@@ -31,7 +32,20 @@
             <div id="fns">
                 <button id="delbtn"onclick="deletemyres()">식당 삭제</button>
             </div>
-            
+
+             <div id="searchbox">
+                <input id="search">
+                <button onclick="searchName()">검색</button>
+            </div>
+
+            <div>
+                <select id="search">
+                    <option value="">최신순</option>
+                    <option value="">신고순</option>
+                    <option value="">공유Y</option>
+                    <option value="">공유N</option>
+                </select>
+            </div>
          </div>
          <!-- 리스트 -->
          <input type="hidden" value=${no} id="no">

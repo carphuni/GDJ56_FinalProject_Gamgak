@@ -10,6 +10,7 @@
     #reportList{width: 100%;}
     #searchbox{display: flex; flex-direction: row;justify-content: center;}
     #reportdata{display: flex; flex-direction: row;justify-content: center;}
+    #headText{display: flex; flex-direction: row; width: 100%;justify-content: space-between;}
 </style>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <div id="profile-wrapper">
@@ -38,9 +39,11 @@
                 </tr>                    
             </table>
         </div>
-        <div id="headtext" onclick="userreport(cPage,ynval);">
+
+        <div id="headText" onclick="userreport(cPage,ynval);">
             <h2>신고관리</h2>
         </div>
+
         <div id="headbox">
             <div id="psh_btns">
                 <button onclick="userreport(cPage,ynval);">회원신고 관리</button>
@@ -74,6 +77,18 @@
          <div id="pageBar">
 
          </div>
+
+         <div id="reportsolveT" onclick="solvereportlist();">
+            <h2>신고처리</h2>
+        </div>
+        <div id="solvereportListBox">
+            <table id="solvereportList">
+
+            </table>
+         </div>
+         <div id="solvepageBar">
+
+         </div>
     </section>
 </div>
 <script>
@@ -84,6 +99,7 @@
     //로딩시 실행
     (() => {
         userreport(cPage, ynval)
+        solvereportlist()
     })();
 
     //체크박스 전체선택 함수
@@ -102,9 +118,61 @@
     };
 
     //처리한 신고 리스트 출력
-    function deletememlist(){
+    function solvereportlist(){
         let ynval="Y"
-        memberlist(cPage,ynval);
+        solvereport(cPage,ynval);
+    }
+
+    function solvereport(cPage,ynval){
+        $("#solvereportList").empty();
+        $("#solvepageBar").empty();
+        $.ajax({
+            url:"${path}/admin/myresreport.do",
+            data:{
+                "tableN":"report",
+                cPage:cPage,
+                functionN:"solvereport",
+                yn:"SOLVE_YN",
+                ynval:ynval
+            },
+            success:data=>{
+                const tr=$("<tr>");
+                const checkbox=$("<input id='selectAll' type='checkbox'>").attr("onclick","selectAll()")
+                tr.append($("<th style='border:1px solid'>").append(checkbox)) 
+                    tr.append($("<th style='border:1px solid'>").text("신고번호"))
+                    tr.append($("<th style='border:1px solid'>").text("신고제목"))
+                    tr.append($("<th style='border:1px solid'>").text("맛집저장 번호"))
+                    tr.append($("<th style='border:1px solid'>").text("신고 날짜"))
+                    tr.append($("<th style='border:1px solid'>").text("신고 사유"))
+                    tr.append($("<th style='border:1px solid'>").text("신고 태그"))
+                    
+                    $("#solvereportList").append(tr) 
+                if(data.list.length==0){
+                    let tr2=$("<tr>")
+                    tr2.append($("<td colspan='14' style='border:1px solid'>").text("처리된 신고가 없습니다"))
+                    $("#solvereportList").append(tr2)    
+                }else{        
+                data.list.forEach(v => {
+                    // console.log(v.member_no, v.introduce)
+                    // console.log(v)
+                    let tr2=$("<tr>")
+                    let a=$("<a>")
+                    tr2.append($("<td style='border:1px solid'>").append($("<input name='reportcheck' type='checkbox'>")))
+                    tr2.append($("<td style='border:1px solid'>").text(v.REPORT_NO))
+                    tr2.append($("<td style='border:1px solid'>").text(v.REPORT_TITLE)) 
+                    tr2.append($("<td style='border:1px solid'>").text(v.MYRES_NO))
+                    let enrolldate=v.REPORT_DATE 
+                    tr2.append($("<td style='border:1px solid'>").text(enrolldate.slice(0,10))) 
+                    tr2.append($("<td style='border:1px solid'>").text(v.REPORT_REASON)) 
+                    tr2.append($("<td style='border:1px solid'>").text(v.REPORT_TAG))
+                    
+                    $("#solvereportList").append(tr2)    
+                            
+                });
+                $("#solvepageBar").append(data.pageBar)
+            }
+        }
+        })
     }
     stopmem=[];
     reportmem=[];
@@ -168,7 +236,11 @@
                     tr.append($("<th style='border:1px solid'>").text("신고 태그"))
                     
                     $("#reportList").append(tr)  
-                    
+                if(data.list.length==0){
+                    let tr2=$("<tr>")
+                    tr2.append($("<td colspan='14' style='border:1px solid'>").text("저장식당이 없습니다"))
+                    $("#reportList").append(tr2)    
+                }else{     
                 data.list.forEach(v => {
                     // console.log(v.member_no, v.introduce)
                     // console.log(v)
@@ -188,10 +260,11 @@
                 });
                 $("#pageBar").append(data.pageBar)
             }
+        }
         })
     }
     //맛집저장신고 리스트 출력
-    function myresreport(cPage,functionN){
+    function myresreport(cPage,ynval){
         $("#reportList").empty();
         $("#pageBar").empty();
         $.ajax({
@@ -215,7 +288,12 @@
                     tr.append($("<th style='border:1px solid'>").text("신고 태그"))
                     
                     $("#reportList").append(tr)    
-                data.list.forEach(v => {
+                if(data.list.length==0){
+                    let tr2=$("<tr>")
+                    tr2.append($("<td colspan='14' style='border:1px solid'>").text("저장식당이 없습니다"))
+                    $("#reportList").append(tr2)    
+                }else{
+                    data.list.forEach(v => {
                     // console.log(v.member_no, v.introduce)
                     // console.log(v)
                     let tr2=$("<tr>")
@@ -234,10 +312,11 @@
                 });
                 $("#pageBar").append(data.pageBar)
             }
+        }
         })
     }
     //모임신고 리스트 출력
-    function meetingreport(cPage,functionN){
+    function meetingreport(cPage,ynval){
         $("#reportList").empty();
         $("#pageBar").empty();
         $.ajax({
@@ -263,7 +342,12 @@
                 
                         
                     $("#reportList").append(tr)    
-                data.list.forEach(v => {
+                if(data.list.length==0){
+                    let tr2=$("<tr>")
+                    tr2.append($("<td colspan='14' style='border:1px solid'>").text("저장식당이 없습니다"))
+                    $("#reportList").append(tr2)    
+                }else{
+                    data.list.forEach(v => {
                     // console.log(v.member_no, v.introduce)
                     // console.log(v)
                     let tr2=$("<tr>")
@@ -282,6 +366,7 @@
                 });
                 $("#pageBar").append(data.pageBar)
             }
+        }
         })
     }
 </script>

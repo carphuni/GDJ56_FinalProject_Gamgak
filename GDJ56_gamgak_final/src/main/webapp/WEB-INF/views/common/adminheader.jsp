@@ -57,10 +57,11 @@
                         </i>
                         <span>회원 관리</span>
                     </a><a class="nav-link active" aria-current="page" href="#">
-                        <i class="fa-solid fa-envelope position-relative">
-                            <!-- <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle" style="width: 0.5rem;">
-                                <span class="visually-hidden">New alerts</span>
-                            </span> -->
+                        <i class="fa-solid fa-user-group position-relative">
+                            <span id="memdata" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.3rem;">
+                                5
+                                <span class="visually-hidden">unread messages</span>
+                            </span>
                         </i>
                         <span>메세지</span>
                     </a>
