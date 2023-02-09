@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -68,10 +69,16 @@ public class ProfileController {
    	 	
 		return mv;
 	}
-	//모임참여신청내역출력 -jjh
+	
+	//모임 참여 신청 리스트 불러오기 --jjh
 	@RequestMapping("meeting/signuplist.do")
-	public ModelAndView signupmeeting(ModelAndView mv) {
-		mv.addObject("meetingsi");
+	@ResponseBody
+	public ModelAndView signupMeeting(ModelAndView mv, @RequestParam Map<String,Object> m) {
+		List<Map<String,Object>> sign=service.signupMeeting(m);
+		//Map<String,Object> mq=Map.of("meetingsignlist",sign);
+		System.out.println("mq 모임참가 신청내역"+sign);
+		mv.addObject("meetingsignlist",sign);
+		mv.setViewName("/jjh_meetting/signuplist");
 		return mv;
 	}
 	
@@ -79,7 +86,7 @@ public class ProfileController {
 	@RequestMapping("/selectMyresAll")
 	public ModelAndView selectMyresAll(ModelAndView mv, int cPage) {
 		//Session에 저장된 회원 pk 가져오기
-		int memberNo=getMemberNo();;
+		int memberNo=getMemberNo();
 		//페이지 관련 변수 선언
 		int numPerpage=8;
 		//내 맛집 조회

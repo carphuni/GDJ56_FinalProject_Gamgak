@@ -32,6 +32,10 @@ public class ProfileDao {
 	public List<Meeting> selectMeetingInfo(SqlSessionTemplate session,int memberNo){
 		return session.selectList("profile.selectMeetingInfo",memberNo);
 	}
+	//
+	public List<Map<String,Object>> signupMeeting(SqlSessionTemplate session, Map m) {
+		return session.selectList("profile.signupMeeting",m);
+	}
 	
 	//내 저장한 맛집 조회
 	public List<MyRes> selectMyResAll(SqlSessionTemplate session, Map param){

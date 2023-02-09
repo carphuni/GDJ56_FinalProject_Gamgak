@@ -52,10 +52,10 @@
                             <div style="display: flex; flex-direction: column;  width: 550px; padding: 10px;">
                                 <div style="display: flex; justify-content: space-between; padding: 1px 40px 1px 40px;">
                                     <div >
-                                        남성 <input  type="radio" id="gender" name="meetingGender" value="M"/>
+                                        남성 <input  type="radio" id="gender" name="meetingGender" value="남자"/>
                                     </div>
                                     <div>
-                                        여자 <input type="radio" id="gender" name="meetingGender" value="M"/>
+                                        여자 <input type="radio" id="gender" name="meetingGender" value="여자"/>
                                     </div>
                                     <div>
                                         무관 <input type="radio" id="gender" name="meetingGender" value="무관"/>
