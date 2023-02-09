@@ -48,6 +48,11 @@ public class ProfileDao {
 		return session.selectList("profile.selectMyResTitle",param,new RowBounds((((int)param.get("cPage"))-1)*(int)param.get("numPerpage"),(int)param.get("numPerpage")));
 	}
 	
+	//저장한 사진 조회
+	public List<MyPic> selectMyResMyPic(SqlSessionTemplate session,int memberNo){
+		return session.selectList("profile.selectMyResMyPic",memberNo);
+	}
+	
 	//식당 저장
 	public int insertRestaurant(SqlSessionTemplate session, Map restaurant) {
 		try{
