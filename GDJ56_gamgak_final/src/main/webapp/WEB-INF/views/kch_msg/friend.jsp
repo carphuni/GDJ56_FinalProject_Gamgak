@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
+<c:set var="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"/>
 <script src="${path}/resources/js/chattingCh.js"></script>
 <script src="${path}/resources/js/friend.js"></script>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
