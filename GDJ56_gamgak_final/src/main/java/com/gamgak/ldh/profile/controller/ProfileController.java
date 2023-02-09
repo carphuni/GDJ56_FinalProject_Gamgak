@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,10 +43,13 @@ public class ProfileController {
 		this.httpSession = httpSession;
 	}
 	
-	//로그인 멤버의 멤버번호 가져오는 메소드
-	private int getMemberNo() {
-		return ((Member)httpSession.getAttribute("loginMember")).getMemberNo();
-	}
+	   //로그인 멤버의 멤버번호 가져오는 메소드
+	   private int getMemberNo() {
+//	      return ((Member)httpSession.getAttribute("loginMember")).getMemberNo();
+	      Object principal=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	      Member user=(Member)principal;
+	      return user.getMemberNo();
+	   }
 
 	//프로필 화면
 	@RequestMapping("/")

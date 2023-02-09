@@ -66,7 +66,7 @@
             <h3>감:각</h3>
             <h6>나만의 맛집 기록</h6>
             
-            <form action="${path }/login" method="post">
+            <form action="${path }/login.do" method="post">
 	            <div id="loginInput">
 	                <div id="rowLine"></div>
 	                <div id="inputId" class="form-floating mb-3">

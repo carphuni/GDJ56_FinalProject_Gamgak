@@ -71,7 +71,7 @@
           (기존 대화 목록은 삭제됩니다.)<br><br>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" id="deleteChat">
+          <button type="button" class="btn btn-primary" id="updateChat">
           	예
           </button>        
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
@@ -190,7 +190,7 @@
 				}
 			})
 			//기존 대화 목록 출력
-			//$("#chat").empty();
+			$("#chat").empty();
 			$("#personalChatroomNo").remove();
 			//console.log(e.delegateTarget.lastChild.firstChild.data);
 			
@@ -213,17 +213,17 @@
     //나가기 버튼 누르면 예 버튼에 채팅방 번호 hidden으로 넣어주기
  	$(document).on("click",".msg_out_bt",function(e){
  		const personalChatroomNo=e.target.attributes.value.textContent; //채팅방번호
- 		const $deleteHidden=$("<input>").attr({"type":"hidden","id":"deleteChatHidden"});
- 		$deleteHidden.text(personalChatroomNo);
- 		$("#deleteChat").append($deleteHidden);
+ 		const $updateHidden=$("<input>").attr({"type":"hidden","id":"updateChatHidden"});
+ 		$updateHidden.text(personalChatroomNo);
+ 		$("#updateChat").append($updateHidden);
  	})
     
     //나가기 버튼 -> modal -> 예 -> enterchat에서 삭제
-   	$("#deleteChat").click(e=>{
-		const personalChatroomNo=$("#deleteChatHidden").text();
+   	$("#updateChat").click(e=>{
+		const personalChatroomNo=$("#updateChatHidden").text();
 		console.log(personalChatroomNo);
    		$.ajax({
-			url:"${path}/msg/deleteChatroom.do",
+			url:"${path}/msg/updateChatroom.do",
 			data:{
 				"personalChatroomNo":personalChatroomNo,
 				loginMemberNo:loginMemberNo
@@ -240,8 +240,11 @@
 	// ---------- 채팅 ---------- 
 	
 	var today = new Date();
-
-	const websocket=new WebSocket("ws://localhost:9090/chatting_Server");
+	
+	const servername1="wss://gd1class.iptime.org:8844/GDJ56_gamgak_final/chatting_Server"
+	//ws://gd1class.iptime.org:9999/GDJ56_gamgak_final/chatting_Server
+	const servername="ws://localhost:9090/GDJ56_gamgak_final/chatting_Server"
+	const websocket=new WebSocket(servername);
 	
 	websocket.onopen=(data)=>{
 		console.log(data);
@@ -263,6 +266,7 @@
 		const personalChatroomNo=$("#personalChatroomNo").text(); 
 		const msg=$(".msg_text").val();
 		console.log("채팅내용 : "+msg);
+
 		
 		//같은 방에 있는 회원정보 가져와서 서버로 보내주기
 		$.ajax({
@@ -272,14 +276,13 @@
 				"loginMemberNo":${loginMember.memberNo}
 			},
 			success:data=>{
-				console.log(data.data);
+				console.log(data.data);				
 				// 서버로 메세지 보내기
 				const sendData=new Chat("msgCh","",data.data.PERSONAL_CHATROOM_NO,data.data.MEMBER_NICKNAME,'${loginMember.memberNickName}',msg,today,1);
 				console.log(sendData);
 				websocket.send(JSON.stringify(sendData));
 				$(".msg_text").val('');
-				$(".msg_text").attr("placeholder","내용을 입력해주세요");					
-				
+				$(".msg_text").attr("placeholder","내용을 입력해주세요");	
 				//보낸 메세지 DB에 저장하기
 		  		$.ajax({
 					url:"${path}/msg/insertMsg.do",
@@ -292,6 +295,20 @@
 					success:data=>{
 					}  
 		  		})
+				//상대방이 채팅방을 나갔다면
+				if(data.data.CHAT_OUT_YN=="Y"){
+					//ENTERCHAT OUT을 null로 수정
+			  		$.ajax({
+						url:"${path}/msg/updateChatOut.do",
+						data:{
+							"personalChatroomNo":personalChatroomNo,
+							"loginMemberNo":${loginMember.memberNo}
+						},
+						success:data=>{
+							console.log(data);
+						}
+					})  
+				}
 			}
 		})
 		//msgList(cPage,loginMemberNo)

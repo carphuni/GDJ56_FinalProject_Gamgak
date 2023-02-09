@@ -80,9 +80,10 @@ public class MsgService {
 		return result;
 	}
 	
-	//enterchat에서 삭제
-	public int deleteChatroom(int personalChatroomNo, int loginMemberNo) {
-		int result=dao.deleteChatroom(personalChatroomNo, loginMemberNo);
+	//나가기버튼 enterchat 수정
+	@Transactional
+	public int updateChatroom(int personalChatroomNo, int loginMemberNo) {
+		int result=dao.updateChatroom(personalChatroomNo, loginMemberNo);
 		return result;
 	}
 	
@@ -92,6 +93,7 @@ public class MsgService {
 	}
 	
 	//읽음처리
+	@Transactional
 	public int updateReadCount(int min, int max, int personalChatroomNo) {
 		int result=dao.updateReadCount(min, max, personalChatroomNo);
 		return result;
@@ -100,6 +102,23 @@ public class MsgService {
 	//헤더 안읽은 메세지 수
 	public Map unreadCount(int loginMemberNo) {
 		return dao.unreadCount(loginMemberNo);
+	}
+	
+	//같은 방 회원 나가기 여부 수정
+	@Transactional
+	public int updateChatOut(int personalChatroomNo, int loginMemberNo) {
+		return dao.updateChatOut(personalChatroomNo, loginMemberNo);
+	}
+	
+	//로그인 회원의 해당 방 정보
+	public Map chatroomLoginMember(int personalChatroomNo, int loginMemberNo) {
+		return dao.chatroomLoginMember(personalChatroomNo, loginMemberNo);
+	}
+	
+	//로그인 회원의 방 나가기 여부 수정
+	@Transactional
+	public int updateLoginMemberChatOut(int personalChatroomNo, int loginMemberNo) {
+		return dao.updateLoginMemberChatOut(personalChatroomNo, loginMemberNo);
 	}
 
 }
