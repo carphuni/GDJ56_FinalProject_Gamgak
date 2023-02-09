@@ -13,15 +13,21 @@
     <link rel="stylesheet" type="text/css" href="${path }/resources/css/bootstrap.min.css" >
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Main css -->
-    <link rel="stylesheet" type="text/css" href="${path }/resources/css/mainProfile.css" >
+    <link rel="stylesheet" type="text/css" href="${path }/resources/css/psh_css/mainProfile.css" >
     <!-- Font Awesome icons (free version)-->
     <script src="https://kit.fontawesome.com/d87d902b0c.js" crossorigin="anonymous"></script>
     <!-- jQuery library -->
     <script src="https:/code.jquery.com/jquery-3.6.1.min.js"></script>
+    <!-- psh_css -->
+    <link rel="stylesheet" type="text/css" href="${path }/resources/css/psh_css/psh.css" >
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@alphardex/aqua.css/dist/aqua.min.css" >
+    
+    
 </head>
 <style>
     #logo-img{border-radius: 10%;width: 6rem;height: 6rem;}
 </style>
+
 <body>
     <div id="basic-wrapper">
         <!-- Side NavBar -->
@@ -56,11 +62,12 @@
                             </span>
                         </i>
                         <span>회원 관리</span>
-                    </a><a class="nav-link active" aria-current="page" href="#">
-                        <i class="fa-solid fa-envelope position-relative">
-                            <!-- <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle" style="width: 0.5rem;">
-                                <span class="visually-hidden">New alerts</span>
-                            </span> -->
+                    </a><a class="nav-link active" aria-current="page" href="${path}/admin/msg.do">
+                        <i class="fa-solid fa-user-group position-relative">
+                            <span id="memdata" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.3rem;">
+                                5
+                                <span class="visually-hidden">unread messages</span>
+                            </span>
                         </i>
                         <span>메세지</span>
                     </a>
@@ -76,6 +83,7 @@
                     </ul>
                 </div>
         </aside>
+        
         <!-- Article -->
         <article id="main-wrapper">
             <!-- Main -->
