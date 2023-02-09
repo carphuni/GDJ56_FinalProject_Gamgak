@@ -35,7 +35,7 @@ public class SecurityConfig {
 				//간보기패킷 cors에러여부를 확인하는 패킷
 				.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 				.antMatchers("/","/resources/**","/enroll/**").permitAll()
-				.antMatchers("/login.do").permitAll()
+				//.antMatchers("/login.do").permitAll()
 				.antMatchers("/profile/").hasAnyAuthority("USER")
 				.antMatchers("/admin/**").hasAnyAuthority("ADMIN")
 				.and()
