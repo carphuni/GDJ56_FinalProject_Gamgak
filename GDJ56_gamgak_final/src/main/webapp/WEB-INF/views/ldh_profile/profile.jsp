@@ -48,7 +48,7 @@
                                  <!-- jj의 모달!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
                                 
                            <div class="modal fade" id="meetingList" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                             <div class="modal-dialog modal-lg modal-dialog-centered">
+                             <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                                <div class="modal-content">
                                  <div class="modal-header">
                                    <h5 class="modal-title">My 모임 리스트</h5>
@@ -58,29 +58,68 @@
 									<c:forEach var="m" items="${meetinginfo }">
                                               
 		                                 <a>
-		                                    <div style="border: 3.5px #dc3545 solid; display: flex; border-radius: 1rem; padding: 1rem; justify-content: space-between; margin: 1rem">
-		                                       <div style="display: flex;">
-		                                          <img src="${path }/resources/upload/meeting/${m.meetingRename}" style="border: 1px black solid; border-radius: 100%; height: 60px; width: 60px;">
+		                                    <div  style="border: 3.5px #dc3545 solid; display: flex; border-radius: 1rem; padding: 1rem; justify-content: space-between; margin: 1rem">
+		                                     	<div style="display: flex;">
+		                                     	
+		                                     	
+		                                          <img src="${path }/resources/upload/meeting/${m.meetingRename}" style="border: 1px black solid; border-radius: 100%; height: 100px; width: 100px;">
 		                                          <div style="display: flex; flex-direction: column; padding: 0px 0px 0px 10px; text-align: left;">
 		                                             <div>
 		                                                <label>${m.meetingTitle }</label>
-                                                    <label style="display: none;" id="memberLeaderNo" >${m.memberLeaderNo}</label>
-                                                    <label style="display: none;" id="meetingNo">${m.meetingNo}</label>
-		                                                <span>[ 3 /</span><span> 5 ]</span>
+                                                    	<label style="display: none;" id="memberLeaderNo" >${m.memberLeaderNo}</label>
+                                                   		<label style="display: none;" id="meetingNo">${m.meetingNo}</label>
+		                                                <span>[ ${ m.meetingCurrentCount} /</span><span> ${m.meetingPeopleNum } ]</span>
 		                                             </div>
-		                                                <span>나이대 : 20~30세</span>
+			                                             <c:if test="${m.meetingMinAge==1 && m.meetingMaxAge==99 }">
+			                                             	<span>나이대 : 나이대 무관</span>
+			                                             </c:if>
+			                                             <c:if test="${m.meetingMinAge!=1 && m.meetingMaxAge!=99 }">
+			                                                <span>나이대 : ${m.meetingMinAge}세 ~ ${m.meetingMaxAge }세</span>
+			                                             	
+			                                             </c:if>
 		                                             <div>
-		                                                <span>성별 : 무관 | 성별 : 남자</span>
+		                                             	<c:if test="${m.meetingGender=='무관' }">
+		                                             		<span>성별 : 무관 </span>
+		                                             	</c:if>
+		                                             	<c:if test="${m.meetingGender!='무관' }">
+		                                             		<span>성별 : ${m.meetingGender } </span>
+		                                             	</c:if>
+		                                               
 		                                                
+		                                             </div>
+		                                             <div>
+		                                             	<c:if test="${m.meetingDetailAddr==null }">
+		                                             		<span>모임 장소 : 미정 </span>
+		                                             	</c:if>
+		                                             	<c:if test="${m.meetingDetailAddr!=null }">
+		                                             		<span>모임 장소 : ${m.meetingDetailAddr } </span>
+		                                             	</c:if>
+		                                             </div>
+		                                             <div>
+		                                             	<c:if test="${m.meetingDate==null }">
+		                                             		<span>모임 시간 : 미정 </span>
+		                                             	</c:if>
+		                                             	<c:if test="${m.meetingDate!=null }">
+		                                             		<span>모임 시간 : ${m.meetingDate } </span>
+		                                             	</c:if>
 		                                             </div>
 
 		   
 		                                       </div>
-		                                       <div style="display: flex; flex-direction: column; ">
-		                                          <button id="signupmeetingList" onclick="signupmeetingList('${m.memberLeaderNo}','${m.meetingNo}')" class="btn btn-danger" type="button" style="margin: 0px 0px 5px 0px" data-bs-target="#applymeetingList" data-bs-toggle="modal">신청현황</button>
-		                                          <button class="btn btn-danger" type="button">수정하기</button>
 		                                       </div>
-		                                    </div>
+		                                       <div style="display: flex; flex-direction: column;">
+		                                       		<c:if test="${m.memberLeaderNo==loginMember.memberNo }">
+			                                          <button id="signupmeetingList" onclick="signupmeetingList('${m.memberNo}','${m.meetingNo}')" class="btn btn-danger" type="button" style="margin: 0px 0px 5px 0px; width: 130px" data-bs-target="#applymeetingList" data-bs-toggle="modal">신청현황</button>
+			                                          <button class="btn btn-danger" onclick="location.assign('${path}/meetting/updatemeetting.do?memberNo=${m.memberNo }&meetingNo=${m.meetingNo }')" type="button" style="margin: 0px 0px 5px 0px">수정하기</button>
+			                                          <button class="btn btn-danger" type="button">삭제하기</button>	
+		                                       		</c:if>
+		                                       		<c:if test="${m.memberLeaderNo!=loginMember.memberNo }">
+			                                          <button class="btn btn-danger" type="button" style="margin: 0px 0px 5px 0px; width: 130px">채팅방가기</button>
+			                                          <button class="btn btn-danger" type="button">나가기</button>	
+		                                       		</c:if>
+		                                       		
+		                                       </div>
+		                                   
                                         </div>
 		                        
 		
@@ -94,89 +133,97 @@
 
 
                                         $.ajax({
-                                          type : "POST",
+                                          type : "get",
                                           url : "meeting/signuplist.do",
                                           data :{
-                                            memberLeaderNo : a,
-                                            meetingNo :b
+                                            "memberNo" : a,
+                                            "meetingNo" : b
                                           },
-                                          success : function(data){
+										  dataType : "html",
+										  
+										 
+                                          success : function(res){
+											 console.log(res);
+											
+
+												
+											// }
+											console.log("ajax"+b);
+												$("#signAtag").html(res)
+											//res.meetingsignlist.forEach((el)=>{
+												// $("#signAtag").empty();
+												
+
+											
+											
 
                                           },
                                             error :function(){
-                                              alert("참여신청이 되지않았습니다.")
+                                              alert("참여내역을 불러올 수 없습니다.")
                                             }
                                         })
                                       }
 
 
-  
-                                        // $("#signupmeetingList").click(function(){
-                                        //   var memberLeaderNo=$("#memberLeaderNo").text();
-                                        //   console.log(memberLeaderNo);
-                                        //   var meetingNo=$("#meetingNo").text();
-                                        //   console.log(meetingNo);
-
-                                      //   //  $.ajax(
-                                      //   //    {
-                                      //   //      type : "POST",
-                                      //   //      url : "meeting/signuolist.do"
-                                      //   //    }
-                                      //   //  )
-                                        // });
                                     </script>
                                    
                                  
                                  
                                  <div class="modal-footer">
                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                   <button type="button" class="btn btn-primary">Save changes</button>
+                                  <!--  <button type="button" class="btn btn-primary">Save changes</button> -->
                                  </div>
                                </div>
                              </div>
                            </div>        
 
                            <div class="modal fade" id="applymeetingList" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                              <div class="modal-dialog modal-lg  modal-dialog-centered ">
+                              <div class="modal-dialog modal-lg  modal-dialog-centered modal-dialog-scrollable">
                                 <div class="modal-content">
                                  <div class="modal-header">
                                    <h5 class="modal-title">모임 신청 현황</h5>
                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                  </div>
-                                 <div class="modal-body">
-                                   <a>
-                                      <div style="border: 3.5px #dc3545 solid; display: flex; border-radius: 1rem; padding: 1rem; justify-content: space-between;">
-                                         <div style="display: flex; ">
-                                            <img style="border: 1px black solid; border-radius: 100%; height: 60px; width: 60px;">
-                                            <div style="display: flex; flex-direction: column; padding: 0px 0px 0px 10px;">
-                                               <label>닉네임 : 동훈간다</label>
-                                               <label>나이 : 27살</label>
-                                            </div>
-                                            <div style="display: flex; flex-direction: column; padding: 0px 0px 0px 10px;">
-                                             <label>성별 : 남자</label>
-                                             <label>신고 횟수 : 0회</label>
-                                            </div>
-     
-                                         </div>
-                                         <div>
+                                 <div id="signmodal" class="modal-body">
+									             
+									 <a id="signAtag">
+										<!--<div id="maindiv" style="border: 3.5px #dc3545 solid; display: flex; border-radius: 1rem; padding: 1rem; justify-content: space-between;">
+										   <div id="signinfo" style="display: flex; ">
+											  <img style="border: 1px black solid; border-radius: 100%; height: 60px; width: 60px;">
+											  <div id="nickage" style="display: flex; flex-direction: column; padding: 0px 0px 0px 10px;">
+													 <label>닉네임 : dsfdfdf</label>
+													 <label>나이 : 27살</label>
+											  </div>
+											  <div id="genrep" style="display: flex; flex-direction: column; padding: 0px 0px 0px 10px;">
+												   <label>성별 : 남자</label>
+												   <label>신고 횟수 : 0회</label>
+											  </div>
 
-                                            <button class="btn btn-danger" type="button" style="margin: 0px 0px 5px 0px">신청 수락</button>
-                                            <button class="btn btn-danger" type="button" style="margin: 0px 0px 5px 0px">신청 거부</button>
-                                         </div>
-                                            
-                                         
-                                      </div>
-                                    </div>
+											  
+											</div>
+											<div id="btnGroup" style="display: flex; flex-direction: column;">
+											  <button class="btn btn-danger" type="button" style="margin: 0px 0px 5px 0px">신청 수락</button>
+											  <button class="btn btn-danger" type="button" style="margin: 0px 0px 5px 0px">신청 거부</button>
+										   </div>
+									   </div>-->
+								   
+								   
+								  </a>
+                               </div>
+                                  
   
-                                   </a>
+                                  
                                  <div class="modal-footer">
+                                   <button type="button" class="btn btn-primary" data-bs-target="#meetingList" data-bs-toggle="modal">모임리스트</button>
                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                   <button type="button" class="btn btn-primary">Save changes</button>
                                  </div>
+
                                 </div>
-                              </div>
+                             </div>
+                            </div>
+                              
                              
-                             </div> 
+                             
                              
                                     
                               <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->               

@@ -143,95 +143,121 @@
                 border: 1px black solid;
             }
         </style>
-        <div id="chattinginfo" style="border: 5px #dc3545  solid; width: 220px; height: 690px;">
-            <div style="border: 5px #dc3545 solid; height: 360px; display: flex; flex-direction: column; text-align: center; font-size: 20px; font-weight: bolder; overflow-y: scroll;" >
-                <span id="chatInfo" style="border: 5px #dc3545 solid; ">감각</span>
-                <span id="chatInfo">치킨먹으면서 축구 볼사람@@</span>
-                <span id="chatInfo">서울시 금천구 가산동 가산디지털1로 175</span>
-                <span id="chatInfo">남성모임</span>
-                <span id="chatInfo">20~30세</span>
-                <div id="chatInfo" style="display: flex; flex-direction: column;">
-                    <span>2020-01-23</span>
-                    <span>PM 11:00</span>
-                </div>
-                
-                <div id="chatInfo">
-                    <span>[5/6]</span>
-                    
-                </div>
-            </div>
-            <div style="margin: 5px; display: flex;">
-                <button class="btn btn-danger" style="width: 90px; height: 30px; font-size: 15px; margin: auto;" onclick="window.open('${path}/meetting/meettingmanage.do','채팅방','_blank, resizable=no,width=1000px,height=720px,scrollbars=no')">수정하기</button>
-            </div>
+        <c:choose>
+        	<c:when test="${empty chatRoominfo}">
+        		<div>정보가 없습니다.</div>
+        	</c:when>
+        <c:otherwise>
+        	<c:forEach var="m" items="${chatRoominfo}">
+		        <div id="chattinginfo" style="border: 5px #dc3545  solid; width: 220px; height: 690px;">
+		            <div style="border: 5px #dc3545 solid; height: 360px; display: flex; flex-direction: column; text-align: center; font-size: 20px; font-weight: bolder; overflow-y: scroll;" >
+		                <span id="chatInfo" style="border: 5px #dc3545 solid; ">감각</span>
+		                <span id="chatInfo">${m.MEETING_TITLE }</span>
+		                <span id="chatInfo">${m.MEETING_DETAILED_ADDR }</span>
+		                <c:if test="${m.MEETING_GENDER=='무관' }">
+		                	<span id="chatInfo">성별무관</span>
+		                </c:if>
+		                <c:if test="${m.MEETING_GENDER!='무관' }">
+		                	<span id="chatInfo">${m.MEETING_GENDER}모임</span>
+		                </c:if>
+		                <c:if test="${m.MEETING_MINAGE==1 && m.MEETING_MAXAGE==99}">
+		                	<span id="chatInfo">나이대 무관</span>
+		                </c:if>
+		                <c:if test="${m.MEETING_MINAGE!=1 && m.MEETING_MAXAGE!=99}">
+		                	<span id="chatInfo">${m.MEETING_MINAGE}세 ~ ${m.MEETING_MAXAGE }세</span>
+		                </c:if>
+		                <div id="chatInfo" style="display: flex; flex-direction: column;">
+		                <c:if test="${m.MEETING_DATE==NULL}">
+		                	<span>모임시간 미정</span>
+		                </c:if>
+		               	<c:if test="${m.MEETING_DATE!=NULL}">
+		                	<span>${m.MEETING_DATE}</span>
+		                </c:if>
+		                </div>
+		                
+		                <div id="chatInfo">
+		                	<span>인원수</span>
+		                    <span>[ ${m.MEETING_CURRENT_COUNT} / ${m.MEETING_PEOPLENUM} ]</span>
+		                    
+		                </div>
+		            </div>
+		            <c:if test="${loginMember.memberNo!=s.MEMBER_LEADER_NO}">
+			            <div style="margin: 5px; display: flex;">
+			                <button class="btn btn-danger" style="width: 90px; height: 30px; font-size: 15px; margin: auto;" onclick="window.open('${path}/meetting/meettingmanage.do','채팅방','_blank, resizable=no,width=1000px,height=720px,scrollbars=no')">수정하기</button>
+			            </div>	
+		            </c:if>
+		            <c:if test="${loginMember.memberNo==s.MEMBER_LEADER_NO}">
+			            <div style="margin: 5px; display: flex;">
+			                <button class="btn btn-danger" style="width: 120px; height: 30px; font-size: 15px; margin: auto;" data-bs-toggle="modal" data-bs-target="#meettingreport">모임신고하기</button>
+			            </div>	
+		            </c:if>
+		            
 
-            <div style=" height: 298px; display: flex; flex-direction: column; text-align: center;">
-                <h3 style="border: 5px #dc3545 solid; color: black; font-weight: bolder;">멤버리스트</h3>
-                <div style="display: flex; flex-direction: column; overflow-y: scroll; height: 200px; border: 5px #dc3545 solid;">
-                    <div >
-                        <img style="border: 5px #dc3545 solid solid; width: 20px; height: 20px; border-radius: 100%; background-color: #dc3545;">
-                        <span>멤버리스트</span>
-                        <button style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px; " data-bs-toggle="modal" data-bs-target="#userreport">신고하기</button>
-                    </div>
-                    <div >
-                        <img style="border: 5px #dc3545 solid solid; width: 20px; height: 20px; border-radius: 100%; background-color: #dc3545;">
-                        <span>멤버리스트</span>
-                        <button style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px; " data-bs-toggle="modal" data-bs-target="#userreport">신고하기</button>
-                    </div>
-                    <div >
-                        <img style="border: 5px #dc3545 solid solid; width: 20px; height: 20px; border-radius: 100%; background-color: #dc3545;">
-                        <span>멤버리스트</span>
-                        <button style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px; " data-bs-toggle="modal" data-bs-target="#userreport">신고하기</button>
-                    </div>
-                    <div >
-                        <img style="border: 5px #dc3545 solid solid; width: 20px; height: 20px; border-radius: 100%; background-color: #dc3545;">
-                        <span>멤버리스트</span>
-                        <button style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px; " data-bs-toggle="modal" data-bs-target="#userreport">신고하기</button>
-                    </div>
-                    <div >
-                        <img style="border: 5px #dc3545 solid solid; width: 20px; height: 20px; border-radius: 100%; background-color: #dc3545;">
-                        <span>멤버리스트</span>
-                        <button style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px; " data-bs-toggle="modal" data-bs-target="#userreport">신고하기</button>
-                    </div>
-                    <div >
-                        <img style="border: 5px #dc3545 solid solid; width: 20px; height: 20px; border-radius: 100%; background-color: #dc3545;">
-                        <span>멤버리스트</span>
-                        <button style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px; " data-bs-toggle="modal" data-bs-target="#userreport">신고하기</button>
-                    </div>
-                    <div >
-                        <img style="border: 5px #dc3545 solid solid; width: 20px; height: 20px; border-radius: 100%; background-color: #dc3545;">
-                        <span>멤버리스트</span>
-                        <button style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px; " data-bs-toggle="modal" data-bs-target="#userreport">신고하기</button>
-                    </div>
-                    <div >
-                        <img style="border: 5px #dc3545 solid solid; width: 20px; height: 20px; border-radius: 100%; background-color: #dc3545;">
-                        <span>멤버리스트</span>
-                        <button style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px; " data-bs-toggle="modal" data-bs-target="#userreport">신고하기</button>
-                    </div>
-                    <div >
-                        <img style="border: 5px #dc3545 solid solid; width: 20px; height: 20px; border-radius: 100%; background-color: #dc3545;">
-                        <span>멤버리스트</span>
-                        <button style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px; " data-bs-toggle="modal" data-bs-target="#userreport">신고하기</button>
-                    </div>
-                    
-                   
-                   
-                </div>
-                <div style="margin: 2px;">
-                	<c:if test="${loginMember.memberNickName eq 'admin' }">
-	                    <button type="button"  style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px;" data-bs-toggle="modal" data-bs-target="#meettingreport">삭제하기</button>
-                	</c:if>
-                	<c:if test="${loginMember.memberNickName != 'admin' }">
-	                    <button type="button"  style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px;" data-bs-toggle="modal" data-bs-target="#meettingreport">모임신고하기</button>
-                	</c:if>
-                    <button type="button"  style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px;">나가기</button>
-                </div>
-            </div>
-            
-            
-            
-    
-        </div>
-    
+		
+		            <div style=" height: 298px; display: flex; flex-direction: column; text-align: center;">
+		                <h3 style="border: 5px #dc3545 solid; color: black; font-weight: bolder;">멤버리스트</h3>
+		            <c:choose>
+		              <c:when test="${empty chatmemberlist }">
+		              	 <div style="display: flex; flex-direction: column; overflow-y: scroll; height: 200px; border: 5px #dc3545 solid;">
+		                    <div >
+		                        <img style="border: 5px #dc3545 solid solid; width: 20px; height: 20px; border-radius: 100%; background-color: #dc3545;">
+		                        <span>리스트없습니다.</span>
+		                        <button style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px; " data-bs-toggle="modal" data-bs-target="#userreport">신고하기</button>
+		                    </div>
+		                    
+
+		                </div>
+		                		
+		              </c:when>
+		              <c:otherwise>
+		              	<c:forEach var="s" items="${chatmemberlist }">
+		              		<div style="display: flex; flex-direction: column; overflow-y: scroll; height: 200px; border: 5px #dc3545 solid;">
+		                    	<div >
+		                        	<img src="${path}/resources/upload/meeting/${s.MEETING_ORINAME}" style="border: 5px #dc3545 solid solid; width: 20px; height: 20px; border-radius: 100%; background-color: #dc3545;">
+		                        	<span>${s.MEMBER_NICKNAME}</span>
+		                        	<c:if test="${loginMember.memberNo==s.MEMBER_NO}">
+		                        		
+		                        	</c:if>
+		                        	<c:if test="${loginMember.memberNo!=s.MEMBER_NO}">
+				                        <button style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px; " data-bs-toggle="modal" data-bs-target="#userreport">신고하기</button>
+		                        		
+		                        	</c:if>
+		                        	<c:if test="${loginMember.memberNo!=s.MEMBER_NO}">
+				                        <button style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px; " data-bs-toggle="modal" data-bs-target="#userreport">신고하기</button>
+		                        		
+		                        	</c:if>
+		                    	</div>
+		                    
+
+		                	</div>
+		              		
+		              	</c:forEach>
+		              </c:otherwise>
+		            </c:choose>
+
+		                
+		                <div style="margin: 2px;">
+		                	<c:if test="${loginMember.memberNickName != 'admin' || loginMember.memberNo != s.MEMBER_LEADER_NO }">
+			                    <button type="button"  style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px;" data-bs-toggle="modal" data-bs-target="#meettingreport">모임 삭제하기</button>
+		                	</c:if>
+		                	<%-- <c:if test="${loginMember.memberNickName != 'admin' }">
+			                    <button type="button"  style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px;" data-bs-toggle="modal" data-bs-target="#meettingreport">모임신고하기</button>
+		                	</c:if> --%>
+		                	<c:if test="${loginMember.memberNickName == 'admin' && loginMember.memberNo == s.MEMBER_LEADER_NO }">
+			                    <button type="button"  style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px;">나가기</button>
+		                	</c:if>
+		                    
+		                </div>
+		            </div>
+		            
+		            
+		            
+		    
+		        </div>
+        		
+        	</c:forEach>
+        </c:otherwise>
+    </c:choose>
     </div>
 
 </div>

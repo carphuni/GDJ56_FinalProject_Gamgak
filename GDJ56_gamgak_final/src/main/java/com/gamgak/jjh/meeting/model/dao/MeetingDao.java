@@ -6,6 +6,8 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.gamgak.csk.member.model.entity.Member;
+import com.gamgak.jjh.meeting.model.vo.EnterChat;
 import com.gamgak.jjh.meeting.model.vo.Meeting;
 
 @Repository
@@ -26,6 +28,47 @@ public class MeetingDao {
 	
 	public int meetingjoin(SqlSessionTemplate session,Meeting mee) {
 		return session.insert("meeting.meetingjoin2",mee);
+	}
+	public List<Map> selectLoginUserMeetingList(SqlSessionTemplate session, int memberNo){
+		return session.selectList("meeting.selectLoginUserMeetingList",memberNo);
+	}
+	
+	public List<Map> selectChattingRoomInfo(SqlSessionTemplate session,Map m){
+		return session.selectList("meeting.selectChattingRoomInfo",m);
+	}
+	public List<Map> selectchatmemberlist(SqlSessionTemplate session, Map m){
+		return session.selectList("meeting.selectchatmemberlist",m);
+	}
+//	public int meetingCnt(SqlSessionTemplate session, Meeting m) {
+//		return session.selectOne("meeting.meetingCnt",m);
+//	}
+	
+	public int updateMeetingy(SqlSessionTemplate session,Map m) {
+		return session.update("meeting.updateMeetingy",m);
+	}
+	
+	public int updateMeetingn(SqlSessionTemplate session,Map m) {
+		return session.update("meeting.updateMeetingn",m);
+	}
+	
+	public EnterChat SelctenterchatList(SqlSessionTemplate session, Map m) {
+		return session.selectOne("meeting.SelctenterchatList", m);
+	}
+	//사람 명수 변경 추가해주는 sql
+	public int updateplusNum(SqlSessionTemplate session, Meeting m) {
+		System.out.println("더해줄 cnt"+m);
+		return session.update("meeting.updateplusNum",m);
+	}
+	//사람 명수 찾아주는 sql
+	public Meeting selectacceptmember(SqlSessionTemplate session ,Map m) {
+		return session.selectOne("meeting.selectacceptmember",m);
+	}
+	//모임 수정해주기전에 데이터 뽑아오는 기능
+	public Meeting selectMeeting(SqlSessionTemplate session, Map m) {
+		return session.selectOne("meeting.selectMeeting",m);
+	}
+	public int updateMeeting(SqlSessionTemplate session, Meeting mee) {
+		return session.update("meeting.updateMeeting",mee);
 	}
 
 }

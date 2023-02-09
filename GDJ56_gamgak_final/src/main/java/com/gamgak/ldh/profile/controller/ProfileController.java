@@ -71,10 +71,16 @@ public class ProfileController {
    	 	
 		return mv;
 	}
-	//모임참여신청내역출력 -jjh
+	
+	//모임 참여 신청 리스트 불러오기 --jjh
 	@RequestMapping("meeting/signuplist.do")
-	public ModelAndView signupmeeting(ModelAndView mv) {
-		mv.addObject("meetingsi");
+	@ResponseBody
+	public ModelAndView signupMeeting(ModelAndView mv, @RequestParam Map<String,Object> m) {
+		List<Map<String,Object>> sign=service.signupMeeting(m);
+		//Map<String,Object> mq=Map.of("meetingsignlist",sign);
+		System.out.println("mq 모임참가 신청내역"+sign);
+		mv.addObject("meetingsignlist",sign);
+		mv.setViewName("/jjh_meetting/signuplist");
 		return mv;
 	}
 	

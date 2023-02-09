@@ -48,6 +48,11 @@ public class ProfileService {
 		return dao.selectMeetingInfo(session,memberNo);
 	}
 	
+	//모임에 참가신청을 한 사용자 리스트 불러오기 -jjh
+	public List<Map<String,Object>> signupMeeting(Map<String,Object> m) {
+		return dao.signupMeeting(session,m);
+	}
+	
 	//내 저장한 맛집 조회
 	public List<MyRes> selectMyResAll(Map param){
 		return dao.selectMyResAll(session, param);
