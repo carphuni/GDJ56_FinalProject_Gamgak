@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.gamgak.csk.member.model.dao.MemberDao;
 import com.gamgak.csk.member.model.entity.Member;
-@Service
+//@Service
 public class SecurityService implements UserDetailsService{
 	
 	private MemberDao dao;

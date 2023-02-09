@@ -11,6 +11,7 @@ import org.springframework.web.cors.CorsUtils;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+	
 	private Provider provider;
 
 	@Autowired
@@ -27,20 +28,20 @@ public class SecurityConfig {
 				.passwordParameter("memberPassword")
 				.loginPage("/login")
 				.loginProcessingUrl("/login.do")
-//				.successForwardUrl("/profile/")
-				.defaultSuccessUrl("/profile/")
+				.successForwardUrl("/profile/")
+				//.defaultSuccessUrl("/profile/")
 				.and()
 			.authorizeHttpRequests()
 				//간보기패킷 cors에러여부를 확인하는 패킷
 				.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 				.antMatchers("/","/resources/**","/enroll/**").permitAll()
-//				.antMatchers("/logout").permitAll()
-				.antMatchers("/**").hasAnyAuthority("USER")
+				.antMatchers("/login.do").permitAll()
+				.antMatchers("/profile/").hasAnyAuthority("USER")
 				.antMatchers("/admin/**").hasAnyAuthority("ADMIN")
 				.and()
-//			.logout()
-//				.logoutUrl("/logout")
-//				.and()
+			.logout()
+				.logoutUrl("/logout.do")
+				.and()
 			.authenticationProvider(provider)
 			.build();
 
