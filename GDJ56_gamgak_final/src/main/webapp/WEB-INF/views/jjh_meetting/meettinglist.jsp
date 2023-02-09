@@ -6,13 +6,27 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
                 <div id="meeting-wrapper">
                     <div id="meeting-item">
-                        <a><img id="meeting-img" src="${path }/resources/images/플러스.png"></a>
-                        <p>모임 이름</p>
+                        <a onclick="location.assign('${path}/meetting/meettingenroll.do')"><img id="meeting-img" src="${path }/resources/images/플러스.png"></a>
+                        <p>모임추가</p>
                     </div>
-                    <div id="meeting-item">
-                        <a href="" onclick="window.open('${path}/meetting/meettingchat.do','채팅방','_blank, resizable=no,width=1000px,height=720px,scrollbars=no')"><img id="meeting-img" src="${path }/resources/images/임시 이미지03.jpg"></a>
-                        <p>모임 이름</p>
-                    </div>
+                    <c:choose>
+                    	<c:when test="${empty joinmeetinglist}">
+                    		<div id="meeting-item">
+                        		<a href="" onclick="window.open('${path}/meetting/meettingchat.do','채팅방','_blank, resizable=no,width=1000px,height=720px,scrollbars=no')"><img id="meeting-img" src="${path }/resources/images/임시 이미지03.jpg"></a>
+                        		<p>모임이 없습니다.</p>
+                   			</div>
+                    	</c:when>
+                    	<c:otherwise>
+                    		<c:forEach var="l" items="${joinmeetinglist}">
+                    			<div id="meeting-item">
+                        			<a href="" onclick="window.open('${path}/meetting/meettingchat.do?memberNo=${loginMember.memberNo}&meetingNo=${l.MEETING_NO } ','채팅방','_blank, resizable=no,width=1000px,height=720px,scrollbars=no')"><img id="meeting-img"  src="${path }/resources/upload/meeting/${l.MEETNG_RENAME}"></a>
+                        			<p>${l.MEETING_TITLE }</p>
+                   				 </div>
+                    		
+                    		</c:forEach>
+                    	</c:otherwise>
+                    </c:choose>
+                    
 
                 </div>
                 <div id="profile-wrapper">
@@ -101,21 +115,43 @@
 			                            
 			                        </div>
 			                        <div style="text-align: end; display: flex; flex-direction: column; justify-content: space-between;" class="col-2 " >
-			                            	<c:if test="${loginMember.memberNickName eq 'admin' }">
+			                            	<%-- <c:if test="${loginMember.memberNo eq m.memberLeaderNo }">
 			                                	<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#meettingjoin" >삭제하기</button><br>
-			                                </c:if>
-			                                <c:if test="${loginMember.memberNickName != 'admin' && (m.meetingPeopleNum > m.meetingCurrentCount)}">
-			                                	<button type="button"  class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#meettingjoin" >신청하기</button><br>
-			                                </c:if>
-			                                <c:if test="${loginMember.memberNickName != 'admin' && (m.meetingPeopleNum eq m.meetingCurrentCount)}">
+			                                </c:if> --%>
+			                                 <%--  <c:forEach var="l" items="${joinmeetinglist }"> 
+			                                	 <c:if test="${loginMember.memberNo eq l.MEMBER_NO }">
+			                                		<button type="button" class="btn btn-danger"
+			                                		data-bs-toggle="modal" data-bs-target="#meettingjoin" 
+			                                		disabled="disabled" style="background-color: #C1BEBB; border: 1px #C1BEBB solid; color: black">
+			                                		<c:choose>
+			                                			<c:when test="${l.MEETING_YN eq 'S'}">신청중</c:when>
+			                                			<c:when test="${l.MEETING_YN eq 'Y'}">참여모임</c:when>
+			                                		</c:choose>
+			                                		</button><br>
+			                                	</c:if>
+			                                	<c:if test="${loginMember.memberNo eq joinmeetinglist.MEMBER_NO && joinmeetinglist.MEETING_YN eq 'Y' }">
+			                                		<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#meettingjoin" disabled="disabled" style="background-color: #C1BEBB; border: 1px #C1BEBB solid; color: black">참여중</button><br>
+			                                	</c:if> 
+			                                </c:forEach>   --%>
+			                                	<c:if test="${loginMember.memberNo!=m.memberLeaderNo && (m.meetingPeopleNum > m.meetingCurrentCount)}">
+			                                		<button type="button"  class="btn btn-danger" data-bs-toggle="modal" onclick="f_meettingjoin('${loginMember.memberNo }','${m.meetingNo}')" data-bs-target="#meettingjoin" >신청하기</button><br>
+													
+			                                	</c:if>
+			                                <c:if test="${(m.meetingPeopleNum eq m.meetingCurrentCount)}">
 			                                	<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#meettingjoin" disabled="disabled" style="background-color: #C1BEBB; border: 1px #C1BEBB solid; color: black">모집완료</button><br>
 			                                </c:if>
+			                                <c:if test="${loginMember.memberNo==m.memberLeaderNo }">
+			                                	<button type="button" class="btn btn-danger" data-bs-toggle="modal"  data-bs-target="#meettingjoin" disabled="disabled" style="background-color: #C1BEBB; border: 1px #C1BEBB solid; color: black">내 모임</button><br>
+			                                </c:if>
+			                                
 			                                <span style="font-weight: bolder; font-size: 23px;" >${m.meetingArea}</span>
 			                        </div>
 			                       
 			
 			
 			                    </div>
+								                    			
+                    		
 			                    <!-- Modal -->
 								  <div class="modal fade" id="meettingjoin" tabindex="-1" aria-labelledby="#meettingjoin" aria-hidden="true">
 								    <div class="modal-dialog">
@@ -127,6 +163,7 @@
 								        </div>
 								        <div class="modal-body">
 								          <div>
+											<div>${m.meetingArea}</div>
 								            <p style="font-size: 18px; ">
 								                모임에 참여하면 모임장의 승인 후<br>자동적으로 채팅방으로 이동이 됩니다.<br>
 								                <span style="color: #dc3545;">
@@ -138,21 +175,51 @@
 								        </div>
 								        <div class="modal-footer">
 								        	
-								            <button type="button" class="btn btn-danger" onclick="location.assign('${path}/meetting/meettingjoin.do?memberNo=${loginMember.memberNo }&meetingNo=${m.meetingNo} ')" >참여하기</button>
+								            <button type="button" class="btn btn-danger" onclick="f_finalmeetingjoin('${loginMember.memberNo }','${m.meetingNo}')" >참여하기</button> 
+											<!-- <button type="button" class="btn btn-danger" >참여하기</button> -->
 								            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소하기</button>
 								         
 								        </div>
 								      </div>
 								    </div>
 								  </div>
-								                    			
-                    		</c:forEach>
+							</c:forEach>
                     	</c:otherwise>
                     </c:choose>
                     <div>
-                        <button class="btn btn-danger" onclick="location.assign('${path}/meetting/meettingmanage.do')">관리</button>
+                        <%-- <button class="btn btn-danger" onclick="location.assign('${path}/meetting/meettingmanage.do')">관리</button> --%>
 
                     </div>
+                    <script type="text/javascript">
+
+						var jo_memberNo=0;
+						var jo_membertingNo=0
+                    	function f_meettingjoin(a,b) {
+                    		jo_memberNo=a;
+                    		jo_membertingNo=b
+
+							
+							
+							
+                    		 
+								
+							}
+							function f_finalmeetingjoin() {
+								// var jo_meetingNo=$("meetingNo").val();
+								// var jo_memberNo=$("memberNo").val();
+								// console.log(jo_meetingNo);
+								// console.log(jo_memberNo);
+								console.log("마지막 값"+jo_memberNo);
+								console.log("마지막 값"+jo_membertingNo);
+
+                    			window.location.replace("/meetting/meettingjoin.do?memberNo="+jo_memberNo+"&meetingNo="+jo_membertingNo);
+
+                    		} 
+						
+                    		
+							
+						
+                    </script>
 
                     <!-- Button trigger modal -->
   
