@@ -2,6 +2,9 @@ package com.gamgak.jjh.meeting.model.vo;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Meeting {
 	private int meetingNo;
 	private int memberLeaderNo;
@@ -27,5 +31,6 @@ public class Meeting {
 	private String meetingArea;
 	private String meetingDetailAddr;
 	private String del_yn;
+	private List<EnterChat> enterchat;
 
 }

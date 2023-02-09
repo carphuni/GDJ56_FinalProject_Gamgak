@@ -60,8 +60,11 @@ public class MemberController {
 //		m.addAttribute("loginMember",(Member)o);
 //		return "redirect:/profile/";
 //	}
-   
-   
+
+   @RequestMapping("/login.do")
+   public String loginurl() {
+	   return "ldh_profile/profile";
+   }
    
    @RequestMapping("/enroll")
    public String enroll() {

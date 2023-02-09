@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
+<c:set var="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"/>
  <link rel="stylesheet" type="text/css" href="${path }/resources/css/jjh_css/meetinglist.css" >     
 <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +34,7 @@
             <div id="sidebar" class="col-sm-3">
                 <img id="logo-img" src="${path }/resources/images/로고.png" class="col-1"/>
                 <nav class="nav flex-column">
-                    <a class="nav-link active" aria-current="page" href="${path }/profile">
+                    <a class="nav-link active" aria-current="page" href="${path }/profile/">
                         <i class="fa-solid fa-circle-user"></i>
                         <span>프로필 홈</span>
                     </a>
@@ -127,6 +128,19 @@
                      <p style="">클릭하여 이미지 추가</p>
                   </div>
                </a>
+               <!-- 캐러셀 -->
+               <div id="mypic-carousel" class="carousel slide col-sm-6" data-bs-ride="carousel" style="display:none;height:100%;">
+			 	 <div id="mypic-inner" class="carousel-inner">
+				  </div>
+				  <button class="carousel-control-prev" type="button" data-bs-target="#mypic-carousel" data-bs-slide="prev">
+				    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				    <span class="visually-hidden">Previous</span>
+				  </button>
+				  <button class="carousel-control-next" type="button" data-bs-target="#mypic-carousel" data-bs-slide="next">
+				    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+				    <span class="visually-hidden">Next</span>
+				  </button>
+				</div>
                <input type="file" id="mypic" name="upFile" multiple style="display: none;"/>
                <div id="insertMyResInfo" class="col-sm-6">
                   <div id="myResProfile">

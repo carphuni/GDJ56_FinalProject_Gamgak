@@ -51,13 +51,11 @@ let mapContainerLdh = $('#insertMap')[0], // 지도를 표시할 div
 	        center: new kakao.maps.LatLng(37.47789829947013, 126.87901846929363), // 지도의 중심좌표
 	        level: 3 // 지도의 확대 레벨
 	    };  
-var map;
+let insertMyresMap;
 
 $("#insertModal").on('shown.bs.modal', ()=>{
-	map=new kakao.maps.Map(mapContainerLdh, mapOptionLdh); 
+	insertMyresMap=new kakao.maps.Map(mapContainerLdh, mapOptionLdh); 
 })
-
-
 
 // 마커를 담을 배열입니다
 	var markers = [];
@@ -181,7 +179,7 @@ $("#insertModal").on('shown.bs.modal', ()=>{
 	    menuEl.scrollTop = 0;
 	
 	    // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-	    map.setBounds(bounds);
+	    insertMyresMap.setBounds(bounds);
 	}
 	
 	// 검색결과 항목을 Element로 반환하는 함수입니다
@@ -223,7 +221,7 @@ $("#insertModal").on('shown.bs.modal', ()=>{
 	            image: markerImage 
 	        });
 	
-	    marker.setMap(map); // 지도 위에 마커를 표출합니다
+	    marker.setMap(insertMyresMap); // 지도 위에 마커를 표출합니다
 	    markers.push(marker);  // 배열에 생성된 마커를 추가합니다
 	
 	    return marker;
@@ -274,7 +272,7 @@ $("#insertModal").on('shown.bs.modal', ()=>{
 	    var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
 	
 	    infowindow.setContent(content);
-	    infowindow.open(map, marker);
+	    infowindow.open(insertMyresMap, marker);
 	}
 	
 	 // 검색결과 목록의 자식 Element를 제거하는 함수입니다
@@ -283,6 +281,28 @@ $("#insertModal").on('shown.bs.modal', ()=>{
 	        el.removeChild (el.lastChild);
 	    }
 	}
+
+//사진 업로드 시 사진 출력
+$("#mypic").change((e)=>{
+	//기존 클릭 시 이미지 출력 숨기기
+	$("a#insertMyResImage").hide();
+	let fileArr=e.target.files;
+	$.each (fileArr, (index, el)=> {
+		console.log(el);
+		//업로드 된 파일 이미지 경로
+		let mypicURL=URL.createObjectURL(el);
+		console.log(mypicURL);
+		//새 div 만들기
+		let mypicDivTag=$("<div>").addClass("carousel-item").css("height","100%");
+		if(index==0)mypicDivTag.addClass("active");
+		let mypicImgTag=$("<img>").addClass("d-block w-100").attr("src",mypicURL).css("height","100%");;
+		mypicDivTag.append(mypicImgTag);
+		$("#mypic-inner").append(mypicDivTag);
+
+	})
+	$("#mypic-carousel").show();
+})
+
 
 //textarea 글자 수 동적 변경
 $("textarea[name='myres_memo").keyup((e)=>{
@@ -303,39 +323,7 @@ $("#myResSave").click(()=>{
 	$("input[name='restaurant").val(restaurant);
 
 	$("form#insertModal-body").submit();
-
-	// //formData 선언
-	// const myResFormData= new FormData();
-	// console.log($("textarea[name='myres_memo'").val());
-	// console.log($("input[name='myres_yn").is(':checked'));
-	// console.log(positions);
-	// console.log($("input[name='mypic_oriname'")[0].files);
-	// //필요데이터 formData에 저장
-	// myResFormData.append("myres_memo",$("textarea[name='myres_memo'").val());
-	// myResFormData.append("myres_yn",$("input[name='myres_yn").is(':checked'));
-	// myResFormData.append("restaurant",positions);
-	// myResFormData.append("files",$("input[name='mypic_oriname'")[0].files);
-
-	// for (const value of myResFormData.values()) {
-	// 	console.log(value);
-	//   }
-
 	
-	
-	// $.ajax({
-	// 	type : "POST", // HTTP method type(GET, POST) 형식이다.
-	// 	url : "/profile/insertmyres.do", // 컨트롤러에서 대기중인 URL 주소이다.
-	// 	processData: false, //프로세스 데이터 설정 : false 값을 해야 form data로 인식합니다
-    //     contentType: false, //헤더의 Content-Type을 설정 : false 값을 해야 form data로 인식합니다
-	// 	data : myResFormData, // Json 형식의 데이터이다.
-	// 	success : function(response){ // 비동기통신의 성공일경우 success콜백으로 들어옵니다. 'res'는 응답받은 데이터이다.
-	// 		console.log(response);
-	// 		location.assign(response);
-	// 	},
-	// 	error : function(XMLHttpRequest, textStatus, errorThrown){ // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
-	// 		alert("통신 실패.")
-	// 	}
-	// });
 })
 
 
