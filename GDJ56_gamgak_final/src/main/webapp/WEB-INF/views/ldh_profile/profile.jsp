@@ -308,5 +308,5 @@
 					</div>
                 </div>
 <script src="${path}/resources/js/myRes.js"></script> 
-<script src="${path}/resources/js/mainProfile.js"></script>               
+            
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

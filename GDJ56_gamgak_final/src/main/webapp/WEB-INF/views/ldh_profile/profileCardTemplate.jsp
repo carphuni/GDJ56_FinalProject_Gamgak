@@ -2,13 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="path" value="${pageContext.request.contextPath }"/>
 <input type=hidden name="myresNos" value="${myResNos}"/>
 <input type=hidden name="cPage" value="${cPage}"/>
 <input type=hidden name="x" value="<c:forEach var='i' begin='0' end='${fn:length(myResList)>0?fn:length(myResList)-1:0}'>${i==0?myResList[i].restaurant.resLon : ','+=myResList[i].restaurant.resLon}</c:forEach>"/>
 <input type=hidden name="y" value="<c:forEach var='i' begin='0' end='${fn:length(myResList)>0?fn:length(myResList)-1:0}'>${i==0?myResList[i].restaurant.resLat : ','+=myResList[i].restaurant.resLat}</c:forEach>"/>
 <c:forEach var="myres" items="${myResList }">
     <div id="myresCard${myres.myResNo }" class="card" data-bs-toggle="modal" data-bs-target="#myresCardModal${myres.myResNo }">
-        <img src="${not empty myres.myPic? "/resources/upload/myres/"+=myres.myPic.myPicReName:''}" class="card-img-top" onerror="this.src='${path }/resources/images/이미지 없음.jpg'">
+        <img src="${not empty myres.myPic? path+="/resources/upload/myres/"+=myres.myPic.myPicReName:''}" class="card-img-top" onerror="this.src='${path }/resources/images/이미지 없음.jpg'">
         <div class="card-body">
             <span id="card-title">${myres.restaurant.resName }</span>
             <span id="card-category">${myres.restaurant.resCategory }</span>

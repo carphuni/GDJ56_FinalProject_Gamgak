@@ -6,7 +6,7 @@ let myresMapY=[];
 
 //dataClass
 class profileData{
-	constructor(cPage=1,area="",search="",url="/profile/selectMyresAll")
+	constructor(cPage=1,area="",search="",url="/GDJ56_gamgak_final/profile/selectMyresAll")
 	{
 		this.cPage=cPage;
 		this.area=area;
@@ -53,7 +53,7 @@ class profileData{
 		this.area="";
 		this.search="";
 		//스크롤 페이징 주소 변경
-		this.url="/profile/selectMyresAll";
+		this.url="/GDJ56_gamgak_final/profile/selectMyresAll";
 		this.onScroll();
 	}
 
@@ -61,7 +61,7 @@ class profileData{
 		//데이터 초기화
 		this.search="";
 		//스크롤 페이징 주소 변경
-		this.url="/profile/selectMyresArea";
+		this.url="/GDJ56_gamgak_final/profile/selectMyresArea";
 		this.onScroll();
 	}
 
@@ -69,7 +69,7 @@ class profileData{
 		//데이터 초기화
 		this.area="";
 		//스크롤 페이징 주소 변경
-		this.url="/profile/selectMyresTitle";
+		this.url="/GDJ56_gamgak_final/profile/selectMyresTitle";
 		this.onScroll();
 	}
 
@@ -101,6 +101,7 @@ let pd=new profileData();
 $(window).scroll(()=>{
 	pd.profileScroll();
 })
+
 
 $(()=>{
 	pd.setSelectMyresAll();

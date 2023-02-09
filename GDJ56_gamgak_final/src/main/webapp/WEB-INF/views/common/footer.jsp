@@ -21,4 +21,5 @@
         </article> 
     </div>
 </body>
+<script src="${path}/resources/js/mainProfile.js"></script>   
 </html>
