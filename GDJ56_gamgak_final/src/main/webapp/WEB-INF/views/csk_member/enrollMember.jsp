@@ -66,7 +66,7 @@
           	<img id="logo-img" src="${path }/resources/images/로고.png" >
             <h3>감:각</h3>
           	<h6>나만의 맛집 기록</h6>
-            <form action="${path }/enrollEnd" method="post" onsubmit="return fn_invalidate();">
+            <form action="${path }/enroll/mailAuthEnd" method="post" onsubmit="return fn_invalidate();">
 	            <div id="loginInput">
 		            <a><img id="kakaologin" src="${path }/resources/images/카카오 로그인.png"/></a>
             		<div id="orLine">
@@ -128,7 +128,22 @@
 				$("#passwordErrorCk").hide();
 				$("#passwordOk").hide();
 			});
-		}); 
+		});
+  		$(()=>{
+			$("#name").keyup(e=>{
+				$("#nameError").hide();
+			});
+		});
+  		$(()=>{
+			$("#nickName").keyup(e=>{
+				$("#nickNamError").hide();
+			});
+		});
+  		$(()=>{
+			$("#email").keyup(e=>{
+				$("#emailError").hide();
+			});
+		});
 		
  		const fn_invalidate=()=>{
  			
@@ -138,7 +153,7 @@
  			
  			//이메일 중복검사
  	   		$.ajax({
- 	 			url:"${path}/duplicateEmail",
+ 	 			url:"${path}/enroll/duplicateEmail",
  	 			data:{memberEmail:$("#email").val()},
  	 			async:false,
  	 			success:data=>{
@@ -153,7 +168,7 @@
  	   		});
  			//닉네임 중복검사
   	   		$.ajax({
- 	   			url:"${path}/duplicateNickName",
+ 	   			url:"${path}/enroll/duplicateNickName",
  	   			data:{memberNickName:$("input[name=memberNickName]").val()},
  	   			async:false,
  	   			success:data=>{
@@ -170,10 +185,11 @@
  		   			type:"POST",
  		   			url:"${path}/enroll/mailAuth",
  		   			data:{memberEmail:$("#email").val()},
+// 		   			datatype:"script",
  		   			async:false,
-  		   			success:data=>{
-						sessionStorage.setItem("emailCode",data);	 		   			
- 		   			}
+//   		   			success:data=>{
+// 						$("#emailCode").script(data);	 		   			
+//  		   			}
  		   		});
  		   		
  		   	});	

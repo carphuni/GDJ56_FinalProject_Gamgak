@@ -16,6 +16,8 @@
     <link rel="stylesheet" type="text/css" href="${path }/resources/css/index.css">
     <!-- Font Awesome icons (free version)-->
     <script src="https://kit.fontawesome.com/d87d902b0c.js" crossorigin="anonymous"></script>
+	<!-- jQuery -->
+    <script src = "${path }/resources/js/jquery-3.6.1.min.js"></script>
 </head>
 <body>
     <div id="basic-wrapper">
@@ -64,7 +66,7 @@
             <h3>감:각</h3>
             <h6>나만의 맛집 기록</h6>
             
-            <form action="${path }/login" method="post">
+            <form action="${path }/login.do" method="post">
 	            <div id="loginInput">
 	                <div id="rowLine"></div>
 	                <div id="inputId" class="form-floating mb-3">
@@ -107,5 +109,12 @@
             </footer>
         </div>
      </div>
+     <div>
+     	<input type="hidden" class="" name="enrollMessage" id="" style="width: 300px; height:50px;" value="${enrollMessage}">
+     </div>
+     <script>
+     	console.log($("input[name=enrollMessage]").val());
+     	if($("input[name=enrollMessage]").val()!="") alert($("input[name=enrollMessage]").val());
+     </script>
 </body>
 </html>

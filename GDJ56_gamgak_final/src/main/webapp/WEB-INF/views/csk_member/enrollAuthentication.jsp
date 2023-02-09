@@ -17,6 +17,8 @@
     <link rel="stylesheet" type="text/css" href="${path }/resources/css/member.css">
     <!-- Font Awesome icons (free version)-->
     <script src="https://kit.fontawesome.com/d87d902b0c.js" crossorigin="anonymous"></script>
+    <!-- jQuery -->
+    <script src = "${path }/resources/js/jquery-3.6.1.min.js"></script>
 </head>
 <body>
     <div id="basic-wrapper">
@@ -65,31 +67,41 @@
           	<img id="logo-img" src="${path }/resources/images/로고.png" >
             <h3>감:각</h3>
           	<h6>나만의 맛집 기록</h6>
-            <form action="" method="post">
+            <form action="${path}/enroll/enrollEnd" method="post">
 	            <div id="loginInput">
 	                
 	                <div style="display:flex; justify-content:center;flex-direction: column; align-items: center;">
 	                	
 	                	<div>
-	                		<p>${member.memberEmail} 으로 인증번호가 전송되었습니다. <br> 인증번호를 입력해 주세요.</p>
+	                		<h3>이메일 본인인증</h3>
+	                		<p>
+	                			${member.memberEmail} 으로 인증번호가 전송되었습니다.<br>
+	                			받는 메일서버의 상호아에 따라 최대 5분 정도 소요됩니다.<br>
+	                			인증번호를 하단에 입력하세요. (다시 시도하려면 뒤로가기를 눌러주세요.)
+	                		</p>
 	                	</div>
 	                	<div>
-			            	<input type="text" class="" name="memberEmail" id="" placeholder="인증번호" style="width: 300px; height:50px;" value="">
+			            	<input type="text" class="" name="emailCode" id="" placeholder="인증번호 입력" style="width: 300px; height:50px;" value="">
 			            </div>
 	                	
 	                </div>
 	              	<button id="loginButton" type="submit" class="btn btn-danger">회원가입</button>
 	        	</div>
 	        	<div>
-	        		<input type="hidden" class="" name="memberEmail" id="" style="width: 300px; height:50px;" value="${member.memberEmail}">
+ 	        		<input type="hidden" class="" name="memberEmail" id="" style="width: 300px; height:50px;" value="${member.memberEmail}">
 	        		<input type="hidden" class="" name="memberNickName" id="" style="width: 300px; height:50px;" value="${member.memberNickName}">
 	        		<input type="hidden" class="" name="memberName" id="" style="width: 300px; height:50px;" value="${member.memberName}">
-	        		<input type="hidden" class="" name="memberPasswrod" id="" style="width: 300px; height:50px;" value="${member.memberPassword}">
+	        		<input type="hidden" class="" name="memberPassword" id="" style="width: 300px; height:50px;" value="${member.memberPassword}">
+					${member}
+					${enrollMessage}
+	        		<input type="hidden" class="" name="enrollMessage" id="" style="width: 300px; height:50px;" value="${enrollMessage}">
 	        	</div>
            	</form>
           </div>
 	</div>
-
+ 	<script>
+		if($("input[name=enrollMessage]").val()!="") alert($("input[name=enrollMessage]").val());
+	</script>
 
 </body>
 </html>

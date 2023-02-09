@@ -11,7 +11,7 @@ function rankingList(data){
 	for(var i=0;i<num;i++){
 		const $div=$("<div>").css({"display":"flex","padding":"10px"});
 		const $b=$("<b>").css({"margin-right":"10px"});
-		const $a=$("<a>");
+		const $a=$("<a>").attr({"class":"ranking_res_name","value":data[i].RES_NO});
 		$b.text(i+1);
 		$a.text(data[i].RES_NAME);
 		$div.append($b);
@@ -22,7 +22,7 @@ function rankingList(data){
 	for(var i=5;i<data.length;i++){
 		const $div=$("<div>").css({"display":"flex","padding":"10px"});
 		const $b=$("<b>").css({"margin-right":"10px"});
-		const $a=$("<a>");
+		const $a=$("<a>").attr({"class":"ranking_res_name","value":data[i].RES_NO});
 		$b.text(i+1);
 		$a.text(data[i].RES_NAME);
 		$div.append($b);

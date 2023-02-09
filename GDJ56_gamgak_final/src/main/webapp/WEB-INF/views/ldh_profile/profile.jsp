@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
+<c:set var="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
                 <div id="meeting-wrapper">
                     <div id="meeting-item">
@@ -34,7 +35,7 @@
                         
                         <div id="info">
                             <div id="info-1">
-                                <span><c:out value="${loginMember.memberEmail }"/></span>
+                                <span><c:out value="${loginMember.memberEmail}"/></span>
                                 <button id="edit-profile" type="button" class="btn btn-danger">프로필 편집</button>
                                 
                             </div>
@@ -194,9 +195,9 @@
                                 
 
                             </div>
-                            <div id="info-3"><c:out value="${loginMember.memberNickName }"/></div>
+                            <div id="info-3"><c:out value="${loginMember.memberNickName}"/></div>
                             <div id="info-d4">
-                                <span><c:out value="${loginMember.introduce }"/></span>
+                                <span><c:out value="${loginMember.introduce}"/></span>
                             </div>
                         </div>
                         <a><i class="fa-solid fa-gear fa-lg" data-bs-toggle="modal" data-bs-target="#settingModal"></i></a>

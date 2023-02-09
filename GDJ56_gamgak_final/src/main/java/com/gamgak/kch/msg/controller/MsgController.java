@@ -116,5 +116,62 @@ public class MsgController {
 		int result=service.enterchatFriend(memberNo, chatRoomNo);
 		return result;
 	}
+	
+	//나가기버튼 enterchat 수정
+	@RequestMapping("/updateChatroom.do")
+	@ResponseBody
+	public int updateChatroom(int personalChatroomNo, int loginMemberNo) {
+		int result=service.updateChatroom(personalChatroomNo, loginMemberNo);
+		return result;
+	}
+	
+	//안읽은 메세지 리스트
+	@RequestMapping("/unreadList.do")
+	@ResponseBody
+	public Map unreadList(int personalChatroomNo, int loginMemberNo){
+		Map m=new HashMap();
+		m.put("data",service.unreadList(personalChatroomNo, loginMemberNo));
+		return m;
+	}
+	
+	//읽음처리
+	@RequestMapping("/updateReadcount.do")
+	@ResponseBody
+	public int updateReadCount(int min, int max, int personalChatroomNo) {
+		int result=service.updateReadCount(min, max, personalChatroomNo);
+		return result;
+	}
+	
+	//헤더 안읽은 메세지 수
+	@RequestMapping("/unreadCount.do")
+	@ResponseBody
+	public Map unreadCount(int loginMemberNo) {
+		Map m=new HashMap();
+		m.put("data",service.unreadCount(loginMemberNo));
+		return m;
+	}
+	
+	//같은 방 회원 나가기 여부 수정
+	@RequestMapping("/updateChatOut.do")
+	@ResponseBody
+	public int updateChatOut(int personalChatroomNo, int loginMemberNo) {
+		return service.updateChatOut(personalChatroomNo, loginMemberNo);
+	}
+	
+	//로그인 회원의 해당 방 정보
+	@RequestMapping("/chatroomLoginMember.do")
+	@ResponseBody
+	public Map chatroomLoginMember(int personalChatroomNo, int loginMemberNo) {
+		Map m=new HashMap();
+		m.put("data",service.chatroomLoginMember(personalChatroomNo, loginMemberNo));
+		return m;
+	}
+	
+	//로그인 회원의 방 나가기 여부 수정
+	@RequestMapping("/updateLoginMemberChatOut.do")
+	@ResponseBody
+	public int updateLoginMemberChatOut(int personalChatroomNo, int loginMemberNo) {
+		return service.updateLoginMemberChatOut(personalChatroomNo, loginMemberNo);
+	}
 
 }

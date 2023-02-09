@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,15 +40,17 @@ public class ProfileController {
 	}
 	
 	//로그인 멤버의 멤버번호 가져오는 메소드
-	private int getMemberNo(HttpSession httpSession) {
-		return ((Member)httpSession.getAttribute("loginMember")).getMemberNo();
+	private int getMemberNo() {
+		Object principal=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Member user=(Member)principal;
+	return user.getMemberNo();
 	}
 
 	//프로필 화면
 	@RequestMapping("/")
-	public ModelAndView profile(ModelAndView mv,HttpSession httpSession) {
+	public ModelAndView profile(ModelAndView mv) {
 		//Session에 저장된 회원 pk 가져오기
-		int memberNo=getMemberNo(httpSession);
+		int memberNo=getMemberNo();
 		//저장한 맛집 카운트 가져오기
 		mv.addObject("myResCount", service.selectMyResCount(memberNo));
 		//친구 카운트 가져오기
@@ -74,9 +77,9 @@ public class ProfileController {
 	
 	//내 맛집 전체 조회
 	@RequestMapping("/selectMyresAll")
-	public ModelAndView selectMyresAll(ModelAndView mv, HttpSession httpSession, int cPage) {
+	public ModelAndView selectMyresAll(ModelAndView mv, int cPage) {
 		//Session에 저장된 회원 pk 가져오기
-		int memberNo=getMemberNo(httpSession);;
+		int memberNo=getMemberNo();;
 		//페이지 관련 변수 선언
 		int numPerpage=8;
 		//내 맛집 조회
@@ -97,9 +100,9 @@ public class ProfileController {
 	
 	//내 맛집 지역별 조회
 	@RequestMapping("/selectMyresArea")
-	public ModelAndView selectMyresArea(ModelAndView mv, HttpSession httpSession,int cPage, String area) {
+	public ModelAndView selectMyresArea(ModelAndView mv,int cPage, String area) {
 		//Session에 저장된 회원 pk 가져오기
-		int memberNo=getMemberNo(httpSession);
+		int memberNo=getMemberNo();
 		//페이지 관련 변수 선언
 		int numPerpage=8;
 		//내 맛집 조회
@@ -118,9 +121,9 @@ public class ProfileController {
 	
 	//내 맛집 제목,카테고리 검색 조회
 	@RequestMapping("/selectMyresTitle")
-	public ModelAndView selectMyresTitle(ModelAndView mv, HttpSession httpSession, int cPage, String search) {
+	public ModelAndView selectMyresTitle(ModelAndView mv, int cPage, String search) {
 		//Session에 저장된 회원 pk 가져오기
-		int memberNo=getMemberNo(httpSession);
+		int memberNo=getMemberNo();
 		//페이지 관련 변수 선언
 		int numPerpage=8;
 		//내 맛집 조회
@@ -141,7 +144,7 @@ public class ProfileController {
 	@RequestMapping("/insertmyres.do")
 	public String insertMyRes(HttpSession httpSession, @RequestParam Map param, MultipartFile[] upFile) {
 		//Session에 저장된 회원 pk 가져오기
-		int memberNo=getMemberNo(httpSession);
+		int memberNo=getMemberNo();
 		param.put("memberNo", memberNo);
 		
 		//공유 여부 parse처리
