@@ -21,7 +21,7 @@ public interface MsgDao {
 	List<Map> selectMsgList(Map pram);
 
 	//페이징
-	@Select("SELECT COUNT(*) FROM ENTERCHAT WHERE MEMBER_NO=#{loginMemberNo}")
+	@Select("SELECT COUNT(*) FROM ENTERCHAT WHERE MEMBER_NO=#{loginMemberNo} AND MEETING_NO IS NULL AND CHAT_OUT_YN IS NULL")
 	int selectMsgCount(int loginMemberNo);
 	
 	//채팅 대화목록

@@ -62,4 +62,12 @@ public class FriendController {
 	public int acceptFriend(int loginMemberNo, int memberNo) {
 		return service.acceptFriend(loginMemberNo, memberNo);
 	}	 		
+	
+	//친구신청수
+	@RequestMapping("/friendCount.do")
+	@ResponseBody
+	public int friendCount(int loginMemberNo) {
+		System.out.println("로그인멤버"+loginMemberNo);
+		return service.friendCount(loginMemberNo);
+	}
 }

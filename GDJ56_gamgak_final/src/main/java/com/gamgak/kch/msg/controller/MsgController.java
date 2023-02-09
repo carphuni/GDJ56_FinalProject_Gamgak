@@ -38,11 +38,8 @@ public class MsgController {
 		Map<String,Object> list=new HashMap<String, Object>();
 		int numPerpage=5;
 		int total=service.selectMsgCount(loginMemberNo);
-		System.out.println(total);
 		list.put("list",service.selectMsgList(Map.of("loginMemberNo",loginMemberNo,"cPage",cPage,"numPerpage",numPerpage)));
 		list.put("pageBar",PageFactory.getPage(loginMemberNo,cPage, numPerpage, total, functionN, "selectMsgList.do"));
-		System.out.println(list);
-
 		return list;
 	}
 	

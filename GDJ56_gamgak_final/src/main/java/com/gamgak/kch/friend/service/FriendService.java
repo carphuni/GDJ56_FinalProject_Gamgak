@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.gamgak.kch.friend.dao.FriendDao;
 
@@ -35,20 +34,22 @@ public class FriendService {
 	}
 	
 	//친구신청
-	@Transactional
 	public int insertFriend(int loginMemberNo, int memberNo) {
 		return dao.insertFriend(loginMemberNo, memberNo);
 	}
 	
 	//친구신청취소
-	@Transactional
 	public int cancleFriend(int loginMemberNo, int memberNo) {
 		return dao.cancleFriend(loginMemberNo, memberNo);
 	}	 
 	
 	//친구수락
-	@Transactional
 	public int acceptFriend(int loginMemberNo, int memberNo) {
 		return dao.acceptFriend(loginMemberNo, memberNo);
+	}
+	
+	//친구신청수
+	public int friendCount(int loginMemberNo) {
+		return dao.friendCount(loginMemberNo);
 	}
 }

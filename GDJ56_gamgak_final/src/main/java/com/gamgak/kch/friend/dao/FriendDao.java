@@ -35,4 +35,8 @@ public interface FriendDao {
 	//친구수락
 	@Update("UPDATE FRIEND SET ACCEPT_YN='Y' WHERE MEMBER_FOLLOWING_NO=#{memberNo} AND MEMBER_FOLLOWER_NO=#{loginMemberNo}")
 	int acceptFriend(int loginMemberNo, int memberNo);
+	
+	//친구신청수
+	@Select("SELECT COUNT(*)AS \"COUNT\" FROM FRIEND WHERE (MEMBER_FOLLOWING_NO=${loginMemberNo} OR MEMBER_FOLLOWER_NO=${loginMemberNo}) AND ACCEPT_YN='S'")
+	int friendCount(int loginMemberNo);
 }

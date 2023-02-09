@@ -53,8 +53,8 @@
                     </a>
                     <a class="nav-link active" aria-current="page" href="${path }/msg/friend.do">
                         <i class="fa-solid fa-user-group position-relative">
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.3rem;">
-                                99+
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="friendCount" style="font-size: 0.3rem;">
+                                
                                 <span class="visually-hidden">unread messages</span>
                             </span>
                         </i>
@@ -183,12 +183,12 @@
             <section>
  
 <script>
-	//안읽은 메세지 수
  	(() => {
+ 		//안읽은 메세지 수
 		$.ajax({
 			url:"${path}/msg/unreadCount.do",
 			data:{
-				"loginMemberNo":${loginMember.memberNo},
+				"loginMemberNo":${loginMember.memberNo}
 			},
 			success:data=>{
 				console.log(data);
@@ -198,6 +198,21 @@
 					$("#unreadChat").text(0);
 				}
 				
+			}
+		})
+		
+		//친구신청 수
+		$.ajax({
+			url:"${path}/friend/friendCount.do",
+			data:{
+				"loginMemberNo":${loginMember.memberNo}
+			},
+			success:data=>{
+				if(data!=null){
+					$("#friendCount").text(data);
+				}else{
+					$("#friendCount").text(0);
+				}
 			}
 		})
 	})(); 
