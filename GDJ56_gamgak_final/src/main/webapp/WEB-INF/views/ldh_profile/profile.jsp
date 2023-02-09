@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
+<c:set var="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
                 <div id="meeting-wrapper">
                     <div id="meeting-item">
@@ -34,7 +35,7 @@
                         
                         <div id="info">
                             <div id="info-1">
-                                <span><c:out value="${loginMember.memberEmail }"/></span>
+                                <span><c:out value="${loginMember.memberEmail}"/></span>
                                 <button id="edit-profile" type="button" class="btn btn-danger">프로필 편집</button>
                                 
                             </div>
@@ -194,9 +195,9 @@
                                 
 
                             </div>
-                            <div id="info-3"><c:out value="${loginMember.memberNickName }"/></div>
+                            <div id="info-3"><c:out value="${loginMember.memberNickName}"/></div>
                             <div id="info-d4">
-                                <span><c:out value="${loginMember.introduce }"/></span>
+                                <span><c:out value="${loginMember.introduce}"/></span>
                             </div>
                         </div>
                         <a><i class="fa-solid fa-gear fa-lg" data-bs-toggle="modal" data-bs-target="#settingModal"></i></a>
@@ -252,18 +253,6 @@
 	                    </div>
                     </div>
                     <div id="card-container">
-	                    <c:forEach var="myres" items="${myResList }">
-	                        <div class="card">
-	                            <img src="${not empty myres.myPic? "/resources/upload/myres/"+=myres.myPic.myPicReName:''}" class="card-img-top" onerror="this.src='${path }/resources/images/이미지 없음.jpg'">
-	                            <div class="card-body">
-	                                <span id="card-title">${myres.restaurant.resName }</span>
-	                                <span id="card-category">${myres.restaurant.resCategory }</span>
-	                                <span id="card-address">${myres.restaurant.resAddress }</span>
-	                                <span id="card-memo">${fn:substring(myres.myResMemo,0,10)}...</span>
-	                            </div>
-	                        </div>
-	                    </c:forEach>
-                       
                     </div> 
                     <div class="d-flex justify-content-center" >
 						<div id="profileLoading" class="spinner-border text-danger" role="status" style="display: none">
@@ -271,184 +260,6 @@
 						</div>
 					</div>
                 </div>
-<script>
-	//dataClass
-	let profileData={};
-	//기본 cPage
-	let profileCPage=1;
-	//지역별 검색 시 변수 설정
-	let profileArea="";
-	//제목, 카테고리 검색 시 변수 설정
-	let profileSearch="";
-	//기본 스크롤 페이징 주소
-	let profileURL="/profile/scrollselectMyresAll";
-	
-	
-	//내 맛집 클릭 시
-	$("#show-click").click(()=>{
-		//cPage 초기화
-		profileCPage=1;
-		//스크롤 페이징 주소 변경
-		profileURL="/profile/scrollselectMyresAll";
-		//key "area,search" 삭제
-		profileArea="";
-		delete profileData.area;
-		profileSearch="";
-		delete profileData.search;
-		//스크롤 이벤트 살리기
-		$(window).on("scroll",()=>{
-			profileScroll();
-		});
-		$.ajax({
-	        type: "GET",
-	        url: "/profile/selectMyresAll",
-	       	data: profileData,
-	        error: function() {
-	          console.log('통신실패!!');
-	        },
-	        success: function(result) {
-	        	if($.trim(result)==""){
-	        		$("#card-container").html("<div style='text-align: center;width:100%;margin-top:1rem;'>조회된 결과가 없습니다</div>");
-	        	}else{
-	        		$("#card-container").html(result);
-	        	}
-	        }
-		});   
-	})
-	
-	//지역별 클릭시
-	$("#area-click").click(()=>{
-		//selectbox option 초기화
-		$($("#area-search")[0][0]).prop("selected", true);
-	})
-	
-	//지역별 select 변경시
-	$("#area-search").change((e)=>{
-		//key "search" 삭제
-		profileSearch="";
-		delete profileData.search;
-		//스크롤 페이징 주소 변경
-		profileURL="/profile/scrollselectMyresArea";
-		//스크롤 이벤트 살리기
-		$(window).on("scroll",()=>{
-			profileScroll();
-		});
-		//cPage 초기화
-		profileCPage=1;
-		//선택한 지역 value 초기화
-		profileArea=$(e.target).val();
-		//profileData에 key:value추가
-		profileData.area=profileArea;
-		$.ajax({
-	        type: "GET",
-	        url: "/profile/selectMyresArea",
-	       	data: profileData,
-	        error: function() {
-	          console.log('통신실패!!');
-	        },
-	        success: function(result) {
-	        	if($.trim(result)==""){
-	        		$("#card-container").html("<div style='text-align: center;width:100%;margin-top:1rem;'>조회된 결과가 없습니다</div>");
-	        	}else{
-	        		$("#card-container").html(result);
-	        	}
-	        }
-		});   
-	})
-	
-	//검색 클릭 시
-	$("#title-click").click(()=>{
-		$("#title-search input").val("");
-	})
-	
-	//제목, 카테고리 검색 시
-	$("#title-search button").click(()=>{
-		//key "area" 삭제
-		profileArea="";
-		delete profileData.area;
-		//스크롤 페이징 주소 변경
-		profileURL="/profile/scrollselectMyresTitle";
-		//스크롤 이벤트 살리기
-		$(window).on("scroll",()=>{
-			profileScroll();
-		});
-		//cPage 초기화
-		profileCPage=1;
-		//제목,카테고리 input value 초기화
-		profileSearch=$("#title-search input").val();
-		//profileData에 key:value추가
-		profileData.search=profileSearch;
-		$.ajax({
-	        type: "GET",
-	        url: "/profile/selectMyresTitle",
-	       	data: profileData,
-	        error: function() {
-	          console.log('통신실패!!');
-	        },
-	        success: function(result) {
-	        	if($.trim(result)==""){
-	        		$("#card-container").html("<div style='text-align: center;width:100%;margin-top:1rem;'>조회된 결과가 없습니다</div>");
-	        	}else{
-	        		$("#card-container").html(result);
-	        	}
-	        }
-		});   
-	})
-	
-	//스크롤 시 페이징 처리
-	function profileScroll() {
-		 if (Math.round($(window).scrollTop())-16> $(document).height() - $(window).height()) {
-			profileCPage++;
-			profileData.cPage=profileCPage;
-			//지역별 검색시 profileData객체에 key:value 추가
-			if(profileArea!="")profileData.area=profileArea;
-			console.log(profileData);
-		    $("#profileLoading").show();
-		    $.ajax({
-		        type: "GET",
-		        url: profileURL,
-		       	data: profileData,
-		        error: function() {
-		          console.log('통신실패!!');
-		        },
-		        success: function(result) {
-		        	result.myResList.forEach((el)=>{
-		        		let cardDiv=$("<div>").addClass("card")
-		        		let cardImg=$("<img>").addClass("card-img-top").attr("src", el.myPic.myPicReName!=null?"/resources/upload/myres/"+el.myPic.myPicReName:"").attr("onerror","this.src='/resources/images/이미지 없음.jpg'");
-		        		let cardBobyDiv=$("<div>").addClass("card-body");
-		        		
-		        		let cardTitleSpan=$("<span>").attr("id","card-title").html(el.restaurant.resName);
-		        		let cardCategorySpan=$("<span>").attr("id","card-category").html(el.restaurant.resCategory);
-		        		let cardAddressSpan=$("<span>").attr("id","card-address").html(el.restaurant.resAddress);
-		        		let cardMemoSpan=$("<span>").attr("id","card-memo").html(el.myResMemo);
-		        		
-		        		cardBobyDiv.append(cardTitleSpan);
-		        		cardBobyDiv.append(cardCategorySpan);
-		        		cardBobyDiv.append(cardAddressSpan);
-		        		cardBobyDiv.append(cardMemoSpan);
-		        		
-		        		cardDiv.append(cardImg);
-		        		cardDiv.append(cardBobyDiv);
-		        		
-		        		$("#card-container").append(cardDiv); 
-		        	})
-		        	$("#profileLoading").hide();
-		        	//조회된 데이터가 없을 때 
-		        	if(result.myResList.length==0){
-		        		//스크롤 이벤트 삭제
-			        	$(window).off("scroll");
-		        	}
-		        }
-			});   
-		    
-		 } 
-		
-	}
-	
-	
-	$(window).scroll(()=>{
-		profileScroll();
-	});
-</script> 
+<script src="${path}/resources/js/myRes.js"></script> 
 <script src="${path}/resources/js/mainProfile.js"></script>               
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
