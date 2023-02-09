@@ -74,6 +74,16 @@ public class AdminService {
 		return dao.selectMeetingList(param);
 	}
 	
+	public List<Map> selectMsgData(Map param) {
+		
+		return dao.selectMsgData(param);
+	}
+
+	public int selectMsgCount(Map param) {
+		
+		return dao.selectMsgCount(param);
+	}
+
 	public List<Map> selectReportData(Map param) {
 		
 		return dao.selectReportList(param);
