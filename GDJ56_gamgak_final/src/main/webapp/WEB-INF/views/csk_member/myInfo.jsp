@@ -46,7 +46,7 @@
             <div>
 	            <div><h3>공개정보</h3></div>
 	            <div>이름 <input type="text" id="memberName" value="" readonly="readonly"/></div>
-	            <div>닉네임 <input type="text" id="memberNickName" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal.memberNickName}"/></div>
+	            <div>닉네임 <input type="text" id="memberNickName" value="${loginMember.memberNickName}"/></div>
 	            <div>소개 <input type="text" id="memberIntroduce" value="" placeholder="자신을 소개해 보세요"/></div>
             </div>
             <div>

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +28,8 @@ import com.gamgak.jjh.meeting.model.vo.Meeting;
 
 import lombok.extern.slf4j.Slf4j;
 
+
+
 @Controller
 @Slf4j
 public class MeetingController {
@@ -40,10 +43,17 @@ public class MeetingController {
 		this.httpSession=httpSession;
 	}
 	
+	//로그인 멤버의 멤버번호 가져오는 메소드
+	private int getMemberNo() {
+		Object principal=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Member user=(Member)principal;
+	return user.getMemberNo();
+	}
+	
 	@RequestMapping("/meetting/meettinglist.do")
 	public ModelAndView meetingMainview(ModelAndView mv) {
 		
-		int memberNo =((Member)httpSession.getAttribute("loginMember")).getMemberNo();
+		int memberNo =getMemberNo();
 		List<Map> logmee=service.selectLoginUserMeetingList(memberNo);
 		for(int i=0; i<logmee.size();i++) {
 			System.out.println("joinmeetinglist"+logmee.get(i));

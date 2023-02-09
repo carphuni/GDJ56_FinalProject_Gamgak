@@ -187,7 +187,7 @@
                     	</c:otherwise>
                     </c:choose>
                     <div>
-                        <button class="btn btn-danger" onclick="location.assign('${path}/meetting/meettingmanage.do')">관리</button>
+                        <%-- <button class="btn btn-danger" onclick="location.assign('${path}/meetting/meettingmanage.do')">관리</button> --%>
 
                     </div>
                     <script type="text/javascript">

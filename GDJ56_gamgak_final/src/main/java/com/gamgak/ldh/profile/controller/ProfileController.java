@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -85,7 +86,7 @@ public class ProfileController {
 	@RequestMapping("/selectMyresAll")
 	public ModelAndView selectMyresAll(ModelAndView mv, int cPage) {
 		//Session에 저장된 회원 pk 가져오기
-		int memberNo=getMemberNo();;
+		int memberNo=getMemberNo();
 		//페이지 관련 변수 선언
 		int numPerpage=8;
 		//내 맛집 조회
