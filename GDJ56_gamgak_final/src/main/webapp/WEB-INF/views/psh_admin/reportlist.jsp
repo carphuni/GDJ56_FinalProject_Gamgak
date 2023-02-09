@@ -3,6 +3,10 @@ pageEncoding="UTF-8"%> <%@taglib prefix="c"
 uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/common/adminheader.jsp" />
 <c:set var="path" value="${pageContext.request.contextPath }" />
+<c:set
+  var="loginMember"
+  value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"
+/>
 <div id="profile-wrapper">
   <section id="adContent">
     <hr class="sep" />
@@ -263,11 +267,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         },
         success: (data) => {
           const tr = $("<tr>");
-          const checkbox = $("<input id='selectAll' type='checkbox'>").attr(
-            "onclick",
-            "selectAll()"
-          );
-          tr.append($("<th>").append(checkbox));
           tr.append($("<th>").text("신고번호"));
           tr.append($("<th>").text("신고제목"));
           tr.append($("<th>").text("신고 날짜"));
@@ -285,15 +284,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
               // console.log(v)
               let tr2 = $("<tr>");
               let a = $("<a>");
-              tr2.append(
-                $("<td>").append(
-                  $(
-                    "<input name='reportcheck' type='checkbox' value=" +
-                      v.REPORT_NO +
-                      ">"
-                  )
-                )
-              );
               tr2.append($("<td>").text(v.REPORT_NO));
               tr2.append($("<td>").text(v.REPORT_TITLE));
               let enrolldate = v.REPORT_DATE;
@@ -476,11 +466,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         },
         success: (data) => {
           const tr = $("<tr>");
-          const checkbox = $("<input id='selectAll' type='checkbox'>").attr(
-            "onclick",
-            "selectAll()"
-          );
-          tr.append($("<th>").append(checkbox));
           tr.append($("<th>").text("신고번호"));
           tr.append($("<th>").text("신고제목"));
           tr.append($("<th>").text("회원 번호"));
@@ -499,15 +484,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
               // console.log(v)
               let tr2 = $("<tr>");
               let a = $("<a>");
-              tr2.append(
-                $("<td>").append(
-                  $(
-                    "<input name='reportcheck' type='checkbox' value='" +
-                      v.REPORT_NO +
-                      "'>"
-                  )
-                )
-              );
               tr2.append($("<td>").text(v.REPORT_NO));
               tr2.append($("<td>").text(v.REPORT_TITLE));
               tr2.append($("<td>").text(v.MEMBER_NO));
@@ -600,11 +576,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         },
         success: (data) => {
           const tr = $("<tr>");
-          const checkbox = $("<input id='selectAll' type='checkbox'>").attr(
-            "onclick",
-            "selectAll()"
-          );
-          tr.append($("<th>").append(checkbox));
           tr.append($("<th>").text("신고번호"));
           tr.append($("<th>").text("신고제목"));
           tr.append($("<th>").text("맛집저장 번호"));
@@ -623,15 +594,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
               // console.log(v)
               let tr2 = $("<tr>");
               let a = $("<a>");
-              tr2.append(
-                $("<td>").append(
-                  $(
-                    "<input name='reportcheck' type='checkbox' value=" +
-                      v.REPORT_NO +
-                      ">"
-                  )
-                )
-              );
               tr2.append($("<td>").text(v.REPORT_NO));
               tr2.append($("<td>").text(v.REPORT_TITLE));
               tr2.append($("<td>").text(v.MYRES_NO));
@@ -724,11 +686,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         },
         success: (data) => {
           const tr = $("<tr>");
-          const checkbox = $("<input id='selectAll' type='checkbox'>").attr(
-            "onclick",
-            "selectAll()"
-          );
-          tr.append($("<th>").append(checkbox));
           tr.append($("<th>").text("신고번호"));
           tr.append($("<th>").text("신고제목"));
           tr.append($("<th>").text("모임 번호"));
@@ -747,15 +704,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
               // console.log(v)
               let tr2 = $("<tr>");
               let a = $("<a>");
-              tr2.append(
-                $("<td>").append(
-                  $(
-                    "<input name='reportcheck' type='checkbox'value=" +
-                      v.REPORT_NO +
-                      ">"
-                  )
-                )
-              );
               tr2.append($("<td>").text(v.REPORT_NO));
               tr2.append($("<td>").text(v.REPORT_TITLE));
               tr2.append($("<td>").text(v.MEETING_NO));

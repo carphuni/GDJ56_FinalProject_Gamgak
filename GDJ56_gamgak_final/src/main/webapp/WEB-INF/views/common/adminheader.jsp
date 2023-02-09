@@ -27,6 +27,7 @@
 <style>
     #logo-img{border-radius: 10%;width: 6rem;height: 6rem;}
 </style>
+
 <body>
     <div id="basic-wrapper">
         <!-- Side NavBar -->
@@ -82,6 +83,7 @@
                     </ul>
                 </div>
         </aside>
+        
         <!-- Article -->
         <article id="main-wrapper">
             <!-- Main -->

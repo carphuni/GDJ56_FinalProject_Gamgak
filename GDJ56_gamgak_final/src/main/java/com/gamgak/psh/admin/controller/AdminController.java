@@ -1,14 +1,15 @@
 package com.gamgak.psh.admin.controller;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import org.apache.tomcat.util.json.JSONParser;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jackson.JsonObjectDeserializer;
 import org.springframework.stereotype.Controller;
@@ -42,6 +43,8 @@ public class AdminController {
 	
 	@RequestMapping("/")
 	public String adminMainPage(Model m) {
+		Date lasttime=new Date();
+//		SimpleDateFormat formatDate=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		m.addAttribute("memdata", service.selectData(Map.of("table","MEMBER","yn","MEMBER_ENROLLDATE","ynval","SYSDATE")));
 		m.addAttribute("redata", service.selectData(Map.of("table","REPORT","yn","REPORT_DATE","ynval","SYSDATE")));
 		m.addAttribute("mtdata", service.selectData(Map.of("table","MEETING","yn","MEETING_ENROLL_DATE","ynval","SYSDATE")));

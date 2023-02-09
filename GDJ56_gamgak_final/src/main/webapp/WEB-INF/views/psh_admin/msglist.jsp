@@ -5,6 +5,10 @@ uri="http://java.sun.com/jsp/jstl/core" %>
   <jsp:param name="title" value="회원가입" />
 </jsp:include>
 <c:set var="path" value="${pageContext.request.contextPath }" />
+<c:set
+  var="loginMember"
+  value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"
+/>
 <div id="profile-wrapper">
   <section id="adContent">
     <hr class="sep" />
@@ -15,9 +19,9 @@ uri="http://java.sun.com/jsp/jstl/core" %>
       <div id="adInfo">
         <img id="adimg" src="${path}/resources/images/프로필 기본 이미지.jpg" />
         <div id="adText">
-          <h5><b>admin</b></h5>
-          <h5>관리자</h5>
-          <h5>마지막 접속시간 : 23.01.26 12:00</h5>
+          <h5><b>${loginMember.memberEmail}</b></h5>
+          <h5>${loginMember.memberNickName}</h5>
+          <h5>마지막 접속 :</h5>
         </div>
       </div>
       <!-- 구분선 -->
