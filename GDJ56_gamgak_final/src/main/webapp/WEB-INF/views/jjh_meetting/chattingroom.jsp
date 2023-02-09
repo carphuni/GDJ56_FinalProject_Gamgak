@@ -2,9 +2,12 @@
     pageEncoding="UTF-8"%>
     <!-- jQuery library -->
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="${path }/resources/css/bootstrap.min.css">
+	<!-- 부트스트랩 css/js -->
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/bootstrap.min.css" >
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+	
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+  
     <script src="${pageContext.request.contextPath }/resources/js/jquery-3.6.1.min.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/chatting.js"></script>
 <div style="display: flex;">
@@ -18,17 +21,6 @@
         <div id="chatting input" style="display: flex; border: 1px black solid; width: 750px; height: 90px;  background-color: rgb(204, 205, 204);" >
             <div style="margin: auto;">
                 <input id="inputmsg" type="text" style="width: 550px; height: 50px;border: 1px white solid; border-radius: 5px;" placeholder="내용을 입력하세요">
-                <!-- <input type="submit" class="btn btn-danger" value="입력"> -->
-				<!-- <div id="yourName">
-					<table class="inputTable">
-						<tr>
-							<th>사용자명</th>
-							<th><input type="text" name="userName" id="userName"></th>
-							<th><button onclick="chatName()" id="startBtn">이름 등록</button></th>
-						</tr>
-					</table>
-				</div> -->
-               <!--  <button id="sendBtn" onclick="send()" class="btn btn-danger">전송</button> -->
                  <button id="sendBtn" class="btn btn-danger">전송</button>
 			</div>
             
@@ -42,43 +34,7 @@
     </div>
     
     
-	<!-- <title>Chating</title>
-	<style>
-		*{
-			margin:0;
-			padding:0;
-		}
-		.container{
-			width: 500px;
-			margin: 0 auto;
-			padding: 25px
-		}
-		.container h1{
-			text-align: left;
-			padding: 5px 5px 5px 15px;
-			color: #FFBB00;
-			border-left: 3px solid #FFBB00;
-			margin-bottom: 20px;
-		}
-		.chating{
-			background-color: #000;
-			width: 500px;
-			height: 500px;
-			overflow: auto;
-		}
-		.chating p{
-			color: #fff;
-			text-align: left;
-		}
-		input{
-			width: 330px;
-			height: 25px;
-		}
-		#yourMsg{
-			display: none;
-		}
-	</style>
-</head> -->
+
 
 <!-- <script type="text/javascript">
 	var ws;
@@ -264,10 +220,14 @@
 
 <!--채팅 js-->
 
-<script>
+ <script>
 		var today = new Date();
+		const servername1="wss://gd1class.iptime.org:8844/GDJ56_gamgak_final/chatting_Server"
+			//ws://gd1class.iptime.org:9999/GDJ56_gamgak_final/chatting_Server
+			const servername="ws://localhost:9090/GDJ56_gamgak_final/jjh_chatting_Server"
+			const websocket=new WebSocket(servername);
 	
-		const websocket=new WebSocket("ws://localhost:9090/chatting_Server");
+		//const websocket=new WebSocket("ws://localhost:9090/chatting_Server");
 		//소켓을 만드는 역활
 		
 		websocket.onopen=(data)=>{
@@ -322,7 +282,7 @@
 		}
 		
 		
-	</script>	
+	</script>	 
 
 
 
@@ -398,48 +358,48 @@
 
 
 
-  <!--meeting Modal -->
-  <div class="modal fade" id="meettingreport" tabindex="-1" aria-labelledby="#meettingreport" aria-hidden="true" >
+  <!-- meeting Modal-->
+ <div class="modal fade" id="meettingreport" tabindex="-1" aria-labelledby="#meettingreport" aria-hidden="true" >
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
-            <form>
-                <input type="text" style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 300px;" placeholder="신고제목을 입력하세요">
-                <select style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 150px;">
-                    <option value="상업적/홍보성">상업적/홍보성</option>
-                    <option value="음란/선정성">음란/선정성</option>
-                    <option value="불법정보">불법정보</option>
-                    <option value="욕설/인신공격">욕설/인신공격</option>
-                    <option value="기타">기타</option>
-                </select>
+		<form>
+        	<div class="modal-header">
+				<input type="text" style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 300px;" placeholder="신고제목을 입력하세요">
+					<select style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 150px;">
+                    	<option value="상업적/홍보성">상업적/홍보성</option>
+                   		<option value="음란/선정성">음란/선정성</option>
+                    	<option value="불법정보">불법정보</option>
+                    	<option value="욕설/인신공격">욕설/인신공격</option>
+                    	<option value="기타">기타</option>
+                	</select>
                 <div style="display: flex; flex-direction: column; display: flex; font-weight: bolder; margin: 15px 0px 0px 0px;">
                     <span style="margin: auto;">신고자 아이디 : 00000</span>
                     <span style="margin: auto;">신고시간 : 00000000</span>
                 </div>
-            </div>
+        	</div>
             <div class="modal-body">
                 <textarea style="border: 3px #dc3545 solid; height: 300px; width: 470px;" placeholder="내용을 입력하시오"></textarea>
             </div>
             <div class="modal-footer">
-                <input class="btn btn-danger" type="submit" value="참여하기">
+                <input class="btn btn-danger" type="submit" value="신고하기">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소하기</button>
              
             </div>
 
-            </form>
+    	</form>
       </div>
     </div>
   </div>
 
 
    <!--user Modal -->
-   <div class="modal fade" id="userreport" tabindex="-1" aria-labelledby="#userreport" aria-hidden="true" >
+    <div class="modal fade" id="userreport" tabindex="-1" aria-labelledby="#userreport" aria-hidden="true" >
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-            <form>
-                <input type="text" style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 300px;" placeholder="신고제목을 입력하세요">
-                <select style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 150px;">
+			<input type="text" style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 300px;" placeholder="신고제목을 입력하세요">
+			<select style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 150px;">
+				<form>
                     <option value="상업적/홍보성">상업적/홍보성</option>
                     <option value="음란/선정성">음란/선정성</option>
                     <option value="불법정보">불법정보</option>
@@ -464,4 +424,4 @@
       </div>
     </div>
   </div>
-            
+           

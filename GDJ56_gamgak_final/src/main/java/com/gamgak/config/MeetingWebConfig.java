@@ -16,14 +16,14 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSocket
-public class WebConfig implements WebSocketConfigurer, WebMvcConfigurer {
+public class MeetingWebConfig implements WebSocketConfigurer, WebMvcConfigurer {
 	
-	private ChattingServer chattingServer;
+	private MeetingChattingServer meetingChattingServer;
 	
 	@Autowired
-	public WebConfig(ChattingServer chattingServer) {
+	public MeetingWebConfig(MeetingChattingServer meetingChattingServer) {
 		super();
-		this.chattingServer=chattingServer;
+		this.meetingChattingServer=meetingChattingServer;
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class WebConfig implements WebSocketConfigurer, WebMvcConfigurer {
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(chattingServer, "/chatting_Server").setAllowedOrigins("*");
+		registry.addHandler(meetingChattingServer, "/jjh_chatting_Server").setAllowedOrigins("*");
 	}
 	
 
