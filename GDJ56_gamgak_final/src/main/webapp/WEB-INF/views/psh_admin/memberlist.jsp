@@ -19,9 +19,8 @@ uri="http://java.sun.com/jsp/jstl/core" %>
       <div id="adInfo">
         <img id="adimg" src="${path}/resources/images/프로필 기본 이미지.jpg" />
         <div id="adText">
-          <h5><b>admin</b></h5>
-          <h5>관리자</h5>
-          <h5>마지막 접속시간 : 23.01.26 12:00</h5>
+          <h5><b>${loginMember.memberEmail}</b></h5>
+          <h5>${loginMember.memberNickName}</h5>
         </div>
       </div>
       <!-- 구분선 -->
@@ -62,7 +61,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         <i class="search-icon"></i>
       </button>
     </div>
-
+    <hr class="sep" />
     <div id="headbox">
       <div id="fnsmem">
         <button
