@@ -27,8 +27,32 @@ public class AdminService {
 //		this.memberdao2=memberdao2;
 	}
 	
+	public List<Map> selectStopMember() {
+		return dao.selectStopMember();
+	}
+	
+	public List<Map> selectReportMember() {
+		return dao.selectReportMember();
+	}
+	
+	public List<Map> selectMyrestMember() {
+		return dao.selectMyrestMember();
+	}
+	
+	public List<Map> selectMeetingMember() {
+		return dao.selectMeetingMember();
+	}
+	
 	public int selectCount(Map param) {
 		return dao.selectCount(param);
+	}
+	
+	public int selectReportCount(Map param) {
+		return dao.selectReportCount(param);
+	}
+	
+	public int selectData(Map param) {
+		return dao.selectData(param);
 	}
 	
 	public int selectCountNo(Map param) {

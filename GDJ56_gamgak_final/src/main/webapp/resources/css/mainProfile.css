@@ -100,30 +100,30 @@ a:hover{
         }
      
 	/* Modal */
-	#insertModal-dialog{
+	#insertModal-dialog,#myresModal-dialog{
 	  	width: 1140px;
 	  }
 	  	
-	  	#insertModal-body{
+	  	#insertModal-body,#myresModal-body{
 	  		display: flex;
 	  		height: 32.5rem;
 	  	}
 	  	
-	   	#insertMap{
+	   	#insertMap,#myresMap{
 	   		height: 100%
 	   	}
 	
 	#menu_wrap {position:absolute;top:0;left:0;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
 	.bg_white {background:#fff;}
-	#insert_menu_wrap{
+	#insert_menu_wrap,#myres_menu{
 		padding: 0 1rem;
 	}
-		#insert_menu_wrap hr {
+		#insert_menu_wrap hr,#myres_menu_wrap hr {
 			border: 2px solid #dc3545;
 			margin:1rem 0;
 		}
 	
-		.insert_option button {
+		.insert_option button{
 			margin-left:1rem;
 			width: 10rem;
 		}
@@ -377,7 +377,7 @@ a:hover{
              width: 100%;
           }
            
-             #title-search>form{
+             #title-search>div{
                 display: flex;
                 width: 100%;
                 padding-bottom: 0;
@@ -397,7 +397,9 @@ a:hover{
         .card{
             width: 10rem;
             margin: 0.9rem;
+            cursor: pointer;
         }
+
             .card-body{
                 display: flex;
                 flex-direction: column;

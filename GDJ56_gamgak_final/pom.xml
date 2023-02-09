@@ -80,19 +80,32 @@
 		    <artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>			
 		<!-- 메일라이브러리 -->
-	      <dependency>
-	          <groupId>org.springframework.boot</groupId>
-	          <artifactId>spring-boot-starter-mail</artifactId>
-	      </dependency>
-	      <dependency>
-	          <groupId>javax.mail</groupId>
-	          <artifactId>mail</artifactId>
-	          <version>1.4.7</version>
-	      </dependency>
-	      <dependency>
-	          <groupId>org.springframework</groupId>
-	          <artifactId>spring-context-support</artifactId>
-	      </dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>mail</artifactId>
+		    <version>1.4.7</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context-support</artifactId>
+		</dependency>
+		<!-- 암호화처리를 위한 springsecurity 의존성 등록 단방향암호화 -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-core</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-web</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-config</artifactId>
+		</dependency>
 		
 	</dependencies>
 	

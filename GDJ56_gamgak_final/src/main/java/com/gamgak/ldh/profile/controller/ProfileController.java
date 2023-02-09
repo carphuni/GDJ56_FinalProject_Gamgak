@@ -10,11 +10,10 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -33,33 +32,31 @@ import lombok.extern.slf4j.Slf4j;
 public class ProfileController {
 
 	private ProfileService service;
-	private final HttpSession httpSession;
-
+	
 	@Autowired
-	public ProfileController(ProfileService service, HttpSession httpSession) {
+	public ProfileController(ProfileService service) {
 		super();
 		this.service = service;
-		this.httpSession = httpSession;
 	}
-
+	
+	//로그인 멤버의 멤버번호 가져오는 메소드
+	private int getMemberNo() {
+		Object principal=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Member user=(Member)principal;
+	return user.getMemberNo();
+	}
 
 	//프로필 화면
 	@RequestMapping("/")
 	public ModelAndView profile(ModelAndView mv) {
 		//Session에 저장된 회원 pk 가져오기
-		int memberNo=((Member)httpSession.getAttribute("loginMember")).getMemberNo();
+		int memberNo=getMemberNo();
 		//저장한 맛집 카운트 가져오기
 		mv.addObject("myResCount", service.selectMyResCount(memberNo));
 		//친구 카운트 가져오기
 		mv.addObject("friendCount", service.selectFriendCount(memberNo));
 		//모임 카운트 가져오기
 		mv.addObject("meetingCount", service.selectMeetingCount(memberNo));
-		
-		//페이지 관련 변수 선언
-		int cPage=1;
-		int numPerpage=8;
-		//내 맛집 조회
-		mv.addObject("myResList", service.selectMyResAll(Map.of("memberNo",memberNo,"cPage",cPage,"numPerpage",numPerpage)));
 		
 		//로그인한 모임 정보 가져오기-jjh
 		mv.addObject("meetinginfo",service.selectMeetingInfo(memberNo));
@@ -84,25 +81,76 @@ public class ProfileController {
 		return mv;
 	}
 	
-	
-	@RequestMapping("/scrollselectMyresAll")
-	@ResponseBody
-	public Map scrollselectMyresAll(int cPage) {
+	//내 맛집 전체 조회
+	@RequestMapping("/selectMyresAll")
+	public ModelAndView selectMyresAll(ModelAndView mv, int cPage) {
 		//Session에 저장된 회원 pk 가져오기
-		int memberNo=((Member)httpSession.getAttribute("loginMember")).getMemberNo();
-		//numPerpage 설정
+		int memberNo=getMemberNo();;
+		//페이지 관련 변수 선언
 		int numPerpage=8;
-		Map m=Map.of("myResList", service.selectMyResAll(Map.of("memberNo",memberNo,"cPage",cPage,"numPerpage",numPerpage)));
-		return m;
-   	 	
+		//내 맛집 조회
+		List<MyRes> myResList=service.selectMyResAll(Map.of("memberNo",memberNo,"cPage",cPage,"numPerpage",numPerpage));
+		String myResNos="";
+		for(int i=0;i<myResList.size();i++) {
+			if(i==0)myResNos+=myResList.get(i).getMyResNo();
+			else myResNos+=","+myResList.get(i).getMyResNo();
+		}
+		log.debug(myResNos);
+		log.debug("{}",myResList);
+		mv.addObject("myResList", myResList);
+		mv.addObject("cPage",cPage);
+		mv.addObject("myResNos",myResNos);
+		mv.setViewName("ldh_profile/profileCardTemplate");
+		return mv;
+	}
+	
+	//내 맛집 지역별 조회
+	@RequestMapping("/selectMyresArea")
+	public ModelAndView selectMyresArea(ModelAndView mv,int cPage, String area) {
+		//Session에 저장된 회원 pk 가져오기
+		int memberNo=getMemberNo();
+		//페이지 관련 변수 선언
+		int numPerpage=8;
+		//내 맛집 조회
+		List<MyRes> myResList=service.selectMyResArea(Map.of("memberNo",memberNo,"cPage",cPage,"numPerpage",numPerpage,"area",area));
+		String myResNos="";
+		for(int i=0;i<myResList.size();i++) {
+			if(i==0)myResNos+=myResList.get(i).getMyResNo();
+			else myResNos+=","+myResList.get(i).getMyResNo();
+		}
+		mv.addObject("myResList", myResList);
+		mv.addObject("cPage",cPage);
+		mv.addObject("myResNos",myResNos);
+		mv.setViewName("ldh_profile/profileCardTemplate");
+		return mv;
+	}
+	
+	//내 맛집 제목,카테고리 검색 조회
+	@RequestMapping("/selectMyresTitle")
+	public ModelAndView selectMyresTitle(ModelAndView mv, int cPage, String search) {
+		//Session에 저장된 회원 pk 가져오기
+		int memberNo=getMemberNo();
+		//페이지 관련 변수 선언
+		int numPerpage=8;
+		//내 맛집 조회
+		List<MyRes> myResList=service.selectMyResTitle(Map.of("memberNo",memberNo,"cPage",cPage,"numPerpage",numPerpage,"search",search));
+		String myResNos="";
+		for(int i=0;i<myResList.size();i++) {
+			if(i==0)myResNos+=myResList.get(i).getMyResNo();
+			else myResNos+=","+myResList.get(i).getMyResNo();
+		}
+		mv.addObject("myResList", myResList);
+		mv.addObject("cPage",cPage);
+		mv.addObject("myResNos",myResNos);
+		mv.setViewName("ldh_profile/profileCardTemplate");
+		return mv;
 	}
 	
 	//맛집 저장
 	@RequestMapping("/insertmyres.do")
-	public String insertMyRes(@RequestParam Map param, MultipartFile[] upFile) {
-		
+	public String insertMyRes(HttpSession httpSession, @RequestParam Map param, MultipartFile[] upFile) {
 		//Session에 저장된 회원 pk 가져오기
-		int memberNo=((Member)httpSession.getAttribute("loginMember")).getMemberNo();
+		int memberNo=getMemberNo();
 		param.put("memberNo", memberNo);
 		
 		//공유 여부 parse처리

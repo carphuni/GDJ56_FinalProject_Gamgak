@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
+<c:set var="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
                 <div id="meeting-wrapper">
                     <div id="meeting-item">
@@ -34,7 +35,7 @@
                         
                         <div id="info">
                             <div id="info-1">
-                                <span><c:out value="${loginMember.memberEmail }"/></span>
+                                <span><c:out value="${loginMember.memberEmail}"/></span>
                                 <button id="edit-profile" type="button" class="btn btn-danger">프로필 편집</button>
                                 
                             </div>
@@ -241,9 +242,9 @@
                                 
 
                             </div>
-                            <div id="info-3"><c:out value="${loginMember.memberNickName }"/></div>
+                            <div id="info-3"><c:out value="${loginMember.memberNickName}"/></div>
                             <div id="info-d4">
-                                <span><c:out value="${loginMember.introduce }"/></span>
+                                <span><c:out value="${loginMember.introduce}"/></span>
                             </div>
                         </div>
                         <a><i class="fa-solid fa-gear fa-lg" data-bs-toggle="modal" data-bs-target="#settingModal"></i></a>
@@ -291,26 +292,14 @@
 							  <option value="제주특별자치도">제주도</option>
 							</select>
 							<div id="title-search">
-								<form>
+								<div>
 									<input class="form-control" type="text" placeholder="제목, 카테고리 검색">
-									<button class="btn btn-danger col-sm-3" type="submit">검색</button>
-								</form>
+									<button class="btn btn-danger col-sm-3">검색</button>
+								</div>
 							</div>
 	                    </div>
                     </div>
                     <div id="card-container">
-	                    <c:forEach var="myres" items="${myResList }">
-	                        <div class="card">
-	                            <img src="${not empty myres.myPic? "/resources/upload/myres/"+=myres.myPic.myPicReName:''}" class="card-img-top" onerror="this.src='${path }/resources/images/이미지 없음.jpg'">
-	                            <div class="card-body">
-	                                <span id="card-title">${myres.restaurant.resName }</span>
-	                                <span id="card-category">${myres.restaurant.resCategory }</span>
-	                                <span id="card-address">${myres.restaurant.resAddress }</span>
-	                                <span id="card-memo">${fn:substring(myres.myResMemo,0,10)}...</span>
-	                            </div>
-	                        </div>
-	                    </c:forEach>
-                       
                     </div> 
                     <div class="d-flex justify-content-center" >
 						<div id="profileLoading" class="spinner-border text-danger" role="status" style="display: none">
@@ -318,76 +307,6 @@
 						</div>
 					</div>
                 </div>
-<script>
-	let profileCPage=1;
-	let profileURL="/profile/scrollselectMyresAll";
-	$("#show-click").click(()=>{
-		profileURL="/profile/scrollselectMyresAll";
-		$(window).on("scroll",()=>{
-			profileScroll();
-		});
-	})
-	$("#area-click").click(()=>{
-		profileURL="/profile/scrollselectMyresArea";
-		$(window).on("scroll",()=>{
-			profileScroll();
-		});
-	})
-	$("#title-click").click(()=>{
-		profileURL="/profile/scrollselectMyresTitle";
-		$(window).on("scroll",()=>{
-			profileScroll();
-		});
-	})
-	
-	//스크롤 시 페이징 처리
-	function profileScroll() {
-		 if (Math.round($(window).scrollTop())-16> $(document).height() - $(window).height()) {
-			profileCPage++;
-		    $("#profileLoading").show();
-		    $.ajax({
-		        type: "GET",
-		        url: profileURL,
-		       	data: {"cPage": profileCPage},
-		        error: function() {
-		          console.log('통신실패!!');
-		        },
-		        success: function(result) {
-		        	result.myResList.forEach((el)=>{
-		        		let cardDiv=$("<div>").addClass("card")
-		        		let cardImg=$("<img>").addClass("card-img-top").attr("src", el.myPic.myPicReName!=null?"/resources/upload/myres/"+el.myPic.myPicReName:"").attr("onerror","this.src='/resources/images/이미지 없음.jpg'");
-		        		let cardBobyDiv=$("<div>").addClass("card-body");
-		        		
-		        		let cardTitleSpan=$("<span>").attr("id","card-title").html(el.restaurant.resName);
-		        		let cardCategorySpan=$("<span>").attr("id","card-category").html(el.restaurant.resCategory);
-		        		let cardAddressSpan=$("<span>").attr("id","card-address").html(el.restaurant.resAddress);
-		        		let cardMemoSpan=$("<span>").attr("id","card-memo").html(el.myResMemo);
-		        		
-		        		cardBobyDiv.append(cardTitleSpan);
-		        		cardBobyDiv.append(cardCategorySpan);
-		        		cardBobyDiv.append(cardAddressSpan);
-		        		cardBobyDiv.append(cardMemoSpan);
-		        		
-		        		cardDiv.append(cardImg);
-		        		cardDiv.append(cardBobyDiv);
-		        		
-		        		$("#card-container").append(cardDiv); 
-		        	})
-		        	$("#profileLoading").hide();
-		        	if(result.myResList.length==0){
-			        	$(window).off("scroll");
-		        	}
-		        }
-			});   
-		    
-		 } 
-		
-	}
-	
-	
-	$(window).scroll(()=>{
-		profileScroll();
-	});
-</script> 
+<script src="${path}/resources/js/myRes.js"></script> 
 <script src="${path}/resources/js/mainProfile.js"></script>               
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

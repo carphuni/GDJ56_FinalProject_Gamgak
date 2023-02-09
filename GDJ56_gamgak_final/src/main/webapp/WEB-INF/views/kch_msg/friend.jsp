@@ -21,7 +21,7 @@
 <div id="modalClick">
 	<p>user09</p>
 	<button onclick="chatStartx()">채팅</button>
-	<input type="hidden" id="memberNo10" value="10">
+	<input type="hidden" id="memberNo10" value="23">
 </div>
 
 <!-- 채팅창 -->
@@ -100,7 +100,10 @@
 													
 													var today = new Date();
 
-													const websocket=new WebSocket("ws://localhost:9090/chatting_Server");
+													const servername1="wss://gd1class.iptime.org:8844/GDJ56_gamgak_final/chatting_Server"
+														//ws://gd1class.iptime.org:9999/GDJ56_gamgak_final/chatting_Server
+														const servername="ws://localhost:9090/GDJ56_gamgak_final/chatting_Server"
+														const websocket=new WebSocket(servername);
 													
 													websocket.onopen=(data)=>{
 														console.log(data);
@@ -168,7 +171,35 @@
 					$("#openChat")[0].click();
 					const personalChatroomNo=data.data.PERSONAL_CHATROOM_NO; //채팅방번호
 					const loginMemberNo=${loginMember.memberNo}
+					//안읽은 메세지 리스트 가져오기
+					$.ajax({
+						url:"${path}/msg/unreadList.do",
+						data:{
+							"personalChatroomNo":personalChatroomNo,
+							loginMemberNo:loginMemberNo
+						},
+						success:data=>{
+							//안읽은 메세지가 있다면
+							if(data.data!=null){
+								//읽음처리하기
+								console.log(data);
+								console.log(data.data.MIN);
+								$.ajax({
+									url:"${path}/msg/updateReadcount.do",
+									data:{
+										"min":data.data.MIN,
+										"max":data.data.MAX,
+										"personalChatroomNo":personalChatroomNo
+									},
+									success:data=>{
+									}
+								})
+							}
+						}
+					})
 					//기존 채팅내역 출력
+					$("#chat").empty();
+					$("#personalChatroomNo").remove();					
  					$.ajax({
 						url:"${path}/msg/selectChatList.do",
 						data:{
@@ -182,7 +213,10 @@
 							
 							var today = new Date();
 
-							const websocket=new WebSocket("ws://localhost:9090/chatting_Server");
+							const servername1="wss://gd1class.iptime.org:8844/GDJ56_gamgak_final/chatting_Server"
+								//ws://gd1class.iptime.org:9999/GDJ56_gamgak_final/chatting_Server
+								const servername="ws://localhost:9090/GDJ56_gamgak_final/chatting_Server"
+								const websocket=new WebSocket(servername);
 							
 							websocket.onopen=(data)=>{
 								console.log(data);
@@ -232,6 +266,45 @@
 											},
 											success:data=>{
 											}  
+								  		})
+								  		
+								  		//해당 방에서 로그인 한 회원의 enterchat정보
+  								  		$.ajax({
+ 								  			url:"${path}/msg/chatroomLoginMember.do",
+								  			data:{
+								  				"personalChatroomNo":personalChatroomNo,
+												"loginMemberNo":${loginMember.memberNo}
+								  			},
+								  			success:result=>{
+								  				console.log(result.data.CHAT_OUT_YN);
+												//상대방이 채팅방을 나갔다면
+		 										if(data.data.CHAT_OUT_YN=="Y"){
+													//상대방의 ENTERCHAT OUT을 null로 수정
+											  		$.ajax({
+														url:"${path}/msg/updateChatOut.do",
+														data:{
+															"personalChatroomNo":personalChatroomNo,
+															"loginMemberNo":${loginMember.memberNo}
+														},
+														success:data=>{
+															console.log(data);
+														}
+													})  
+												//로그인한 본인이 나갔다면	
+												}else if(result.data.CHAT_OUT_YN=="Y"){
+													//로그인 회원 ENTERCHAT OUT을 null로 수정
+											  		$.ajax({
+														url:"${path}/msg/updateLoginMemberChatOut.do",
+														data:{
+															"personalChatroomNo":personalChatroomNo,
+															"loginMemberNo":${loginMember.memberNo}
+														},
+														success:data=>{
+															console.log(data);
+														}
+													})  
+												}
+								  			}
 								  		})
 									}
 								})

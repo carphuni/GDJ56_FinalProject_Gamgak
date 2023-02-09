@@ -1,6 +1,6 @@
-/* div{
+/*   div{
 	border: 1px solid red;
-} */
+}  */ 
 
 /* 실시간 맛집 순위 (ranking.jsp) */
 #totalpage{
@@ -106,6 +106,10 @@
 #msg_title{
 	text-align: center;
 }
+.chat_modal{
+	display: flex;
+}
+
 #list{
 	display: flex;
 	padding: 20px;
@@ -139,12 +143,17 @@
 			font-weight: bold;
 			border-radius: 50%;
 			padding: 2px;
+			min-width: 100px;
 		}
 		#msg_count_div{
 			width: 100px;
 			height: 100px;
 		}	
-	#msg_out_bt{
+		#msg_out_div{
+			margin-right: 10px;
+		}
+		
+	.msg_out_bt{
 		width: 55px;
 		height: 30px;
 		background-color: #dc3545;
@@ -162,6 +171,7 @@
   background: rgba(0,0,0,0.8); 
   display: none;
 } */
+
 	#modal-content1{
 	  width: 700px; 
 	  height: 600px;
@@ -275,9 +285,21 @@
 	font-size: 11px;
 	padding: 10px;
 }
+#modal_msg_read_r{
+	font-size: 11px;
+	color: #dc3545;
+	padding-top: 10px;
+}
 
 #modal_msg_t{
 	display: flex;
+}
+
+
+#nmct{
+	display: flex;
+	justify-content: flex-end;
+	width: 545px;
 }
 
 

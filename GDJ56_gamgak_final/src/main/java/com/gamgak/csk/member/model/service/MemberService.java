@@ -28,5 +28,8 @@ public class MemberService {
 	public Member selectMemberByNickName(Member m) {
 		return dao.selectMemberByNickName(session,m);
 	}
+	public int insertMember(Member m) {
+		return dao.insertMember(session, m);
+	}
 	
 }
