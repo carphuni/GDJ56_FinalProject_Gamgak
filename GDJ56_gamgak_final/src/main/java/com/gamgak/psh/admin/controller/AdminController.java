@@ -1,14 +1,15 @@
 package com.gamgak.psh.admin.controller;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import org.apache.tomcat.util.json.JSONParser;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jackson.JsonObjectDeserializer;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,8 @@ import com.gamgak.psh.admin.service.AdminService;
 import com.gamgak.psh.admin.vo.Member;
 import com.gamgak.psh.admin.vo.Myres;
 import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
-import com.gamgak.psh.admin.common.PageFactory;
+import com.gamgak.psh.admin.common.AdminPageFactory;
+import com.gamgak.psh.admin.common.MsgPageFactory;
 
 //import lombok.extern.slf4j.Slf4j;
 
@@ -41,6 +43,8 @@ public class AdminController {
 	
 	@RequestMapping("/")
 	public String adminMainPage(Model m) {
+		Date lasttime=new Date();
+//		SimpleDateFormat formatDate=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		m.addAttribute("memdata", service.selectData(Map.of("table","MEMBER","yn","MEMBER_ENROLLDATE","ynval","SYSDATE")));
 		m.addAttribute("redata", service.selectData(Map.of("table","REPORT","yn","REPORT_DATE","ynval","SYSDATE")));
 		m.addAttribute("mtdata", service.selectData(Map.of("table","MEETING","yn","MEETING_ENROLL_DATE","ynval","SYSDATE")));
@@ -82,7 +86,7 @@ public class AdminController {
 		List<Map> list=service.selectMemberData(Map.of("cPage",cPage,"numPerpage",numPerpage,"yn",yn,"ynval",ynval));
 		System.out.println(total);
 		memberlist.put("list",list);
-		memberlist.put("pageBar",PageFactory.getPage(cPage, numPerpage, total,"member.do",functionN));
+		memberlist.put("pageBar",AdminPageFactory.getPage(cPage, numPerpage, total,"member.do",functionN,ynval));
 		
 		return memberlist;
 	}
@@ -107,7 +111,7 @@ public class AdminController {
 //		System.out.println(total);
 		myreslist.put("member",service.selectMember(no));
 		myreslist.put("list",service.selectMyresList(Map.of("cPage",cPage,"numPerpage",numPerpage,"no",no,"tableN",tableN,"table",table,"yn",yn)));
-		myreslist.put("pageBar",PageFactory.getPage(cPage, numPerpage, total,"myresview.do",functionN));
+		myreslist.put("pageBar",AdminPageFactory.getPage(cPage, numPerpage, total,"myresview.do",functionN,ynval));
 		return myreslist;
 	}
 	
@@ -139,7 +143,7 @@ public class AdminController {
 		List<Map> list=service.selectMeetingData(Map.of("cPage",cPage,"numPerpage",numPerpage,"yn",yn,"ynval",ynval));
 		System.out.println(total);
 		meetinglist.put("list",list);
-		meetinglist.put("pageBar",PageFactory.getPage(cPage, numPerpage, total,"meeting.do",functionN));
+		meetinglist.put("pageBar",AdminPageFactory.getPage(cPage, numPerpage, total,"meeting.do",functionN,ynval));
 		
 		
 		return meetinglist;
@@ -186,7 +190,7 @@ public class AdminController {
 		System.out.println(reportlist);
 		int total=service.selectReportCount(Map.of("table",tableN,"yn",yn,"ynval",ynval));
 		reportlist.put("list",service.selectReportData(Map.of("cPage",cPage,"numPerpage",numPerpage,"tableN",tableN,"yn",yn,"ynval",ynval)));
-		reportlist.put("pageBar",PageFactory.getPage(cPage, numPerpage, total,"meeting.do",functionN));
+		reportlist.put("pageBar",AdminPageFactory.getPage(cPage, numPerpage, total,"report.do",functionN,ynval));
 		
 //		System.out.println(reportlist);
 		return reportlist;
@@ -200,7 +204,7 @@ public class AdminController {
 		int numPerpage=5;
 		int total=service.selectReportCount(Map.of("table",tableN,"yn",yn,"ynval",ynval));
 		reportlist.put("list",service.selectReportData(Map.of("cPage",cPage,"numPerpage",numPerpage,"tableN",tableN,"yn",yn,"ynval",ynval)));
-		reportlist.put("pageBar",PageFactory.getPage(cPage, numPerpage, total,"meeting.do",functionN));
+		reportlist.put("pageBar",AdminPageFactory.getPage(cPage, numPerpage, total,"report.do",functionN,ynval));
 		
 		return reportlist;
 	}
@@ -213,9 +217,49 @@ public class AdminController {
 		int numPerpage=5;
 		int total=service.selectReportCount(Map.of("table",tableN,"yn",yn,"ynval",ynval));
 		reportlist.put("list",service.selectReportData(Map.of("cPage",cPage,"numPerpage",numPerpage,"tableN",tableN,"yn",yn,"ynval",ynval)));
-		reportlist.put("pageBar",PageFactory.getPage(cPage, numPerpage, total,"meeting.do",functionN));
+		reportlist.put("pageBar",AdminPageFactory.getPage(cPage, numPerpage, total,"report.do",functionN,ynval));
 		
 		return reportlist;
+	}
+	@RequestMapping("/reportResult.do")
+	@ResponseBody
+	public Map<String,Object> selectReport(@RequestParam String tableN,@RequestParam(value="cPage",defaultValue="1")int cPage,
+			String functionN,String yn,String ynval) {
+		Map<String,Object> reportlist=new HashMap<String, Object>();
+		int numPerpage=5;
+		int total=service.selectCount(Map.of("table",tableN,"yn",yn,"ynval",ynval));
+		reportlist.put("list",service.selectReportData(Map.of("cPage",cPage,"numPerpage",numPerpage,"tableN",tableN,"yn",yn,"ynval",ynval)));
+		System.out.println(reportlist.get("list"));
+		reportlist.put("pageBar",AdminPageFactory.getPage(cPage, numPerpage, total,"report.do",functionN,ynval));
+		
+		return reportlist;
+	}
+	
+	@RequestMapping("/msg.do")
+	public String adminMsgPage(Model m) {
+		int total=service.selectCount(Map.of("table","MEETING","yn","del_yn","ynval","N"));
+		int delmt=service.selectCount(Map.of("table","MEETING","yn","del_yn","ynval","Y"));
+		
+		m.addAttribute("totalmeeting",total);
+		m.addAttribute("delmt",delmt);
+		
+		m.addAttribute("memdata", service.selectData(Map.of("table","MEMBER","yn","MEMBER_ENROLLDATE","ynval","SYSDATE")));
+		m.addAttribute("redata", service.selectData(Map.of("table","REPORT","yn","REPORT_DATE","ynval","SYSDATE")));
+		m.addAttribute("mtdata", service.selectData(Map.of("table","MEETING","yn","MEETING_ENROLL_DATE","ynval","SYSDATE")));
+		return "/psh_admin/msglist";
+	}
+	
+	@RequestMapping("/msglist.do")
+	@ResponseBody
+	public Map<String,Object> selectMsgLsit(@RequestParam(value="cPage",defaultValue="1")int cPage,
+			int loginMemberNo) {
+		Map<String,Object> msglist=new HashMap<String, Object>();
+		int numPerpage=5;
+		int totalData=service.selectMsgCount(Map.of("no",loginMemberNo));
+		msglist.put("list",service.selectMsgData(Map.of("cPage",cPage,"numPerpage",numPerpage,"no",loginMemberNo)));
+		msglist.put("pageBar",MsgPageFactory.getPage(loginMemberNo,cPage, numPerpage, totalData,"report.do"));
+		
+		return msglist;
 	}
 	
 	@RequestMapping("checkdata.do")
@@ -236,17 +280,18 @@ public class AdminController {
 	@ResponseBody
 	public Map<String,Object> deleteData(@RequestParam Map nodata, String tableN,String columnN,String yn) {
 		String data=(String)(nodata.get("nodata"));
-//		System.out.println(nodata);
+		System.out.println(data);
 		Map result=new HashMap();
 		List total=new ArrayList();
 		String datas=data.substring(data.length()-(data.length()-1),data.length()-1);
 		String list[]=datas.split(",");
 		for(int i=0;i<list.length;i++) {
 			int result1=service.deleteData(Integer.parseInt(list[i].substring(list[i].length()-(list[i].length()-1),list[i].length()-1)),tableN,columnN,yn);
+			System.out.println(result1);
 			total.add(result1);
 		}
 		result.put("result", total);
-//		System.out.println(result.get(result));
+		System.out.println(result.get(result));
 		return result;
 	}
 	
