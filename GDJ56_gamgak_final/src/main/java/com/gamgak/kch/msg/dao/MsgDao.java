@@ -53,7 +53,7 @@ public interface MsgDao {
 	int enterchatInsert(int loginMemberNo, int chatRoomNo);
 	
 	//친구 대화방참여에 추가
-	@Insert("INSERT INTO ENTERCHAT VALUES(#{memberNo}, NULL, #{chatRoomNo}, NULL)")
+	@Insert("INSERT INTO ENTERCHAT VALUES(#{memberNo}, NULL, #{chatRoomNo}, NULL, NULL, SYSDATE)")
 	int enterchatFriend(int memberNo, int chatRoomNo);
 	
 	//나가기버튼 enterchat 수정

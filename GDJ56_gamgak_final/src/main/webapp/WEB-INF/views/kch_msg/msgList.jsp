@@ -144,7 +144,8 @@
 	       url:"${path}/msg/selectMsgList.do",
 	       data:{
 	          loginMemberNo:${loginMember.memberNo},
-	          cPage:cPage
+	          cPage:cPage,
+	          functionN:"msgList"
 	       },
 	       success:data=>{
 	    	  console.log("데이터 보내기")

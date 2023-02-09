@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath}"/>
 <script src="${path}/resources/js/chattingCh.js"></script>
+<script src="${path}/resources/js/friend.js"></script>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <!-- 모임 -->
 <div id="meeting-wrapper">
@@ -18,11 +19,38 @@
    </div>
 </div>
 
-<div id="modalClick">
-	<p>user09</p>
-	<button onclick="chatStartx()">채팅</button>
-	<input type="hidden" id="memberNo10" value="23">
+<div id="profile-wrapper">
+	<div id="modalClick">
+<!-- 		<p>user09</p>
+		<button onclick="chatStartx()">채팅</button>
+		<input type="hidden" id="memberNo10" value="23"> -->
+		
+		<div id="searchFriend">
+			<div id="friendTotal"><h4 id="h4Title">친구목록</h4></div>
+			<div id="searchbox">
+		        <button id="friendSearchBt" data-bs-toggle="modal" data-bs-target="#searchFriendBt">친구검색</button>
+	      	</div>
+      	</div>
+      	
+<%-- 		<div id="friendListTotal">
+			<div id="friendprofile">
+				<img alt="" id="msg_profile" src="${path }/resources/images/프로필 기본 이미지.jpg">
+			</div>
+			<div id="friendNic">
+				<b>차니니니니니</b>
+			</div>
+			<div id="freindChat">
+				<button onclick="chatStartx()">채팅</button>
+			</div>
+		</div>
+		<div id="friendRow"></div> --%>
+		
+		
+	</div>
+	<div id="friendListAll"></div>
 </div>
+
+
 
 <!-- 채팅창 -->
 <a href="#" class="chat_modal" id="openChat" data-bs-toggle="modal" data-bs-target="#exampleModal"></a>
@@ -45,14 +73,137 @@
   </div>
 </div>
 
+<!-- 친구검색 -->
+  <div class="modal fade" id="searchFriendBt" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="divIdSearch">
+          <input type="text" id="idSearch" placeholder="검색">
+          <div id="searchResult"></div>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+
 <script>
+	let cPage;
+	let loginMemberNo;
+	(() => {
+		cPage=1
+		loginMemberNo=${loginMember.memberNo},
+	    friendList(cPage,loginMemberNo)
+	})();
+	
+	//친구 목록 출력
+	function friendList(cPage,loginMemberNo){
+		$("#friendListAll").empty();
+		$("#pageBar").remove();
+		
+		$.ajax({
+			url:"${path}/friend/friendList.do",
+			data:{
+	          loginMemberNo:loginMemberNo,
+	          cPage:cPage,
+	          functionN:"friendList"
+			},
+			success:data=>{
+				console.log(data);
+				selectFriendList(data,loginMemberNo);
+			}
+		})
+	}
+	
+	//검색기능
+	$("#idSearch").keyup(function(){
+		console.log($("#idSearch").val());
+		//검색어가 없을 때 (조건 없으면 전체 불러옴)
+		if($("#idSearch").val()==""){
+			$("#searchResult").empty();
+		}else{
+			$("#searchResult").empty();
+			$.ajax({
+				url:"${path}/friend/friendSearch.do",
+				data:{
+					keyword:$("#idSearch").val(),
+					loginMemberNo:loginMemberNo
+				},
+				success:data=>{
+					console.log(data);
+					friendSearch(data,loginMemberNo);
+				}
+			})
+		}
+	})
+	
+	//친구추가
+	$(document).on("click",".insertFriend",function(e){
+		const memberNo=e.target.nextSibling.defaultValue;
+		$.ajax({
+			url:"${path}/friend/insertFriend.애",
+			data:{
+				loginMemberNo:${loginMember.memberNo},
+				memberNo:memberNo
+			},
+			success:data=>{
+				//친구추가 완료되면 신청대기 버튼으로 바꾸기
+				$(e.target).text("신청대기");
+				$(e.target).attr("class","cancleF");
+			}
+		})
+	});
+	
+	//신청취소
+	$(document).on("click",".cancleF",function(e){
+		const memberNo=e.target.nextSibling.defaultValue;
+		$.ajax({
+			url:"${path}/friend/cancleFriend.do",
+			data:{
+				loginMemberNo:${loginMember.memberNo},
+				memberNo:memberNo				
+			},
+			success:data=>{
+				$(e.target).text("친구추가");
+				$(e.target).attr("class","insertFriend");				
+			}
+		})
+	});
+	
+	//친구수락
+	$(document).on("click",".acceptF",function(e){
+		console.log(e.target.nextSibling.defaultValue);
+		const memberNo=e.target.nextSibling.defaultValue;
+		$.ajax({
+			url:"${path}/friend/acceptFriend.do",
+			data:{
+				loginMemberNo:${loginMember.memberNo},
+				memberNo:memberNo				
+			},
+			success:data=>{
+				$(e.target).text("채팅");
+				$(e.target).attr({"class":"","onclick":"chatStartx()"});				
+			}
+		})
+		
+	});
+	
+    //검색창 닫으면 목록 새로고침
+ 	$('#searchFriendBt').on('hidden.bs.modal', function () {
+ 		friendList(cPage,loginMemberNo)
+	}) 
+
+	//채팅버튼클릭
 	const chatStartx=()=>{
-		const memberNo10=$("#memberNo10").val();
+		const friendMemberNO=$("#friendMemberNO").val();
 		$.ajax({
 			url:"${path}/msg/chatroomCheck/do",
 			data:{
 				"loginMember":${loginMember.memberNo},
-				"memberNo":memberNo10
+				"memberNo":friendMemberNO
 			},
 			success:data=>{
 				console.log(data);
@@ -89,7 +240,7 @@
 											$.ajax({
 												url:"${path}/msg/enterchatFriend.do",
 												data:{
-													"memberNo":memberNo10,
+													"memberNo":friendMemberNO,
 													"chatRoomNo":result
 												},
 												success:data=>{
@@ -148,7 +299,7 @@
 																	url:"${path}/msg/insertMsg.do",
 																	data:{
 																		"personalChatroomNo":result,
-																		"receiverNo":memberNo10,
+																		"receiverNo":friendMemberNO,
 																		"senderNo":${loginMember.memberNo},
 																		"content":msg
 																	},
@@ -260,7 +411,7 @@
 											url:"${path}/msg/insertMsg.do",
 											data:{
 												"personalChatroomNo":personalChatroomNo,
-												"receiverNo":memberNo10,
+												"receiverNo":friendMemberNO,
 												"senderNo":${loginMember.memberNo},
 												"content":msg
 											},

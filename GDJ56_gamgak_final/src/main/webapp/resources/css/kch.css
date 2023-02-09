@@ -1,6 +1,6 @@
-/*   div{
+    div{
 	border: 1px solid red;
-}  */ 
+}  
 
 /* 실시간 맛집 순위 (ranking.jsp) */
 #totalpage{
@@ -304,6 +304,74 @@
 
 
 				
-				
-				
-				
+/* 친구 */
+#searchFriend{
+	display: flex;
+	justify-content: center;
+}
+#friendTotal{
+	padding-right: 180px;
+	padding-left: 180px;
+}
+
+#searchbox{
+
+}
+#friendListTotal{
+	display: flex;
+	justify-content: center;
+	margin-top: 40px;
+}
+#friendNic{
+	align-self: center;
+	padding-left: 30px;
+	padding-right: 300px;
+}
+#freindChat{
+	align-self: center;
+}			
+#friendRow{
+	border: 1px solid #EAEAEA;
+	width: 80%;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}	
+#h4Title{
+	font-weight: bold;
+	text-align: center;
+	align-self: center;
+}
+
+
+
+
+/* 검색 모달창 */
+#divIdSearch{
+	height: 500px;
+}
+#idSearch{
+	width: 300px;
+
+}
+#divIdSearch{
+	overflow-y: auto;
+}
+#friendNicS{
+	align-self: center;
+	padding-left: 30px;
+	padding-right: 50px;
+}
+#freindChatS{
+	align-self: center;
+	float: right;
+}
+#friendSearchTotal{
+	display: flex;
+	justify-content: space-between;
+	margin-top: 40px;
+}
+#friendSearchInfo{
+	display: flex;
+
+}
