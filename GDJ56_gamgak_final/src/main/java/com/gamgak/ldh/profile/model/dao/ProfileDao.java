@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.gamgak.jjh.meeting.model.vo.Meeting;
 import com.gamgak.ldh.profile.model.vo.MyPic;
+import com.gamgak.ldh.profile.model.vo.MyPicList;
 import com.gamgak.ldh.profile.model.vo.MyRes;
 
 @Repository
@@ -38,22 +39,22 @@ public class ProfileDao {
 	}
 	
 	//내 저장한 맛집 조회
-	public List<MyRes> selectMyResAll(SqlSessionTemplate session, Map param){
+	public List<Map> selectMyResAll(SqlSessionTemplate session, Map param){
 		return session.selectList("profile.selectMyResAll",param.get("memberNo"),new RowBounds((((int)param.get("cPage"))-1)*(int)param.get("numPerpage"),(int)param.get("numPerpage")));
 	}
 	
 	//내 저장한 맛집 지역별 조회
-	public List<MyRes> selectMyResArea(SqlSessionTemplate session,Map param){
+	public List<Map> selectMyResArea(SqlSessionTemplate session,Map param){
 		return session.selectList("profile.selectMyResArea",param,new RowBounds((((int)param.get("cPage"))-1)*(int)param.get("numPerpage"),(int)param.get("numPerpage")));
 	}
 	
 	//내 저장한 맛집 제목,카테고리별 조회
-	public List<MyRes> selectMyResTitle(SqlSessionTemplate session,Map param){
+	public List<Map> selectMyResTitle(SqlSessionTemplate session,Map param){
 		return session.selectList("profile.selectMyResTitle",param,new RowBounds((((int)param.get("cPage"))-1)*(int)param.get("numPerpage"),(int)param.get("numPerpage")));
 	}
 	
 	//저장한 사진 조회
-	public List<MyPic> selectMyResMyPic(SqlSessionTemplate session,int memberNo){
+	public List<MyPicList> selectMyResMyPic(SqlSessionTemplate session,int memberNo){
 		return session.selectList("profile.selectMyResMyPic",memberNo);
 	}
 	

@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
+<c:set var="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"/>
 <input type=hidden name="myresNos" value="${myResNos}"/>
 <input type=hidden name="cPage" value="${cPage}"/>
 <input type=hidden name="x" value="<c:forEach var='i' begin='0' end='${fn:length(myResList)>0?fn:length(myResList)-1:0}'>${i==0?myResList[i].restaurant.resLon : ','+=myResList[i].restaurant.resLon}</c:forEach>"/>
@@ -56,23 +57,33 @@
 				</div>
 				<form id="insertModal-body" class="modal-body" action="${path }/profile/insertmyres.do" enctype="multipart/form-data" method="post">
 					<!-- 캐러셀 -->
-					<div id="mypic-carousel" class="carousel slide col-sm-6" data-bs-ride="carousel" style="height:100%;">
-						<div id="mypic-inner" class="carousel-inner">
-							<c:forEach var='i' begin='0' end='1'>
-								<div class="carousel-item ${i==0?'active':'' }">
-							      <img src="/resources/upload/myres/" class="d-block w-100" alt="...">
-							    </div>
+					<div id="mypicInfo-carousel${myres.myResNo }" class="carousel slide col-sm-6" data-bs-ride="carousel" style="height:100%;">
+						<div id="mypic-inner" class="carousel-inner" style="height:100%;">
+							<c:forEach var='i' begin='0' end='${fn:length(myPicList)-1}'>
+								<c:if test="${myPicList[i].myResNo==myres.myResNo }">
+									<c:forEach var="j" begin='0' end="${fn:length(myPicList[i].myPicList)-1}">
+										<div class="carousel-item ${j==0?'active':'' }" >
+									      <img src="${path}/resources/upload/myres/${myPicList[i].myPicList[j].myPicReName}" class="d-block w-100" alt="..." style="height:100%;">
+									    </div>
+								    </c:forEach>
+							    </c:if>
+							    <c:if test="${myres.myPic.myPicReName==null&&i==fn:length(myPicList)-1}">
+							    	<div class="carousel-item active">
+								      <img src="${path}/resources/images/이미지 없음.jpg" class="d-block w-100" alt="..." style="height:100%;">
+								    </div>
+							    </c:if>
 						    </c:forEach>
 						</div>
-						<button class="carousel-control-prev" type="button" data-bs-target="#mypic-carousel" data-bs-slide="prev">
+						<button class="carousel-control-prev" type="button" data-bs-target="#mypicInfo-carousel${myres.myResNo }" data-bs-slide="prev">
 							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 							<span class="visually-hidden">Previous</span>
 						</button>
-						<button class="carousel-control-next" type="button" data-bs-target="#mypic-carousel" data-bs-slide="next">
+						<button class="carousel-control-next" type="button" data-bs-target="#mypicInfo-carousel${myres.myResNo }" data-bs-slide="next">
 							<span class="carousel-control-next-icon" aria-hidden="true"></span>
 							<span class="visually-hidden">Next</span>
 						</button>
 					</div>
+					
 					<div id="insertMyResInfo" class="col-sm-6">
 						<div id="myResProfile">
 						   <img id="profile-img" src="${path }/resources/images/프로필 기본 이미지.jpg" data-bs-toggle="modal" data-bs-target="#imgModal"/>

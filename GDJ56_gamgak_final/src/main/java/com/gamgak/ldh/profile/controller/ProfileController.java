@@ -23,6 +23,7 @@ import com.gamgak.csk.member.model.entity.Member;
 import com.gamgak.jjh.meeting.model.vo.Meeting;
 import com.gamgak.ldh.profile.model.service.ProfileService;
 import com.gamgak.ldh.profile.model.vo.MyPic;
+import com.gamgak.ldh.profile.model.vo.MyPicList;
 import com.gamgak.ldh.profile.model.vo.MyRes;
 
 import lombok.extern.slf4j.Slf4j;
@@ -90,15 +91,18 @@ public class ProfileController {
 		//페이지 관련 변수 선언
 		int numPerpage=8;
 		//내 맛집 조회
-		List<MyRes> myResList=service.selectMyResAll(Map.of("memberNo",memberNo,"cPage",cPage,"numPerpage",numPerpage));
+		List<Map> myResList=service.selectMyResAll(Map.of("memberNo",memberNo,"cPage",cPage,"numPerpage",numPerpage));
+		List<MyPicList> myPicList=service.selectMyResMyPic(memberNo);
+		log.debug("사진 조회{}",myPicList);
 		String myResNos="";
 		for(int i=0;i<myResList.size();i++) {
-			if(i==0)myResNos+=myResList.get(i).getMyResNo();
-			else myResNos+=","+myResList.get(i).getMyResNo();
+			if(i==0)myResNos+=((MyRes)(myResList.get(i))).getMyResNo();
+			else myResNos+=","+((MyRes)(myResList.get(i))).getMyResNo();
 		}
 		log.debug(myResNos);
 		log.debug("{}",myResList);
 		mv.addObject("myResList", myResList);
+		mv.addObject("myPicList", myPicList);
 		mv.addObject("cPage",cPage);
 		mv.addObject("myResNos",myResNos);
 		mv.setViewName("ldh_profile/profileCardTemplate");
@@ -113,13 +117,15 @@ public class ProfileController {
 		//페이지 관련 변수 선언
 		int numPerpage=8;
 		//내 맛집 조회
-		List<MyRes> myResList=service.selectMyResArea(Map.of("memberNo",memberNo,"cPage",cPage,"numPerpage",numPerpage,"area",area));
+		List<Map> myResList=service.selectMyResArea(Map.of("memberNo",memberNo,"cPage",cPage,"numPerpage",numPerpage,"area",area));
+		List<MyPicList> myPicList=service.selectMyResMyPic(memberNo);
 		String myResNos="";
 		for(int i=0;i<myResList.size();i++) {
-			if(i==0)myResNos+=myResList.get(i).getMyResNo();
-			else myResNos+=","+myResList.get(i).getMyResNo();
+			if(i==0)myResNos+=((MyRes)(myResList.get(i))).getMyResNo();
+			else myResNos+=","+((MyRes)(myResList.get(i))).getMyResNo();
 		}
 		mv.addObject("myResList", myResList);
+		mv.addObject("myPicList", myPicList);
 		mv.addObject("cPage",cPage);
 		mv.addObject("myResNos",myResNos);
 		mv.setViewName("ldh_profile/profileCardTemplate");
@@ -134,13 +140,15 @@ public class ProfileController {
 		//페이지 관련 변수 선언
 		int numPerpage=8;
 		//내 맛집 조회
-		List<MyRes> myResList=service.selectMyResTitle(Map.of("memberNo",memberNo,"cPage",cPage,"numPerpage",numPerpage,"search",search));
+		List<Map> myResList=service.selectMyResTitle(Map.of("memberNo",memberNo,"cPage",cPage,"numPerpage",numPerpage,"search",search));
+		List<MyPicList> myPicList=service.selectMyResMyPic(memberNo);
 		String myResNos="";
 		for(int i=0;i<myResList.size();i++) {
-			if(i==0)myResNos+=myResList.get(i).getMyResNo();
-			else myResNos+=","+myResList.get(i).getMyResNo();
+			if(i==0)myResNos+=((MyRes)(myResList.get(i))).getMyResNo();
+			else myResNos+=","+((MyRes)(myResList.get(i))).getMyResNo();
 		}
 		mv.addObject("myResList", myResList);
+		mv.addObject("myPicList", myPicList);
 		mv.addObject("cPage",cPage);
 		mv.addObject("myResNos",myResNos);
 		mv.setViewName("ldh_profile/profileCardTemplate");

@@ -124,7 +124,7 @@
             <form id="insertModal-body" class="modal-body" action="${path }/profile/insertmyres.do" enctype="multipart/form-data" method="post">
                <a id="insertMyResImage" onclick="$('#mypic').click();" class="col-sm-6">
                   <div>
-                     <img src="${path }/resources/images/프로필 기본 이미지.jpg" style="width: 5rem"/>
+                     <img src="${path }/resources/images/이미지 추가.png" style="width: 5rem"/>
                      <p style="">클릭하여 이미지 추가</p>
                   </div>
                </a>
