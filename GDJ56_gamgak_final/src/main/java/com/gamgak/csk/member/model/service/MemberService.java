@@ -1,5 +1,7 @@
 package com.gamgak.csk.member.model.service;
 
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,12 +26,14 @@ public class MemberService {
 	public Member selectMemberById(Member m) {
 		return dao.selectMemberById(session,m);
 	}
-	
 	public Member selectMemberByNickName(Member m) {
 		return dao.selectMemberByNickName(session,m);
 	}
 	public int insertMember(Member m) {
 		return dao.insertMember(session, m);
+	}
+	public int updateMember(Map param) {
+		return dao.updateMember(session, param);
 	}
 	
 }

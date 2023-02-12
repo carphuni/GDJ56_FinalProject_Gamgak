@@ -1,13 +1,13 @@
 package com.gamgak.csk.member.controller;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,10 +61,10 @@ public class MemberController {
 //		return "redirect:/profile/";
 //	}
 
-   @RequestMapping("/login.do")
-   public String loginurl() {
-	   return "ldh_profile/profile";
-   }
+//   @RequestMapping("/login.do")
+//   public String loginurl() {
+//	   return "ldh_profile/profile";
+//   }
    
    @RequestMapping("/enroll")
    public String enroll() {
@@ -98,7 +98,7 @@ public class MemberController {
 	   }
       return mv;
    }
-   @RequestMapping("/myinfo")
+   @RequestMapping("/member/myinfo")
    public String myPage() {
       return "csk_member/myInfo";
    }
@@ -125,6 +125,24 @@ public class MemberController {
 	   session.setAttribute("code", code);
 	   System.err.println("인증코드 : "+code);
 	   return code;
+   }
+   
+   @RequestMapping("/member/update")
+   public ModelAndView updateMember(@RequestParam Map param, ModelAndView mv) {
+//	   Map<String,Object> param=Map.of("memberNickName",memberNickName,"introduce",introduce,"memberAge",memberAge,"memberGender",memberGender);
+	   int result = service.updateMember(param);
+	   
+	   if(result>0) {
+		   mv.addObject("updateMessage","회원정보를 변경했습니다. 다시 로그인해 주세요.");
+		   mv.setViewName("index");
+	   } else {
+		   mv.addObject("updateMessage","회원정보를 변경하는데 실패했습니다. 다시 시도해주세요.");
+		   mv.setViewName("csk_member/myInfo");
+	   }
+	   System.err.println(param);
+	   
+	   
+	   return mv;
    }
 
 }

@@ -1,5 +1,7 @@
 package com.gamgak.csk.member.model.dao;
 
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -16,8 +18,10 @@ public class MemberDao {
 		return session.selectOne("member.selectMemberByNickName",m);
 	}
 	public int insertMember(SqlSessionTemplate session, Member m) {
-		System.out.println("member"+m);
 		return session.insert("member.insertMember",m);
+	}
+	public int updateMember(SqlSessionTemplate session, Map param) {
+		return session.update("member.updateMember", param);
 	}
 
 }
