@@ -31,6 +31,7 @@ function printMsgCh(myId,msg){
 		const $div=$("<div>").attr("id","chat_img");
 		const $divSs=$("<div>").attr("id","modal_receiver");
 		const $img=$("<img>").attr("id","modal_msg_profile");
+		const $aimg=$("<a>").attr("href","/GDJ56_gamgak_final/profile/user?memberNo="+msg.memberReceiver);
 		const $divmsg=$("<div>").attr("id","modal_name_msg");
 	    const $divN=$("<div>").attr("id","modal_nickname");
 	    const $divS=$("<div>").attr("id","modal_msg_text_s");
@@ -56,7 +57,8 @@ function printMsgCh(myId,msg){
 		}else{
 			$img.attr("src","/GDJ56_gamgak_final/resources/images/프로필 기본 이미지.jpg");
 		}	
-		$div.append($img);
+		$aimg.append($img);
+		$div.append($aimg);
 		$divSs.append($div);
 		$divSs.append($divmsg);
 		$("#chat").append($divSs);
@@ -150,7 +152,11 @@ function selectMsgList(data,loginMemberNo){
 
 
 //채팅방 들어갔을 때 기존 대화 출력
+
+	
+
 function msgRead(data,loginMemberNo,personalChatroomNo){
+	console.log(data)
 	  data.forEach(v => {
 		//대화내용
 	    const $p=$("<p>");
@@ -175,7 +181,8 @@ function msgRead(data,loginMemberNo,personalChatroomNo){
 		}else{
 			const $div=$("<div>").attr("id","chat_img");
 			const $divSs=$("<div>").attr("id","modal_receiver");
-		    const $img=$("<img>").attr("id","modal_msg_profile").attr("src","/resources/images/프로필 기본 이미지.jpg");
+		    const $img=$("<img>").attr("id","modal_msg_profile");
+		    const $aimg=$("<a>").attr("href","/GDJ56_gamgak_final/profile/user?memberNo="+v.MEMBER_SENDER_NO);
 		    const $divmsg=$("<div>").attr("id","modal_name_msg");
 		    const $divN=$("<div>").attr("id","modal_nickname");
 		    const $divS=$("<div>").attr("id","modal_msg_text_s");
@@ -201,7 +208,8 @@ function msgRead(data,loginMemberNo,personalChatroomNo){
 			}else{
 				$img.attr("src","/GDJ56_gamgak_final/resources/images/프로필 기본 이미지.jpg");
 			}	
-			$div.append($img);
+			$aimg.append($img);
+			$div.append($aimg);
 			$divSs.append($div);
 			$divSs.append($divmsg);
 			$("#chat").append($divSs);
@@ -210,7 +218,12 @@ function msgRead(data,loginMemberNo,personalChatroomNo){
 		const $inputH=$("<input>").attr({"type":"hidden","id":"personalChatroomNo"});
 		$inputH.text(personalChatroomNo);
 		$("#modal_msg_send").append($inputH);
-		$('#chat').scrollTop($('#chat')[0].scrollHeight);
+		
+		
+   			$('#chat').scrollTop($('#chat')[0].scrollHeight);
+		//$('#chat').scrollTop($('#chat').prop('scrollHeight'));
 		
 	});
+
 }
+

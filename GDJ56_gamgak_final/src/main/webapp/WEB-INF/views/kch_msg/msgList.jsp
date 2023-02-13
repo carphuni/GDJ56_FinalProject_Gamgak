@@ -225,8 +225,7 @@
 					websocket.onopen=(data)=>{
 						console.log(data);
 						//const sendData2=new Chat("open","",personalChatroomNo,"",'${loginMember.memberNickName}',"",today,"");
-						websocket.send(JSON.stringify(new Chat("open","",personalChatroomNo,"",'${loginMember.memberNickName}',"",today,"")))
-						//console.log(sendData2);
+						websocket.send(JSON.stringify(new Chat("open","",personalChatroomNo,"user04",'${loginMember.memberNickName}',"",today,"")))
 						//websocket.send(JSON.stringify(sendData2));
 					}
 					

@@ -4,6 +4,7 @@ function selectFriendList(data, loginMemberNo){
 		const $divFLT=$("<div>").attr("id","friendListTotal");
 		const $divFP=$("<div>").attr("id","friendprofile");
 		const $imgMP=$("<img>").attr("id","msg_profile")
+		const $aimg=$("<a>").attr("href","/GDJ56_gamgak_final/profile/user?memberNo="+v.MEMBER_NO);
 		const $divFN=$("<div>").attr("id","friendNic");
 		const $bFN=$("<b>")
 		const $divFC=$("<div>").attr("id","freindChat");
@@ -22,8 +23,8 @@ function selectFriendList(data, loginMemberNo){
 		}else{
 			$imgMP.attr("src","/GDJ56_gamgak_final/resources/images/프로필 기본 이미지.jpg");
 		}
-		
-		$divFP.append($imgMP);
+		$aimg.append($imgMP);
+		$divFP.append($aimg);
 		$bFN.text(v.MEMBER_NICKNAME);
 		$divFN.append($bFN);
 		//친구면 채팅버튼
