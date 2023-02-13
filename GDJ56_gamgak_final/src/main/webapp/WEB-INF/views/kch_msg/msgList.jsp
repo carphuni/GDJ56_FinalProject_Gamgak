@@ -88,7 +88,8 @@
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content" id="modal-content1">
-        <div class="modal-header">
+        <div class="modal-header" id="chatHeader">
+        <!-- <button class="reportF">신고</button> -->
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body" id="chat">
@@ -158,7 +159,8 @@
     
     //채팅방 닫으면 목록 새로고침
  	$('#exampleModal').on('hidden.bs.modal', function () {
- 		msgList(cPage,loginMemberNo)
+ 		//msgList(cPage,loginMemberNo)
+ 		location.reload();
 	}) 
 	
 	//채팅방 클릭 시
@@ -346,5 +348,4 @@
 	}
 </script>
   
-
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

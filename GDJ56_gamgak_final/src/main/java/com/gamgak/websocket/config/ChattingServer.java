@@ -68,20 +68,20 @@ public class ChattingServer extends TextWebSocketHandler{
 	    	System.out.println("add"+msg);
 			session.getAttributes().put("info", msg);
 			sessionMap.put(msg.getMemberSender(), session);
-			SendMessage adminmsg=new SendMessage("system","","",msg.getMemberSender()+"가 접속했습니다.","");
+			SendMessage adminmsg=new SendMessage("system","","",msg.getMemberSender()+"가 접속했습니다.",msg.getMeetingNo());
 			//ObjectMapper mapper=new ObjectMapper();
 			for(String id:sessionMap.keySet()) {
 				WebSocketSession client=sessionMap.get(id);
 				ChatHandler clientInfo=(ChatHandler)client.getAttributes().get("info");
 				System.out.println(clientInfo);
-				if(msg.getPersonalChatroomNo()==clientInfo.getPersonalChatroomNo()) {
+				if(client.isOpen()&&msg.getPersonalChatroomNo()==clientInfo.getPersonalChatroomNo()) {
 		            client.sendMessage(new TextMessage(mapper.writeValueAsString(adminmsg)));
 		            System.out.println("addclient_소켓세션!"+client);
 		            }
 				//client.sendMessage(new TextMessage(mapper.writeValueAsString(adminmsg)));
 				//System.out.println("소켓세션!"+client);
 			}
-			deleteClient();
+			//deleteClient();
 		}
 		
 	    private void deleteClient() {
@@ -92,6 +92,7 @@ public class ChattingServer extends TextWebSocketHandler{
 				String key=iterKey.next();
 				if(!sessionMap.get(key).isOpen()) iterKey.remove();
 			}
+			
 		}
 		private void sendMessage(ChatHandler msg) throws IOException{
 			
@@ -115,6 +116,7 @@ public class ChattingServer extends TextWebSocketHandler{
 			//super.afterConnectionEstablished(session);
 			//sessionMap.put(session.getId(), session);
 			log.debug("{}"+"접속");
+			//log.debug("{}",sessionMap.size());
 	    }
 
 	    /* Client가 접속 해제 시 호출되는 메서드드 */
@@ -125,6 +127,12 @@ public class ChattingServer extends TextWebSocketHandler{
 			//sessionMap.remove(session.getId());
 			//super.afterConnectionClosed(session, status);
 			log.debug("{}"+"해제");
+			log.debug("{}",sessionMap.size());
+			System.out.println(sessionMap);
+			ChatHandler clientInfo=(ChatHandler)session.getAttributes().get("info");
+			if(session.getId().equals(sessionMap.get(clientInfo.getMemberSender()).getId())) {
+				sessionMap.remove(clientInfo.getMemberSender());
+			}
 	    }
 
 
@@ -137,7 +145,7 @@ public class ChattingServer extends TextWebSocketHandler{
 				System.out.println("1대1"+client);
 				ChatHandler clientInfo=(ChatHandler)client.getAttributes().get("info");
 				
-				if(msg.getPersonalChatroomNo()==clientInfo.getPersonalChatroomNo()) {
+				if(client.isOpen()&&msg.getPersonalChatroomNo()==clientInfo.getPersonalChatroomNo()) {
 					client.sendMessage(new TextMessage(mapper.writeValueAsString(msg)));
 					
 		        }
