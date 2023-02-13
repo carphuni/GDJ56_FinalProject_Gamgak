@@ -26,6 +26,9 @@ public class MemberService {
 	public Member selectMemberById(Member m) {
 		return dao.selectMemberById(session,m);
 	}
+	public Member selectMemberByEmail(String memberEmail) {
+		return dao.selectMemberByEmail(session,memberEmail);
+	}
 	public Member selectMemberByNickName(Member m) {
 		return dao.selectMemberByNickName(session,m);
 	}
@@ -35,5 +38,7 @@ public class MemberService {
 	public int updateMember(Map param) {
 		return dao.updateMember(session, param);
 	}
-	
+	public int updatePassword(Member m) {
+		return dao.updatePassword(session, m);
+	}
 }

@@ -14,6 +14,9 @@ public class MemberDao {
 	public Member selectMemberById(SqlSessionTemplate session,Member m){
 		return session.selectOne("member.selectMemberById",m);
 	}
+	public Member selectMemberByEmail(SqlSessionTemplate session,String memberEmail){
+		return session.selectOne("member.selectMemberByEmail",memberEmail);
+	}
 	public Member selectMemberByNickName(SqlSessionTemplate session, Member m) {
 		return session.selectOne("member.selectMemberByNickName",m);
 	}
@@ -22,6 +25,9 @@ public class MemberDao {
 	}
 	public int updateMember(SqlSessionTemplate session, Map param) {
 		return session.update("member.updateMember", param);
+	}
+	public int updatePassword(SqlSessionTemplate session, Member m) {
+		return session.update("member.updatePassword", m);
 	}
 
 }

@@ -60,11 +60,6 @@ public class MemberController {
 //		m.addAttribute("loginMember",(Member)o);
 //		return "redirect:/profile/";
 //	}
-
-//   @RequestMapping("/login.do")
-//   public String loginurl() {
-//	   return "ldh_profile/profile";
-//   }
    
    @RequestMapping("/enroll")
    public String enroll() {
@@ -144,5 +139,31 @@ public class MemberController {
 	   
 	   return mv;
    }
+   
+   @RequestMapping("/findPasswordEmail")
+   public String sendPwEmail(){
+       
+       return "csk_member/findPassword";
+   }
+   
+	 @RequestMapping("/sendPasswordEmail")
+	 public String sendPasswordEmail(@RequestParam("memberEmail") String memberEmail, Member member) throws Exception{
+		   //1. 멤버 이메일 찾고 거기에 비밀번호 업데이트 하기
+		   member=service.selectMemberByEmail(memberEmail);
+		   log.debug("이메일찾은 m {}",member);
+		   String passwordCode=mailservice.sendPasswordEmail(memberEmail);
+		   System.err.println("인증코드 : "+passwordCode);
+		   log.debug("임시비밀번호 m {}",member);
+		   member.setMemberPassword(passwordCode); //전달받은 pwCode 저장
+		   int result=service.updatePassword(member);
+		   String encodePassword=passwordEncoder.encode(member.getPassword());
+		   member.setMemberPassword(encodePassword);
+		   result=service.updatePassword(member);
+		   log.debug("시큐리티 임시비밀번호 m {}",member);
+		   return "redirect:/";
+	 }
+	 
+   
+
 
 }
