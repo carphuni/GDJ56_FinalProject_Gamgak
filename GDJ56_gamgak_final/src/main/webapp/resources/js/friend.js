@@ -15,11 +15,14 @@ function selectFriendList(data, loginMemberNo){
 		const $inputB=$("<input>").attr({"type":"hidden","id":"friendMemberNO","value":v.MEMBER_NO});
 		const $divFR=$("<div>").attr("id","friendRow");
 		
-		if(v.PROFILE_ORINAME=='없음'){
-			$imgMP.attr("src","/GDJ56_gamgak_final/resources/images/프로필 기본 이미지.jpg");
-		}else{
+		if(v.PROFILE_RENAME!='없음'){
+			$imgMP.attr("src","/GDJ56_gamgak_final/resources/images/"+v.PROFILE_RENAME);
+		}else if(v.PROFILE_ORINAME!='없음'){
 			$imgMP.attr("src","/GDJ56_gamgak_final/resources/images/"+v.PROFILE_ORINAME);
+		}else{
+			$imgMP.attr("src","/GDJ56_gamgak_final/resources/images/프로필 기본 이미지.jpg");
 		}
+		
 		$divFP.append($imgMP);
 		$bFN.text(v.MEMBER_NICKNAME);
 		$divFN.append($bFN);
@@ -32,7 +35,7 @@ function selectFriendList(data, loginMemberNo){
 			$divbtB.append($btB);
 		//친구요청했으면
 		}else if(v.MEMBER_FOLLOWING_NO==loginMemberNo&&v.ACCEPT_YN=='S'){
-			$btA.attr("class","cancleF");
+			$btA.attr("class","cancleFa");
 			$btA.text("신청대기");
 			$divFC.append($btA);
 		//친구요청왔으면	
@@ -74,12 +77,14 @@ function friendSearch(data,loginMemberNo){
 			const $divFC=$("<div>").attr("id","freindChatS");
 			const $btChat=$("<button>");
 			const $inputH=$("<input>").attr({"type":"hidden","id":"friendMemberNO","value":v.MEMBER_NO})
-			
-			if(v.PROFILE_ORINAME=='없음'){
-				$imgMP.attr("src","/GDJ56_gamgak_final/resources/images/프로필 기본 이미지.jpg");
-			}else{
+
+			if(v.PROFILE_RENAME!='없음'){
+				$imgMP.attr("src","/GDJ56_gamgak_final/resources/images/"+v.PROFILE_RENAME);
+			}else if(v.PROFILE_ORINAME!='없음'){
 				$imgMP.attr("src","/GDJ56_gamgak_final/resources/images/"+v.PROFILE_ORINAME);
-			}			
+			}else{
+				$imgMP.attr("src","/GDJ56_gamgak_final/resources/images/프로필 기본 이미지.jpg");
+			}				
 			$divFP.append($imgMP);
 			$bFN.text(v.MEMBER_NAME+' ( '+v.MEMBER_NICKNAME+' )');
 			$divFN.append($bFN);

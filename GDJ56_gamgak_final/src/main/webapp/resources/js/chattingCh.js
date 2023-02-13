@@ -5,6 +5,7 @@ function addMsgSystemCh(msg){
 
 //실시간 채팅 출력
 function printMsgCh(myId,msg){
+	console.log(msg.profileOriname)
     const $p=$("<p>");
     //대화내용
     $p.text(`${msg.chattingContent}`);
@@ -29,7 +30,7 @@ function printMsgCh(myId,msg){
 	}else{
 		const $div=$("<div>").attr("id","chat_img");
 		const $divSs=$("<div>").attr("id","modal_receiver");
-		const $img=$("<img>").attr("id","modal_msg_profile").attr("src","/resources/images/프로필 기본 이미지.jpg");
+		const $img=$("<img>").attr("id","modal_msg_profile");
 		const $divmsg=$("<div>").attr("id","modal_name_msg");
 	    const $divN=$("<div>").attr("id","modal_nickname");
 	    const $divS=$("<div>").attr("id","modal_msg_text_s");
@@ -48,6 +49,13 @@ function printMsgCh(myId,msg){
 		$divT.append($divTR);			
 		$divmsg.append($divN);
 		$divmsg.append($divT);
+		if(msg.profileRename!='없음'){
+			$img.attr("src","/GDJ56_gamgak_final/resources/images/"+msg.profileRename);
+		}else if(msg.profileOriname!='없음'){
+			$img.attr("src","/GDJ56_gamgak_final/resources/images/"+msg.profileOriname);
+		}else{
+			$img.attr("src","/GDJ56_gamgak_final/resources/images/프로필 기본 이미지.jpg");
+		}	
 		$div.append($img);
 		$divSs.append($div);
 		$divSs.append($divmsg);
@@ -81,26 +89,28 @@ function selectMsgList(data,loginMemberNo){
 		const $msgOutBt=$("<button>").attr({"class":"msg_out_bt","value":v.PERSONAL_CHATROOM_NO,"data-bs-toggle":"modal","data-bs-target":"#outChatCheck"});
 		const $hidden=$("<input>").attr({"type":"hidden","class":"hidden"});
 		
-		
-
 		$divImg.append($img);
 		//로그인회원 : 메세지 보낸사람이면 받는사람의 닉네임 출력
 		if(loginMemberNo!=v.MEMBER_RECEIVER_NO){
 			$b.text(v.MEMBER_NICKNAME_R);
 			//상대방의 프로필 없으면 기본이미지 출력
-			if(v.MEMBER_PROFILE_R=='없음'){
-				$img.attr("src","/GDJ56_gamgak_final/resources/images/프로필 기본 이미지.jpg");
+			if(v.PROFILE_RENAME_R!='없음'){
+				$img.attr("src","/GDJ56_gamgak_final/resources/images/"+v.PROFILE_RENAME_R);
+			}else if(v.PROFILE_ORINAME_R!='없음'){
+				$img.attr("src","/GDJ56_gamgak_final/resources/images/"+v.PROFILE_ORINAME_R);
 			}else{
-				$img.attr("src","/GDJ56_gamgak_final/resources/images/"+v.MEMBER_PROFILE_S);
-			}			
+				$img.attr("src","/GDJ56_gamgak_final/resources/images/프로필 기본 이미지.jpg");
+			}				
 		//받는사람이면 보낸사람의 닉네임 출력
 		}else{
 			$b.text(v.MEMBER_NICKNAME_S);
 			//상대방의 프로필 없으면 기본이미지 출력
-			if(v.MEMBER_PROFILE_S=='없음'){
-				$img.attr("src","/GDJ56_gamgak_final/resources/images/프로필 기본 이미지.jpg");
+			if(v.PROFILE_RENAME_S!='없음'){
+				$img.attr("src","/GDJ56_gamgak_final/resources/images/"+v.PROFILE_RENAME_S);
+			}else if(v.PROFILE_ORINAME_S!='없음'){
+				$img.attr("src","/GDJ56_gamgak_final/resources/images/"+v.PROFILE_ORINAME_S);
 			}else{
-				$img.attr("src","/GDJ56_gamgak_final/resources/images/"+v.MEMBER_PROFILE_S);
+				$img.attr("src","/GDJ56_gamgak_final/resources/images/프로필 기본 이미지.jpg");
 			}			
 		}
 		$divNickname.append($b);
@@ -184,12 +194,13 @@ function msgRead(data,loginMemberNo,personalChatroomNo){
 			$divT.append($divTR);			
 			$divmsg.append($divN);
 			$divmsg.append($divT);
-			//프로필사진 없으면 기본이미지 출력
-			if(v.PROFILE_ORINAME=='없음'){
-				$img.attr("src","/GDJ56_gamgak_final/resources/images/프로필 기본 이미지.jpg");
-			}else{
+			if(v.PROFILE_RENAME!='없음'){
+				$img.attr("src","/GDJ56_gamgak_final/resources/images/"+v.PROFILE_RENAME);
+			}else if(v.PROFILE_ORINAME!='없음'){
 				$img.attr("src","/GDJ56_gamgak_final/resources/images/"+v.PROFILE_ORINAME);
-			}			
+			}else{
+				$img.attr("src","/GDJ56_gamgak_final/resources/images/프로필 기본 이미지.jpg");
+			}	
 			$div.append($img);
 			$divSs.append($div);
 			$divSs.append($divmsg);

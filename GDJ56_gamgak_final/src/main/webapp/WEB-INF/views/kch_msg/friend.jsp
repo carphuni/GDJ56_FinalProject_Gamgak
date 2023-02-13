@@ -162,17 +162,19 @@
 				},
 				success:data=>{
 					console.log(data);
+					$("#idSearch").empty();
 					friendSearch(data,loginMemberNo);
 				}
 			})
 		}
 	})
-	
+
 	//친구추가
 	$(document).on("click",".insertFriend",function(e){
 		const memberNo=e.target.nextSibling.defaultValue;
+		console.log(e)
 		$.ajax({
-			url:"${path}/friend/insertFriend.애",
+			url:"${path}/friend/insertFriend.do",
 			data:{
 				loginMemberNo:${loginMember.memberNo},
 				memberNo:memberNo
@@ -184,8 +186,29 @@
 			}
 		})
 	});
+
 	
-	//신청취소
+	//검색창 닫으면 신청대기버튼 class명 바꾸기
+    $('#searchFriendBt').on('hidden.bs.modal', function () {
+    	$(".cancleF").attr("class","cancleFa");
+   }) 
+	
+	//신청취소 (친구목록)
+	$(document).on("click",".cancleFa",function(e){
+		const memberNo=e.target.nextSibling.defaultValue;
+		$.ajax({
+			url:"${path}/friend/cancleFriend.do",
+			data:{
+				loginMemberNo:${loginMember.memberNo},
+				memberNo:memberNo				
+			},
+			success:data=>{
+				location.reload();
+			}
+		})
+	});
+	
+	//신청취소 (검색화면)
 	$(document).on("click",".cancleF",function(e){
 		const memberNo=e.target.nextSibling.defaultValue;
 		$.ajax({
@@ -244,7 +267,7 @@
    
     //검색창 닫으면 목록 새로고침
     $('#searchFriendBt').on('hidden.bs.modal', function () {
-       friendList(cPage,loginMemberNo)
+    	location.reload();
    }) 
 
    //채팅창 닫으면 목록 새로고침
@@ -350,7 +373,7 @@
                                                 success:data=>{
                                                    console.log(data.data);
                                                    // 서버로 메세지 보내기
-                                                   const sendData=new Chat("msgCh","",data.data.PERSONAL_CHATROOM_NO,data.data.MEMBER_NICKNAME,'${loginMember.memberNickName}',msg,today,1);
+                                                   const sendData=new Chat("msgCh","",data.data.PERSONAL_CHATROOM_NO,data.data.MEMBER_NICKNAME,'${loginMember.memberNickName}',msg,today,1,data.data.PROFILE_ORINAME,data.data.PROFILE_RENAME);
                                                    console.log(sendData);
                                                    websocket.send(JSON.stringify(sendData));
                                                    $(".msg_text").val('');
@@ -466,9 +489,9 @@
                            "loginMemberNo":${loginMember.memberNo}
                         },
                         success:data=>{
-                           console.log(data.data.PERSONAL_CHATROOM_NO);
+                           console.log(data.data.PROFILE_ORINAME);
                            // 서버로 메세지 보내기
-                           const sendData=new Chat("msgCh","",data.data.PERSONAL_CHATROOM_NO,data.data.MEMBER_NICKNAME,'${loginMember.memberNickName}',msg,today,1);
+                           const sendData=new Chat("msgCh","",data.data.PERSONAL_CHATROOM_NO,data.data.MEMBER_NICKNAME,'${loginMember.memberNickName}',msg,today,1,data.data.PROFILE_ORINAME,data.data.PROFILE_RENAME);
                            console.log(sendData);
                            websocket.send(JSON.stringify(sendData));
                            $(".msg_text").val('');
@@ -535,7 +558,7 @@
    });
    
    class Chat{
-      constructor(type, meetingNo, personalChatroomNo, memberReceiver,memberSender,chattingContent,chattingEnrollDate,chattingUnreadCnt){
+      constructor(type, meetingNo, personalChatroomNo, memberReceiver,memberSender,chattingContent,chattingEnrollDate,chattingUnreadCnt,profileOriname,profileRename){
          this.type=type;
          this.meetingNo=meetingNo;
          this.personalChatroomNo=personalChatroomNo;
@@ -544,6 +567,8 @@
          this.chattingContent=chattingContent;
          this.chattingEnrollDate=chattingEnrollDate;
          this.chattingUnreadCnt=chattingUnreadCnt;
+		 this.profileOriname=profileOriname;
+		 this.profileRename=profileRename;  
       }
    }
 </script>

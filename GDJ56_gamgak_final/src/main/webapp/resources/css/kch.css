@@ -390,7 +390,7 @@
 	display: flex;
 
 }
-.cancleF, .acceptF{
+.cancleF, .acceptF, .cancleFa{
 		width: 60px;
 		height: 30px;
 		background-color: white;
@@ -400,7 +400,7 @@
 		border: 1.5px solid #dc3545;
 		border-radius: 5px;
 }
-.cancleF:hover, .acceptF:hover{
+.cancleF:hover, .acceptF:hover, .cancleFa:hover{
         background-color: #dc3545;
         color: white;
         font-weight: normal;

@@ -224,10 +224,10 @@
 					
 					websocket.onopen=(data)=>{
 						console.log(data);
-						const sendData2=new Chat("open","",personalChatroomNo,"",'${loginMember.memberNickName}',"",today,"");
-						//websocket.send(JSON.stringify(new Chat("open","",personalChatroomNo,"",'${loginMember.memberNickName}',"",today,"")))
-						console.log(sendData2);
-						websocket.send(JSON.stringify(sendData2));
+						//const sendData2=new Chat("open","",personalChatroomNo,"",'${loginMember.memberNickName}',"",today,"");
+						websocket.send(JSON.stringify(new Chat("open","",personalChatroomNo,"",'${loginMember.memberNickName}',"",today,"")))
+						//console.log(sendData2);
+						//websocket.send(JSON.stringify(sendData2));
 					}
 					
 					websocket.onmessage=(response)=>{
@@ -260,8 +260,10 @@
 								success:data=>{
 									console.log(data.data);				
 									// 서버로 메세지 보내기
-									const sendData=new Chat("msgCh","",data.data.PERSONAL_CHATROOM_NO,data.data.MEMBER_NICKNAME,'${loginMember.memberNickName}',msg,today,1);
+									const sendData=new Chat("msgCh","",data.data.PERSONAL_CHATROOM_NO,data.data.MEMBER_NICKNAME,'${loginMember.memberNickName}',msg,today,1,data.data.PROFILE_ORINAME,data.data.PROFILE_RENAME);
 									console.log(sendData);
+									console.log(data.data.PROFILE_ORINAME);
+									
 									websocket.send(JSON.stringify(sendData));
 									$(".msg_text").val('');
 									$(".msg_text").attr("placeholder","내용을 입력해주세요");	
@@ -330,7 +332,7 @@
 
 
 	class Chat{
-		constructor(type, meetingNo, personalChatroomNo, memberReceiver,memberSender,chattingContent,chattingEnrollDate,chattingUnreadCnt){
+		constructor(type, meetingNo, personalChatroomNo, memberReceiver,memberSender,chattingContent,chattingEnrollDate,chattingUnreadCnt,profileOriname,profileRename){
 			this.type=type;
 			this.meetingNo=meetingNo;
 			this.personalChatroomNo=personalChatroomNo;
@@ -339,6 +341,8 @@
 			this.chattingContent=chattingContent;
 			this.chattingEnrollDate=chattingEnrollDate;
 			this.chattingUnreadCnt=chattingUnreadCnt;
+  			this.profileOriname=profileOriname;
+			this.profileRename=profileRename;  
 		}
 	}
 </script>
