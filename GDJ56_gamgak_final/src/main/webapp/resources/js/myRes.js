@@ -84,7 +84,7 @@ class profileData{
 				console.log('통신실패!!');
 			},
 			success: function(result) {
-				if($.trim(result)==""){
+				if($.trim(result).includes("name=\"myresNos\" value=\"\"")){
 					$("#card-container").html("<div style='text-align: center;width:100%;margin-top:1rem;'>조회된 결과가 없습니다</div>");
 				}else{
 					$("#card-container").html(result);
@@ -142,7 +142,6 @@ $("#title-search button").click(()=>{
 })
 
 
-	
 	
 	
 

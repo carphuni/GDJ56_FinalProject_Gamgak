@@ -109,9 +109,12 @@
 					</div>
 					<input type="hidden" name="restaurant"/>
 				</form>   
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#myresCardModal${myres.myResNo }">이전</button>
-					<button class="btn btn-danger" data-bs-dismiss="modal">확인</button>
+				<div class="modal-footer" style="display: flex; justify-content: space-between;">
+					<button id="deleteMyres" class="btn btn-danger" value="${myres.myResNo }">삭제</button>
+					<div>
+						<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#myresCardModal${myres.myResNo }">이전</button>
+						<button class="btn btn-danger" data-bs-dismiss="modal">확인</button>
+					</div>
 	           </div>
 			</div>
 		</div>

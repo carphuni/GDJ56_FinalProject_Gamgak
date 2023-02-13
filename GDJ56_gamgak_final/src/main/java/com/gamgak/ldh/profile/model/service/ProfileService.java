@@ -113,6 +113,15 @@ public class ProfileService {
 		
 	}
 	
+	//맛집 reName 사진 조회
+	public List<String> selectReNameFile(Map param) {
+		return dao.selectReNameFile(session,param);
+	}
+	
+	//맛집 삭제
+	public int deleteMyRes(Map param) {
+		return dao.deleteMyRes(session,param);
+	}
 	
 	
 }

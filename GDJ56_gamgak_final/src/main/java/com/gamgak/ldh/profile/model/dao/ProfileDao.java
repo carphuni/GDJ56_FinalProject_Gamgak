@@ -77,4 +77,15 @@ public class ProfileDao {
 		return session.insert("profile.insertMyPic", myPic);
 	}
 	
+	//맛집 reName 사진 조회
+	public List<String> selectReNameFile(SqlSessionTemplate session,Map param) {
+		return session.selectList("profile.selectReNameFile",param);
+	}
+	
+	//맛집 삭제
+	public int deleteMyRes(SqlSessionTemplate session,Map param) {
+		return session.delete("profile.deleteMyRes",param);
+	}
+		
+	
 }
