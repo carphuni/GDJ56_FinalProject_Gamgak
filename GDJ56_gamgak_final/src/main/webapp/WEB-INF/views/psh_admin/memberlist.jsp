@@ -16,11 +16,16 @@ uri="http://java.sun.com/jsp/jstl/core" %>
     <hr class="sep" />
     <!-- 관리자 프로필 -->
     <div id="box">
-      <div id="adInfo">
+      <div id="adInfo" value="${loginMember.memberNo}">
         <img id="adimg" src="${path}/resources/images/프로필 기본 이미지.jpg" />
         <div id="adText">
           <h5><b>${loginMember.memberEmail}</b></h5>
           <h5>${loginMember.memberNickName}</h5>
+          <input
+            id="loginMemberNo"
+            type="hidden"
+            value="${loginMember.memberNo}"
+          />
         </div>
       </div>
       <!-- 구분선 -->
@@ -78,25 +83,25 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         </button>
         <button
           class="btn btn-primary btn-ghost btn-slide"
-          onclick="stopemem()"
+          onclick="sendnoticememlist('정지문구안내')"
         >
           정지
         </button>
         <button
           class="btn btn-primary btn-ghost btn-slide"
-          onclick="sendnoticememlist()"
+          onclick="sendnoticememlist('경고문구안내')"
         >
           경고
         </button>
         <button
           class="btn btn-primary btn-ghost btn-slide"
-          onclick="sendmyresdellist()"
+          onclick="sendnoticememlist('저장식당삭제')"
         >
           저장식당삭제
         </button>
         <button
           class="btn btn-primary btn-ghost btn-slide"
-          onclick="sendmeetingdellist()"
+          onclick="sendnoticememlist('모임삭제')"
         >
           모임삭제
         </button>
@@ -121,6 +126,39 @@ uri="http://java.sun.com/jsp/jstl/core" %>
     let ynval = "N";
     memberlist(cPage, ynval);
   })();
+
+  //메세지 전송
+  function sendnoticememlist(msg) {
+    const loginMemberNo = $("#loginMemberNo").val();
+    console.log(loginMemberNo);
+    if (!window.confirm("회원탈퇴를 계속 진행하시겠습니까?")) {
+      console.log("취소");
+    } else {
+      const delmem = document.querySelectorAll("input[name=memcheck]:checked");
+      nodata = [];
+      // let nodata="";
+      for (let i = 0; i < delmem.length; i++) {
+        // console.log(delmem[i].value)
+        nodata.push(delmem[i].value);
+      }
+      // console.log(JSON.stringify(nodata))
+      $.ajax({
+        url: "${path}/admin/adminNoticeMsg.do",
+        data: {
+          nodata: JSON.stringify(nodata),
+          loginMember: loginMemberNo,
+          msg: msg,
+        },
+        success: (data) => {
+          console.log(data.adminNotice);
+          for (let i = 0; i < data.adminNotice.length; i++) {
+            let total = +Number(data.adminNotice[i]);
+          }
+          if ((total = data.adminNotice.length)) memberlist(cPage, "N");
+        },
+      });
+    }
+  }
 
   //체크박스 전체선택 함수
   function selectAll() {
@@ -154,7 +192,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
       // console.log(JSON.stringify(nodata))
       $.ajax({
         url: "${path}/admin/deletedata.do",
-        // dataType:"JSON",
+        // dataType: "JSON",
         traditional: true,
         data: {
           nodata: JSON.stringify(nodata),
@@ -163,7 +201,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
           yn: "AUTHORITY_YN",
         },
         success: (data) => {
-          console.log(data.result);
+          console.log(data);
           for (let i = 0; i < data.result.length; i++) {
             let total = +Number(data.result[i]);
           }

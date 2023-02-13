@@ -97,6 +97,10 @@ public class AdminService {
 		
 		return dao.reportView(param);
 	}
+	public List<Map> selectSendMsg() {
+		
+		return dao.selectSendMsg();
+	}
 	
 	public Member selectMember(int no) {
 		return dao.selectMember(no);
