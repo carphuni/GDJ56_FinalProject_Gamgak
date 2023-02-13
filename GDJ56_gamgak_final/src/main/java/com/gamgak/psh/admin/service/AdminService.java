@@ -55,6 +55,10 @@ public class AdminService {
 		return dao.selectData(param);
 	}
 	
+	public int selectMsgtotalData(Map param) {
+		return dao.selectMsgtotalData(param);
+	}
+	
 	public int selectCountNo(Map param) {
 		return dao.selectCountNo(param);
 	}
@@ -87,6 +91,11 @@ public class AdminService {
 	public List<Map> selectReportData(Map param) {
 		
 		return dao.selectReportList(param);
+	}
+
+	public List<Map> reportView(Map param) {
+		
+		return dao.reportView(param);
 	}
 	
 	public Member selectMember(int no) {

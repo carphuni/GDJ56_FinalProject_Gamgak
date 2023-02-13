@@ -42,9 +42,12 @@ public interface AdminMemberDao{
 	int selectCount(Map param);
 	
 	//현재회원
-	
 	@Select("select count(*) from ${table} where ${yn}=${ynval}")
 	int selectData(Map param);
+	
+	//현재회원
+	@Select("select count(*) from ${table} where ${yn}=${ynval} and member_sender_no=1")
+	int selectMsgtotalData(Map param);
 	
 	//신고 페이지바
 	@Select("select count(*) from ${table} ur left join report r on ur.report_no=r.report_no where r.${yn}='${ynval}'")
@@ -90,6 +93,13 @@ public interface AdminMemberDao{
 			@Result(property="REPORT_REASON", column="REPORT_REASON",jdbcType = JdbcType.CLOB, javaType = String.class)
 	})
 	List<Map> selectReportList(Map param);
+	
+	//신고상세내용
+	@Select("select * from report where report_no=${no}")
+	@Results({
+		@Result(property="REPORT_REASON", column="REPORT_REASON",jdbcType = JdbcType.CLOB, javaType = String.class)
+	})
+	List<Map> reportView(Map param);
 	
 	//관리자 삭제
 	@Update("update ${tableN} set ${yn}='Y' where ${columnN}=${no}")

@@ -50,6 +50,7 @@ public class AdminController {
 		m.addAttribute("memdata", service.selectData(Map.of("table","MEMBER","yn","MEMBER_ENROLLDATE","ynval","SYSDATE")));
 		m.addAttribute("redata", service.selectData(Map.of("table","REPORT","yn","REPORT_DATE","ynval","SYSDATE")));
 		m.addAttribute("mtdata", service.selectData(Map.of("table","MEETING","yn","MEETING_ENROLL_DATE","ynval","SYSDATE")));
+		m.addAttribute("msgdata", service.selectMsgtotalData(Map.of("table","CHAT","yn","CHATTING_ENROLL_DATE","ynval","SYSDATE")));
 		return "psh_admin/main";
 	}
 	
@@ -65,7 +66,7 @@ public class AdminController {
 		m.addAttribute("memdata", service.selectData(Map.of("table","MEMBER","yn","MEMBER_ENROLLDATE","ynval","SYSDATE")));
 		m.addAttribute("redata", service.selectData(Map.of("table","REPORT","yn","REPORT_DATE","ynval","SYSDATE")));
 		m.addAttribute("mtdata", service.selectData(Map.of("table","MEETING","yn","MEETING_ENROLL_DATE","ynval","SYSDATE")));
-		
+		m.addAttribute("msgdata", service.selectMsgtotalData(Map.of("table","CHAT","yn","CHATTING_ENROLL_DATE","ynval","SYSDATE")));
 		return "/psh_admin/memberlist";
 	}
 	
@@ -99,6 +100,7 @@ public class AdminController {
 		m.addAttribute("memdata", service.selectData(Map.of("table","MEMBER","yn","MEMBER_ENROLLDATE","ynval","SYSDATE")));
 		m.addAttribute("redata", service.selectData(Map.of("table","REPORT","yn","REPORT_DATE","ynval","SYSDATE")));
 		m.addAttribute("mtdata", service.selectData(Map.of("table","MEETING","yn","MEETING_ENROLL_DATE","ynval","SYSDATE")));
+		m.addAttribute("msgdata", service.selectMsgtotalData(Map.of("table","CHAT","yn","CHATTING_ENROLL_DATE","ynval","SYSDATE")));
 		return "/psh_admin/myresview";
 	}
 	@RequestMapping("/selectmyres.do")
@@ -128,6 +130,7 @@ public class AdminController {
 		m.addAttribute("memdata", service.selectData(Map.of("table","MEMBER","yn","MEMBER_ENROLLDATE","ynval","SYSDATE")));
 		m.addAttribute("redata", service.selectData(Map.of("table","REPORT","yn","REPORT_DATE","ynval","SYSDATE")));
 		m.addAttribute("mtdata", service.selectData(Map.of("table","MEETING","yn","MEETING_ENROLL_DATE","ynval","SYSDATE")));
+		m.addAttribute("msgdata", service.selectMsgtotalData(Map.of("table","CHAT","yn","CHATTING_ENROLL_DATE","ynval","SYSDATE")));
 		return "/psh_admin/meetinglist";
 	}
 	
@@ -170,6 +173,7 @@ public class AdminController {
 		m.addAttribute("memdata", service.selectData(Map.of("table","MEMBER","yn","MEMBER_ENROLLDATE","ynval","SYSDATE")));
 		m.addAttribute("redata", service.selectData(Map.of("table","REPORT","yn","REPORT_DATE","ynval","SYSDATE")));
 		m.addAttribute("mtdata", service.selectData(Map.of("table","MEETING","yn","MEETING_ENROLL_DATE","ynval","SYSDATE")));
+		m.addAttribute("msgdata", service.selectMsgtotalData(Map.of("table","CHAT","yn","CHATTING_ENROLL_DATE","ynval","SYSDATE")));
 		return "psh_admin/reportlist";
 	}
 	
@@ -237,6 +241,18 @@ public class AdminController {
 		return reportlist;
 	}
 	
+	@RequestMapping("/reportView.do")
+	@ResponseBody
+	public Map<String,Object> reportView(int no) {
+		Map<String,Object> reportview=new HashMap<String, Object>();
+		
+		reportview.put("list",service.reportView(Map.of("no",no)));
+		System.out.println(reportview.get("list"));
+		
+		
+		return reportview;
+	}
+	
 	@RequestMapping("/msg.do")
 	public String adminMsgPage(Model m) {
 		int total=service.selectCount(Map.of("table","MEETING","yn","del_yn","ynval","N"));
@@ -248,6 +264,7 @@ public class AdminController {
 		m.addAttribute("memdata", service.selectData(Map.of("table","MEMBER","yn","MEMBER_ENROLLDATE","ynval","SYSDATE")));
 		m.addAttribute("redata", service.selectData(Map.of("table","REPORT","yn","REPORT_DATE","ynval","SYSDATE")));
 		m.addAttribute("mtdata", service.selectData(Map.of("table","MEETING","yn","MEETING_ENROLL_DATE","ynval","SYSDATE")));
+		m.addAttribute("msgdata", service.selectMsgtotalData(Map.of("table","CHAT","yn","CHATTING_ENROLL_DATE","ynval","SYSDATE")));
 		return "/psh_admin/msglist";
 	}
 	

@@ -65,7 +65,7 @@
                     </a><a class="nav-link active" aria-current="page" href="${path}/admin/msg.do">
                         <i class="fa-solid fa-user-group position-relative">
                             <span id="memdata" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.3rem;">
-                                5
+                                ${msgdata}
                                 <span class="visually-hidden">unread messages</span>
                             </span>
                         </i>
