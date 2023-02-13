@@ -28,7 +28,7 @@ public class FriendController {
 	@ResponseBody
 	public Map<String,Object> selectFriendList(int loginMemberNo, int cPage, String functionN){
 		Map<String,Object> list=new HashMap<String, Object>();
-		int numPerpage=5;
+		int numPerpage=10;
 		int total=service.selectFriendCount(loginMemberNo);
 		list.put("list",service.selectFriendList(Map.of("loginMemberNo",loginMemberNo,"cPage",cPage,"numPerpage",numPerpage)));
 		list.put("pageBar",PageFactory.getPage(loginMemberNo,cPage, numPerpage, total,functionN, "friend.do"));
@@ -70,4 +70,11 @@ public class FriendController {
 		System.out.println("로그인멤버"+loginMemberNo);
 		return service.friendCount(loginMemberNo);
 	}
+	
+	//친구삭제
+	@RequestMapping("/deleteFriend.do")
+	@ResponseBody
+	public int deleteFriend(int loginMemberNo, int friendMemberNO) {
+		return service.deleteFriend(loginMemberNo, friendMemberNO);
+	}		
 }

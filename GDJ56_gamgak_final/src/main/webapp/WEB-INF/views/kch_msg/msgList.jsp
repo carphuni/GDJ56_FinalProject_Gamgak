@@ -75,7 +75,7 @@
           <button type="button" class="btn btn-primary" id="updateChat">
           	예
           </button>        
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="modalFN">아니오</button>
         </div>
       </div>
     </div>
@@ -207,6 +207,93 @@
 					console.log(loginMemberNo);
 					console.log(personalChatroomNo);
 					msgRead(data,loginMemberNo,personalChatroomNo);
+					
+					
+					/* --------------------- */
+					var today = new Date();
+					
+					const servername1="wss://gd1class.iptime.org:8844/GDJ56_gamgak_final/chatting_Server"
+					//ws://gd1class.iptime.org:9999/GDJ56_gamgak_final/chatting_Server
+					const servername="ws://localhost:9090/GDJ56_gamgak_final/chatting_Server"
+					const websocket=new WebSocket(servername);
+					
+					websocket.onopen=(data)=>{
+						console.log(data);
+						const sendData2=new Chat("open","",personalChatroomNo,"",'${loginMember.memberNickName}',"",today,"");
+						//websocket.send(JSON.stringify(new Chat("open","",personalChatroomNo,"",'${loginMember.memberNickName}',"",today,"")))
+						console.log(sendData2);
+						websocket.send(JSON.stringify(sendData2));
+					}
+					
+					websocket.onmessage=(response)=>{
+						console.log("onmassage-response"+response);
+						const msg=JSON.parse(response.data);
+						console.log("onmassage-msg"+msg);
+						switch(msg.type){
+							case "system" : addMsgSystemCh(msg);break; 
+							case "msgCh" : printMsgCh('${loginMember.memberNickName}',msg);break;
+						}
+					}
+					
+					$("#modal_msg_send").click(e=>{
+						const personalChatroomNo=$("#personalChatroomNo").text(); 
+						const msg=$(".msg_text").val();
+						console.log("채팅내용 : "+msg);
+						//메세지 내용 없으면 안보냄
+						if(msg==""){
+							
+						}else{
+							//같은 방에 있는 회원정보 가져와서 서버로 보내주기
+							$.ajax({
+								url:"${path}/msg/chatroomMember.do",
+								data:{
+									"personalChatroomNo":personalChatroomNo,
+									"loginMemberNo":${loginMember.memberNo}
+								},
+								success:data=>{
+									console.log(data.data);				
+									// 서버로 메세지 보내기
+									const sendData=new Chat("msgCh","",data.data.PERSONAL_CHATROOM_NO,data.data.MEMBER_NICKNAME,'${loginMember.memberNickName}',msg,today,1);
+									console.log(sendData);
+									websocket.send(JSON.stringify(sendData));
+									$(".msg_text").val('');
+									$(".msg_text").attr("placeholder","내용을 입력해주세요");	
+									//보낸 메세지 DB에 저장하기
+							  		$.ajax({
+										url:"${path}/msg/insertMsg.do",
+										data:{
+											"personalChatroomNo":personalChatroomNo,
+											"receiverNo":data.data.MEMBER_NO,
+											"senderNo":${loginMember.memberNo},
+											"content":msg
+										},
+										success:data=>{
+										}  
+							  		})
+									//상대방이 채팅방을 나갔다면
+									if(data.data.CHAT_OUT_YN=="Y"){
+										//ENTERCHAT OUT을 null로 수정
+								  		$.ajax({
+											url:"${path}/msg/updateChatOut.do",
+											data:{
+												"personalChatroomNo":personalChatroomNo,
+												"loginMemberNo":${loginMember.memberNo}
+											},
+											success:data=>{
+												console.log(data);
+											}
+										})  
+									}
+								}
+							})
+						}
+					});
+					
+					/* ------------------ */
+					
+					
+					
+					
 				}
 			})
 		}); 
@@ -241,80 +328,7 @@
 
 	// ---------- 채팅 ---------- 
 	
-	var today = new Date();
-	
-	const servername1="wss://gd1class.iptime.org:8844/GDJ56_gamgak_final/chatting_Server"
-	//ws://gd1class.iptime.org:9999/GDJ56_gamgak_final/chatting_Server
-	const servername="ws://localhost:9090/GDJ56_gamgak_final/chatting_Server"
-	const websocket=new WebSocket(servername);
-	
-	websocket.onopen=(data)=>{
-		console.log(data);
-		
-		websocket.send(JSON.stringify(new Chat("open","",1,"",'${loginMember.memberNickName}',"",today,"")))
-	}
-	
-	websocket.onmessage=(response)=>{
-		console.log("onmassage-response"+response);
-		const msg=JSON.parse(response.data);
-		console.log("onmassage-msg"+msg);
-		switch(msg.type){
-			case "system" : addMsgSystemCh(msg);break; 
-			case "msgCh" : printMsgCh('${loginMember.memberNickName}',msg);break;
-		}
-	}
-	
-	$("#modal_msg_send").click(e=>{
-		const personalChatroomNo=$("#personalChatroomNo").text(); 
-		const msg=$(".msg_text").val();
-		console.log("채팅내용 : "+msg);
 
-		
-		//같은 방에 있는 회원정보 가져와서 서버로 보내주기
-		$.ajax({
-			url:"${path}/msg/chatroomMember.do",
-			data:{
-				"personalChatroomNo":personalChatroomNo,
-				"loginMemberNo":${loginMember.memberNo}
-			},
-			success:data=>{
-				console.log(data.data);				
-				// 서버로 메세지 보내기
-				const sendData=new Chat("msgCh","",data.data.PERSONAL_CHATROOM_NO,data.data.MEMBER_NICKNAME,'${loginMember.memberNickName}',msg,today,1);
-				console.log(sendData);
-				websocket.send(JSON.stringify(sendData));
-				$(".msg_text").val('');
-				$(".msg_text").attr("placeholder","내용을 입력해주세요");	
-				//보낸 메세지 DB에 저장하기
-		  		$.ajax({
-					url:"${path}/msg/insertMsg.do",
-					data:{
-						"personalChatroomNo":personalChatroomNo,
-						"receiverNo":data.data.MEMBER_NO,
-						"senderNo":${loginMember.memberNo},
-						"content":msg
-					},
-					success:data=>{
-					}  
-		  		})
-				//상대방이 채팅방을 나갔다면
-				if(data.data.CHAT_OUT_YN=="Y"){
-					//ENTERCHAT OUT을 null로 수정
-			  		$.ajax({
-						url:"${path}/msg/updateChatOut.do",
-						data:{
-							"personalChatroomNo":personalChatroomNo,
-							"loginMemberNo":${loginMember.memberNo}
-						},
-						success:data=>{
-							console.log(data);
-						}
-					})  
-				}
-			}
-		})
-		//msgList(cPage,loginMemberNo)
-	});
 	
 
 	

@@ -52,4 +52,9 @@ public class FriendService {
 	public int friendCount(int loginMemberNo) {
 		return dao.friendCount(loginMemberNo);
 	}
+	
+	//친구삭제
+	public int deleteFriend(int loginMemberNo, int friendMemberNO) {
+		return dao.deleteFriend(loginMemberNo, friendMemberNO);
+	}	
 }
