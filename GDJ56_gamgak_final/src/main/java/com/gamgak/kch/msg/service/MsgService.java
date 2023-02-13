@@ -27,7 +27,6 @@ public class MsgService {
 	
 	//페이징
 	public int selectMsgCount(int loginMemberNo) {
-		System.out.println(loginMemberNo);
 		return dao.selectMsgCount(loginMemberNo);
 	}
 	

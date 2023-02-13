@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class ChattingServer extends TextWebSocketHandler{
+public class FriendChattingServer extends TextWebSocketHandler{
 	
 	 private static HashMap<String, WebSocketSession> sessionMap = new HashMap<>(); //웹소켓 세션을 담아둘 맵
 	 
