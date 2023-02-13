@@ -14,9 +14,9 @@ function selectFriendList(data, loginMemberNo){
 		const $inputH=$("<input>").attr({"type":"hidden","id":"friendMemberNO","value":v.MEMBER_NO});
 		const $inputB=$("<input>").attr({"type":"hidden","id":"friendMemberNO","value":v.MEMBER_NO});
 		const $divFR=$("<div>").attr("id","friendRow");
-		
+
 		$divFP.append($imgMP);
-		$bFN.text(v.MEMBER_NICKNAME);
+		$bFN.text(v.MEMBER_NICKNAME)
 		$divFN.append($bFN);
 		//친구면 채팅버튼
 		if(v.ACCEPT_YN=='Y'){
@@ -101,3 +101,4 @@ function friendSearch(data,loginMemberNo){
 		}
 	});
 }
+
