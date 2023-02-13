@@ -7,17 +7,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
+
 import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import org.apache.tomcat.util.json.JSONParser;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jackson.JsonObjectDeserializer;
+import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.SessionScope;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gamgak.psh.admin.service.AdminService;
@@ -43,8 +47,6 @@ public class AdminController {
 	
 	@RequestMapping("/")
 	public String adminMainPage(Model m) {
-		Date lasttime=new Date();
-//		SimpleDateFormat formatDate=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		m.addAttribute("memdata", service.selectData(Map.of("table","MEMBER","yn","MEMBER_ENROLLDATE","ynval","SYSDATE")));
 		m.addAttribute("redata", service.selectData(Map.of("table","REPORT","yn","REPORT_DATE","ynval","SYSDATE")));
 		m.addAttribute("mtdata", service.selectData(Map.of("table","MEETING","yn","MEETING_ENROLL_DATE","ynval","SYSDATE")));
