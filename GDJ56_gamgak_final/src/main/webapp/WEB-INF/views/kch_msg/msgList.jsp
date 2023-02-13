@@ -205,13 +205,16 @@
 					loginMemberNo:loginMemberNo
 				},
 				success:data=>{
-					console.log(data);
+					console.log(data[0]);
 					console.log(loginMemberNo);
 					console.log(personalChatroomNo);
 					msgRead(data,loginMemberNo,personalChatroomNo);
+					//메세지를 보낸 사람이 관리자일 경우 채팅 막기
+					if(data[0].MEMBER_SENDER_NO==1){
+						$(".msg_text").attr({"disabled":"true","placeholder":"관리자와 채팅할 수 없습니다."});
+					}
+					// ---------- 채팅 ---------- 
 					
-					
-					/* --------------------- */
 					var today = new Date();
 					
 					const servername1="wss://gd1class.iptime.org:8844/GDJ56_gamgak_final/chatting_Server"
@@ -238,7 +241,9 @@
 					}
 					
 					$("#modal_msg_send").click(e=>{
+					//$(document).on("click","#modal_msg_send",function(e){
 						const personalChatroomNo=$("#personalChatroomNo").text(); 
+						console.log(personalChatroomNo);
 						const msg=$(".msg_text").val();
 						console.log("채팅내용 : "+msg);
 						//메세지 내용 없으면 안보냄
@@ -290,12 +295,6 @@
 							})
 						}
 					});
-					
-					/* ------------------ */
-					
-					
-					
-					
 				}
 			})
 		}); 
@@ -328,12 +327,8 @@
 		})   
 	});
 
-	// ---------- 채팅 ---------- 
-	
 
-	
 
-	
 	class Chat{
 		constructor(type, meetingNo, personalChatroomNo, memberReceiver,memberSender,chattingContent,chattingEnrollDate,chattingUnreadCnt){
 			this.type=type;

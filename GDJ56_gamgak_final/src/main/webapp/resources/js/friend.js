@@ -3,7 +3,7 @@ function selectFriendList(data, loginMemberNo){
 	data.list.forEach(v => {
 		const $divFLT=$("<div>").attr("id","friendListTotal");
 		const $divFP=$("<div>").attr("id","friendprofile");
-		const $imgMP=$("<img>").attr("id","msg_profile").attr("src","/resources/images/프로필 기본 이미지.jpg");
+		const $imgMP=$("<img>").attr("id","msg_profile")
 		const $divFN=$("<div>").attr("id","friendNic");
 		const $bFN=$("<b>")
 		const $divFC=$("<div>").attr("id","freindChat");
@@ -15,6 +15,11 @@ function selectFriendList(data, loginMemberNo){
 		const $inputB=$("<input>").attr({"type":"hidden","id":"friendMemberNO","value":v.MEMBER_NO});
 		const $divFR=$("<div>").attr("id","friendRow");
 		
+		if(v.PROFILE_ORINAME=='없음'){
+			$imgMP.attr("src","/GDJ56_gamgak_final/resources/images/프로필 기본 이미지.jpg");
+		}else{
+			$imgMP.attr("src","/GDJ56_gamgak_final/resources/images/"+v.PROFILE_ORINAME);
+		}
 		$divFP.append($imgMP);
 		$bFN.text(v.MEMBER_NICKNAME);
 		$divFN.append($bFN);
@@ -70,6 +75,11 @@ function friendSearch(data,loginMemberNo){
 			const $btChat=$("<button>");
 			const $inputH=$("<input>").attr({"type":"hidden","id":"friendMemberNO","value":v.MEMBER_NO})
 			
+			if(v.PROFILE_ORINAME=='없음'){
+				$imgMP.attr("src","/GDJ56_gamgak_final/resources/images/프로필 기본 이미지.jpg");
+			}else{
+				$imgMP.attr("src","/GDJ56_gamgak_final/resources/images/"+v.PROFILE_ORINAME);
+			}			
 			$divFP.append($imgMP);
 			$bFN.text(v.MEMBER_NAME+' ( '+v.MEMBER_NICKNAME+' )');
 			$divFN.append($bFN);
