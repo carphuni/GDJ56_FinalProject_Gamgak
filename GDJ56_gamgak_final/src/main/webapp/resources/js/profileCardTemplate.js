@@ -22,3 +22,29 @@ for(let v in myresNosSplit){
 }
 
 
+function deleteMyres(value){
+    console.log(value);
+    let flag=confirm("정말 삭제하시겠습니까?");
+    if(flag){
+        $.ajax({
+            type: "GET",
+            url: "/GDJ56_gamgak_final/profile/deletetMyres",
+            data: {"myResNo":value},
+            error: function() {
+                console.log('통신실패!!');
+            },
+            success: function(result) {
+                alert(result);
+                location.reload(); 
+            }
+        });
+    }else{
+        alert("취소하셨습니다");
+    }
+}
+
+$("button#deleteMyres").off('click').click((e)=>{
+    deleteMyres($(e.target).val());
+})
+
+

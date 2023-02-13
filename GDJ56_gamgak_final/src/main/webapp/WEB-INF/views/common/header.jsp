@@ -78,7 +78,7 @@
                         <i class="fa-solid fa-bars"></i><span>더 보기</span>
                     </div>
                     <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#">설정</a></li>
+                      <li><a class="dropdown-item" href="${path }/member/myinfo">설정</a></li>
                       <li><hr class="dropdown-divider"></li>
                       <li><a class="dropdown-item" href="#">로그아웃</a></li>
                     </ul>
@@ -124,7 +124,7 @@
             <form id="insertModal-body" class="modal-body" action="${path }/profile/insertmyres.do" enctype="multipart/form-data" method="post">
                <a id="insertMyResImage" onclick="$('#mypic').click();" class="col-sm-6">
                   <div>
-                     <img src="${path }/resources/images/프로필 기본 이미지.jpg" style="width: 5rem"/>
+                     <img src="${path }/resources/images/이미지 추가.png" style="width: 5rem"/>
                      <p style="">클릭하여 이미지 추가</p>
                   </div>
                </a>

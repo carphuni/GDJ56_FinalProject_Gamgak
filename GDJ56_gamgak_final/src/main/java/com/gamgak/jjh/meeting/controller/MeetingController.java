@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 import com.gamgak.csk.member.model.entity.Member;
 import com.gamgak.jjh.meeting.model.service.MeetingService;
+import com.gamgak.jjh.meeting.model.vo.Chat;
 import com.gamgak.jjh.meeting.model.vo.EnterChat;
 import com.gamgak.jjh.meeting.model.vo.Meeting;
 
@@ -55,15 +56,15 @@ public class MeetingController {
 		
 		int memberNo =getMemberNo();
 		List<Map> logmee=service.selectLoginUserMeetingList(memberNo);
-		for(int i=0; i<logmee.size();i++) {
-			System.out.println("joinmeetinglist"+logmee.get(i));
-		}
+//		for(int i=0; i<logmee.size();i++) {
+//			System.out.println("joinmeetinglist"+logmee.get(i));
+//		}
 		mv.addObject("joinmeetinglist", logmee);
 		System.out.println(memberNo);
 		List<Meeting> mee =service.selectMeetingList();
-		for(int i=0; i<mee.size();i++) {
-			System.out.println("전체모임리스트"+mee.get(i));
-		}
+//		for(int i=0; i<mee.size();i++) {
+//			System.out.println("전체모임리스트"+mee.get(i));
+//		}
 		mv.addObject("meeting",mee);
 		
 		
@@ -285,15 +286,20 @@ public class MeetingController {
 	@RequestMapping("/meetting/meettingchat.do")
 	public ModelAndView meetingCaht(ModelAndView mv, HttpSession session,@RequestParam Map m) {
 		
-		System.out.println("채팅방으로 넘어온 정보"+m);
+		//System.out.println("채팅방으로 넘어온 정보"+m);
 		List<Map> chatinfo=service.selectChattingRoomInfo(m);
-		for(int i=0 ;i<chatinfo.size();i++) {
-			System.out.println("채팅방 정보"+chatinfo.get(i));
-		}
+		List<Chat> ch=service.selectChatList(m);
+//		for(int i=0; i<ch.size();i++ ) {
+//			System.out.println("채팅방 대화 정보"+ch.get(i));
+//		}
+		mv.addObject("chatList",ch);
+//		for(int i=0 ;i<chatinfo.size();i++) {
+//			System.out.println("채팅방 정보"+chatinfo.get(i));
+//		}
 		List<Map> chatmemberlist= service.selectchatmemberlist(m);
-		for(int i=0 ;i<chatmemberlist.size();i++) {
-			System.out.println("채팅방 유저리스트"+chatmemberlist.get(i));
-		}
+//		for(int i=0 ;i<chatmemberlist.size();i++) {
+//			System.out.println("채팅방 유저리스트"+chatmemberlist.get(i));
+//		}
 		mv.addObject("chatmemberlist",chatmemberlist);
 		mv.addObject("chatRoominfo", chatinfo);
 		mv.setViewName("/jjh_meetting/chattingroom");
@@ -329,5 +335,66 @@ public class MeetingController {
 			
 			return mv;
 		}
-
-}
+		//모임 나가기
+		@RequestMapping("/meetting/meettingjoinEndNN.do")
+		public ModelAndView meettingjoinEndNN(ModelAndView mv, @RequestParam Map<String,Object> m) {
+			System.out.println("신청자 번호랑 모인번호!!!!!!!!!!!"+m);
+			int result=service.updateMeetingnn(m);
+			//mv.addObject("updateMeetingNN",result);
+			mv.addObject("msg",result>0?"모임 나가기 성공":"모임 나가기 실패");
+			mv.addObject("loc","/meetting/meettinglist.do");
+			mv.setViewName("/jjh_meetting/msg");
+			return mv;
+		}
+		
+		//메세지 저장
+		@ResponseBody
+		@RequestMapping("/meeting/msginsert.do")
+		public ModelAndView meetingmsgInsert(ModelAndView mv, @RequestParam Map<String,Object> m) {
+			System.out.println("msg 정보"+m);
+			mv.setViewName("jjh_meetting/chattingroom");
+			int result=service.insertChat(m);
+		
+			return mv;
+		}
+		
+		// 지역별로 모임 검색
+		@ResponseBody
+		@RequestMapping("/meeting/areaMeeting.do")
+		public ModelAndView areaMeeting(ModelAndView mv, @RequestParam Map<String,Object> m) {
+			List<Meeting> mee = service.selectArea(m);
+			System.out.println("지역별 모임 검색"+m);
+			System.out.println("지역별 모임 검색 모임 리스트"+mee);
+			mv.addObject("selectMeeting",mee);
+			mv.setViewName("jjh_meetting/selectMeeting");
+			return mv;
+			
+			}
+		
+		//대화 검색
+		@ResponseBody
+		@RequestMapping("/meeting/chatList.do")
+		public ModelAndView selectChatList(ModelAndView mv, @RequestParam Map<String,Object> m) {
+			System.out.println("채팅방 리스트를 불러오기 위한 모임 번호 "+m);
+			List<Chat> ch=service.selectChatList(m);
+//			for(int i=0; i<ch.size();i++ ) {
+//				System.out.println("채팅방 대화 정보"+ch.get(i));
+//			}
+			mv.addObject("chatList",ch);
+			mv.setViewName("jjh_meetting/chatList");
+			return mv;
+		}
+		//모임 삭제하기
+		@RequestMapping("/meetting/meettingDelete.do")
+		public ModelAndView meetingDelete(ModelAndView mv, @RequestParam Map<String,Object> m) {
+			System.out.println("삭제할 모임의 정보"+m);
+			int result=service.meetingDelete(m);
+			mv.addObject("updateMeetingNN",result);
+			mv.addObject("msg",result>0?"모임 삭제 성공":"모임 삭제 실패");
+			mv.addObject("loc","/meetting/meettinglist.do");
+			mv.setViewName("/jjh_meetting/msg");
+			return mv;
+		
+		}
+		
+		}

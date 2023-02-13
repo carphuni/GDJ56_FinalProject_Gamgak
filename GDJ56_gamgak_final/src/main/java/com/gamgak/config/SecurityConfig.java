@@ -28,13 +28,12 @@ public class SecurityConfig {
 				.passwordParameter("memberPassword")
 //				.loginPage("/login")
 				.loginProcessingUrl("/login.do")
-				.successForwardUrl("/profile/") //얘는 주소를 바꿔주지는 않고 로그인시 연결된 주소와 매핑이되서 profile로만 연결 -> 성공시 찍히는 주소 /login.do
-//				.defaultSuccessUrl("/profile/") //애는 매핑 주소와 로그이닛 연결된 주소와 연결 -> 성공시 찍히는 주소 /profile/
+				.defaultSuccessUrl("/profile/")
 				.and()
 			.authorizeHttpRequests()
-				//간보기패킷 cors에러여부를 확인하는 패킷
 				.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 				.antMatchers("/","/resources/**","/enroll/**").permitAll()
+				.antMatchers("/profile/").hasAnyAuthority("USER")
 				.antMatchers("/login").permitAll()
 				.antMatchers("/profile/").permitAll()
 				.antMatchers("/admin/**").hasAnyAuthority("ADMIN")

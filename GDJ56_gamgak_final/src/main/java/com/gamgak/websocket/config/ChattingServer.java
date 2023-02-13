@@ -68,7 +68,7 @@ public class ChattingServer extends TextWebSocketHandler{
 	    	System.out.println("add"+msg);
 			session.getAttributes().put("info", msg);
 			sessionMap.put(msg.getMemberSender(), session);
-			SendMessage adminmsg=new SendMessage("system","","",msg.getMemberSender()+"가 접속했습니다.","");
+			SendMessage adminmsg=new SendMessage("system","","",msg.getMemberSender()+"가 접속했습니다.",msg.getMeetingNo());
 			//ObjectMapper mapper=new ObjectMapper();
 			for(String id:sessionMap.keySet()) {
 				WebSocketSession client=sessionMap.get(id);
@@ -92,6 +92,7 @@ public class ChattingServer extends TextWebSocketHandler{
 				String key=iterKey.next();
 				if(!sessionMap.get(key).isOpen()) iterKey.remove();
 			}
+			
 		}
 		private void sendMessage(ChatHandler msg) throws IOException{
 			

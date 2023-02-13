@@ -94,7 +94,7 @@
 	        		<input type="hidden" class="" name="memberPassword" id="" style="width: 300px; height:50px;" value="${member.memberPassword}">
 					${member}
 					${enrollMessage}
-	        		<input type="hidden" class="" name="enrollMessage" id="" style="width: 300px; height:50px;" value="${enrollMessage}">
+	        		<input type="hidden" class="" name="enrollMessage" value="${enrollMessage}">
 	        	</div>
            	</form>
           </div>
