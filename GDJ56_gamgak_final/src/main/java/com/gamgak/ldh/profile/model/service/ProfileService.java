@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.gamgak.jjh.meeting.model.vo.Meeting;
 import com.gamgak.ldh.profile.model.dao.ProfileDao;
 import com.gamgak.ldh.profile.model.vo.MyPic;
+import com.gamgak.ldh.profile.model.vo.MyPicList;
 import com.gamgak.ldh.profile.model.vo.MyRes;
 
 import lombok.extern.slf4j.Slf4j;
@@ -54,18 +55,23 @@ public class ProfileService {
 	}
 	
 	//내 저장한 맛집 조회
-	public List<MyRes> selectMyResAll(Map param){
+	public List<Map> selectMyResAll(Map param){
 		return dao.selectMyResAll(session, param);
 	}
 	
 	//내 저장한 맛집 지역별 조회
-	public List<MyRes> selectMyResArea(Map param){
+	public List<Map> selectMyResArea(Map param){
 		return dao.selectMyResArea(session, param);
 	}
 	
 	//내 저장한 맛집 제목,카테고리별 조회
-	public List<MyRes> selectMyResTitle(Map param){
+	public List<Map> selectMyResTitle(Map param){
 		return dao.selectMyResTitle(session, param);
+	}
+	
+	//저장한 사진 조회
+	public List<MyPicList> selectMyResMyPic(int memberNo){
+		return dao.selectMyResMyPic(session,memberNo);
 	}
 	
 	//맛집 저장
@@ -107,6 +113,15 @@ public class ProfileService {
 		
 	}
 	
+	//맛집 reName 사진 조회
+	public List<String> selectReNameFile(Map param) {
+		return dao.selectReNameFile(session,param);
+	}
+	
+	//맛집 삭제
+	public int deleteMyRes(Map param) {
+		return dao.deleteMyRes(session,param);
+	}
 	
 	
 }

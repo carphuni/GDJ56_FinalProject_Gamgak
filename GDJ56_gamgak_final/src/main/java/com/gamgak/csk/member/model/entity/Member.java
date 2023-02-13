@@ -40,7 +40,8 @@ public class Member implements UserDetails{
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
 		List<GrantedAuthority> auth=new ArrayList();
-		auth.add(new SimpleGrantedAuthority("USER"));
+		
+		if(!authorityYN.equals("Y")) auth.add(new SimpleGrantedAuthority("USER"));
 		if(memberEmail.equals("admin@admin.com")) auth.add(new SimpleGrantedAuthority("ADMIN"));
 		return auth;
 	}

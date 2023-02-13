@@ -9,6 +9,7 @@ import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
 import com.gamgak.websocket.config.ChattingServer;
+import com.gamgak.websocket.config.MeetingChattingServer;
 
 import lombok.RequiredArgsConstructor;
 
