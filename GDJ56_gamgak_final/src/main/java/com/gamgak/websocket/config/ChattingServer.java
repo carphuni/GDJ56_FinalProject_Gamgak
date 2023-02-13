@@ -146,9 +146,16 @@ public class ChattingServer extends TextWebSocketHandler{
 				ChatHandler clientInfo=(ChatHandler)client.getAttributes().get("info");
 				System.out.println(clientInfo);
 				
-				if(client.isOpen()&&msg.getPersonalChatroomNo()==clientInfo.getPersonalChatroomNo()) {
+				if((client.isOpen()&&msg.getPersonalChatroomNo()==clientInfo.getPersonalChatroomNo())&&sessionMap.size()==2) {
+					msg.setChattingUnreadCnt(0);
 					client.sendMessage(new TextMessage(mapper.writeValueAsString(msg)));
+		        }else {
+		        	client.sendMessage(new TextMessage(mapper.writeValueAsString(msg)));
 		        }
+				
+//				if(client.isOpen()&&msg.getPersonalChatroomNo()==clientInfo.getPersonalChatroomNo()) {
+//					client.sendMessage(new TextMessage(mapper.writeValueAsString(msg)));
+//		        }
 			}
 		}
 }

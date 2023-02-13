@@ -141,7 +141,6 @@
 	function msgList(cPage,loginMemberNo){
 		$("#msgAll").empty();
 		$("#pageBar").remove();
-
 	    $.ajax({
 	       url:"${path}/msg/selectMsgList.do",
 	       data:{
@@ -327,9 +326,6 @@
 			}
 		})   
 	});
-
-
-
 	class Chat{
 		constructor(type, meetingNo, personalChatroomNo, memberReceiver,memberSender,chattingContent,chattingEnrollDate,chattingUnreadCnt,profileOriname,profileRename){
 			this.type=type;

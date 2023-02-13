@@ -333,9 +333,9 @@
                                        
                                        var today = new Date();
 
-                                       const servername1="wss://gd1class.iptime.org:8844/GDJ56_gamgak_final/friendchatting_Server"
+                                       const servername1="wss://gd1class.iptime.org:8844/GDJ56_gamgak_final/chatting_Server"
                                           //ws://gd1class.iptime.org:9999/GDJ56_gamgak_final/chatting_Server
-                                          const servername="ws://localhost:9090/GDJ56_gamgak_final/friendchatting_Server"
+                                          const servername="ws://localhost:9090/GDJ56_gamgak_final/chatting_Server"
                                           const websocket=new WebSocket(servername);
                                        
                                        websocket.onopen=(data)=>{
@@ -452,9 +452,9 @@
                
                var today = new Date();
 
-               const servername1="wss://gd1class.iptime.org:8844/GDJ56_gamgak_final/friendchatting_Server"
+               const servername1="wss://gd1class.iptime.org:8844/GDJ56_gamgak_final/chatting_Server"
                   //ws://gd1class.iptime.org:9999/GDJ56_gamgak_final/chatting_Server
-                  const servername="ws://localhost:9090/GDJ56_gamgak_final/friendchatting_Server"
+                  const servername="ws://localhost:9090/GDJ56_gamgak_final/chatting_Server"
                   const websocket=new WebSocket(servername);
                
                websocket.onopen=(data)=>{
