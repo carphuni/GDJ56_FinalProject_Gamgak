@@ -112,7 +112,7 @@
 		                                       		<c:if test="${m.memberLeaderNo==loginMember.memberNo }">
 			                                          <button id="signupmeetingList" onclick="signupmeetingList('${m.memberNo}','${m.meetingNo}')" class="btn btn-danger" type="button" style="margin: 0px 0px 5px 0px; width: 130px" data-bs-target="#applymeetingList" data-bs-toggle="modal">신청현황</button>
 			                                          <button class="btn btn-danger" onclick="location.assign('${path}/meetting/updatemeetting.do?memberNo=${m.memberNo }&meetingNo=${m.meetingNo }')" type="button" style="margin: 0px 0px 5px 0px">수정하기</button>
-			                                          <button class="btn btn-danger" type="button">삭제하기</button>	
+			                                          <button class="btn btn-danger" type="button" onclick="meetingDelete(${m.memberLeaderNo},${m.meetingNo})">삭제하기</button>	
 		                                       		</c:if>
 		                                       		<c:if test="${m.memberLeaderNo!=loginMember.memberNo }">
 			                                          <button class="btn btn-danger" type="button" style="margin: 0px 0px 5px 0px; width: 130px">채팅방가기</button>
@@ -122,6 +122,21 @@
 		                                       </div>
 		                                   
                                         </div>
+                                        <script type="text/javascript">
+                                        function meetingDelete(a,b){
+                                    		if (!confirm("모임을 삭제하시겠습니까?")) {
+                                    			alert("취소(아니오)를 누르셨습니다.");
+                                    			
+                                         } else {
+                                         	if(confirm("정말로 삭제하시겠습니까?")){
+                                         		location.assign('${path}/meetting/meettingDelete.do?memberNo='+a+'&meetingNo='+b)
+                                         	}
+                                    			
+                                    			
+                                         }
+
+                                    	}
+                                        </script>
 		                        
 		
 		                                 </a>

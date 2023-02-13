@@ -5,6 +5,7 @@
 <script src="${path}/resources/js/chattingCh.js"></script>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 
+
 <!-- 모임 -->
 <div id="meeting-wrapper">
 	<div id="meeting-item">
@@ -139,7 +140,6 @@
 	function msgList(cPage,loginMemberNo){
 		$("#msgAll").empty();
 		$("#pageBar").remove();
-
 	    $.ajax({
 	       url:"${path}/msg/selectMsgList.do",
 	       data:{
@@ -236,7 +236,6 @@
 			}
 		})   
 	});
-
 	// ---------- 채팅 ---------- 
 	
 	var today = new Date();
@@ -266,7 +265,6 @@
 		const personalChatroomNo=$("#personalChatroomNo").text(); 
 		const msg=$(".msg_text").val();
 		console.log("채팅내용 : "+msg);
-
 		
 		//같은 방에 있는 회원정보 가져와서 서버로 보내주기
 		$.ajax({
@@ -314,7 +312,6 @@
 		//msgList(cPage,loginMemberNo)
 	});
 	
-
 	
 	class Chat{
 		constructor(type, meetingNo, personalChatroomNo, memberReceiver,memberSender,chattingContent,chattingEnrollDate,chattingUnreadCnt){

@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.gamgak.csk.member.model.entity.Member;
+import com.gamgak.jjh.meeting.model.vo.Chat;
 import com.gamgak.jjh.meeting.model.vo.EnterChat;
 import com.gamgak.jjh.meeting.model.vo.Meeting;
 
@@ -50,14 +51,17 @@ public class MeetingDao {
 	public int updateMeetingn(SqlSessionTemplate session,Map m) {
 		return session.update("meeting.updateMeetingn",m);
 	}
+	public int updateMeetingnn(SqlSessionTemplate session, Map m) {
+		return session.update("meeting.updateMeetingnn",m);
+	}
 	
 	public EnterChat SelctenterchatList(SqlSessionTemplate session, Map m) {
 		return session.selectOne("meeting.SelctenterchatList", m);
 	}
 	//사람 명수 변경 추가해주는 sql
 	public int updateplusNum(SqlSessionTemplate session, Meeting m) {
-		System.out.println("더해줄 cnt"+m);
-		return session.update("meeting.updateplusNum",m);
+		System.out.println("변경할 cnt"+m);
+		return session.update("meeting.updateNum",m);
 	}
 	//사람 명수 찾아주는 sql
 	public Meeting selectacceptmember(SqlSessionTemplate session ,Map m) {
@@ -69,6 +73,26 @@ public class MeetingDao {
 	}
 	public int updateMeeting(SqlSessionTemplate session, Meeting mee) {
 		return session.update("meeting.updateMeeting",mee);
+	}
+	//모임 채팅방 대화 내용 저장
+	public int insertChat(SqlSessionTemplate session, Map m) {
+		System.out.println("메세지 Dao"+m);
+		return session.insert("meeting.insertChat",m);
+	}
+	
+	//모임 대화방 채팅 불러오기
+	public List<Chat> selectChatList(SqlSessionTemplate session, Map m) {
+		return session.selectList("meeting.selectChatList",m);
+	}
+	
+	//지역으로 모임 검색하기
+	public List<Meeting> selectArea(SqlSessionTemplate session, Map m){
+		return session.selectList("meeting.selectArea",m);
+	}
+	
+	//모임 삭제하기
+	public int meetingDelete(SqlSessionTemplate session, Map m) {
+		return session.delete("meeting.meetingDelete",m);
 	}
 
 }

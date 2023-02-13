@@ -137,7 +137,7 @@
 															success:data=>{
 																console.log(data.data);
 																// 서버로 메세지 보내기
-																const sendData=new Chat("msgCh","",data.data.PERSONAL_CHATROOM_NO,data.data.MEMBER_NICKNAME,'${loginMember.memberNickName}',msg,today,1);
+																const sendData=new Chat("msgCh","",data.data.PERSONAL_CHATROOM_NO,data.data.MEMBER_NICKNAME,'${loginMember.memberNickName}',msg,today,${});
 																console.log(sendData);
 																websocket.send(JSON.stringify(sendData));
 																$(".msg_text").val('');

@@ -1,67 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<c:set var="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"/>
-<c:set var="path" value="${pageContext.request.contextPath }"/>
-<jsp:include page="/WEB-INF/views/common/header.jsp"/>
-                <div id="meeting-wrapper">
-                    <div id="meeting-item">
-                        <a onclick="location.assign('${path}/meetting/meettingenroll.do')"><img id="meeting-img" src="${path }/resources/images/플러스.png"></a>
-                        <p>모임추가</p>
-                    </div>
-                    <c:choose>
-                    	<c:when test="${empty joinmeetinglist}">
-                    		<div id="meeting-item">
-                        		<a href="" onclick="window.open('${path}/meetting/meettingchat.do','채팅방','_blank, resizable=no,width=1000px,height=720px,scrollbars=no')"><img id="meeting-img" src="${path }/resources/images/임시 이미지03.jpg"></a>
-                        		<p>모임이 없습니다.</p>
-                   			</div>
-                    	</c:when>
-                    	<c:otherwise>
-                    		<c:forEach var="l" items="${joinmeetinglist}">
-                    			<div id="meeting-item">
-                        			<a href="" onclick="window.open('${path}/meetting/meettingchat.do?memberNo=${loginMember.memberNo}&meetingNo=${l.MEETING_NO } ','채팅방','_blank, resizable=no,width=1000px,height=720px,scrollbars=no')"><img id="meeting-img"  src="${path }/resources/upload/meeting/${l.MEETNG_RENAME}"></a>
-                        			<p>${l.MEETING_TITLE }</p>
-                   				 </div>
-                    		
-                    		</c:forEach>
-                    	</c:otherwise>
-                    </c:choose>
-                    
-
-                </div>
-                <div id="profile-wrapper">
-                    <div id="subheader-wrapper" style="display: flex; justify-content: space-between;">
-                        <select id="meetingArea" style="border: 1px #a89e9f solid; border-radius: 5px; height: 40px; width: 200px;text-align: center; "onchange="area_Fn(this.value);">
-                           <option selected="selected">====지역 선택====</option>
-                                <option value="경기도">경기도</option>
-                                <option value="강원도">강원도</option>
-                                <option value="서울특별시">서울특별시</option>
-                                <option value="충청남도">충청남도</option>
-                                <option value="충청북도">충청북도</option>
-                                <option value="전라남도">전라남도</option>
-                                <option value="전라남도">전라북도</option>
-                                <option value="경상남도">경상남도</option>
-                                <option value="경상북도">경상북도</option>
-                                <option value="제주도">제주도</option>
-                                <option value="인천광역시">인천광역시</option>
-                                <option value="울산광역시">울산광역시</option>
-                                <option value="부산광역시">부산광역시</option>
-                                <option value="광주광역시">광주광역시</option>
-                                <option value="대전광역시">대전광역시</option>
-                        </select>
-
-                         <button class="btn btn-danger" onclick="location.assign('${path}/meetting/meettingenroll.do')">모임생성</button> 
-						
-                    </div>
-                    <br>
-                    <div id="meetingList">
-                    <c:choose>
-                    	<c:when test="${empty meeting}">
+      <!-- jQuery library -->
+      <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+      <!-- path -->
+      <c:set var="path" value="${pageContext.request.contextPath }"/>
+      <!-- 부트스트랩 css/js -->
+      <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/bootstrap.min.css" >
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+      <!--시큐리티 로그인 세션-->
+      <c:set var="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"/>
+      <!--css-->
+      <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/jjh_css/chatRoom.css" >     
+    
+      <script src="${pageContext.request.contextPath }/resources/js/jquery-3.6.1.min.js"></script>
+  <script src="${pageContext.request.contextPath }/resources/js/chatting.js"></script>
+    
+	<c:choose>
+                    	<c:when test="${empty selectMeeting}">
                     		<div>조회된 게시물이 없습니다.</div>
                     	</c:when>
                     	<c:otherwise>
-                    		<c:forEach var="m" items="${meeting }">
+                    		<c:forEach var="m" items="${selectMeeting }">
 			                    <div style="display: flex; border: 3.5px #dc3545 solid; border-radius: 1rem; padding: 1rem; margin: 0.5rem" >
 			                        <div style="display: flex; flex-direction: column;" class="col-10">
 			                        	<c:if test="${m.meetingPeopleNum eq m.meetingCurrentCount}">
@@ -189,86 +148,3 @@
 							</c:forEach>
                     	</c:otherwise>
                     </c:choose>
-                    </div>
-                    <div>
-                        <%-- <button class="btn btn-danger" onclick="location.assign('${path}/meetting/meettingmanage.do')">관리</button> --%>
-
-                    </div>
-                    <script type="text/javascript">
-
-						
-
-
-						var jo_memberNo=0;
-						var jo_membertingNo=0
-                    	function f_meettingjoin(a,b) {
-                    		jo_memberNo=a;
-                    		jo_membertingNo=b
-
-							
-							
-							
-                    		 
-								
-							}
-							function f_finalmeetingjoin() {
-								// var jo_meetingNo=$("meetingNo").val();
-								// var jo_memberNo=$("memberNo").val();
-								// console.log(jo_meetingNo);
-								// console.log(jo_memberNo);
-								console.log("마지막 값"+jo_memberNo);
-								console.log("마지막 값"+jo_membertingNo);
-
-                    			window.location.replace("/meetting/meettingjoin.do?memberNo="+jo_memberNo+"&meetingNo="+jo_membertingNo);
-
-                    		} 
-							
-							
-							
-							function area_Fn(value) {
-								console.log("테스트");
-								console.log(value);
-								$.ajax({
-									url : '${path}/meeting/areaMeeting.do',
-									type : "POST",
-									data : {
-										area : value
-									},
-									async : true,
-									dataType : "html",
-									success : function(data){
-										console.log(data);
-										console.log("성공");
-										$("#meetingList").html(data)
-									},
-									 error:function(request,status,error){
-										 alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-									    },
-								})
-							
-							}
-						
-                    		
-							
-						
-                    </script>
-
-                    <!-- Button trigger modal -->
-  
-  
-                    
-                   
-                    
-                </div>
-         
-               
-              
-<jsp:include page="/WEB-INF/views/common/footer.jsp"/>
-
-
-<script>
-    function chat(){
-        url : "${path}/"
-    }
-
-</script>

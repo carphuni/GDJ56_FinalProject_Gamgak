@@ -14,6 +14,6 @@ public class SendMessage {
 	private String sender;
 	private String reciever;
 	private String msg;
-	private String room;
+	private int room;
 
 }
