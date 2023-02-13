@@ -2,6 +2,9 @@
 pageEncoding="UTF-8"%> <%@taglib prefix="c"
 uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/views/common/adminheader.jsp" />
+<!-- psh_css -->
+<link rel="stylesheet" type="text/css" href="${path }/resources/css/psh_css/psh.css" >
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@alphardex/aqua.css/dist/aqua.min.css" >
 <c:set var="path" value="${pageContext.request.contextPath }" />
 <c:set
   var="loginMember"
@@ -46,14 +49,6 @@ uri="http://java.sun.com/jsp/jstl/core" %>
           <i class="search-icon"></i>
         </button>
       </div>
-
-      <div id="orderbox">
-        <select id="order">
-          <option value="">공유Y</option>
-          <option value="">공유N</option>
-        </select>
-      </div>
-    </div>
     <!-- 리스트 -->
     <input type="hidden" value="${no}" id="no" />
     <div id="myresBox">
