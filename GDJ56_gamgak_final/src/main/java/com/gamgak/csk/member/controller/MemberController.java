@@ -163,7 +163,11 @@ public class MemberController {
 		   return "redirect:/";
 	 }
 	 
-   
+	   @RequestMapping("/member/updatePassword")
+	   public String updatepassword(){
+	       
+	       return "csk_member/findPassword";
+	   }
 
 
 }
