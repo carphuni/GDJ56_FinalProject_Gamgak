@@ -7,7 +7,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
   var="loginMember"
   value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"
 />
-<style>
+<!-- <style>
     th {
   text-align: center;
   background-color: #dc354675;
@@ -151,7 +151,7 @@ tr {
 .modal-body {
   display: flex;
   flex-direction: column;
-}
+} -->
 
 </style>
 <div id="profile-wrapper">
@@ -193,14 +193,15 @@ tr {
           <i class="search-icon"></i>
         </button>
       </div>
-    <!-- 리스트 -->
-    <input type="hidden" value="${no}" id="no" />
-    <div id="myresBox">
-      <table id="myresList"></table>
-      <div id="pageBar"></div>
     </div>
-    <hr class="sep" />
-    <hr class="sep" />
+     <!-- 리스트 -->
+     <input type="hidden" value="${no}" id="no" />
+     <div id="myresBox">
+       <table id="myresList"></table>
+       <div id="pageBar"></div>
+     </div>
+     <hr class="sep" />
+     <hr class="sep" />
   </section>
 </div>
 <script>

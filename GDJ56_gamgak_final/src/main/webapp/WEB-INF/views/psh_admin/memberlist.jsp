@@ -244,15 +244,16 @@ uri="http://java.sun.com/jsp/jstl/core" %>
             tr2.append($("<td>").text(v.MEMBER_NICKNAME));
             let enrolldate = v.MEMBER_ENROLLDATE;
             tr2.append($("<td>").text(enrolldate.slice(0, 10)));
-            // a.attr(
-            //   "href",
-            //   "http://localhost:9090/admin/myresview.do?no=" + v.MEMBER_NO
-            // ).text(v.MYRES_CNT);
             a.attr(
               "href",
-              "http://gd1class.iptime.org:9999/GDJ56_gamgak_final/admin/myresview.do?no=" +
+              "http://localhost:9090/GDJ56_gamgak_final/admin/myresview.do?no=" +
                 v.MEMBER_NO
             ).text(v.MYRES_CNT);
+            // a.attr(
+            //   "href",
+            //   "http://gd1class.iptime.org:9999/GDJ56_gamgak_final/admin/myresview.do?no=" +
+            //     v.MEMBER_NO
+            // ).text(v.MYRES_CNT);
             tr2.append($("<td>").append(a));
             tr2.append($("<td>").text(v.REPORT_CNT));
             tr2.append($("<td>").text(v.AUTHORITY_YN));
