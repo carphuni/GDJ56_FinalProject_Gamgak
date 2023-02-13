@@ -7,6 +7,7 @@ function rankingList(data){
 	if(data.length<5){
 		num=data.length;
 	}
+	console.log(num)
 	//1~5위 출력
 	for(var i=0;i<num;i++){
 		const $div=$("<div>").css({"display":"flex","padding":"10px"});
@@ -30,23 +31,24 @@ function rankingList(data){
 		$("#topten2").append($div);
 	}
 	//1~5위 순위변동 출력
+	console.log(num)
 	for(var i=0;i<num;i++){
 		if(data[i].YES_RANK==null||data[i].YES_RANK>10){
 			const $p=$("<p>").css("color","#F2CB61");
 			$p.text("N");
-			$("#change2").append($p);
+			$("#change1").append($p);
 		}else if(data[i].TO_RANK<data[i].YES_RANK){
 			const $p=$("<p>").css("color","#dc3545");
 			$p.text("▲"+" "+String(data[i].YES_RANK-data[i].TO_RANK));
-			$("#change2").append($p);
+			$("#change1").append($p);
 		}else if(data[i].TO_RANK==data[i].YES_RANK){
 			const $p=$("<p>").css("font-weight","bold");
 			$p.text("-");
-			$("#change2").append($p);
+			$("#change1").append($p);
 		}else if(data[i].TO_RANK>data[i].YES_RANK){
 			const $p=$("<p>").css("color","rgb(99, 155, 230)");
 			$p.text("▼"+" "+String(data[i].TO_RANK-data[i].YES_RANK));
-			$("#change2").append($p);
+			$("#change1").append($p);
 		}
 	}
 	//6~10위 순위변동 출력
@@ -54,19 +56,19 @@ function rankingList(data){
 		if(data[i].YES_RANK==null||data[i].YES_RANK>10){
 			const $p=$("<p>").css("color","#F2CB61");
 			$p.text("N");
-			$("#change1").append($p);
+			$("#change2").append($p);
 		}else if(data[i].TO_RANK<data[i].YES_RANK){
 			const $p=$("<p>").css("color","#dc3545");
 			$p.text("▲"+" "+String(data[i].YES_RANK-data[i].TO_RANK));
-			$("#change1").append($p);
+			$("#change2").append($p);
 		}else if(data[i].TO_RANK==data[i].YES_RANK){
 			const $p=$("<p>").css("font-weight","bold");
 			$p.text("-");
-			$("#change1").append($p);
+			$("#change2").append($p);
 		}else if(data[i].TO_RANK>data[i].YES_RANK){
 			const $p=$("<p>").css("color","rgb(99, 155, 230)");
 			$p.text("▼"+" "+String(data[i].TO_RANK-data[i].YES_RANK));
-			$("#change1").append($p);
+			$("#change2").append($p);
 		}
 	}
 	

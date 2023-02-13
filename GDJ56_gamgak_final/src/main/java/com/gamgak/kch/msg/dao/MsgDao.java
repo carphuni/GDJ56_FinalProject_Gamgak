@@ -21,7 +21,7 @@ public interface MsgDao {
 	List<Map> selectMsgList(Map pram);
 
 	//페이징
-	@Select("SELECT COUNT(*) FROM ENTERCHAT WHERE MEMBER_NO=#{loginMemberNo}")
+	@Select("SELECT COUNT(*) FROM ENTERCHAT WHERE MEMBER_NO=#{loginMemberNo} AND MEETING_NO IS NULL AND CHAT_OUT_YN IS NULL")
 	int selectMsgCount(int loginMemberNo);
 	
 	//채팅 대화목록
@@ -53,7 +53,7 @@ public interface MsgDao {
 	int enterchatInsert(int loginMemberNo, int chatRoomNo);
 	
 	//친구 대화방참여에 추가
-	@Insert("INSERT INTO ENTERCHAT VALUES(#{memberNo}, NULL, #{chatRoomNo}, NULL)")
+	@Insert("INSERT INTO ENTERCHAT VALUES(#{memberNo}, NULL, #{chatRoomNo}, NULL, NULL, SYSDATE)")
 	int enterchatFriend(int memberNo, int chatRoomNo);
 	
 	//나가기버튼 enterchat 수정

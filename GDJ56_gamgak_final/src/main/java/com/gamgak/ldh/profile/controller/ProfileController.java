@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,7 @@ import com.gamgak.csk.member.model.entity.Member;
 import com.gamgak.jjh.meeting.model.vo.Meeting;
 import com.gamgak.ldh.profile.model.service.ProfileService;
 import com.gamgak.ldh.profile.model.vo.MyPic;
+import com.gamgak.ldh.profile.model.vo.MyPicList;
 import com.gamgak.ldh.profile.model.vo.MyRes;
 
 import lombok.extern.slf4j.Slf4j;
@@ -90,15 +92,18 @@ public class ProfileController {
 		//페이지 관련 변수 선언
 		int numPerpage=8;
 		//내 맛집 조회
-		List<MyRes> myResList=service.selectMyResAll(Map.of("memberNo",memberNo,"cPage",cPage,"numPerpage",numPerpage));
+		List<Map> myResList=service.selectMyResAll(Map.of("memberNo",memberNo,"cPage",cPage,"numPerpage",numPerpage));
+		List<MyPicList> myPicList=service.selectMyResMyPic(memberNo);
+		log.debug("사진 조회{}",myPicList);
 		String myResNos="";
 		for(int i=0;i<myResList.size();i++) {
-			if(i==0)myResNos+=myResList.get(i).getMyResNo();
-			else myResNos+=","+myResList.get(i).getMyResNo();
+			if(i==0)myResNos+=((MyRes)(myResList.get(i))).getMyResNo();
+			else myResNos+=","+((MyRes)(myResList.get(i))).getMyResNo();
 		}
 		log.debug(myResNos);
 		log.debug("{}",myResList);
 		mv.addObject("myResList", myResList);
+		mv.addObject("myPicList", myPicList);
 		mv.addObject("cPage",cPage);
 		mv.addObject("myResNos",myResNos);
 		mv.setViewName("ldh_profile/profileCardTemplate");
@@ -113,13 +118,15 @@ public class ProfileController {
 		//페이지 관련 변수 선언
 		int numPerpage=8;
 		//내 맛집 조회
-		List<MyRes> myResList=service.selectMyResArea(Map.of("memberNo",memberNo,"cPage",cPage,"numPerpage",numPerpage,"area",area));
+		List<Map> myResList=service.selectMyResArea(Map.of("memberNo",memberNo,"cPage",cPage,"numPerpage",numPerpage,"area",area));
+		List<MyPicList> myPicList=service.selectMyResMyPic(memberNo);
 		String myResNos="";
 		for(int i=0;i<myResList.size();i++) {
-			if(i==0)myResNos+=myResList.get(i).getMyResNo();
-			else myResNos+=","+myResList.get(i).getMyResNo();
+			if(i==0)myResNos+=((MyRes)(myResList.get(i))).getMyResNo();
+			else myResNos+=","+((MyRes)(myResList.get(i))).getMyResNo();
 		}
 		mv.addObject("myResList", myResList);
+		mv.addObject("myPicList", myPicList);
 		mv.addObject("cPage",cPage);
 		mv.addObject("myResNos",myResNos);
 		mv.setViewName("ldh_profile/profileCardTemplate");
@@ -134,13 +141,15 @@ public class ProfileController {
 		//페이지 관련 변수 선언
 		int numPerpage=8;
 		//내 맛집 조회
-		List<MyRes> myResList=service.selectMyResTitle(Map.of("memberNo",memberNo,"cPage",cPage,"numPerpage",numPerpage,"search",search));
+		List<Map> myResList=service.selectMyResTitle(Map.of("memberNo",memberNo,"cPage",cPage,"numPerpage",numPerpage,"search",search));
+		List<MyPicList> myPicList=service.selectMyResMyPic(memberNo);
 		String myResNos="";
 		for(int i=0;i<myResList.size();i++) {
-			if(i==0)myResNos+=myResList.get(i).getMyResNo();
-			else myResNos+=","+myResList.get(i).getMyResNo();
+			if(i==0)myResNos+=((MyRes)(myResList.get(i))).getMyResNo();
+			else myResNos+=","+((MyRes)(myResList.get(i))).getMyResNo();
 		}
 		mv.addObject("myResList", myResList);
+		mv.addObject("myPicList", myPicList);
 		mv.addObject("cPage",cPage);
 		mv.addObject("myResNos",myResNos);
 		mv.setViewName("ldh_profile/profileCardTemplate");
@@ -213,6 +222,31 @@ public class ProfileController {
 		service.insertMyRes(param);
 		
  		return "redirect:/profile/";
+	}
+	
+	//맛집 삭제
+	@ResponseBody
+	@RequestMapping("/deletetMyres")
+	public String deletetMyres(HttpSession httpSession, @RequestParam Map param) { 
+		List<String> reNameFile=service.selectReNameFile(param);
+		//파일 삭제
+		//파일 경로 선언
+		String path=httpSession.getServletContext().getRealPath("/resources/upload/myres/");
+		
+		for(String fileName : reNameFile) {
+			File file=new File(path+fileName);
+			System.out.println(file);
+			if(file.exists()) {
+				file.delete();
+			}
+		}
+		int result=service.deleteMyRes(param);
+		
+		if(result>0) {
+			return "게시물을 성공적으로 삭제했습니다";
+		}else{
+			return "게시물 삭제에 실패했습니다";
+		}
 	}
 
 	
