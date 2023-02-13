@@ -53,8 +53,8 @@
                     </a>
                     <a class="nav-link active" aria-current="page" href="${path }/msg/friend.do">
                         <i class="fa-solid fa-user-group position-relative">
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.3rem;">
-                                99+
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="friendCount" style="font-size: 0.3rem;">
+                                
                                 <span class="visually-hidden">unread messages</span>
                             </span>
                         </i>
@@ -78,7 +78,7 @@
                         <i class="fa-solid fa-bars"></i><span>더 보기</span>
                     </div>
                     <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#">설정</a></li>
+                      <li><a class="dropdown-item" href="${path }/member/myinfo">설정</a></li>
                       <li><hr class="dropdown-divider"></li>
                       <li><a class="dropdown-item" href="#">로그아웃</a></li>
                     </ul>
@@ -124,7 +124,7 @@
             <form id="insertModal-body" class="modal-body" action="${path }/profile/insertmyres.do" enctype="multipart/form-data" method="post">
                <a id="insertMyResImage" onclick="$('#mypic').click();" class="col-sm-6">
                   <div>
-                     <img src="${path }/resources/images/프로필 기본 이미지.jpg" style="width: 5rem"/>
+                     <img src="${path }/resources/images/이미지 추가.png" style="width: 5rem"/>
                      <p style="">클릭하여 이미지 추가</p>
                   </div>
                </a>
@@ -183,12 +183,12 @@
             <section>
  
 <script>
-	//안읽은 메세지 수
  	(() => {
+ 		//안읽은 메세지 수
 		$.ajax({
 			url:"${path}/msg/unreadCount.do",
 			data:{
-				"loginMemberNo":${loginMember.memberNo},
+				"loginMemberNo":${loginMember.memberNo}
 			},
 			success:data=>{
 				console.log(data);
@@ -198,6 +198,21 @@
 					$("#unreadChat").text(0);
 				}
 				
+			}
+		})
+		
+		//친구신청 수
+		$.ajax({
+			url:"${path}/friend/friendCount.do",
+			data:{
+				"loginMemberNo":${loginMember.memberNo}
+			},
+			success:data=>{
+				if(data!=null){
+					$("#friendCount").text(data);
+				}else{
+					$("#friendCount").text(0);
+				}
 			}
 		})
 	})(); 

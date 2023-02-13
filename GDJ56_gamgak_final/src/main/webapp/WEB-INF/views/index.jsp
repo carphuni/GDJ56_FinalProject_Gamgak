@@ -86,7 +86,7 @@
                     <div id="colLine"></div>
                     <a><span>이메일 찾기</span></a>
                     <div id="colLine"></div>
-                    <a><span>비밀번호 찾기</span></a>
+                    <a href="${path }/findPasswordEmail"><span>비밀번호 찾기</span></a>
                 </div>
                 <div id="rowLine"></div>
             </div>

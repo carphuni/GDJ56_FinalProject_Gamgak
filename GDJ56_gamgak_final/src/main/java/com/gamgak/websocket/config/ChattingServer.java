@@ -65,13 +65,21 @@ public class ChattingServer extends TextWebSocketHandler{
 	    
 	    private void addClient(WebSocketSession session, ChatHandler msg) throws IOException{
 	    	//System.out.println("접속");
+	    	System.out.println("add"+msg);
 			session.getAttributes().put("info", msg);
 			sessionMap.put(msg.getMemberSender(), session);
 			SendMessage adminmsg=new SendMessage("system","","",msg.getMemberSender()+"가 접속했습니다.",msg.getMeetingNo());
 			//ObjectMapper mapper=new ObjectMapper();
 			for(String id:sessionMap.keySet()) {
 				WebSocketSession client=sessionMap.get(id);
-				client.sendMessage(new TextMessage(mapper.writeValueAsString(adminmsg)));
+				ChatHandler clientInfo=(ChatHandler)client.getAttributes().get("info");
+				System.out.println(clientInfo);
+				if(msg.getPersonalChatroomNo()==clientInfo.getPersonalChatroomNo()) {
+		            client.sendMessage(new TextMessage(mapper.writeValueAsString(adminmsg)));
+		            System.out.println("addclient_소켓세션!"+client);
+		            }
+				//client.sendMessage(new TextMessage(mapper.writeValueAsString(adminmsg)));
+				//System.out.println("소켓세션!"+client);
 			}
 			deleteClient();
 		}
@@ -128,7 +136,12 @@ public class ChattingServer extends TextWebSocketHandler{
 				WebSocketSession client=sessionMap.get(id);
 				System.out.println("1대1 메세지 : "+msg);
 				System.out.println("1대1"+client);
-				client.sendMessage(new TextMessage(mapper.writeValueAsString(msg)));
+				ChatHandler clientInfo=(ChatHandler)client.getAttributes().get("info");
+				
+				if(msg.getPersonalChatroomNo()==clientInfo.getPersonalChatroomNo()) {
+					client.sendMessage(new TextMessage(mapper.writeValueAsString(msg)));
+					
+		        }
 			}
 			
 		}

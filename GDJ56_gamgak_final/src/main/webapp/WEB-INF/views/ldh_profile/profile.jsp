@@ -35,8 +35,8 @@
                         
                         <div id="info">
                             <div id="info-1">
-                                <span><c:out value="${loginMember.memberEmail}"/></span>
-                                <button id="edit-profile" type="button" class="btn btn-danger">프로필 편집</button>
+                                <span><c:out value="${loginMember.memberNickName}"/></span>
+                                <button id="edit-profile" type="button" class="btn btn-danger" onclick="location.href='${path }/member/myinfo'">프로필 편집</button>
                                 
                             </div>
                             <div id="info-2" >
@@ -257,7 +257,7 @@
                                 
 
                             </div>
-                            <div id="info-3"><c:out value="${loginMember.memberNickName}"/></div>
+                            <div id="info-3"><c:out value="${loginMember.memberName}"/></div>
                             <div id="info-d4">
                                 <span><c:out value="${loginMember.introduce}"/></span>
                             </div>
@@ -268,9 +268,9 @@
                             <div id="settingModal-dialog" class="modal-dialog modal-dialog-centered">
 	                            <div class="modal-content">
 	                                <div id="setting-modal-list" class="list-group">
-									  <a href="#" class="list-group-item list-group-item-action">비밀번호 변경</a>
-									  <a href="#" class="list-group-item list-group-item-action">프로필 편집</a>
-									  <a href="#" class="list-group-item list-group-item-action">로그아웃</a>
+									  <a href="${path }/member/passwordUpdate" class="list-group-item list-group-item-action">비밀번호 변경</a>
+									  <a href="${path }/member/myinfo" class="list-group-item list-group-item-action">프로필 편집</a>
+									  <a href="${path }/logout.do" class="list-group-item list-group-item-action">로그아웃</a>
 									  <a href="#" class="list-group-item list-group-item-action" data-bs-dismiss="modal">취소</a>
 									</div>
 	                            </div>
@@ -323,5 +323,5 @@
 					</div>
                 </div>
 <script src="${path}/resources/js/myRes.js"></script> 
-<script src="${path}/resources/js/mainProfile.js"></script>               
+            
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
