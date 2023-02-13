@@ -72,6 +72,29 @@ public class ProfileController {
 		return mv;
 	}
 	
+	//다른 유저 프로필 화면 
+	@RequestMapping("/user")
+	public ModelAndView profileUser(ModelAndView mv,@RequestParam Map param) {
+		//Session에 저장된 회원 pk 가져오기
+		int memberNo=(int)(param.get("loginMemberNo"));
+		//저장한 맛집 카운트 가져오기
+		mv.addObject("myResCount", service.selectMyResCount(memberNo));
+		//친구 카운트 가져오기
+		mv.addObject("friendCount", service.selectFriendCount(memberNo));
+		//모임 카운트 가져오기
+		mv.addObject("meetingCount", service.selectMeetingCount(memberNo));
+		
+		//로그인한 모임 정보 가져오기-jjh
+		mv.addObject("meetinginfo",service.selectMeetingInfo(memberNo));
+		List<Meeting> mee =service.selectMeetingInfo(memberNo);
+		System.out.println(mee);
+		
+		//프로필 화면 jsp
+   	 	mv.setViewName("ldh_profile/profile");
+   	 	
+		return mv;
+	}
+	
 	//모임 참여 신청 리스트 불러오기 --jjh
 	@RequestMapping("meeting/signuplist.do")
 	@ResponseBody
