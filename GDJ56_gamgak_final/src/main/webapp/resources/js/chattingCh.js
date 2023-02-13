@@ -5,28 +5,56 @@ function addMsgSystemCh(msg){
 
 //실시간 채팅 출력
 function printMsgCh(myId,msg){
+	//신고버튼
+//	const reportF=$("<button>").attr("class","reportF");
+//	reportF.text("신고");
+//	$("#chatHeader").append(reportF);
+	
+	
+	
     const $p=$("<p>");
+    //대화내용
     $p.text(`${msg.chattingContent}`);
+    //시간
+    let chattingEnrollDate=msg.chattingEnrollDate
+    console.log(chattingEnrollDate);
     if(myId==msg.memberSender){
 		const $divRr=$("<div>").attr("id","modal_sender");
 		const $divR=$("<div>").attr("id","modal_msg_text_r");
+		const $divTr=$("<div>").attr("id","modal_msg_time_r");
+		const $divRead=$("<div>").attr("id","modal_msg_read_r");		
 		$divR.append($p);
+		if(msg.chattingUnreadCnt==1){
+			$divRead.text(msg.chattingUnreadCnt);
+		}		
+		$divTr.text(chattingEnrollDate.substr(11,5));
+		$divRr.append($divRead);
+		$divRr.append($divTr);
 		$divRr.append($divR);
 		$("#chat").append($divRr);
 
 	}else{
 		const $div=$("<div>").attr("id","chat_img");
 		const $divSs=$("<div>").attr("id","modal_receiver");
-	    const $img=$("<img>").attr("id","modal_msg_profile").attr("src","/resources/images/프로필 기본 이미지.jpg");
-	    const $divmsg=$("<div>").attr("id","modal_name_msg");
+		const $img=$("<img>").attr("id","modal_msg_profile").attr("src","/resources/images/프로필 기본 이미지.jpg");
+		const $divmsg=$("<div>").attr("id","modal_name_msg");
 	    const $divN=$("<div>").attr("id","modal_nickname");
 	    const $divS=$("<div>").attr("id","modal_msg_text_s");
+	    const $divTs=$("<div>").attr("id","modal_msg_time_s");
+	    const $divT=$("<div>").attr("id","modal_msg_t");
+	    const $divReadS=$("<div>").attr("id","modal_msg_read_s");
+	    const $divTR=$("<div>").attr("id","modal_msg_TR_s");
 	    const $b=$("<b>");
 		$b.text(`${msg.memberSender}`);
 		$divN.append($b);
 		$divS.append($p);
+		$divTs.text(chattingEnrollDate.substr(11,5));
+		$divTR.append($divReadS);
+		$divTR.append($divTs);	
+		$divT.append($divS);
+		$divT.append($divTR);			
 		$divmsg.append($divN);
-		$divmsg.append($divS);
+		$divmsg.append($divT);
 		$div.append($img);
 		$divSs.append($div);
 		$divSs.append($divmsg);

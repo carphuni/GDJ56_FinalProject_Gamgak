@@ -74,14 +74,14 @@ public class FriendChattingServer extends TextWebSocketHandler{
 				WebSocketSession client=sessionMap.get(id);
 				ChatHandler clientInfo=(ChatHandler)client.getAttributes().get("info");
 				System.out.println(clientInfo);
-				if(msg.getPersonalChatroomNo()==clientInfo.getPersonalChatroomNo()) {
+				if(client.isOpen()&&msg.getPersonalChatroomNo()==clientInfo.getPersonalChatroomNo()) {
 		            client.sendMessage(new TextMessage(mapper.writeValueAsString(adminmsg)));
 		            System.out.println("addclient_소켓세션!"+client);
 		            }
 				//client.sendMessage(new TextMessage(mapper.writeValueAsString(adminmsg)));
 				//System.out.println("소켓세션!"+client);
 			}
-			deleteClient();
+			//deleteClient();
 		}
 		
 	    private void deleteClient() {
@@ -125,6 +125,10 @@ public class FriendChattingServer extends TextWebSocketHandler{
 			//sessionMap.remove(session.getId());
 			//super.afterConnectionClosed(session, status);
 			log.debug("{}"+"해제");
+			ChatHandler clientInfo=(ChatHandler)session.getAttributes().get("info");
+			if(session.getId().equals(sessionMap.get(clientInfo.getMemberSender()).getId())) {
+				sessionMap.remove(clientInfo.getMemberSender());
+			}
 	    }
 
 

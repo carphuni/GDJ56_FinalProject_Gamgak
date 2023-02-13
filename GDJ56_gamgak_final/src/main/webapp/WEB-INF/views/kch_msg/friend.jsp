@@ -213,7 +213,8 @@
 			},
 			success:data=>{
 				$(e.target).text("채팅");
-				$(e.target).attr("class","chatF");				
+				$(e.target).attr("class","chatF");		
+				location.reload();
 			}
 		})
 	});
