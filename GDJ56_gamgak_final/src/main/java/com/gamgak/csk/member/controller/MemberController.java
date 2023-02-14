@@ -1,6 +1,8 @@
 package com.gamgak.csk.member.controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gamgak.csk.member.model.entity.Member;
@@ -36,6 +40,12 @@ public class MemberController {
       this.mailservice = mailservice;
       this.passwordEncoder = passwordEncoder;
    }
+	//로그인 멤버의 멤버번호 가져오는 메소드
+	private Member getMember() {
+		Object principal=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Member user=(Member)principal;
+		return user;
+	}
    
 //   @RequestMapping("/login")
 ////   @ResponseBody
@@ -128,10 +138,9 @@ public class MemberController {
 	   int result = service.updateMember(param);
 	   
 	   if(result>0) {
-		   mv.addObject("updateMessage","회원정보를 변경했습니다. 다시 로그인해 주세요.");
+		   SecurityContextHolder.getContext().setAuthentication(null); //로그인 세션 날리기
 		   mv.setViewName("index");
 	   } else {
-		   mv.addObject("updateMessage","회원정보를 변경하는데 실패했습니다. 다시 시도해주세요.");
 		   mv.setViewName("csk_member/myInfo");
 	   }
 	   System.err.println(param);
@@ -148,13 +157,12 @@ public class MemberController {
    
 	 @RequestMapping("/sendPasswordEmail")
 	 public String sendPasswordEmail(@RequestParam("memberEmail") String memberEmail, Member member) throws Exception{
-		   //1. 멤버 이메일 찾고 거기에 비밀번호 업데이트 하기
 		   member=service.selectMemberByEmail(memberEmail);
 		   log.debug("이메일찾은 m {}",member);
 		   String passwordCode=mailservice.sendPasswordEmail(memberEmail);
 		   System.err.println("인증코드 : "+passwordCode);
 		   log.debug("임시비밀번호 m {}",member);
-		   member.setMemberPassword(passwordCode); //전달받은 pwCode 저장
+		   member.setMemberPassword(passwordCode);
 		   int result=service.updatePassword(member);
 		   String encodePassword=passwordEncoder.encode(member.getPassword());
 		   member.setMemberPassword(encodePassword);
@@ -163,11 +171,129 @@ public class MemberController {
 		   return "redirect:/";
 	 }
 	 
-	   @RequestMapping("/member/updatePassword")
+	   @RequestMapping("/member/passwordUpdate")
 	   public String updatepassword(){
-	       
-	       return "csk_member/findPassword";
+	       return "csk_member/updatePassword";
 	   }
-
+	   
+	   @RequestMapping("/member/checkPassword")
+	   @ResponseBody
+	   public boolean checkPassword(String memberPassword, Member member) {
+		   String pw=service.checkPassword(getMember().getMemberNo());
+		   log.debug("memberPassword : {}",memberPassword); 
+		   log.debug("인코딩된 : {}",pw); 
+		   log.debug("기존pw 체크 로그인 멤버 {}",getMember());
+		   log.debug("memberPassword 인코딩 비교 {}",passwordEncoder.matches(memberPassword,pw));
+			if(getMember()==null || !passwordEncoder.matches(memberPassword,pw)) {
+				return false;
+			}
+			return true;
+	   }
+	  
+	   @RequestMapping("/member/updateNewPw")
+	   public ModelAndView updateNewPassword(@RequestParam("memberNewPassword") String memberNewPassword, Member member, ModelAndView mv) {
+		   log.debug("memberNewPassword: {}",memberNewPassword);
+		   String newPassword=passwordEncoder.encode(memberNewPassword);
+		   member=getMember();
+		   member.setMemberPassword(newPassword);
+		   int result=service.updatePassword(member);
+		   if(result>0) {
+			   log.debug("비밀번호 변경 시 로그인 멤버 {}",member);
+			   SecurityContextHolder.getContext().setAuthentication(null); //로그인 세션 날리기
+			   mv.setViewName("index");
+		   } else {
+			   mv.setViewName("csk_member/updatePassword");
+		   }
+		   return mv;
+	   }
+	   
+	   //프로필 이미지 업로드(update)
+	   @RequestMapping("/member/changeProfileImg")
+	   @ResponseBody
+	   public Map changeProfileImg(HttpSession session, Map param , @RequestParam("profileOriName") MultipartFile file) {
+		   int memberNo=getMember().getMemberNo();
+		   param.put("memberNo", memberNo);
+		   String path=session.getServletContext().getRealPath("/resources/upload/profileImg/");
+		   File dir=new File(path);
+		   if(!dir.exists()) dir.mkdirs();
+		   
+		   String profileReName=service.selectFileReName(memberNo);
+		   String profileOriName="";
+		   if(!profileReName.equals("없음")) {
+			   //삭제하는 구문
+			   File f=new File(path+profileReName);
+				System.out.println(file);
+				if(f.exists()) {
+					f.delete();
+				}
+		   }
+		   
+			//업로드 후 파일 담을 리스트
+			if(!file.isEmpty()) {
+				profileOriName=file.getOriginalFilename();
+				String ext = profileOriName.substring(profileOriName.lastIndexOf("."));
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+				int rnd=(int)(Math.random()*10000)+1;
+				profileReName=sdf.format(System.currentTimeMillis())+"_"+rnd+ext;
+				
+				try {
+					file.transferTo(new File(path+profileReName));
+					param.put("profileOriName", profileOriName);
+					param.put("profileReName", profileReName);
+					log.debug("map {}",param);
+					
+					
+					
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+			int result=service.updateProfileImg(param);
+			String msg="";
+			if(result>0) {
+				msg="프로필 사진을 변경했습니다.";
+				getMember().setProfileOriName(profileOriName);
+				getMember().setProfileReName(profileReName);
+			}
+				
+			else msg="프로필 사진 변경을 실패했습니다.";
+			Map data=Map.of("msg",msg,"profileReName",profileReName);
+		   return data;
+	   }
+	   
+	   @RequestMapping("/member/deleteProfileImg")
+	   @ResponseBody
+	   public String deleteProfileImg(HttpSession session, Map param) {
+		   int memberNo=getMember().getMemberNo();
+		   param.put("memberNo", memberNo); //1. 로그인한 멤버 pk 찾기
+		   String path=session.getServletContext().getRealPath("/resources/upload/profileImg/");
+		   
+		   String profileReName=service.selectFileReName(memberNo); //pk의 프로필 이미지를 변수에 저장 -> delete
+		   
+		   
+		   
+		   File file=new File(path+profileReName);
+		   if(file.exists()) {
+			   file.delete(); //서버에서 파일 지우기 -> db에서 파일 지우고 -> '없음' 으로 업데이트!
+		   }
+		   
+		   profileReName="없음";
+		   param.put("profileReName", profileReName);
+		   System.err.println("param" + param);
+		   
+		   
+		   int result=service.resetProfileImg(memberNo);//dB에서 파일 지우기
+		   System.err.println("db에서 파일 지우고난 후 result : " + result);
+		   
+			if(result>0) {
+				getMember().setProfileOriName("없음");
+				getMember().setProfileReName("없음");
+				return "프로필 이미지를 초기화했습니다";
+			}else{
+				return "프로필 이미지 초기화에 실패했습니다";
+			}
+		   
+	   
+	   }
 
 }

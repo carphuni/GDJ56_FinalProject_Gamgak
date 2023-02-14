@@ -29,14 +29,61 @@
 		                            <div class="modal-content">
 		                                <div id="img-modal-list" class="list-group">
 										  <div class="list-group-item list-group-item-action" style="padding: 1.5rem">프로필 사진 바꾸기</div>
-										  <a href="#" class="list-group-item list-group-item-action" style="color: #0d6efd">사진 업로드</a>
-										  <a href="#" class="list-group-item list-group-item-action" style="color:#dc3545">현재 사진 삭제</a>
+										  <a id="profileUp" class="list-group-item list-group-item-action" style="color: #0d6efd">사진 업로드</a>
+										  <input id="profileImgFile" type="file" style="display: none;"/>
+										  <a id="profileImgDel" class="list-group-item list-group-item-action" style="color:#dc3545">현재 사진 삭제</a>
 										  <a href="#" class="list-group-item list-group-item-action" data-bs-dismiss="modal">취소</a>
 										</div>
 		                            </div>
 	                            </div>
 	                        </div>
                         </c:if>
+                        
+                        <script>
+                                $("#profileUp").click(()=>{
+                                   $("#profileImgFile").click();
+                                })
+                                
+                                $("#profileImgFile").change((e)=>{
+                                	let form = new FormData();
+                                	let file = e.target.files[0];
+                                	form.append("profileOriName",file);
+                                	$.ajax({
+	                                    type: "post",
+	                                    url: "${path }/member/changeProfileImg",
+	                                    contentType: false,
+	                                    processData: false,
+	                                    enctype: "multipart/form-data",
+	                                    data: form,
+	                                    success: data=>{
+	                                    	console.log(data);
+	                                    	alert(data.msg);
+		                                	$("img#profile-img").attr("src","${path}/resources/upload/profileImg/"+data.profileReName);
+	                                    },
+	                                    error: function() {
+	                                        console.log('통신실패!!');
+	                                    }
+
+	                                 });
+                                });
+                                $("#profileImgDel").click(()=>{
+                                	$.ajax({
+	                                    type: "post",
+	                                    url: "${path }/member/deleteProfileImg",
+	                                    //data: {},
+	                                    success: data=>{
+	                                    	console.log(data);
+	                                    	alert(data.msg);
+		                                	$("img#profile-img").attr("src","${path}/resources/upload/profileImg/"+data.profileReName);
+	                                    },
+	                                    error: function() {
+	                                        console.log('통신실패!!');
+	                                    }
+
+	                                 });	
+                                	
+                                })
+                    	</script>
                         
                         <div id="info">
                             <div id="info-1">
