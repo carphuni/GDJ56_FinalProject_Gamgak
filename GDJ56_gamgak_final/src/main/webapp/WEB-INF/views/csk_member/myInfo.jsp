@@ -4,6 +4,7 @@
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <c:set var="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
+<link rel="stylesheet" type="text/css" href="${path }/resources/css/member.css">
 <style>
 div#profileInfo-wrapper span.guide{display:none;position:relative;} 
 	.ok{color:green}
@@ -28,9 +29,10 @@ div#profileInfo-wrapper span.guide{display:none;position:relative;}
 </style>
 	<div id="profileInfo-wrapper">
 		<div id="profile-menu">
-            <div><button>프로필 편집</button></div>
-            <div><button>비밀번호 변경</button></div>
-            <div><button>모임 관리</button></div>    
+            <div>
+	            <button onclick="loadPage('/member/info')">프로필 편집</button></div>
+	            <button onclick="loadPage('/member/passwordUpdate')">비밀번호 변경</button>
+            </div>    
         </div>
         <div id="verticalLine"></div>
         <form action="${path }/member/update" method="post" onsubmit="nickName_invalidate();">

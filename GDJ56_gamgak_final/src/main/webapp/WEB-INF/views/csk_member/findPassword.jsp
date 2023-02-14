@@ -20,62 +20,7 @@
     <script src="https://kit.fontawesome.com/d87d902b0c.js" crossorigin="anonymous"></script>
     <script src = "${path }/resources/js/jquery-3.6.1.min.js"></script>
 </head>
-<style>
-#home a{
-	width:100%;
-	background-color: white;
 
-	display: flex;
-	font-family: '맑은 고딕';
-	margin-left : 3rem;
-	margin-top : 2rem;
-	flex-direction : row;
-}
-#logo-img{
-    border-radius: 10%;
-    width: 3rem;
-    height: 3rem;
- 
-} 
-
-#findPassword-wrapper{
-	margin-top: 1rem;
-    width: 100%;
-    height: 80%;
-    min-height: 100dvh;
-    background-color: rgb(238, 238, 238);
-	text-align: center;
-	font-family: '맑은 고딕';
-}
-#password-form{
-	width : 40%;
-	height : 70%;
-    padding: 30px 80px;
-    display: inline-block;
-	text-align: center;
-    background-color: white;
-    border : 1px solid black;
-    margin-top: 5rem;
-}
-#text-form{
-	
-	padding:10px;
-    justify-content: center;
-    margin-top: 2rem;
-	
-}
-#text-form input{
-	width : 15rem;
-	margin-top: 1rem;
-}
-#password-form button{
-	width : 15rem;
-	margin-top: 1rem;
-	background-color: #dc3545;
-}
-
-
-</style>
 <div id="home">
 	<a href="${path}/">
 		<img id="logo-img" src="${path }/resources/images/로고.png" ><h3>감:각</h3>

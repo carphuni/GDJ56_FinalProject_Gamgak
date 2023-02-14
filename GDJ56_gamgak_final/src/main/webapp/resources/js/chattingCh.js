@@ -5,13 +5,7 @@ function addMsgSystemCh(msg){
 
 //실시간 채팅 출력
 function printMsgCh(myId,msg){
-	//신고버튼
-//	const reportF=$("<button>").attr("class","reportF");
-//	reportF.text("신고");
-//	$("#chatHeader").append(reportF);
-	
-	
-	
+	console.log(msg.profileOriname)
     const $p=$("<p>");
     //대화내용
     $p.text(`${msg.chattingContent}`);
@@ -36,7 +30,8 @@ function printMsgCh(myId,msg){
 	}else{
 		const $div=$("<div>").attr("id","chat_img");
 		const $divSs=$("<div>").attr("id","modal_receiver");
-		const $img=$("<img>").attr("id","modal_msg_profile").attr("src","/resources/images/프로필 기본 이미지.jpg");
+		const $img=$("<img>").attr("id","modal_msg_profile");
+		const $aimg=$("<a>").attr("href","/GDJ56_gamgak_final/profile/user?memberNo="+msg.memberReceiver);
 		const $divmsg=$("<div>").attr("id","modal_name_msg");
 	    const $divN=$("<div>").attr("id","modal_nickname");
 	    const $divS=$("<div>").attr("id","modal_msg_text_s");
@@ -55,7 +50,15 @@ function printMsgCh(myId,msg){
 		$divT.append($divTR);			
 		$divmsg.append($divN);
 		$divmsg.append($divT);
-		$div.append($img);
+		if(msg.profileRename!='없음'){
+			$img.attr("src","/GDJ56_gamgak_final/resources/images/"+msg.profileRename);
+		}else if(msg.profileOriname!='없음'){
+			$img.attr("src","/GDJ56_gamgak_final/resources/images/"+msg.profileOriname);
+		}else{
+			$img.attr("src","/GDJ56_gamgak_final/resources/images/프로필 기본 이미지.jpg");
+		}	
+		$aimg.append($img);
+		$div.append($aimg);
 		$divSs.append($div);
 		$divSs.append($divmsg);
 		$("#chat").append($divSs);
@@ -65,7 +68,7 @@ function printMsgCh(myId,msg){
 
 //채팅 목록 출력
 function selectMsgList(data,loginMemberNo){
-	//console.log(data)
+	console.log(data)
 	data.list.forEach(v => {
 		console.log(v)
 		let chattingEnrollDate=v.CHATTING_ENROLL_DATE
@@ -75,7 +78,7 @@ function selectMsgList(data,loginMemberNo){
 		const $a=$("<a href='#'>").attr({class:"chat_modal","id":v.PERSONAL_CHATROOM_NO,"data-bs-toggle":"modal","data-bs-target":"#exampleModal"});
 		const $divList=$("<div>").attr("id","list");
 		const $divImg=$("<div>").attr("id","divImg");
-		const $img=$("<img>").attr("id","modal_msg_profile").attr("src","/resources/images/프로필 기본 이미지.jpg");
+		const $img=$("<img>").attr("id","modal_msg_profile");
 		const $divNmct=$("<div>").attr("id","nmct");
 		const $divNameMsg=$("<div>").attr("id","name_msg");
 		const $divNickname=$("<div>").attr("id","nickname");
@@ -87,11 +90,30 @@ function selectMsgList(data,loginMemberNo){
 		const $divMsgOut=$("<div>").attr("id","msg_out_div");
 		const $msgOutBt=$("<button>").attr({"class":"msg_out_bt","value":v.PERSONAL_CHATROOM_NO,"data-bs-toggle":"modal","data-bs-target":"#outChatCheck"});
 		const $hidden=$("<input>").attr({"type":"hidden","class":"hidden"});
+		
 		$divImg.append($img);
+		//로그인회원 : 메세지 보낸사람이면 받는사람의 닉네임 출력
 		if(loginMemberNo!=v.MEMBER_RECEIVER_NO){
 			$b.text(v.MEMBER_NICKNAME_R);
+			//상대방의 프로필 없으면 기본이미지 출력
+			if(v.PROFILE_RENAME_R!='없음'){
+				$img.attr("src","/GDJ56_gamgak_final/resources/images/"+v.PROFILE_RENAME_R);
+			}else if(v.PROFILE_ORINAME_R!='없음'){
+				$img.attr("src","/GDJ56_gamgak_final/resources/images/"+v.PROFILE_ORINAME_R);
+			}else{
+				$img.attr("src","/GDJ56_gamgak_final/resources/images/프로필 기본 이미지.jpg");
+			}				
+		//받는사람이면 보낸사람의 닉네임 출력
 		}else{
 			$b.text(v.MEMBER_NICKNAME_S);
+			//상대방의 프로필 없으면 기본이미지 출력
+			if(v.PROFILE_RENAME_S!='없음'){
+				$img.attr("src","/GDJ56_gamgak_final/resources/images/"+v.PROFILE_RENAME_S);
+			}else if(v.PROFILE_ORINAME_S!='없음'){
+				$img.attr("src","/GDJ56_gamgak_final/resources/images/"+v.PROFILE_ORINAME_S);
+			}else{
+				$img.attr("src","/GDJ56_gamgak_final/resources/images/프로필 기본 이미지.jpg");
+			}			
 		}
 		$divNickname.append($b);
 		$pText.text(v.CHATTING_CONTENT);
@@ -106,8 +128,11 @@ function selectMsgList(data,loginMemberNo){
 		$divMsgTime.append($pTime);
 		$divCountTime.append($divSpan);
 		$divCountTime.append($divMsgTime);
-		$msgOutBt.text("나가기");
-		$divMsgOut.append($msgOutBt);
+		//관리자가 보낸 메세지는 나갈 수 없음
+		if(v.MEMBER_NO_S!=1){
+			$msgOutBt.text("나가기");
+			$divMsgOut.append($msgOutBt);			
+		}
 		$a.append($divImg);
 		$divNmct.append($divNameMsg);
 		$divNmct.append($divCountTime);		
@@ -127,7 +152,11 @@ function selectMsgList(data,loginMemberNo){
 
 
 //채팅방 들어갔을 때 기존 대화 출력
+
+	
+
 function msgRead(data,loginMemberNo,personalChatroomNo){
+	console.log(data)
 	  data.forEach(v => {
 		//대화내용
 	    const $p=$("<p>");
@@ -152,7 +181,8 @@ function msgRead(data,loginMemberNo,personalChatroomNo){
 		}else{
 			const $div=$("<div>").attr("id","chat_img");
 			const $divSs=$("<div>").attr("id","modal_receiver");
-		    const $img=$("<img>").attr("id","modal_msg_profile").attr("src","/resources/images/프로필 기본 이미지.jpg");
+		    const $img=$("<img>").attr("id","modal_msg_profile");
+		    const $aimg=$("<a>").attr("href","/GDJ56_gamgak_final/profile/user?memberNo="+v.MEMBER_SENDER_NO);
 		    const $divmsg=$("<div>").attr("id","modal_name_msg");
 		    const $divN=$("<div>").attr("id","modal_nickname");
 		    const $divS=$("<div>").attr("id","modal_msg_text_s");
@@ -171,15 +201,29 @@ function msgRead(data,loginMemberNo,personalChatroomNo){
 			$divT.append($divTR);			
 			$divmsg.append($divN);
 			$divmsg.append($divT);
-			$div.append($img);
+			if(v.PROFILE_RENAME!='없음'){
+				$img.attr("src","/GDJ56_gamgak_final/resources/images/"+v.PROFILE_RENAME);
+			}else if(v.PROFILE_ORINAME!='없음'){
+				$img.attr("src","/GDJ56_gamgak_final/resources/images/"+v.PROFILE_ORINAME);
+			}else{
+				$img.attr("src","/GDJ56_gamgak_final/resources/images/프로필 기본 이미지.jpg");
+			}	
+			$aimg.append($img);
+			$div.append($aimg);
 			$divSs.append($div);
 			$divSs.append($divmsg);
 			$("#chat").append($divSs);
 		}
+		
+		const $inputH=$("<input>").attr({"type":"hidden","id":"personalChatroomNo"});
+		$inputH.text(personalChatroomNo);
+		$("#modal_msg_send").append($inputH);
+		
+		
+   			$('#chat').scrollTop($('#chat')[0].scrollHeight);
+		//$('#chat').scrollTop($('#chat').prop('scrollHeight'));
+		
 	});
-	const $inputH=$("<input>").attr({"type":"hidden","id":"personalChatroomNo"});
-	$inputH.text(personalChatroomNo);
-	$("#modal_msg_send").append($inputH);
-	$('#chat').scrollTop($('#chat')[0].scrollHeight);
-	
+
 }
+

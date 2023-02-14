@@ -9,18 +9,6 @@
 <script src="${path}/resources/js/friend.js"></script>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@alphardex/aqua.css/dist/aqua.min.css" >
-<!-- 모임 -->
-<div id="meeting-wrapper">
-   <div id="meeting-item">
-      <a><img id="meeting-img" src="${path }/resources/images/플러스.png"></a>
-      <p>모임 이름</p>
-   </div>
-   <div id="meeting-item">
-      <a><img id="meeting-img" src="${path }/resources/images/임시 이미지03.jpg"></a>
-      <p>모임 이름</p>
-   </div>
-</div>
-
 <div id="profile-wrapper">
    <div id="modalClick">
 <!--       <p>user09</p>
@@ -162,17 +150,19 @@
 				},
 				success:data=>{
 					console.log(data);
+					$("#idSearch").empty();
 					friendSearch(data,loginMemberNo);
 				}
 			})
 		}
 	})
-	
+
 	//친구추가
 	$(document).on("click",".insertFriend",function(e){
 		const memberNo=e.target.nextSibling.defaultValue;
+		console.log(e)
 		$.ajax({
-			url:"${path}/friend/insertFriend.애",
+			url:"${path}/friend/insertFriend.do",
 			data:{
 				loginMemberNo:${loginMember.memberNo},
 				memberNo:memberNo
@@ -184,8 +174,29 @@
 			}
 		})
 	});
+
 	
-	//신청취소
+	//검색창 닫으면 신청대기버튼 class명 바꾸기
+    $('#searchFriendBt').on('hidden.bs.modal', function () {
+    	$(".cancleF").attr("class","cancleFa");
+   }) 
+	
+	//신청취소 (친구목록)
+	$(document).on("click",".cancleFa",function(e){
+		const memberNo=e.target.nextSibling.defaultValue;
+		$.ajax({
+			url:"${path}/friend/cancleFriend.do",
+			data:{
+				loginMemberNo:${loginMember.memberNo},
+				memberNo:memberNo				
+			},
+			success:data=>{
+				location.reload();
+			}
+		})
+	});
+	
+	//신청취소 (검색화면)
 	$(document).on("click",".cancleF",function(e){
 		const memberNo=e.target.nextSibling.defaultValue;
 		$.ajax({
@@ -244,7 +255,7 @@
    
     //검색창 닫으면 목록 새로고침
     $('#searchFriendBt').on('hidden.bs.modal', function () {
-       friendList(cPage,loginMemberNo)
+    	location.reload();
    }) 
 
    //채팅창 닫으면 목록 새로고침
@@ -310,9 +321,9 @@
                                        
                                        var today = new Date();
 
-                                       const servername1="wss://gd1class.iptime.org:8844/GDJ56_gamgak_final/friendchatting_Server"
+                                       const servername1="wss://gd1class.iptime.org:8844/GDJ56_gamgak_final/chatting_Server"
                                           //ws://gd1class.iptime.org:9999/GDJ56_gamgak_final/chatting_Server
-                                          const servername="ws://localhost:9090/GDJ56_gamgak_final/friendchatting_Server"
+                                          const servername="ws://localhost:9090/GDJ56_gamgak_final/chatting_Server"
                                           const websocket=new WebSocket(servername);
                                        
                                        websocket.onopen=(data)=>{
@@ -350,7 +361,7 @@
                                                 success:data=>{
                                                    console.log(data.data);
                                                    // 서버로 메세지 보내기
-                                                   const sendData=new Chat("msgCh","",data.data.PERSONAL_CHATROOM_NO,data.data.MEMBER_NICKNAME,'${loginMember.memberNickName}',msg,today,1);
+                                                   const sendData=new Chat("msgCh","",data.data.PERSONAL_CHATROOM_NO,data.data.MEMBER_NICKNAME,'${loginMember.memberNickName}',msg,today,1,data.data.PROFILE_ORINAME,data.data.PROFILE_RENAME);
                                                    console.log(sendData);
                                                    websocket.send(JSON.stringify(sendData));
                                                    $(".msg_text").val('');
@@ -429,9 +440,9 @@
                
                var today = new Date();
 
-               const servername1="wss://gd1class.iptime.org:8844/GDJ56_gamgak_final/friendchatting_Server"
+               const servername1="wss://gd1class.iptime.org:8844/GDJ56_gamgak_final/chatting_Server"
                   //ws://gd1class.iptime.org:9999/GDJ56_gamgak_final/chatting_Server
-                  const servername="ws://localhost:9090/GDJ56_gamgak_final/friendchatting_Server"
+                  const servername="ws://localhost:9090/GDJ56_gamgak_final/chatting_Server"
                   const websocket=new WebSocket(servername);
                
                websocket.onopen=(data)=>{
@@ -466,9 +477,9 @@
                            "loginMemberNo":${loginMember.memberNo}
                         },
                         success:data=>{
-                           console.log(data.data.PERSONAL_CHATROOM_NO);
+                           console.log(data.data.PROFILE_ORINAME);
                            // 서버로 메세지 보내기
-                           const sendData=new Chat("msgCh","",data.data.PERSONAL_CHATROOM_NO,data.data.MEMBER_NICKNAME,'${loginMember.memberNickName}',msg,today,1);
+                           const sendData=new Chat("msgCh","",data.data.PERSONAL_CHATROOM_NO,data.data.MEMBER_NICKNAME,'${loginMember.memberNickName}',msg,today,1,data.data.PROFILE_ORINAME,data.data.PROFILE_RENAME);
                            console.log(sendData);
                            websocket.send(JSON.stringify(sendData));
                            $(".msg_text").val('');
@@ -535,7 +546,7 @@
    });
    
    class Chat{
-      constructor(type, meetingNo, personalChatroomNo, memberReceiver,memberSender,chattingContent,chattingEnrollDate,chattingUnreadCnt){
+      constructor(type, meetingNo, personalChatroomNo, memberReceiver,memberSender,chattingContent,chattingEnrollDate,chattingUnreadCnt,profileOriname,profileRename){
          this.type=type;
          this.meetingNo=meetingNo;
          this.personalChatroomNo=personalChatroomNo;
@@ -544,6 +555,8 @@
          this.chattingContent=chattingContent;
          this.chattingEnrollDate=chattingEnrollDate;
          this.chattingUnreadCnt=chattingUnreadCnt;
+		 this.profileOriname=profileOriname;
+		 this.profileRename=profileRename;  
       }
    }
 </script>
