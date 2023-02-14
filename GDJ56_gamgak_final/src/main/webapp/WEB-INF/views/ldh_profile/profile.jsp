@@ -21,20 +21,22 @@
                 </c:if>
                 <div id="profile-wrapper">
                     <div id="info-container">
-                        <a><img id="profile-img" src="${path }/resources/images/프로필 기본 이미지.jpg" data-bs-toggle="modal" data-bs-target="#imgModal"/></a>
-                        <!-- Modal -->
-                        <div class="modal fade" id="imgModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div id="imgModal-dialog" class="modal-dialog modal-dialog-centered">
-	                            <div class="modal-content">
-	                                <div id="img-modal-list" class="list-group">
-									  <div class="list-group-item list-group-item-action" style="padding: 1.5rem">프로필 사진 바꾸기</div>
-									  <a href="#" class="list-group-item list-group-item-action" style="color: #0d6efd">사진 업로드</a>
-									  <a href="#" class="list-group-item list-group-item-action" style="color:#dc3545">현재 사진 삭제</a>
-									  <a href="#" class="list-group-item list-group-item-action" data-bs-dismiss="modal">취소</a>
-									</div>
+                        <a><img id="profile-img" src="${member==null?path+='/resources/upload/profileImg/'+=loginMember.profileReName:path+='/resources/upload/profileImg/'+=member.profileReName}" ${member==null?'data-bs-toggle="modal" data-bs-target="#imgModal"':''} onerror="this.src='${path }/resources/images/프로필 기본 이미지.jpg'"/></a>
+                        <c:if test="${member==null}">
+	                        <!-- Modal -->
+	                        <div class="modal fade" id="imgModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	                            <div id="imgModal-dialog" class="modal-dialog modal-dialog-centered">
+		                            <div class="modal-content">
+		                                <div id="img-modal-list" class="list-group">
+										  <div class="list-group-item list-group-item-action" style="padding: 1.5rem">프로필 사진 바꾸기</div>
+										  <a href="#" class="list-group-item list-group-item-action" style="color: #0d6efd">사진 업로드</a>
+										  <a href="#" class="list-group-item list-group-item-action" style="color:#dc3545">현재 사진 삭제</a>
+										  <a href="#" class="list-group-item list-group-item-action" data-bs-dismiss="modal">취소</a>
+										</div>
+		                            </div>
 	                            </div>
-                            </div>
-                        </div>
+	                        </div>
+                        </c:if>
                         
                         <div id="info">
                             <div id="info-1">
@@ -51,7 +53,7 @@
                                 <div id="colLine"></div>
                                 <a href="${path }/msg/friend.do"><span>친구</span><span id="fri-num"><c:out value="${friendCount}"/></span></a>
                                 <div id="colLine"></div>
-  								<a data-bs-toggle="modal" data-bs-target="#meetingList"><span>모임</span><span id="fri-num"><c:out value="${meetingCount}"/></span></a>
+  								 ${member==null?'<a data-bs-toggle="modal" data-bs-target="#meetingList">':''}<span>모임</span><span id="fri-num"><c:out value="${meetingCount}"/></span>${member==null?'</a>':''}
                                 
                                  <!-- jj의 모달!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
                                 
