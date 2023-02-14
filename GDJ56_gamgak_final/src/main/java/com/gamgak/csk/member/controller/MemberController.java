@@ -191,7 +191,7 @@ public class MemberController {
 	   }
 	  
 	   @RequestMapping("/member/updateNewPw")
-	   public ModelAndView updateNewPassword(@RequestParam("memberNewPassword") String memberNewPassword, Member member, ModelAndView mv) {
+	   public String updateNewPassword(@RequestParam("memberNewPassword") String memberNewPassword, Member member) {
 		   log.debug("memberNewPassword: {}",memberNewPassword);
 		   String newPassword=passwordEncoder.encode(memberNewPassword);
 		   member=getMember();
@@ -200,11 +200,13 @@ public class MemberController {
 		   if(result>0) {
 			   log.debug("비밀번호 변경 시 로그인 멤버 {}",member);
 			   SecurityContextHolder.getContext().setAuthentication(null); //로그인 세션 날리기
-			   mv.setViewName("index");
+			   //mv.setViewName("index");
+			   return "redirect:/";
 		   } else {
-			   mv.setViewName("csk_member/updatePassword");
+			   //mv.setViewName("csk_member/updatePassword");
+			   return "csk_member/updatePassword";
 		   }
-		   return mv;
+		   //return mv;
 	   }
 	   
 	   //프로필 이미지 업로드(update)
