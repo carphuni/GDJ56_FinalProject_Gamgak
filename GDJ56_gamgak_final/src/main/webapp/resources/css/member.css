@@ -3,10 +3,7 @@
     justify-content: space-evenly;
     margin-top: 1rem;
 }
-/* hr{
-	border:1px silver solid; 
-}
- */
+
 #hrLine{
 	width: 45%;
 }
@@ -172,12 +169,46 @@ div#profileInfo-wrapper span.guide{display:none;position:relative;}
 }
 
 /* updatePassword.jsp */
-#updatePassword-content{
-/* 	margin-top: 1rem;
-    width: 100%;
-    height: 80%;
-    min-height: 100dvh;
-	text-align: center;
-	font-family: '맑은 고딕';
-	display: flex; */
+#updatePassword-contents{
+	display:flex;
+	flex-direction: column;
+ 	justify-content: center; 
+ 	align-items: center; 
+
 }
+#password-wrapper-contents{
+	margin-top: 1rem;
+    width: 80rem;
+	margin-left: 3rem;
+	flex-direction: column;
+	font-family: '맑은 고딕';
+	display: flex;
+	margin-top: 0px;
+}
+#uptodatepw{
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	margin-top: 3rem;
+}
+#uptodatepw .inputbox input{
+	width: 25rem;
+	height: 3rem;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+
+}
+#updatePassword-contents #uptodatepw-button input{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+ 	margin-top: 3rem;
+	width: 25rem;
+	height: 3rem;
+}
+
+div#profileInfo-wrapper span.guide{display:none;position:relative;} 
+	.ok{color:green}
+	.error{color:red}

@@ -13,7 +13,7 @@
         <div id="verticalLine"></div>
 	    <div id="profile-wrapper-contents">
 	        <div id="profile-contents">
-		    	<div><h3>계정 변경하기</h3></div>
+		    	<div><h3>계정 정보</h3></div>
         		<form action="${path }/member/update" id="formtag" method="post" onsubmit="nickName_invalidate();">
 		            <div class="inputbox">이메일<input type="text" class="form-control" name="memberEmail" id="memberEmail" value="${loginMember.memberEmail }" readonly="readonly"/></div>
 		            <div class="inputbox">이름 <input type="text" class="form-control" name="memberName" id="memberName" value="${loginMember.memberName}" readonly="readonly"/></div>
@@ -66,32 +66,18 @@
  	   		});
   	   		if(result==true){
 	  	   		if(confirm("회원 정보를 변경하시겠습니까?")){
-					$("#updatePassword").submit();
+					$("#formtag").submit();
 					alert("회원정보를 변경했습니다. 다시 로그인해 주세요.");
 					result=true;
 				}else{
-					alert("비밀번호 변경을 취소하였습니다.");
+					alert("회원정보 변경을 취소하였습니다.");
 					result=false;
 				}
   	   		}
  			return result;
 		}
  		
-  		function moveMenu(url){
- 	        // ajax option
- 	        $.ajax({
- 	        	url : url,
- 	            async : true,
- 	            type : "POST",
- 	            
- 	            cache : false
- 	        }).done(function(data){
- 	            // Contents 영역 삭제
- 	            $('#profileInfo-wrapper').children().remove();
- 	            // Contents 영역 교체
- 	            $('#updatePassword-contents').html(data);
- 	        });
- 	    } 
+
  	    
     </script>               
                 
