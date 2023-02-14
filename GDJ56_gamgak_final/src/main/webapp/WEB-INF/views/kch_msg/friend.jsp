@@ -244,7 +244,8 @@
 	
     //x 버튼 누르면 예 버튼에 친구 번호 hidden으로 넣어주기
     $(document).on("click",".deleteF",function(e){
-       const friendMemberNO=e.target.attributes.value.textContent; //채팅방번호
+    	console.log(e.target.attributes.value.textContent)
+       const friendMemberNO=e.target.attributes.value.textContent; //친구번호
        const $deleteHidden=$("<input>").attr({"type":"hidden","id":"deleteHidden"});
        $deleteHidden.text(friendMemberNO);
        $("#deleteF").append($deleteHidden);
@@ -278,8 +279,7 @@
    
    //채팅버튼클릭
    $(document).on("click",".chatF",function(e){
-       console.log(e.currentTarget.nextSibling.defaultValue); //친구번호
-      const friendMemberNO=e.currentTarget.nextSibling.defaultValue;
+      const friendMemberNO=e.currentTarget.nextSibling.defaultValue;//친구번호
        //기존 채팅방 있는지 확인
       $.ajax({
          url:"${path}/msg/chatroomCheck/do",
