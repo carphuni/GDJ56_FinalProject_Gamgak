@@ -185,11 +185,7 @@
  		   			type:"POST",
  		   			url:"${path}/enroll/mailAuth",
  		   			data:{memberEmail:$("#email").val()},
-// 		   			datatype:"script",
  		   			async:false,
-//   		   			success:data=>{
-// 						$("#emailCode").script(data);	 		   			
-//  		   			}
  		   		});
  		   		
  		   	});	

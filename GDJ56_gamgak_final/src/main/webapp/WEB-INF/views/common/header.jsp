@@ -80,7 +80,7 @@
                     <ul class="dropdown-menu">
                       <li><a class="dropdown-item" href="${path }/member/myinfo">설정</a></li>
                       <li><hr class="dropdown-divider"></li>
-                      <li><a class="dropdown-item" href="#">로그아웃</a></li>
+                      <li><a class="dropdown-item" href="${path }/logout.do">로그아웃</a></li>
                     </ul>
                 </div>
         </aside>
