@@ -4,35 +4,41 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <c:set var="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"/>
+<input id="memberNo" type="hidden" value="${member.memberNo }"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-                <div id="meeting-wrapper">
-                    <div id="meeting-item">
-                        <a><img id="meeting-img" src="${path }/resources/images/플러스.png"></a>
-                        <p>모임 이름</p>
-                    </div>
-                    <div id="meeting-item">
-                        <a><img id="meeting-img" src="${path }/resources/images/임시 이미지03.jpg"></a>
-                        <p>모임 이름</p>
-                    </div>
-
-                </div>
+				<c:if test="${member==null}">
+	                <div id="meeting-wrapper">
+	                    <div id="meeting-item">
+	                        <a><img id="meeting-img" src="${path }/resources/images/플러스.png"></a>
+	                        <p>모임 이름</p>
+	                    </div>
+	                    <div id="meeting-item">
+	                        <a><img id="meeting-img" src="${path }/resources/images/임시 이미지03.jpg"></a>
+	                        <p>모임 이름</p>
+	                    </div>
+	
+	                </div>
+                </c:if>
+                ${loginMember.profileReName}
                 <div id="profile-wrapper">
                     <div id="info-container">
-                        <a><img id="profile-img" src="${path }/resources/images/프로필 기본 이미지.jpg" data-bs-toggle="modal" data-bs-target="#imgModal"/></a>
-                        <!-- Modal -->
-                        <div class="modal fade" id="imgModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div id="imgModal-dialog" class="modal-dialog modal-dialog-centered">
-	                            <div class="modal-content">
-	                                <div id="img-modal-list" class="list-group">
-									  <div class="list-group-item list-group-item-action" style="padding: 1.5rem">프로필 사진 바꾸기</div>
-									  <a id="profileUp" class="list-group-item list-group-item-action" style="color: #0d6efd">사진 업로드</a>
-									  <input id="profileImgFile" type="file" style="display: none;"/>
-									  <a id="profileImgDel" class="list-group-item list-group-item-action" style="color:#dc3545">현재 사진 삭제</a>
-									  <a href="#" class="list-group-item list-group-item-action" data-bs-dismiss="modal">취소</a>
-									</div>
+                        <a><img id="profile-img" src="${member==null?path+='/resources/upload/profileImg/'+=loginMember.profileReName:path+='/resources/upload/profileImg/'+=member.profileReName}" ${member==null?'data-bs-toggle="modal" data-bs-target="#imgModal"':''} onerror="this.src='${path }/resources/images/프로필 기본 이미지.jpg'"/></a>
+                        <c:if test="${member==null}">
+	                        <!-- Modal -->
+	                        <div class="modal fade" id="imgModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	                            <div id="imgModal-dialog" class="modal-dialog modal-dialog-centered">
+		                            <div class="modal-content">
+		                                <div id="img-modal-list" class="list-group">
+										  <div class="list-group-item list-group-item-action" style="padding: 1.5rem">프로필 사진 바꾸기</div>
+										  <a id="profileUp" class="list-group-item list-group-item-action" style="color: #0d6efd">사진 업로드</a>
+										  <input id="profileImgFile" type="file" style="display: none;"/>
+										  <a id="profileImgDel" class="list-group-item list-group-item-action" style="color:#dc3545">현재 사진 삭제</a>
+										  <a href="#" class="list-group-item list-group-item-action" data-bs-dismiss="modal">취소</a>
+										</div>
+		                            </div>
 	                            </div>
-                            </div>
-                        </div>
+	                        </div>
+                        </c:if>
                         
                         <script>
                                 $("#profileUp").click(()=>{
@@ -49,7 +55,7 @@
 	                                    contentType: false,
 	                                    processData: false,
 	                                    enctype: "multipart/form-data",
-	                                    data: {$(loginMember.memberNo)},
+	                                    data: form,
 	                                    success: data=>{
 	                                    	console.log(data);
 	                                    	alert(data.msg);
@@ -82,16 +88,20 @@
                         
                         <div id="info">
                             <div id="info-1">
-                                <span><c:out value="${loginMember.memberNickName}"/></span>
-                                <button id="edit-profile" type="button" class="btn btn-danger" onclick="location.href='${path }/member/myinfo'">프로필 편집</button>
-                                
+                                <span><c:out value="${member==null?loginMember.memberNickName:member.memberNickName}"/></span>
+                                <c:if test="${member==null}">
+                                	<button id="edit-profile" type="button" class="btn btn-danger" onclick="location.href='${path }/member/myinfo'">프로필 편집</button>
+                                </c:if>
+                                <c:if test="${member!=null}">
+                                	<button id="장환" type="button" class="btn btn-danger" onclick="location.href='${path }/장환'" style="width: 3rem;height:1.5rem;font-size: 0.5rem;">신고</button>
+                                </c:if>
                             </div>
                             <div id="info-2" >
-                                <div><span>내 맛집 기록</span><span id="res-num"><c:out value="${myResCount}"/></span></div>
+                                <div><span>맛집 기록</span><span id="res-num"><c:out value="${myResCount}"/></span></div>
                                 <div id="colLine"></div>
-                                <a><span>친구</span><span id="fri-num"><c:out value="${friendCount}"/></span></a>
+                                ${member==null?'<a href="'+=path+='/msg/friend.do">':''}<span>친구</span><span id="fri-num"><c:out value="${friendCount}"/></span>${member==null?'</a>':''}
                                 <div id="colLine"></div>
-  								<a data-bs-toggle="modal" data-bs-target="#meetingList"><span>모임</span><span id="fri-num"><c:out value="${meetingCount}"/></span></a>
+  								 ${member==null?'<a data-bs-toggle="modal" data-bs-target="#meetingList">':''}<span>모임</span><span id="fri-num"><c:out value="${meetingCount}"/></span>${member==null?'</a>':''}
                                 
                                  <!-- jj의 모달!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
                                 
@@ -304,30 +314,32 @@
                                 
 
                             </div>
-                            <div id="info-3"><c:out value="${loginMember.memberName}"/></div>
+                            <div id="info-3"><c:out value="${member==null?loginMember.memberName:member.memberName}"/></div>
                             <div id="info-d4">
-                                <span><c:out value="${loginMember.introduce}"/></span>
+                                <span><c:out value="${member==null?loginMember.introduce:member.introduce}"/></span>
                             </div>
                         </div>
-                        <a><i class="fa-solid fa-gear fa-lg" data-bs-toggle="modal" data-bs-target="#settingModal"></i></a>
-                        <!-- Modal -->
-                        <div class="modal fade" id="settingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div id="settingModal-dialog" class="modal-dialog modal-dialog-centered">
-	                            <div class="modal-content">
-	                                <div id="setting-modal-list" class="list-group">
-									  <a href="${path }/member/passwordUpdate" class="list-group-item list-group-item-action">비밀번호 변경</a>
-									  <a href="${path }/member/myinfo" class="list-group-item list-group-item-action">프로필 편집</a>
-									  <a href="${path }/logout.do" class="list-group-item list-group-item-action">로그아웃</a>
-									  <a href="#" class="list-group-item list-group-item-action" data-bs-dismiss="modal">취소</a>
-									</div>
+                        <c:if test="${member==null}">
+	                        <a><i class="fa-solid fa-gear fa-lg" data-bs-toggle="modal" data-bs-target="#settingModal"></i></a>
+	                        <!-- Modal -->
+	                        <div class="modal fade" id="settingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	                            <div id="settingModal-dialog" class="modal-dialog modal-dialog-centered">
+		                            <div class="modal-content">
+		                                <div id="setting-modal-list" class="list-group">
+										  <a href="${path }/member/passwordUpdate" class="list-group-item list-group-item-action">비밀번호 변경</a>
+										  <a href="${path }/member/myinfo" class="list-group-item list-group-item-action">프로필 편집</a>
+										  <a href="${path }/logout.do" class="list-group-item list-group-item-action">로그아웃</a>
+										  <a href="#" class="list-group-item list-group-item-action" data-bs-dismiss="modal">취소</a>
+										</div>
+		                            </div>
 	                            </div>
-                            </div>
-                        </div>
+	                        </div>
+                        </c:if>
                     </div>
                     <div id="rowLine"></div>
                     <div id="search">
 	                    <div id="search-container">
-	                        <span id="show-click" style="border-bottom: 2px #dc3545 solid;">내 맛집</span>
+	                        <span id="show-click" style="border-bottom: 2px #dc3545 solid;">맛집</span>
 	                        <div id="colLine"></div>
 	                        <span id="area-click" >지역별</span>
 	                        <div id="colLine"></div>

@@ -7,11 +7,11 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gamgak.csk.member.model.entity.Member;
 import com.gamgak.jjh.meeting.model.vo.Meeting;
 import com.gamgak.ldh.profile.model.dao.ProfileDao;
 import com.gamgak.ldh.profile.model.vo.MyPic;
 import com.gamgak.ldh.profile.model.vo.MyPicList;
-import com.gamgak.ldh.profile.model.vo.MyRes;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +27,11 @@ public class ProfileService {
 		super();
 		this.dao = dao;
 		this.session = session;
+	}
+	
+	//회원 정보 가져오기
+	public Member selectMember(int memberNo) {
+		return dao.selectMember(session,memberNo);
 	}
 	
 	//저장한 맛집 카운트 가져오기

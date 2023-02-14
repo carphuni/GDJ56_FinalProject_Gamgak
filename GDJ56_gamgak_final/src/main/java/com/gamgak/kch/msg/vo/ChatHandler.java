@@ -21,5 +21,7 @@ public class ChatHandler {
 	private String chattingContent;
 	private Date chattingEnrollDate;
 	private int chattingUnreadCnt;
+	private String profileOriname;
+	private String profileRename;
 }
 

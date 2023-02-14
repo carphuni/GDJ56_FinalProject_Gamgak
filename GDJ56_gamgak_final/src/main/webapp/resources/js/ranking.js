@@ -3,6 +3,7 @@ function rankingList(data){
 	$("#topten2").empty();
 	$("#change1").empty();
 	$("#change2").empty();
+	console.log(data);
 	let num=5;
 	if(data.length<5){
 		num=data.length;

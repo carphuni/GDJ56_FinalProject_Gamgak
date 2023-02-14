@@ -41,5 +41,8 @@ public class MemberDao {
 	public int deleteProfileImg(SqlSessionTemplate session, Map param) {
 		return session.delete("member.deleteProfileImg",param);
 	}
+	public int resetProfileImg(SqlSessionTemplate session, int memberNo) {
+		return session.update("member.resetProfileImg", memberNo);
+	}
 
 }

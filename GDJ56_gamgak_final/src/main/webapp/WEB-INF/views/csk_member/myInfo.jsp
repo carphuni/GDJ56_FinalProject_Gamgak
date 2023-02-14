@@ -21,7 +21,7 @@
 		            <div class="inputbox">닉네임 <input type="text" name="memberNickName" id="memberNickName" value="${loginMember.memberNickName}"/></div>
 		            <span id="nickNamError" class="guide error">*사용중인 별칭입니다.</span>
 		            <div class="inputbox">나이 <input type="text" name="memberAge" id="memberAge" value="${loginMember.memberAge }"/></div>
-		            <div class="inputbox">소개 <input type="textarea" name="introduce" id="introduce" value="${loginMember.introduce }" placeholder="자신을 소개해 보세요"/></div>
+		            <div class="inputbox">소개 <textarea name="introduce" id="introduce" value="${loginMember.introduce }" maxlength="10" placeholder="자신을 소개해 보세요"></textarea></div>
 		            <div class="inputbox">성별 
 		            	<div><input type="radio" name="memberGender" id="genderF" value="F" ${loginMember.memberGender=="F"?'checked':'' }/>여성</div>
 		            	<div><input type="radio" name="memberGender" id="genderM" value="M" ${loginMember.memberGender=="M"?'checked':'' }/>남성</div>

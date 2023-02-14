@@ -29,11 +29,11 @@ div#profileInfo-wrapper span.guide{display:none;position:relative;}
 #profile-menu button{
     margin-bottom: 1rem;
     font-size: 20px;
-    height: 5rem;
+    height: 3rem;
     width: 10rem;
 	background-color: white;
  	border: none; 
- 	border-left: 1px solid #dc3545;
+  	border-left: 1px solid lightgray; 
 }
 
 #profile-menu button:hover{

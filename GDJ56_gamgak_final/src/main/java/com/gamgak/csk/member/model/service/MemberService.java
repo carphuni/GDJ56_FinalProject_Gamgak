@@ -52,5 +52,8 @@ public class MemberService {
 	public String selectFileReName(int memberNo) {
 		return dao.selectFileReName(session, memberNo);
 	}
+	public int resetProfileImg(int memberNo) {
+		return dao.resetProfileImg(session, memberNo);
+	}
 
 }

@@ -218,7 +218,7 @@ public class MemberController {
 		   if(!dir.exists()) dir.mkdirs();
 		   
 		   String profileReName=service.selectFileReName(memberNo);
-		   
+		   String profileOriName="";
 		   if(!profileReName.equals("없음")) {
 			   //삭제하는 구문
 			   File f=new File(path+profileReName);
@@ -230,7 +230,7 @@ public class MemberController {
 		   
 			//업로드 후 파일 담을 리스트
 			if(!file.isEmpty()) {
-				String profileOriName=file.getOriginalFilename();
+				profileOriName=file.getOriginalFilename();
 				String ext = profileOriName.substring(profileOriName.lastIndexOf("."));
 				SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
 				int rnd=(int)(Math.random()*10000)+1;
@@ -250,7 +250,12 @@ public class MemberController {
 			}
 			int result=service.updateProfileImg(param);
 			String msg="";
-			if(result>0)msg="프로필 사진을 변경했습니다.";
+			if(result>0) {
+				msg="프로필 사진을 변경했습니다.";
+				getMember().setProfileOriName(profileOriName);
+				getMember().setProfileReName(profileReName);
+			}
+				
 			else msg="프로필 사진 변경을 실패했습니다.";
 			Map data=Map.of("msg",msg,"profileReName",profileReName);
 		   return data;
@@ -272,15 +277,17 @@ public class MemberController {
 			   file.delete(); //서버에서 파일 지우기 -> db에서 파일 지우고 -> '없음' 으로 업데이트!
 		   }
 		   
-		   profileReName="";
+		   profileReName="없음";
 		   param.put("profileReName", profileReName);
 		   System.err.println("param" + param);
 		   
 		   
-		   int result=service.updateProfileImg(param);//dB에서 파일 지우기
+		   int result=service.resetProfileImg(memberNo);//dB에서 파일 지우기
 		   System.err.println("db에서 파일 지우고난 후 result : " + result);
 		   
 			if(result>0) {
+				getMember().setProfileOriName("없음");
+				getMember().setProfileReName("없음");
 				return "프로필 이미지를 초기화했습니다";
 			}else{
 				return "프로필 이미지 초기화에 실패했습니다";
