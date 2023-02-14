@@ -26,8 +26,20 @@ public class MemberDao {
 	public int updateMember(SqlSessionTemplate session, Map param) {
 		return session.update("member.updateMember", param);
 	}
+	public String checkPassword(SqlSessionTemplate session, int memberNo) {
+		return session.selectOne("member.checkPassword",memberNo);
+	}
 	public int updatePassword(SqlSessionTemplate session, Member m) {
 		return session.update("member.updatePassword", m);
+	}
+	public int updateProfileImg(SqlSessionTemplate session, Map param) {
+		return session.update("member.updateProfileImg",param);
+	}
+	public String selectFileReName(SqlSessionTemplate session, int memberNo) {
+		return session.selectOne("member.selectFileReName", memberNo);
+	}
+	public int deleteProfileImg(SqlSessionTemplate session, Map param) {
+		return session.delete("member.deleteProfileImg",param);
 	}
 
 }

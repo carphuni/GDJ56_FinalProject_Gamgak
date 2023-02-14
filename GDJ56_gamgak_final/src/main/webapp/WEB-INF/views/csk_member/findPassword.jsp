@@ -34,8 +34,8 @@
 			<p>로그인에 문제가 있나요?<br> 가입시 입력한 이메일로 임시 비밀번호가 전송됩니다.<br>
 			로그인 후 마이페이지에서 비밀번호를 변경 해주세요.</p>
 			<div id="text-form">
-	    		<label class="form-label">이름</label>
-				<input type="text" id="memberName" name="memberName" placeholder="이름을 입력하세요" required/><br>
+<!-- 	    		<label class="form-label">이름</label> -->
+<!-- 				<input type="text" id="memberName" name="memberName" placeholder="이름을 입력하세요" required/><br> -->
 		    	<label class="form-label">이메일</label>
 				<input type="email" id="memberEmail" name="memberEmail" placeholder="이메일을 입력하세요" required/><br>
 			</div>
@@ -52,26 +52,19 @@
 	<script>
 		$("#sendEmail").click(()=>{
 			$.ajax({
-				type: 'post',
-			    url: '${path}/enroll/duplicateEmail',
+				type: "post",
+			    url: "${path}/enroll/duplicateEmail",
 			    data: {memberEmail: $("#memberEmail").val()},
-// 			    dataType: "text",
 			    success: data=>{
 			        if(data){
-			        	document.forms["sendPasswordEmail"].submit();
 			            alert("임시비밀번호를 전송 했습니다.");
+			        	document.forms["sendPasswordEmail"].submit();
 			        }else {
 			            alert("가입되지 않은 이메일입니다.");
 			        }
-			
-			    },
-			    error: function () {
-			        console.log('[ERROR MESSAGE]');
 			    }
 			});			
-			
-			
-		})
+		});
 			
 				
 		

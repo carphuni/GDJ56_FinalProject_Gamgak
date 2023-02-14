@@ -41,4 +41,16 @@ public class MemberService {
 	public int updatePassword(Member m) {
 		return dao.updatePassword(session, m);
 	}
+	public String checkPassword(int memberNo) {
+		return dao.checkPassword(session, memberNo);
+	}
+	
+	public int updateProfileImg(Map param) {
+		return dao.updateProfileImg(session, param);
+		
+	}
+	public String selectFileReName(int memberNo) {
+		return dao.selectFileReName(session, memberNo);
+	}
+
 }

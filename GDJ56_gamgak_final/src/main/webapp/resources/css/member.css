@@ -22,16 +22,29 @@ div#login-wrapper span.guide{display:none;position:relative;}
 	.ok{color:green}
 	.error{color:red}
 
-/* myinfo */
+/* myinfo.jsp */
 div#profileInfo-wrapper span.guide{display:none;position:relative;} 
 	.ok{color:green}
 	.error{color:red}
-#profile-menu {
-    
+#profile-menu button{
+    margin-bottom: 1rem;
+    font-size: 20px;
+    height: 5rem;
+    width: 10rem;
+	background-color: white;
+ 	border: none; 
+ 	border-left: 1px solid #dc3545;
 }
+
+#profile-menu button:hover{
+	border-left: thick solid #dc3545;
+	font-weight: bold;
+}
+
 #profileInfo-wrapper{
 	margin-top: 1rem;
     width: 50rem;
+	height: 40rem;
     background-color: white;
     padding: 1rem;
     border-radius: 0.5rem;
@@ -40,8 +53,31 @@ div#profileInfo-wrapper span.guide{display:none;position:relative;}
 }
 #verticalLine{
     margin-left: 5%;
-    border-left : thick solid #dc3545;
+    border-left : 1px solid lightgray;
     /* border: 1px solid #dc3545; */
+}
+#profile-wrapper-contents{
+	margin-top: 1rem;
+    width: 100%;
+
+	text-align: center;
+	margin-left: 5rem;
+	flex-direction: column;
+	font-family: '맑은 고딕';
+	display: flex;
+	border: 1px solid red;
+}
+
+#profile-wrapper-contents div{
+	margin-bottom : 3rem;
+}
+
+#profile-contents .inputbox{
+	display:flex;
+	justify-content:space-between;
+	border: 1px solid red;
+	margin-left: auto; 
+	margin-bottom: 2rem;
 }
 
 /* findPassword */
@@ -98,7 +134,7 @@ div#profileInfo-wrapper span.guide{display:none;position:relative;}
 	background-color: #dc3545;
 }
 
-/* 비밀번호 변경 css */
+/* updatePassword.jsp */
 #updatePassword-content{
 /* 	margin-top: 1rem;
     width: 100%;
