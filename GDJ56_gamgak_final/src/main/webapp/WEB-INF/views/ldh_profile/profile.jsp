@@ -49,7 +49,7 @@
                             <div id="info-2" >
                                 <div><span>맛집 기록</span><span id="res-num"><c:out value="${myResCount}"/></span></div>
                                 <div id="colLine"></div>
-                                <a><span>친구</span><span id="fri-num"><c:out value="${friendCount}"/></span></a>
+                                <a href="${path }/msg/friend.do"><span>친구</span><span id="fri-num"><c:out value="${friendCount}"/></span></a>
                                 <div id="colLine"></div>
   								<a data-bs-toggle="modal" data-bs-target="#meetingList"><span>모임</span><span id="fri-num"><c:out value="${meetingCount}"/></span></a>
                                 
