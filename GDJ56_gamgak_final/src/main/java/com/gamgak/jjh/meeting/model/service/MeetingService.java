@@ -141,8 +141,6 @@ public class MeetingService {
 		public int insertReport(Map m) {
 			int result= dao.insertReport(session,m);
 			if(result>0) {
-
-				
 				//자신의 모음에 자동으로 참여하기
 				return dao.reportList(session,m);
 			}else {

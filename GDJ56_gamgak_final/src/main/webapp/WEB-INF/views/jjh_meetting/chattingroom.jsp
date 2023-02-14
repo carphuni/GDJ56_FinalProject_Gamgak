@@ -156,7 +156,7 @@
 		                	<c:if test="${loginMember.memberNickName == 'admin' || loginMember.memberNo == m.MEMBER_LEADER_NO }">
 			                    <button type="button" onclick="meetingDelete(${m.MEETING_NO })"  style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px;">모임 삭제하기</button>
 		                	</c:if>
-		                	<c:if test="${loginMember.memberNickName != 'admin' || loginMember.memberNo != m.MEMBER_LEADER_NO }">
+		                	<c:if test="${loginMember.memberNickName != 'admin' && loginMember.memberNo != m.MEMBER_LEADER_NO }">
 			                    <!-- <button onclick="location.assign('${path}/meetting/meettingjoinEndNN.do?memberNo=${loginMember.memberNo }&meetingNo=${m.MEETING_NO }')" type="button"  style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px;">나가기</button> -->
 			                    <button onclick="meetingNN(${m.MEETING_NO })" type="button"  style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px;">나가기</button>
 

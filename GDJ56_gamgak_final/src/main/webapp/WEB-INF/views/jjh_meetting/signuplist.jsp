@@ -12,7 +12,7 @@
 		<c:otherwise>
 			<c:forEach var="m" items="${meetingsignlist }">
 				<div id="maindiv" style="border: 3.5px #dc3545 solid; display: flex; border-radius: 1rem; padding: 1rem; justify-content: space-between;">
-					<div id="signinfo" style="display: flex; ">
+					<div id="signinfo" style="display: flex; padding: 1rem;">
 						<img style="border: 1px black solid; border-radius: 100%; height: 60px; width: 60px;">
 						<div id="nickage" style="display: flex; flex-direction: column; padding: 0px 0px 0px 10px;">
 							<label>닉네임 : ${m.MEMBER_NICKNAME }</label>

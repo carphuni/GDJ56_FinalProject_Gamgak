@@ -105,6 +105,7 @@ public class MeetingDao {
 	}
 	
 	public int reportList(SqlSessionTemplate session,Map m) {
+		System.out.println("신고dao"+m);
 		return session.insert("meeting.reportList",m);
 	}
 
