@@ -43,7 +43,7 @@ public class FriendController {
 	}
 	
 	//친구신청
-	@RequestMapping("/insertFriend.애")
+	@RequestMapping("/insertFriend.do")
 	@ResponseBody
 	public int insertFriend(int loginMemberNo, int memberNo) {
 		return service.insertFriend(loginMemberNo, memberNo);
@@ -75,6 +75,7 @@ public class FriendController {
 	@RequestMapping("/deleteFriend.do")
 	@ResponseBody
 	public int deleteFriend(int loginMemberNo, int friendMemberNO) {
+		service.deleteFriend(loginMemberNo, friendMemberNO);
 		return service.deleteFriend(loginMemberNo, friendMemberNO);
 	}		
 }

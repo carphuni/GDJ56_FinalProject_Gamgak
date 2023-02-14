@@ -37,10 +37,14 @@ public interface FriendDao {
 	int acceptFriend(int loginMemberNo, int memberNo);
 	
 	//친구신청수
-	@Select("SELECT COUNT(*)AS \"COUNT\" FROM FRIEND WHERE (MEMBER_FOLLOWING_NO=${loginMemberNo} OR MEMBER_FOLLOWER_NO=${loginMemberNo}) AND ACCEPT_YN='S'")
+	@Select("SELECT COUNT(*)AS \"COUNT\" FROM FRIEND WHERE MEMBER_FOLLOWER_NO=${loginMemberNo} AND ACCEPT_YN='S'")
 	int friendCount(int loginMemberNo);
 	
 	//친구삭제
 	@Delete("DELETE FROM FRIEND WHERE (MEMBER_FOLLOWING_NO=#{loginMemberNo} AND MEMBER_FOLLOWER_NO=#{friendMemberNO}) OR (MEMBER_FOLLOWING_NO=#{friendMemberNO} AND MEMBER_FOLLOWER_NO=#{loginMemberNo})")
 	int deleteFriend(int loginMemberNo, int friendMemberNO);
+	
+	//친구삭제 시 채팅방 삭제
+	@Delete("DELETE FROM ENTERCHAT WHERE PERSONAL_CHATROOM_NO=(SELECT PERSONAL_CHATROOM_NO FROM(SELECT * FROM ENTERCHAT WHERE MEMBER_NO=#{loginMemberNo}) JOIN (SELECT * FROM ENTERCHAT WHERE MEMBER_NO=#{friendMemberNO}) USING (PERSONAL_CHATROOM_NO))")
+	int deleteEnterchat(int loginMemberNo, int friendMemberNO);
 }

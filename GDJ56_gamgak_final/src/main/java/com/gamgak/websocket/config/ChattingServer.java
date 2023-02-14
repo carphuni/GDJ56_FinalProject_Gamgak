@@ -68,20 +68,20 @@ public class ChattingServer extends TextWebSocketHandler{
 	    	System.out.println("add"+msg);
 			session.getAttributes().put("info", msg);
 			sessionMap.put(msg.getMemberSender(), session);
-			SendMessage adminmsg=new SendMessage("system","","",msg.getMemberSender()+"가 접속했습니다.","");
+			SendMessage adminmsg=new SendMessage("system",msg.getMemberSender(),"",msg.getMemberSender()+"가 접속했습니다.",msg.getPersonalChatroomNo());
 			//ObjectMapper mapper=new ObjectMapper();
 			for(String id:sessionMap.keySet()) {
 				WebSocketSession client=sessionMap.get(id);
 				ChatHandler clientInfo=(ChatHandler)client.getAttributes().get("info");
 				System.out.println(clientInfo);
-				if(msg.getPersonalChatroomNo()==clientInfo.getPersonalChatroomNo()) {
+				if(client.isOpen()&&msg.getPersonalChatroomNo()==clientInfo.getPersonalChatroomNo()) {
 		            client.sendMessage(new TextMessage(mapper.writeValueAsString(adminmsg)));
 		            System.out.println("addclient_소켓세션!"+client);
 		            }
 				//client.sendMessage(new TextMessage(mapper.writeValueAsString(adminmsg)));
 				//System.out.println("소켓세션!"+client);
 			}
-			deleteClient();
+			//deleteClient();
 		}
 		
 	    private void deleteClient() {
@@ -92,6 +92,7 @@ public class ChattingServer extends TextWebSocketHandler{
 				String key=iterKey.next();
 				if(!sessionMap.get(key).isOpen()) iterKey.remove();
 			}
+			
 		}
 		private void sendMessage(ChatHandler msg) throws IOException{
 			
@@ -115,6 +116,7 @@ public class ChattingServer extends TextWebSocketHandler{
 			//super.afterConnectionEstablished(session);
 			//sessionMap.put(session.getId(), session);
 			log.debug("{}"+"접속");
+			//log.debug("{}",sessionMap.size());
 	    }
 
 	    /* Client가 접속 해제 시 호출되는 메서드드 */
@@ -125,6 +127,12 @@ public class ChattingServer extends TextWebSocketHandler{
 			//sessionMap.remove(session.getId());
 			//super.afterConnectionClosed(session, status);
 			log.debug("{}"+"해제");
+			log.debug("{}",sessionMap.size());
+			System.out.println(sessionMap);
+			ChatHandler clientInfo=(ChatHandler)session.getAttributes().get("info");
+			if(session.getId().equals(sessionMap.get(clientInfo.getMemberSender()).getId())) {
+				sessionMap.remove(clientInfo.getMemberSender());
+			}
 	    }
 
 
@@ -136,109 +144,18 @@ public class ChattingServer extends TextWebSocketHandler{
 				System.out.println("1대1 메세지 : "+msg);
 				System.out.println("1대1"+client);
 				ChatHandler clientInfo=(ChatHandler)client.getAttributes().get("info");
+				System.out.println(clientInfo);
 				
-				if(msg.getPersonalChatroomNo()==clientInfo.getPersonalChatroomNo()) {
+				if((client.isOpen()&&msg.getPersonalChatroomNo()==clientInfo.getPersonalChatroomNo())&&sessionMap.size()==2) {
+					msg.setChattingUnreadCnt(0);
 					client.sendMessage(new TextMessage(mapper.writeValueAsString(msg)));
-					
+		        }else {
+		        	client.sendMessage(new TextMessage(mapper.writeValueAsString(msg)));
 		        }
+				
+//				if(client.isOpen()&&msg.getPersonalChatroomNo()==clientInfo.getPersonalChatroomNo()) {
+//					client.sendMessage(new TextMessage(mapper.writeValueAsString(msg)));
+//		        }
 			}
-			
 		}
-
-
-
-
-
-
-
-
-
-	
-//	shift + alt +s +v---> 메소드를 재정의 해서 사용
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-//	private Map<Integer,WebSocketSession> clients=new HashMap<>();
-//	private ObjectMapper mapper=new ObjectMapper();
-//	private List<SendMessage> messages=new ArrayList<>();
-//	
-//	private static int i;
-//	
-//	@Override
-//	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-//		i++;
-//		System.out.println(i);
-//		// TODO Auto-generated method stub
-//		log.debug("클라이언트 접속");
-//	}
-//	@Override
-//	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-//		// TODO Auto-generated method stub
-//				//super.handleTextMessage(session, message);
-//				//클라이언트가 보낸 메세지 확인하기
-//				//클라이언트가 보낸 메세지는 playload에서 저장된다.
-//				log.debug("{}",message.getPayload());
-//				//클라이언트가 보낸 json데이터 jackson이용해서 파싱하기
-//				//ObjectMapper mapper=new ObjectMapper();
-//				c
-//				log.debug("{}",msg);
-//				
-//				switch(msg.getType()) {
-//				case "open" : addClient(session, msg); break; //client정보에 추가
-//				case "msg" : sendMessage(msg); break; //메세지를 클라이언트에게 전달
-//				case "system" : sendAdminMessage(); break; //시스템정보를 클라이언트에게 전달
-//				}
-//				
-//				
-//	}
-//	 Date today = new Date(0);
-//	private void addClient(WebSocketSession session, Chat msg) throws IOException{
-//		
-//		session.getAttributes().put("info", msg);
-//		clients.put(msg.getMemberSenderNo(), session);
-//		Chat adminmsg = new Chat(10,10,10,10,"ㅁㄴㅇ",today,10,"");
-//		//Chat adminmsg=new Chat("system","","",msg.getMemberSenderNo()+"가 접속했습니다.","");
-//		//ObjectMapper mapper=new ObjectMapper();
-//		for(Integer id:clients.keySet()) {
-//			WebSocketSession client=clients.get(id);
-//			client.sendMessage(new TextMessage(mapper.writeValueAsString(adminmsg)));
-//		}
-//	}
-//	
-//private void sendMessage(Chat msg) throws IOException{
-//		
-//		for(Integer id:clients.keySet()) {
-//			WebSocketSession client=clients.get(id);
-//			client.sendMessage(new TextMessage(mapper.writeValueAsString(msg)));
-//			
-//			
-//		}
-//		
-//	}
-//	private void sendAdminMessage() {
-//		
-//	}
-//	
-//	@Override
-//	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-//		i--;
-//		System.out.println(i);
-//		// TODO Auto-generated method stub
-//		super.afterConnectionClosed(session, status);
-//	}
-	
-	
-
 }

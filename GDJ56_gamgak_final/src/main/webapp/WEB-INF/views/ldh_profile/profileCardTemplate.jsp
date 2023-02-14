@@ -59,20 +59,27 @@
 					<!-- 캐러셀 -->
 					<div id="mypicInfo-carousel${myres.myResNo }" class="carousel slide col-sm-6" data-bs-ride="carousel" style="height:100%;">
 						<div id="mypic-inner" class="carousel-inner" style="height:100%;">
-							<c:forEach var='i' begin='0' end='${fn:length(myPicList)-1}'>
-								<c:if test="${myPicList[i].myResNo==myres.myResNo }">
-									<c:forEach var="j" begin='0' end="${fn:length(myPicList[i].myPicList)-1}">
-										<div class="carousel-item ${j==0?'active':'' }" >
-									      <img src="${path}/resources/upload/myres/${myPicList[i].myPicList[j].myPicReName}" class="d-block w-100" alt="..." style="height:100%;">
+							<c:if test="${fn:length(myPicList)!=0 }">
+								<c:forEach var='i' begin='0' end='${fn:length(myPicList)-1}'>
+									<c:if test="${myPicList[i].myResNo==myres.myResNo }">
+										<c:forEach var="j" begin='0' end="${fn:length(myPicList[i].myPicList)-1}">
+											<div class="carousel-item ${j==0?'active':'' }" >
+										      <img src="${path}/resources/upload/myres/${myPicList[i].myPicList[j].myPicReName}" class="d-block w-100" alt="..." style="height:100%;">
+										    </div>
+									    </c:forEach>
+								    </c:if>
+								    <c:if test="${myres.myPic.myPicReName==null&&i==fn:length(myPicList)-1}">
+								    	<div class="carousel-item active">
+									      <img src="${path}/resources/images/이미지 없음.jpg" class="d-block w-100" alt="..." style="height:100%;">
 									    </div>
-								    </c:forEach>
-							    </c:if>
-							    <c:if test="${myres.myPic.myPicReName==null&&i==fn:length(myPicList)-1}">
-							    	<div class="carousel-item active">
-								      <img src="${path}/resources/images/이미지 없음.jpg" class="d-block w-100" alt="..." style="height:100%;">
-								    </div>
-							    </c:if>
-						    </c:forEach>
+								    </c:if>
+							    </c:forEach>
+						    </c:if>
+						    <c:if test="${fn:length(myPicList)==0 }">
+						    	<div class="carousel-item active">
+							      <img src="${path}/resources/images/이미지 없음.jpg" class="d-block w-100" alt="..." style="height:100%;">
+							    </div>
+						    </c:if>
 						</div>
 						<button class="carousel-control-prev" type="button" data-bs-target="#mypicInfo-carousel${myres.myResNo }" data-bs-slide="prev">
 							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -110,7 +117,12 @@
 					<input type="hidden" name="restaurant"/>
 				</form>   
 				<div class="modal-footer" style="display: flex; justify-content: space-between;">
-					<button id="deleteMyres" class="btn btn-danger" value="${myres.myResNo }">삭제</button>
+					<c:if test="${memberNo==loginMember.memberNo}">
+						<button id="deleteMyres" class="btn btn-danger" value="${myres.myResNo }">삭제</button>
+					</c:if>
+					<c:if test="${memberNo!=loginMember.memberNo}">
+						<button id="장환" class="btn btn-danger">신고</button>
+					</c:if>
 					<div>
 						<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#myresCardModal${myres.myResNo }">이전</button>
 						<button class="btn btn-danger" data-bs-dismiss="modal">확인</button>

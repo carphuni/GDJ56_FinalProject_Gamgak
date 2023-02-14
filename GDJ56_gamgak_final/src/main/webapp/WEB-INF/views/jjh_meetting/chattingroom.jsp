@@ -1,22 +1,42 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+	
     <!-- jQuery library -->
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+    <!-- path -->
+	<c:set var="path" value="${pageContext.request.contextPath }"/>
 	<!-- 부트스트랩 css/js -->
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/bootstrap.min.css" >
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-	
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <!--시큐리티 로그인 세션-->
+	<c:set var="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"/>
+	<!--css-->
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/css/jjh_css/chatRoom.css" >   
+	  
+
   
-    <script src="${pageContext.request.contextPath }/resources/js/jquery-3.6.1.min.js"></script>
+    <!-- <script src="${pageContext.request.contextPath }/resources/js/jquery-3.6.1.min.js"></script>
+	 -->
+	 <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
+	 
+
+
+
 <script src="${pageContext.request.contextPath }/resources/js/chatting.js"></script>
 <div style="display: flex;">
 	<div>
          <div id="chattingRoom" class="chattingRoom" style="border: 5px black solid; width: 750px; height: 600px; overflow-y: scroll;">
+			<div id="chat" >
+	
+			
+			</div>
+			<div id="chatStroy" >
+			
+			</div>
+	
              
-             
-  
-         
+            
         </div>
         <div id="chatting input" style="display: flex; border: 1px black solid; width: 750px; height: 90px;  background-color: rgb(204, 205, 204);" >
             <div style="margin: auto;">
@@ -29,68 +49,7 @@
         </div>
     
     </div>
-    <div>
 
-    </div>
-    
-    
-
-
-<!-- <script type="text/javascript">
-	var ws;
-
-	function wsOpen(){
-		ws = new WebSocket("ws://" + location.host + "/jjh_meetting/chattingroom");
-		wsEvt();
-	}
-		
-	function wsEvt() {
-		ws.onopen = function(data){
-			//소켓이 열리면 초기화 세팅하기
-		}
-		
-		ws.onmessage = function(data) {
-			var msg = data.data;
-			if(msg != null && msg.trim() != ''){
-				$("#chattingRoom").append("<p>" + msg + "</p>");
-			}
-		}
-
-		document.addEventListener("keypress", function(e){
-			if(e.keyCode == 13){ //enter press
-				send();
-			}
-		});
-	}
-
-	function chatName(){
-		var userName = $("#userName").val();
-		if(userName == null || userName.trim() == ""){
-			alert("사용자 이름을 입력해주세요.");
-			$("#userName").focus();
-		}else{
-			wsOpen();
-			$("#yourName").hide();
-		}
-	}
-
-	function send() {
-		var uN = $("#userName").val();
-		var msg = $("#inputmsg").val();
-		ws.send(uN+" : "+msg);
-		$('#inputmsg').val("");
-	}
-</script> -->
-
-    
-    
-    
-    
-    
-    
-
-    
-    
 
     
     <div>
@@ -130,6 +89,8 @@
 		                	<span>${m.MEETING_DATE}</span>
 		                </c:if>
 		                </div>
+						
+
 		                
 		                <div id="chatInfo">
 		                	<span>인원수</span>
@@ -137,12 +98,12 @@
 		                    
 		                </div>
 		            </div>
-		            <c:if test="${loginMember.memberNo!=s.MEMBER_LEADER_NO}">
+		            <c:if test="${loginMember.memberNo==m.MEMBER_LEADER_NO}">
 			            <div style="margin: 5px; display: flex;">
-			                <button class="btn btn-danger" style="width: 90px; height: 30px; font-size: 15px; margin: auto;" onclick="window.open('${path}/meetting/meettingmanage.do','채팅방','_blank, resizable=no,width=1000px,height=720px,scrollbars=no')">수정하기</button>
+			                <button class="btn btn-danger" style="width: 90px; height: 30px; font-size: 15px; margin: auto;" onclick="location.assign('${path}/meetting/updatemeetting.do?memberNo=${m.MEMBER_LEADER_NO }&meetingNo=${m.MEETING_NO}')">수정하기</button>
 			            </div>	
 		            </c:if>
-		            <c:if test="${loginMember.memberNo==s.MEMBER_LEADER_NO}">
+		            <c:if test="${loginMember.memberNo!=m.MEMBER_LEADER_NO}">
 			            <div style="margin: 5px; display: flex;">
 			                <button class="btn btn-danger" style="width: 120px; height: 30px; font-size: 15px; margin: auto;" data-bs-toggle="modal" data-bs-target="#meettingreport">모임신고하기</button>
 			            </div>	
@@ -166,42 +127,41 @@
 		                		
 		              </c:when>
 		              <c:otherwise>
+		              		<div style="display: flex; flex-direction: column; overflow-y: scroll; height: 200px; ">
 		              	<c:forEach var="s" items="${chatmemberlist }">
-		              		<div style="display: flex; flex-direction: column; overflow-y: scroll; height: 200px; border: 5px #dc3545 solid;">
-		                    	<div >
-		                        	<img src="${path}/resources/upload/meeting/${s.MEETING_ORINAME}" style="border: 5px #dc3545 solid solid; width: 20px; height: 20px; border-radius: 100%; background-color: #dc3545;">
-		                        	<span>${s.MEMBER_NICKNAME}</span>
-		                        	<c:if test="${loginMember.memberNo==s.MEMBER_NO}">
+		                    	<div style=" display: flex; justify-content: space-between; margin: 0px 0px 20px 0px">
+		                    		<div>
+			                        	<img src="${path}/resources/upload/meeting/${s.MEETING_ORINAME}" style="border: 5px #dc3545 solid solid; width: 40px; height: 40px; border-radius: 100%; background-color: #dc3545;">
+			                        	<span>${s.MEMBER_NICKNAME}</span>
+		                    		
+		                    		</div>
+		                        	<c:if test="${loginMember.memberNo!=m.MEMBER_NO}">
 		                        		
 		                        	</c:if>
-		                        	<c:if test="${loginMember.memberNo!=s.MEMBER_NO}">
+		                        	<c:if test="${loginMember.memberNo==m.MEMBER_NO}">
 				                        <button style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px; " data-bs-toggle="modal" data-bs-target="#userreport">신고하기</button>
 		                        		
 		                        	</c:if>
-		                        	<c:if test="${loginMember.memberNo!=s.MEMBER_NO}">
-				                        <button style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px; " data-bs-toggle="modal" data-bs-target="#userreport">신고하기</button>
-		                        		
-		                        	</c:if>
+		                        
 		                    	</div>
 		                    
 
+		              	</c:forEach>
 		                	</div>
 		              		
-		              	</c:forEach>
 		              </c:otherwise>
 		            </c:choose>
 
 		                
 		                <div style="margin: 2px;">
-		                	<c:if test="${loginMember.memberNickName != 'admin' || loginMember.memberNo != s.MEMBER_LEADER_NO }">
-			                    <button type="button"  style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px;" data-bs-toggle="modal" data-bs-target="#meettingreport">모임 삭제하기</button>
+		                	<c:if test="${loginMember.memberNickName == 'admin' || loginMember.memberNo == m.MEMBER_LEADER_NO }">
+			                    <button type="button" onclick="meetingDelete(${m.MEETING_NO })"  style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px;">모임 삭제하기</button>
 		                	</c:if>
-		                	<%-- <c:if test="${loginMember.memberNickName != 'admin' }">
-			                    <button type="button"  style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px;" data-bs-toggle="modal" data-bs-target="#meettingreport">모임신고하기</button>
-		                	</c:if> --%>
-		                	<c:if test="${loginMember.memberNickName == 'admin' && loginMember.memberNo == s.MEMBER_LEADER_NO }">
-			                    <button type="button"  style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px;">나가기</button>
-		                	</c:if>
+		                	<c:if test="${loginMember.memberNickName != 'admin' && loginMember.memberNo != m.MEMBER_LEADER_NO }">
+			                    <!-- <button onclick="location.assign('${path}/meetting/meettingjoinEndNN.do?memberNo=${loginMember.memberNo }&meetingNo=${m.MEETING_NO }')" type="button"  style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px;">나가기</button> -->
+			                    <button onclick="meetingNN(${m.MEETING_NO })" type="button"  style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px;">나가기</button>
+
+							</c:if>
 		                    
 		                </div>
 		            </div>
@@ -221,6 +181,43 @@
 <!--채팅 js-->
 
  <script>
+ function meetingDelete(a){
+		if (!confirm("모임을 삭제하시겠습니까?")) {
+			alert("취소(아니오)를 누르셨습니다.");
+			
+     } else {
+     	if(confirm("정말로 삭제하시겠습니까?")){
+     		location.assign('${path}/meetting/meettingDelete.do?memberNo=${loginMember.memberNo }&meetingNo='+a)
+     	}
+			
+			
+     }
+
+	}
+ 
+ 
+	function meetingNN(a){
+		if (!confirm("모임에 나가시겠습니까?")) {
+			alert("취소(아니오)를 누르셨습니다.");
+			
+        } else {
+        	if(confirm("다시는 모임에 참여할수업습니다.")){
+        		location.assign('${path}/meetting/meettingjoinEndNN.do?memberNo=${loginMember.memberNo }&meetingNo='+a)
+        	}
+			
+			
+        }
+
+	}
+	
+
+
+
+ 	var chatMeetngNo="${chatRoominfo[0].MEETING_NO}";
+	console.log(chatMeetngNo);
+	
+
+ 	
 		var today = new Date();
 		const servername1="wss://gd1class.iptime.org:8844/GDJ56_gamgak_final/chatting_Server"
 			//ws://gd1class.iptime.org:9999/GDJ56_gamgak_final/chatting_Server
@@ -234,7 +231,7 @@
 			//연결이 되었을때 발생함
 			console.log("소켓연결"+data);
 			//websocket.send(JSON.stringify(new Message("open",'${loginMember.memberNickName}',"","","")));
-			websocket.send(JSON.stringify(new Chat("open",0,"",'${loginMember.memberNickName}',"",today,0)))
+			websocket.send(JSON.stringify(new Chat("open",chatMeetngNo,0,"",'${loginMember.memberNickName}',"",today,0)))
 			
 		}
 		
@@ -248,16 +245,73 @@
 				case "msg" : printMsg('${loginMember.memberNickName}',msg);break;
 			}
 		}
-		
+
+		// 메세지 받아오기
+	 $.ajax({
+		type : "POST",
+		url : '${path}/meeting/chatList.do',
+		async : false,
+		data : {
+			meetingNo : chatMeetngNo
+		},
+		success : function(data){
+			console.log(data);
+			console.log("채팅방 채팅정보 불러오기");
+			$("#chat").html(data);
+			
+		},
+		error : function(error){
+			console.log("채팅방 채팅정보 불러오기 실패");
+
+		},
+	}) 
+	
+	
 		
 		
 		$("#sendBtn").click(e=>{
 			const msg=$("#inputmsg").val();
-			//const sendData=new Message("msg",'${loginMember.memberNickName}',"",msg,"");
-			const sendData=new Chat("msg",0,"",'${loginMember.memberNickName}',msg,today,0);
-			websocket.send(JSON.stringify(sendData));
 			$("#inputmsg").val('');
-		});
+			//const sendData=new Message("msg",'${loginMember.memberNickName}',"",msg,"");
+			 const sendData=new Chat("msg",chatMeetngNo,null,"",'${loginMember.memberNickName}',msg,today,null);
+			//타입, 모임 번호, 개인방번호, 리시버, 샌더, msg, 날짜 읽은 사람숫자
+			//websocket.send(JSON.stringify(sendData));
+			$("#inputmsg").val(''); 
+			console.log(chatMeetngNo,"${loginMember.memberNo}",msg,today)
+
+			$.ajax({
+				url : '${path}/meeting/msginsert.do',
+				type : "POST",
+				data : {
+					meetingNo : chatMeetngNo,
+					sender :"${loginMember.memberNo}",
+					msg : msg,
+					enrollerChat : today 
+				},
+				success : function(data){
+					console.log("성공");
+					//const sendData=new Chat("msg",chatMeetngNo,null,"",'${loginMember.memberNickName}',msg,today,null);
+	  				//타입, 모임 번호, 개인방번호, 리시버, 샌더, msg, 날짜 읽은 사람숫자
+	  				websocket.send(JSON.stringify(sendData));
+	  				$("#inputmsg").val('');
+				},
+				error : function(error){
+					console.log("실패");
+				}
+
+			})
+
+
+	
+
+
+	})
+
+	
+
+
+
+
 		
 		class Message{
 			constructor(type,sender,reciever,msg,room){
@@ -270,10 +324,11 @@
 		}
 		
 		class Chat{
-			constructor(type, meetingNo, memberReceuver,memberSender,chattingContent,chattingEnrollDate,chattingUnreadCnt){
+			constructor(type, meetingNo, personalChatroomNo, memberReceiver,memberSender,chattingContent,chattingEnrollDate,chattingUnreadCnt){
 				this.type=type;
 				this.meetingNo=meetingNo;
-				this.memberReceuver=memberReceuver;
+				this.personalChatroomNo=personalChatroomNo;
+				this.memberReceiver=memberReceiver;
 				this.memberSender=memberSender;
 				this.chattingContent=chattingContent;
 				this.chattingEnrollDate=chattingEnrollDate;
@@ -284,78 +339,9 @@
 		
 	</script>	 
 
-
-
-
-
-
-
-
-
-
-
- <!-- <script>
- 		var today=new Date();
-		const websocket=new WebSocket("ws://localhost:9090/jjh_meetting/chattingroom");
-		
-		websocket.onopen=(data)=>{
-			console.log(data)
-			websocket.send(JSON.stringify(new Chat(1,10,4,20,msg,today,3,"open")));
-		}
-		
-		websocket.onmessage=(response)=>{
-			console.log(response);
-			const msg=JSON.parse(response.data);
-			console.log(msg);
-			switch(msg.type){
-				case "system" : addMsgSystem(msg);break; 
-				case "msg" : printMsg(10,msg);break; 
-			}
-		}
-		
-		$("#sendBtn").click(e=>{
-			const msg=$("#msg").val();
-			const sendData=new Chat(1,10,4,20,msg,today,3,"open");
-			websocket.send(JSON.stringify(sendData));
-		});
-		
-		class Chat{
-			constructor(chatNo,meetingNo,memberReceuverNo,
-					memberSenderNo,chattingContent,
-					chattingEnrollDate,chattingUnreadCnt,Type){
-				this.chatNo=chatNo;
-				this.meetingNo=meetingNo;
-				this.memberReceuverNo=memberReceuverNo;
-				this.memberSenderNo=memberSenderNo;
-				this.chattingContent=chattingContent;
-				this.chattingEnrollDate=chattingEnrollDate;
-				this.chattingUnreadCnt=chattingUnreadCnt;
-				this.Type=Type;
-			}
-		}
-	</script> -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<c:set var="today" value="<%=new java.util.Date()%>" />
+<!-- 현재날짜 -->
+<c:set var="date"><fmt:formatDate value="${today}" pattern="yyyy-MM-dd hh:mm:ss" /></c:set> 
 
 
   <!-- meeting Modal-->
@@ -363,8 +349,9 @@
     <div class="modal-dialog">
       <div class="modal-content">
 		<form>
-        	<div class="modal-header">
-				<input type="text" style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 300px;" placeholder="신고제목을 입력하세요">
+        	<div class="modal-header" style="display: flex; flex-direction: column;">
+        		<div>
+					<input type="text" style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 300px;" placeholder="신고제목을 입력하세요">
 					<select style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 150px;">
                     	<option value="상업적/홍보성">상업적/홍보성</option>
                    		<option value="음란/선정성">음란/선정성</option>
@@ -372,9 +359,11 @@
                     	<option value="욕설/인신공격">욕설/인신공격</option>
                     	<option value="기타">기타</option>
                 	</select>
+        		
+        		</div>
                 <div style="display: flex; flex-direction: column; display: flex; font-weight: bolder; margin: 15px 0px 0px 0px;">
-                    <span style="margin: auto;">신고자 아이디 : 00000</span>
-                    <span style="margin: auto;">신고시간 : 00000000</span>
+                    <span style="margin: auto;">신고자 아이디 : ${loginMember.memberNickName }</span>
+                    <span style="margin: auto;">신고시간 : <c:out value="${date}" /></span>
                 </div>
         	</div>
             <div class="modal-body">
@@ -396,10 +385,10 @@
     <div class="modal fade" id="userreport" tabindex="-1" aria-labelledby="#userreport" aria-hidden="true" >
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
-			<input type="text" style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 300px;" placeholder="신고제목을 입력하세요">
-			<select style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 150px;">
-				<form>
+		<form action="" onsubmit="">
+        	<div class="modal-header">
+				<input type="text" style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 300px;" placeholder="신고제목을 입력하세요">
+				<select style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 150px;">
                     <option value="상업적/홍보성">상업적/홍보성</option>
                     <option value="음란/선정성">음란/선정성</option>
                     <option value="불법정보">불법정보</option>
@@ -407,8 +396,8 @@
                     <option value="기타">기타</option>
                 </select>
                 <div style="display: flex; flex-direction: column; display: flex; font-weight: bolder; margin: 15px 0px 0px 0px;">
-                    <span style="margin: auto;">신고자 아이디 : 00000</span>
-                    <span style="margin: auto;">신고시간 : 00000000</span>
+                    <span style="margin: auto;">신고자 닉네임 : ${loginMember.memberNickName }</span>
+                    <span style="margin: auto;">신고시간 :<fmt:formatDate value="${now}" pattern="yyyy-MM-dd hh:mm:ss" /></span>
                 </div>
             </div>
             <div class="modal-body">
@@ -420,7 +409,7 @@
              
             </div>
 
-            </form>
+        </form>
       </div>
     </div>
   </div>

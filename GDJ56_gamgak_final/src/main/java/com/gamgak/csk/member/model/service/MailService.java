@@ -20,6 +20,8 @@ public class MailService {
 	JavaMailSender mailSender;
 	
 	private String pw;
+	
+	// 이메일 인증코드 메일 발송
 	public MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException {
 		MimeMessage msg=mailSender.createMimeMessage();
 		msg.addRecipients(RecipientType.TO, to);
@@ -29,7 +31,7 @@ public class MailService {
 		mailMsg += "<h1> 안녕하세요</h1>";
 		mailMsg += "<h1> 나만의 맛집찾기 : 감각 입니다.</h1>";
 		mailMsg += "<br>";
-		mailMsg += "<p>아래 코드를 회원가입 창으로 돌아가 입력해주세요<p>";
+		mailMsg += "<p>아래 코드를 회원가입 창으로 돌아가 입력해주세요.<p>";
 		mailMsg += "<br>";
 		mailMsg += "<p>당신의 맛집을 저장해보세요. 감사합니다.<p>";
 		mailMsg += "<br>";
@@ -44,6 +46,33 @@ public class MailService {
 		msg.setFrom(new InternetAddress("kiya7005@naver.com", "GAMGAK_ADMIN"));// 보내는 사람
 		return msg;
 	}
+	
+	// 임시 비멀번호 메일 발송
+	public MimeMessage changePassword(String to) throws MessagingException, UnsupportedEncodingException {
+		MimeMessage msg=mailSender.createMimeMessage();
+		msg.addRecipients(RecipientType.TO, to);
+		msg.setSubject("감각 임시 비밀번호 발송");
+		String mailMsg="";
+		mailMsg += "<div style='margin:100px;'>";
+		mailMsg += "<h1> 안녕하세요</h1>";
+		mailMsg += "<h1> 나만의 맛집찾기 : 감각 입니다.</h1>";
+		mailMsg += "<br>";
+		mailMsg += "<p>아래 코드를 비밀번호에 입력해주세요.<p>";
+		mailMsg += "<br>";
+		//mailMsg += "<p>당신의 맛집을 저장해보세요. 감사합니다.<p>";
+		mailMsg += "<br>";
+		mailMsg += "<div align='center' style='border:1px solid black; font-family:verdana';>";
+		mailMsg += "<h3 style='color:blue;'>임시 비밀번호 입니다. 설정에서 비밀번호를 변경해 주세요.</h3>";
+		mailMsg += "<div style='font-size:130%'>";
+		mailMsg += "CODE : <strong>";
+		mailMsg += pw + "</strong><div><br/> "; // 메일에 인증번호 넣기
+		mailMsg += "</div>";
+		msg.setText(mailMsg, "utf-8", "html");// 내용, charset 타입, subtype
+		// 보내는 사람의 이메일 주소, 보내는 사람 이름
+		msg.setFrom(new InternetAddress("kiya7005@naver.com", "GAMGAK_ADMIN"));// 보내는 사람
+		return msg;
+	}
+	
 	//랜덤 인증 코드 생성
 	public String createKey() {
 		StringBuffer key = new StringBuffer();
@@ -68,7 +97,7 @@ public class MailService {
 		return key.toString();
 	}
 	
-	// 메일 발송
+	// 이메일 인증코드 메일 발송
 	// sendSimpleMessage 의 매개변수로 들어온 to 는 곧 이메일 주소가 되고,
 	// MimeMessage 객체 안에 내가 전송할 메일의 내용을 담는다.
 	// 그리고 bean 으로 등록해둔 javaMail 객체를 사용해서 이메일 send!!
@@ -83,4 +112,18 @@ public class MailService {
 		}
 		return pw;
 	}
+	
+	//임시비밀번호 메일 발송
+	public String sendPasswordEmail(String to) throws Exception {
+		pw=createKey(); // 랜덤 인증번호 생성
+		MimeMessage message = changePassword(to); // 메일 발송
+		try {// 예외처리
+			mailSender.send(message);
+		} catch (MailException e) {
+			e.printStackTrace();
+			throw new IllegalArgumentException();
+		}
+		return pw;
+	}
+	
 }

@@ -313,6 +313,7 @@ a:hover{
 
             #info-2>#colLine{
                 height: 1rem;
+                margin: 0 1rem;
             }
 
             #res-num, #fri-num{

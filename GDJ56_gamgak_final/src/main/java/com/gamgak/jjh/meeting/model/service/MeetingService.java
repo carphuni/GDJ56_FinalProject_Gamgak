@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.gamgak.csk.member.model.entity.Member;
 import com.gamgak.jjh.meeting.model.dao.MeetingDao;
+import com.gamgak.jjh.meeting.model.vo.Chat;
 import com.gamgak.jjh.meeting.model.vo.EnterChat;
 import com.gamgak.jjh.meeting.model.vo.Meeting;
 
@@ -78,8 +79,24 @@ public class MeetingService {
 	
 	//모임장이 모임신청 수락 n
 		public int updateMeetingn(Map m) {
+			//int rssult=dao.updateMeetingn(session,m);
 			
 			return dao.updateMeetingn(session,m);
+		}
+		//모임 나가기
+		public int updateMeetingnn(Map m) {
+			int result=dao.updateMeetingnn(session,m);
+			if(result>0) {
+				Meeting ber=dao.selectacceptmember(session,m);
+				ber.setMeetingCurrentCount(ber.getMeetingCurrentCount()-1);
+				
+				int plusResult=dao.updateplusNum(session,ber);
+				System.out.println("최종"+plusResult);
+				return plusResult;
+			}else {
+				return 0;
+			}
+			//return dao.updateMeetingnn(session,m);
 		}
 		
 	//사용자가 모음을 신청하기전에 enterchat에 등록되어있는 모임인지 확인하기위해 리스트를 불러오는 기능
@@ -95,6 +112,25 @@ public class MeetingService {
 		//모임 수정하기
 		public int updateMeeting(Meeting mee) {
 			return dao.updateMeeting(session,mee);
+		}
+		//지역으로 모임 검색
+		public List<Meeting> selectArea(Map m){
+			return dao.selectArea(session,m);
+		}
+		
+		// 채팅방 대화내용 저장
+		public int insertChat(Map m) {
+			return dao.insertChat(session,m);
+		}
+		
+		//채팅방 대화 내용 불러오기
+		public List<Chat> selectChatList(Map m) {
+			return dao.selectChatList(session, m);
+		}
+		
+		//모임삭제하기
+		public int meetingDelete(Map m) {
+			return dao.meetingDelete(session,m);
 		}
 
 }

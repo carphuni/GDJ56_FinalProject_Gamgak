@@ -27,6 +27,7 @@ public class RankingService {
 
 	//카테고리별 검색
 	public List<Map> rankingCategory(String tag){
+		System.out.println("태그"+tag);
 		return dao.rankingCategory(tag);
 	}
 	

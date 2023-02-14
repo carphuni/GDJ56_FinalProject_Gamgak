@@ -78,7 +78,7 @@
                         <i class="fa-solid fa-bars"></i><span>더 보기</span>
                     </div>
                     <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#">설정</a></li>
+                      <li><a class="dropdown-item" href="${path }/member/myinfo">설정</a></li>
                       <li><hr class="dropdown-divider"></li>
                       <li><a class="dropdown-item" href="#">로그아웃</a></li>
                     </ul>

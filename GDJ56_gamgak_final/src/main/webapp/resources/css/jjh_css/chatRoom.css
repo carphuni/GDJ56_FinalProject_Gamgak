@@ -1,0 +1,59 @@
+@charset "UTF-8";
+
+#myMsgwaf{
+    display: flex;
+    justify-content: end;
+}
+
+#chattingRoom{
+    background-color: rgb(221, 217, 217);
+}
+
+/* #myMsgwaf{
+    border: 1px #dc3545 solid;
+} */
+
+#ontherImg{
+    border: 1.5px rgb(255, 255, 0) solid;
+    border-radius: 1rem;
+    height: 55px;
+    width: 45px;
+    margin: 13px 10px 0px 10px;
+}
+
+#ontherMsgwaf{
+    display: flex;
+   
+}
+
+#ontherNameChat {
+    
+    margin: 0px 0xp 0px 10px;
+}
+
+#ontherNickName {
+    margin: 10px 0px 0px 0px;
+}
+#myp{
+    border: 1px black solid;
+    border-radius: 5px;
+    padding: 10px 10px 10px 10px;
+    margin: 0px 10px 10px 0px;
+    background: yellow;
+}
+
+#ontherp{
+    border: 1px black solid;
+    border-radius: 5px;
+    padding: 10px 10px 10px 10px;
+    margin: 0px 0px 10px 0px;
+    background: white;
+}
+
+#mycheck{
+    padding: 0px 17px 3px 10px;
+    display: flex;
+    justify-content: end;
+}
+
+

@@ -16,6 +16,7 @@ public class Chat {
 	
 	private int chatNo;
 	private int meetingNo;
+	private int personalChatroomNo;
 	private int memberReceuverNo;
 	private int memberSenderNo;
 	private String chattingContent;
