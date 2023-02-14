@@ -15,7 +15,7 @@ function selectFriendList(data, loginMemberNo){
 		const $inputH=$("<input>").attr({"type":"hidden","id":"friendMemberNO","value":v.MEMBER_NO});
 		const $inputB=$("<input>").attr({"type":"hidden","id":"friendMemberNO","value":v.MEMBER_NO});
 		const $divFR=$("<div>").attr("id","friendRow");
-		
+
 		if(v.PROFILE_RENAME!='없음'){
 			$imgMP.attr("src","/GDJ56_gamgak_final/resources/images/"+v.PROFILE_RENAME);
 		}else if(v.PROFILE_ORINAME!='없음'){
@@ -26,6 +26,7 @@ function selectFriendList(data, loginMemberNo){
 		$aimg.append($imgMP);
 		$divFP.append($aimg);
 		$bFN.text(v.MEMBER_NICKNAME);
+
 		$divFN.append($bFN);
 		//친구면 채팅버튼
 		if(v.ACCEPT_YN=='Y'){
@@ -117,3 +118,4 @@ function friendSearch(data,loginMemberNo){
 		}
 	});
 }
+

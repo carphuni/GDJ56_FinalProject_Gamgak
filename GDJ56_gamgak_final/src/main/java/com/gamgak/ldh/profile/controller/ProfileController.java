@@ -75,8 +75,10 @@ public class ProfileController {
 	//다른 유저 프로필 화면 
 	@RequestMapping("/user")
 	public ModelAndView profileUser(ModelAndView mv,@RequestParam Map param) {
-		//Session에 저장된 회원 pk 가져오기
-		int memberNo=(int)(param.get("loginMemberNo"));
+		int memberNo=Integer.parseInt((String)param.get("memberNo"));
+		Member member=service.selectMember(memberNo);
+		log.debug("회원 정보 : {}",member);
+		mv.addObject("member", member);
 		//저장한 맛집 카운트 가져오기
 		mv.addObject("myResCount", service.selectMyResCount(memberNo));
 		//친구 카운트 가져오기
@@ -125,6 +127,32 @@ public class ProfileController {
 		}
 		log.debug(myResNos);
 		log.debug("{}",myResList);
+		mv.addObject("memberNo", memberNo);
+		mv.addObject("myResList", myResList);
+		mv.addObject("myPicList", myPicList);
+		mv.addObject("cPage",cPage);
+		mv.addObject("myResNos",myResNos);
+		mv.setViewName("ldh_profile/profileCardTemplate");
+		return mv;
+	}
+	
+	//다른 유저 맛집 전체 조회
+	@RequestMapping("/selectMyresAllUser")
+	public ModelAndView selectMyresAllUser(ModelAndView mv, int cPage, int memberNo) {
+		//페이지 관련 변수 선언
+		int numPerpage=8;
+		//내 맛집 조회
+		List<Map> myResList=service.selectMyResAll(Map.of("memberNo",memberNo,"cPage",cPage,"numPerpage",numPerpage));
+		List<MyPicList> myPicList=service.selectMyResMyPic(memberNo);
+		log.debug("사진 조회{}",myPicList);
+		String myResNos="";
+		for(int i=0;i<myResList.size();i++) {
+			if(i==0)myResNos+=((MyRes)(myResList.get(i))).getMyResNo();
+			else myResNos+=","+((MyRes)(myResList.get(i))).getMyResNo();
+		}
+		log.debug(myResNos);
+		log.debug("{}",myResList);
+		mv.addObject("memberNo", memberNo);
 		mv.addObject("myResList", myResList);
 		mv.addObject("myPicList", myPicList);
 		mv.addObject("cPage",cPage);
@@ -148,6 +176,29 @@ public class ProfileController {
 			if(i==0)myResNos+=((MyRes)(myResList.get(i))).getMyResNo();
 			else myResNos+=","+((MyRes)(myResList.get(i))).getMyResNo();
 		}
+		mv.addObject("memberNo", memberNo);
+		mv.addObject("myResList", myResList);
+		mv.addObject("myPicList", myPicList);
+		mv.addObject("cPage",cPage);
+		mv.addObject("myResNos",myResNos);
+		mv.setViewName("ldh_profile/profileCardTemplate");
+		return mv;
+	}
+	
+	//다른 유저 맛집 지역별 조회
+	@RequestMapping("/selectMyresAreaUser")
+	public ModelAndView selectMyresAreaUser(ModelAndView mv,int cPage, String area, int memberNo) {
+		//페이지 관련 변수 선언
+		int numPerpage=8;
+		//내 맛집 조회
+		List<Map> myResList=service.selectMyResArea(Map.of("memberNo",memberNo,"cPage",cPage,"numPerpage",numPerpage,"area",area));
+		List<MyPicList> myPicList=service.selectMyResMyPic(memberNo);
+		String myResNos="";
+		for(int i=0;i<myResList.size();i++) {
+			if(i==0)myResNos+=((MyRes)(myResList.get(i))).getMyResNo();
+			else myResNos+=","+((MyRes)(myResList.get(i))).getMyResNo();
+		}
+		mv.addObject("memberNo", memberNo);
 		mv.addObject("myResList", myResList);
 		mv.addObject("myPicList", myPicList);
 		mv.addObject("cPage",cPage);
@@ -171,6 +222,29 @@ public class ProfileController {
 			if(i==0)myResNos+=((MyRes)(myResList.get(i))).getMyResNo();
 			else myResNos+=","+((MyRes)(myResList.get(i))).getMyResNo();
 		}
+		mv.addObject("memberNo", memberNo);
+		mv.addObject("myResList", myResList);
+		mv.addObject("myPicList", myPicList);
+		mv.addObject("cPage",cPage);
+		mv.addObject("myResNos",myResNos);
+		mv.setViewName("ldh_profile/profileCardTemplate");
+		return mv;
+	}
+	
+	//다른 유저 맛집 제목,카테고리 검색 조회
+	@RequestMapping("/selectMyresTitleUser")
+	public ModelAndView selectMyresTitleUser(ModelAndView mv, int cPage, String search, int memberNo) {
+		//페이지 관련 변수 선언
+		int numPerpage=8;
+		//내 맛집 조회
+		List<Map> myResList=service.selectMyResTitle(Map.of("memberNo",memberNo,"cPage",cPage,"numPerpage",numPerpage,"search",search));
+		List<MyPicList> myPicList=service.selectMyResMyPic(memberNo);
+		String myResNos="";
+		for(int i=0;i<myResList.size();i++) {
+			if(i==0)myResNos+=((MyRes)(myResList.get(i))).getMyResNo();
+			else myResNos+=","+((MyRes)(myResList.get(i))).getMyResNo();
+		}
+		mv.addObject("memberNo", memberNo);
 		mv.addObject("myResList", myResList);
 		mv.addObject("myPicList", myPicList);
 		mv.addObject("cPage",cPage);

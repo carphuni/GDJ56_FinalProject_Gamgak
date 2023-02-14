@@ -9,18 +9,6 @@
 <script src="${path}/resources/js/friend.js"></script>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/@alphardex/aqua.css/dist/aqua.min.css" >
-<!-- 모임 -->
-<div id="meeting-wrapper">
-   <div id="meeting-item">
-      <a><img id="meeting-img" src="${path }/resources/images/플러스.png"></a>
-      <p>모임 이름</p>
-   </div>
-   <div id="meeting-item">
-      <a><img id="meeting-img" src="${path }/resources/images/임시 이미지03.jpg"></a>
-      <p>모임 이름</p>
-   </div>
-</div>
-
 <div id="profile-wrapper">
    <div id="modalClick">
 <!--       <p>user09</p>
