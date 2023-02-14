@@ -19,7 +19,6 @@
 	
 	                </div>
                 </c:if>
-                ${loginMember.profileReName}
                 <div id="profile-wrapper">
                     <div id="info-container">
                         <a><img id="profile-img" src="${member==null?path+='/resources/upload/profileImg/'+=loginMember.profileReName:path+='/resources/upload/profileImg/'+=member.profileReName}" ${member==null?'data-bs-toggle="modal" data-bs-target="#imgModal"':''} onerror="this.src='${path }/resources/images/프로필 기본 이미지.jpg'"/></a>
