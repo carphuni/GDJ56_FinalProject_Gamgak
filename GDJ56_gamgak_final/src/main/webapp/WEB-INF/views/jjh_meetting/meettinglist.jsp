@@ -21,7 +21,7 @@
                     		<c:forEach var="l" items="${joinmeetinglist}">
                     			<div id="meeting-item">
                         			<a href="" onclick="window.open('${path}/meetting/meettingchat.do?memberNo=${loginMember.memberNo}&meetingNo=${l.MEETING_NO } ','채팅방','_blank, resizable=no,width=1000px,height=720px,scrollbars=no')"><img id="meeting-img"  src="${path }/resources/upload/meeting/${l.MEETNG_RENAME}"></a>
-                        			<p>${l.MEETING_TITLE }</p>
+                        			<p style="white-space: nowrap;overflow:hidden;text-overflow: ellipsis;">${l.MEETING_TITLE }</p>
                    				 </div>
                     		
                     		</c:forEach>
@@ -219,7 +219,7 @@
 								console.log("마지막 값"+jo_memberNo);
 								console.log("마지막 값"+jo_membertingNo);
 
-                    			window.location.replace("/meetting/meettingjoin.do?memberNo="+jo_memberNo+"&meetingNo="+jo_membertingNo);
+                    			window.location.replace("${path}/meetting/meettingjoin.do?memberNo="+jo_memberNo+"&meetingNo="+jo_membertingNo);
 
                     		} 
 							

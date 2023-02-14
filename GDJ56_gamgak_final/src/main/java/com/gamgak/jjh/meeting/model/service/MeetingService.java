@@ -132,6 +132,10 @@ public class MeetingService {
 		public int meetingDelete(Map m) {
 			return dao.meetingDelete(session,m);
 		}
+		//사진 리네임 파일명 가져오기
+		public Meeting meetingRenamefile(Map reNamefile) {
+			return dao.meetingRenamefile(session,reNamefile);
+		}
 		
 		//신고기능
 		public int insertReport(Map m) {

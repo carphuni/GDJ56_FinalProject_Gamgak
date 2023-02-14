@@ -3,6 +3,7 @@
     <!-- jQuery -->
    <script src = "${path }/resources/js/jquery-3.6.1.min.js"></script>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="path" value="${pageContext.request.contextPath }"/>
 <c:set var="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"/>
 	<c:choose>
 		<c:when test="${empty meetingsignlist }">
@@ -38,7 +39,7 @@
 			console.log(a,b);
 			$.ajax({
 				type : "get",
-				url : "/meetting/meettingjoinEndY.do",
+				url : "${path}/meetting/meettingjoinEndY.do",
 				data :{
 				 "memberNo" : a,
                  "meetingNo" : b
@@ -61,11 +62,11 @@
 			
 		}
 		
-		function acceptmeetingN() {
+		function acceptmeetingN(a,b) {
 			console.log(a,b);
 			$.ajax({
 				type : "get",
-				url : "/meetting/meettingjoinEndN.do",
+				url : "${path}/meetting/meettingjoinEndN.do",
 				data :{
 				 "memberNo" : a,
                  "meetingNo" : b
@@ -77,7 +78,7 @@
 					
 				},
 				error :function(){
-                   
+					alert("참여를 거부를 실패했습니다.")
                   }
 			})
 			

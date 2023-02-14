@@ -119,7 +119,6 @@
 		                    <div >
 		                        <img style="border: 5px #dc3545 solid solid; width: 20px; height: 20px; border-radius: 100%; background-color: #dc3545;">
 		                        <span>리스트없습니다.</span>
-		                        <button style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px; " data-bs-toggle="modal" data-bs-target="#userreport">신고하기</button>
 		                    </div>
 		                    
 
@@ -135,11 +134,11 @@
 			                        	<span>${s.MEMBER_NICKNAME}</span>
 		                    		
 		                    		</div>
-		                        	<c:if test="${loginMember.memberNickName==s.MEMBER_NICKNAME}">
-										<button style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px; " data-bs-toggle="modal" data-bs-target="#userreport">신고하기</button>
+		                        	<c:if test="${loginMember.memberNickName!=s.MEMBER_NICKNAME}">
+										<button style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px; " data-bs-toggle="modal" data-bs-target="#userreport" onclick="fun_userInfo('${s.MEMBER_NO}' ,'${s.MEMBER_NICKNAME}');">신고하기</button>
 		                        		
 		                        	</c:if>
-		                        	<c:if test="${loginMember.memberNickName!=s.MEMBER_NICKNAME}">
+		                        	<c:if test="${loginMember.memberNickName==s.MEMBER_NICKNAME}">
 		                        		
 		                        	</c:if>
 		                        
@@ -157,7 +156,7 @@
 		                	<c:if test="${loginMember.memberNickName == 'admin' || loginMember.memberNo == m.MEMBER_LEADER_NO }">
 			                    <button type="button" onclick="meetingDelete(${m.MEETING_NO })"  style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px;">모임 삭제하기</button>
 		                	</c:if>
-		                	<c:if test="${loginMember.memberNickName != 'admin' && loginMember.memberNo != m.MEMBER_LEADER_NO }">
+		                	<c:if test="${loginMember.memberNickName != 'admin' || loginMember.memberNo != m.MEMBER_LEADER_NO }">
 			                    <!-- <button onclick="location.assign('${path}/meetting/meettingjoinEndNN.do?memberNo=${loginMember.memberNo }&meetingNo=${m.MEETING_NO }')" type="button"  style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px;">나가기</button> -->
 			                    <button onclick="meetingNN(${m.MEETING_NO })" type="button"  style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px;">나가기</button>
 
@@ -377,7 +376,7 @@
         		
         		</div>
                 <div style="display: flex; flex-direction: column; font-weight: bolder; margin: 15px 0px 0px 0px;">
-                    <span id="reportMeetingtitle_user" name="reportMeetingtitle" style="margin: auto;"></span>
+                    <span id="reportMeetingtitle" name="reportMeetingtitle" style="margin: auto;"></span>
 					<input type="hidden" id="reportMeetingtitleH" name="reportMeetingNo">
                     <span name="reportTime" style="margin: auto;">신고시간 : <c:out value="${date}" /></span>
 					<input name="reportTime" type="hidden" value="${date}">
@@ -407,6 +406,7 @@
 		 <form action="${path}/report/report.do" onsubmit="return report_user();" method="post">
 			<input name="type" type="hidden" value="user">
         	<div class="modal-header" style="display: flex; flex-direction: column;">
+        	<input id="reportMemberNo" type="hidden" name="memberNo">
 				<div>
 
 					<input id="reprotTitle_user" name="reprotTitle" type="text" style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 300px;" placeholder="신고제목을 입력하세요">
@@ -421,7 +421,6 @@
 				</div>
                 <div style="display: flex; flex-direction: column; font-weight: bolder; margin: 15px 0px 0px 0px;">
                     <span id="reportUserNickName" name="reportUserNickName" style="margin: auto;"></span>
-					<input type="hidden" id="reportmemberNo" name="reportmemberNo">
                     <span name="reportTime" style="margin: auto;">신고시간 : <c:out value="${date}" /></span>
 					<input name="reportTime" type="hidden" value="${date}">
 					<span id="onsubmit_report_user" style="margin: auto; font-weight: bolder; font-size: 20px;"></span>
@@ -445,6 +444,14 @@
 
 <!-- 모달 분기처리 -->
   <script>
+  var reportMemberNo=0;
+  function fun_userInfo(a,b) {
+	console.log("userNo : "+a);
+	console.log("nickName : "+b);
+	reportMemberNo=a;
+  $("#reportMemberNo").val(a);
+  $("#reportUserNickName").text("신고할 유저 닉네임 :"+b)
+}
 
 	// 모임 정보
 	var chatMeetngTitle="${chatRoominfo[0].MEETING_TITLE}";

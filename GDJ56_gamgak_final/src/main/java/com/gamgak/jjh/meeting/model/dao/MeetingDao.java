@@ -94,6 +94,10 @@ public class MeetingDao {
 	public int meetingDelete(SqlSessionTemplate session, Map m) {
 		return session.delete("meeting.meetingDelete",m);
 	}
+	//리네임 파일명 가져오기
+	public Meeting meetingRenamefile(SqlSessionTemplate session, Map m) {
+		return session.selectOne("meeting.meetingRenamefile",m);
+	}
 	
 	//신고기능
 	public int insertReport(SqlSessionTemplate session,Map m) {

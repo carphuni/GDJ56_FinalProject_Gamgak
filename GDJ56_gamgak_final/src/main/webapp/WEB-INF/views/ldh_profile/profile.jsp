@@ -43,7 +43,7 @@
                                 	<button id="edit-profile" type="button" class="btn btn-danger" onclick="location.href='${path }/member/myinfo'">프로필 편집</button>
                                 </c:if>
                                 <c:if test="${member!=null}">
-                                	<button id="장환" type="button" class="btn btn-danger" onclick="location.href='${path }/장환'" style="width: 3rem;height:1.5rem;font-size: 0.5rem;">신고</button>
+                                	<button id="report" data-bs-toggle="modal" data-bs-target="#report" type="button" class="btn btn-danger" onclick="location.href='${path }/장환'" style="width: 3rem;height:1.5rem;font-size: 0.5rem;">신고</button>
                                 </c:if>
                             </div>
                             <div id="info-2" >
@@ -122,8 +122,7 @@
 			                                          <button class="btn btn-danger" type="button" onclick="meetingDelete(${m.memberLeaderNo},${m.meetingNo})">삭제하기</button>	
 		                                       		</c:if>
 		                                       		<c:if test="${m.memberLeaderNo!=loginMember.memberNo }">
-			                                          <button class="btn btn-danger" type="button" style="margin: 0px 0px 5px 0px; width: 130px">채팅방가기</button>
-			                                          <button class="btn btn-danger" type="button">나가기</button>	
+			                                          <button class="btn btn-danger" type="button" onclick="location.replace('${path}/meetting/meettingjoinEndNN.do?memberNo=${loginMember.memberNo }&meetingNo=${m.meetingNo }')">나가기</button>	
 		                                       		</c:if>
 		                                       		
 		                                       </div>
