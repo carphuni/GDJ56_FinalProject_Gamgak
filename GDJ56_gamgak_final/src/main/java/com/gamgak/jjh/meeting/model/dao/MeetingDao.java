@@ -94,5 +94,14 @@ public class MeetingDao {
 	public int meetingDelete(SqlSessionTemplate session, Map m) {
 		return session.delete("meeting.meetingDelete",m);
 	}
+	
+	//신고기능
+	public int insertReport(SqlSessionTemplate session,Map m) {
+		return session.insert("meeting.insertReport",m);
+	}
+	
+	public int reportList(SqlSessionTemplate session,Map m) {
+		return session.insert("meeting.reportList",m);
+	}
 
 }

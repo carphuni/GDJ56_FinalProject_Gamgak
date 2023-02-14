@@ -33,7 +33,7 @@
                 <div id="profile-wrapper">
                     <div id="subheader-wrapper" style="display: flex; justify-content: space-between;">
                         <select id="meetingArea" style="border: 1px #a89e9f solid; border-radius: 5px; height: 40px; width: 200px;text-align: center; "onchange="area_Fn(this.value);">
-                           <option selected="selected">====지역 선택====</option>
+                           <option value="">====지역 선택====</option>
                                 <option value="경기도">경기도</option>
                                 <option value="강원도">강원도</option>
                                 <option value="서울특별시">서울특별시</option>
@@ -239,7 +239,7 @@
 									success : function(data){
 										console.log(data);
 										console.log("성공");
-										$("#meetingList").html(data)
+										$("#meetingList").html(data);
 									},
 									 error:function(request,status,error){
 										 alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);

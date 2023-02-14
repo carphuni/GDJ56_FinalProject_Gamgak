@@ -3,6 +3,7 @@
     <!-- jQuery -->
    <script src = "${path }/resources/js/jquery-3.6.1.min.js"></script>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"/>
 	<c:choose>
 		<c:when test="${empty meetingsignlist }">
 			<div>없습니다.</div>

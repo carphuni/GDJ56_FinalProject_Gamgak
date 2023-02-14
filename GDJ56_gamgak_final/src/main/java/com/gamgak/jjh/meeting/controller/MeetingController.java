@@ -396,5 +396,19 @@ public class MeetingController {
 			return mv;
 		
 		}
+		//신고기능
+		@RequestMapping("/report/report.do")
+		public ModelAndView insertReport(ModelAndView mv, @RequestParam Map<String,Object>m) {
+			System.out.println("신고정보"+m);
+			int result= service.insertReport(m);
+			mv.addObject("msg",result>0?"신고 성공":"신고 실패");
+			mv.addObject("loc","/meetting/meettinglist.do");
+			mv.setViewName("/jjh_meetting/msg");
+			
+			
+			
+			
+			return mv;
+		}
 		
 		}
