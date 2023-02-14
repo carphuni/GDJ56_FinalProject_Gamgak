@@ -121,6 +121,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
   let ynval = "N";
   let N = "N";
   let Y = "Y";
+  //   let search;
   //처음 로딩시 실행
   (() => {
     let ynval = "N";
@@ -220,6 +221,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
   //리스트 출력
   function memberlist(cPage, ynval) {
     // console.log(ynval)
+    const str = $("#search").val();
     if (ynval == null) ynval = "N";
     $("#memberList").empty();
     $("#pageBar").empty();

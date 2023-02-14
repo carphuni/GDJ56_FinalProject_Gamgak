@@ -322,7 +322,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
   }
 
   //태그합쳐서 신고리스트 출력
-  function solvereport(cPage, ynval) {
+  function solvereport(cPage, ynval, msg) {
     if (ynval == "Y") {
       $("#solvereportList").empty();
       $("#solvepageBar").empty();
