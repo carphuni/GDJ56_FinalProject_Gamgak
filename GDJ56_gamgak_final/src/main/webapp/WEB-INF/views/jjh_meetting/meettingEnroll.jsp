@@ -219,9 +219,9 @@
          console.log(dateckbox);
          const meetingDate=$("#meetingDate").val();
          console.log(meetingDate);
-
+        // return false;
  
-         if(!dateckbox && !meetingDate){
+         if(!dateckbox && meetingDate==''){
             $('#date_check').text('모임날짜를 입력해주세요');
             $('#date_check').css('color', '#dc3545');
             $("#meetingDate").focus();
@@ -230,13 +230,13 @@
 
          
          }else{
-        	 var dateTimeFormatted = meetingDate.format('{yyyy}-{MM}-{dd} {HH}:{mm}:{ss}'); // 2014-01-01 00:00:01
+            console.log(meetingDate)
+            //meetingDate = meetingDate.format('{yyyy}-{MM}-{dd} {HH}:{mm}:{ss}'); // 2014-01-01 00:00:01
             $('#date_check').text('');
 
-            
          }
 
-      
+        
 
          //모임의 인원수 유효성검사
          if(!age.test($("#peopleNum").val())){
@@ -247,7 +247,7 @@
             $('#peopleNum_check').text('');
          }
 
-        return false;
+  
         const meetingArea=$("select[name=meetingArea]").val();
         console.log("지역"+meetingArea)
          //모임지역 유효성 검사

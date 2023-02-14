@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
 <c:set var="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"/>
  <link rel="stylesheet" type="text/css" href="${path }/resources/css/jjh_css/meetinglist.css" >     
@@ -217,49 +218,90 @@
 		})
 	})(); 
 </script>
+<c:set var="today" value="<%=new java.util.Date()%>" />
+<!-- 현재날짜 -->
+<%-- <c:set var="date"><fmt:formatDate value="${today}" pattern="yyyy/MM/dd hh:mm:ss" /></c:set>  --%>
+ <c:set var="date"><fmt:formatDate value="${today}" pattern="yyyy/MM/dd" /></c:set>  
 
-<!--신고 모달-->
-<div class="modal fade" id="report" data-bs-backdrop="static" tabindex="-1" aria-labelledby="#report" aria-hidden="true" >
+<!--유저신고-->
+ <div class="modal fade" id="userreport" data-bs-backdrop="static" tabindex="-1" aria-labelledby="#userreport" aria-hidden="true" >
     <div class="modal-dialog">
       <div class="modal-content">
-		<form action="${path}/report/report.do" onsubmit="return report();" method="post">
-			<input name="type" type="hidden" value="meeting">
+		 <form action="${path}/report/report.do" onsubmit="return report_user();" method="post">
+			<input name="type" type="hidden" value="user">
         	<div class="modal-header" style="display: flex; flex-direction: column;">
-        		<div>
-					<input id="reprotTitle" name="reprotTitle" type="text" style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 300px;" placeholder="신고제목을 입력하세요">
-					<select name="reportKind" style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 150px;">
+        	<input id="reportMemberNo" type="hidden" name="memberNo">
+				<div>
+
+					<input id="reprotTitle_user" name="reprotTitle" type="text" style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 300px;" placeholder="신고제목을 입력하세요">
+						<select id="reportKind_user" name="reportKind_user" style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 150px;">
 						<option value="신고 분류 선택">신고 분류 선택</option>
-                    	<option value="상업적/홍보성">상업적/홍보성</option>
-                   		<option value="음란/선정성">음란/선정성</option>
-                    	<option value="불법정보">불법정보</option>
-                    	<option value="욕설/인신공격">욕설/인신공격</option>
-                    	<option value="기타">기타</option>
-                	</select>
-        		
-        		</div>
+						<option value="상업적/홍보성">상업적/홍보성</option>
+						<option value="음란/선정성">음란/선정성</option>
+						<option value="불법정보">불법정보</option>
+						<option value="욕설/인신공격">욕설/인신공격</option>
+						<option value="기타">기타</option>
+					</select>
+				</div>
                 <div style="display: flex; flex-direction: column; font-weight: bolder; margin: 15px 0px 0px 0px;">
-                    <span id="reportMeetingtitle" name="reportMeetingtitle" style="margin: auto;"></span>
-					<input type="hidden" id="reportMeetingtitleH" name="reportMeetingNo">
+                    <span id="reportUserNickName" name="reportUserNickName" style="margin: auto;"></span>
                     <span name="reportTime" style="margin: auto;">신고시간 : <c:out value="${date}" /></span>
 					<input name="reportTime" type="hidden" value="${date}">
-					<span id="onsubmit_report" style="margin: auto; font-weight: bolder; font-size: 20px;"></span>
+					<span id="onsubmit_report_user" style="margin: auto; font-weight: bolder; font-size: 20px;"></span>
                 </div>
-        	</div>
-            <div class="modal-body">
-                <textarea name="reportContent" id="reportContent" style="border: 3px #dc3545 solid; height: 300px; width: 470px;" placeholder="내용을 입력하시오" maxlength="2000"></textarea>
             </div>
-			<div style="display: flex; justify-content: right; padding: 0px 10px 10px 0px;"><p class="textCount">0</pclass="textTotal"><p>/1500자</p></div>
+            <div class="modal-body">
+                <textarea name="reportContent" id="reportContent_user" style="border: 3px #dc3545 solid; height: 300px; width: 470px;" placeholder="내용을 입력하시오"></textarea>
+            </div>
+            <div style="display: flex; justify-content: right; padding: 0px 10px 10px 0px;"><p class="textCount">0</pclass="textTotal"><p>/1500자</p></div>
             <div class="modal-footer">
                 <input class="btn btn-danger" type="submit" value="신고하기">
                 <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">취소하기</button>
              
             </div>
 
-    	</form>
+        </form>
       </div>
     </div>
-  </div>
-  
- <script type="text/javascript">
- 	 
- </script>
+  </div> 
+  <!--게시물 신고-->
+  <div class="modal fade" id="myresreport" data-bs-backdrop="static" tabindex="-1" aria-labelledby="#myresreport" aria-hidden="true" >
+    <div class="modal-dialog">
+      <div class="modal-content">
+		 <form action="${path}/report/report.do" onsubmit="return report_myres();" method="post">
+			<input name="type" type="hidden" value="myres">
+        	<div class="modal-header" style="display: flex; flex-direction: column;">
+        	<input id="reportmyresNo" type="hidden" name="myresNo">
+				<div>
+
+					<input id="reprotTitle_myres" name="reprotTitle" type="text" style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 300px;" placeholder="신고제목을 입력하세요">
+						<select id="reportKind_myres" name="reportKind_myres" style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 150px;">
+						<option value="신고 분류 선택">신고 분류 선택</option>
+						<option value="상업적/홍보성">상업적/홍보성</option>
+						<option value="음란/선정성">음란/선정성</option>
+						<option value="불법정보">불법정보</option>
+						<option value="욕설/인신공격">욕설/인신공격</option>
+						<option value="기타">기타</option>
+					</select>
+				</div>
+                <div style="display: flex; flex-direction: column; font-weight: bolder; margin: 15px 0px 0px 0px;">
+                    <span id="reportmyres" name="reportmyres" style="margin: auto;"></span>
+                    <span name="reportTime" style="margin: auto;">신고시간 : <c:out value="${date}" /></span>
+					<input name="reportTime" type="hidden" value="${date}">
+					<span id="onsubmit_report_myres" style="margin: auto; font-weight: bolder; font-size: 20px;"></span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <textarea name="reportContent" id="reportContent_myres" style="border: 3px #dc3545 solid; height: 300px; width: 470px;" placeholder="내용을 입력하시오"></textarea>
+            </div>
+            <div style="display: flex; justify-content: right; padding: 0px 10px 10px 0px;"><p class="textCount">0</pclass="textTotal"><p>/1500자</p></div>
+            <div class="modal-footer">
+                <input class="btn btn-danger" type="submit" value="신고하기">
+                <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">취소하기</button>
+             
+            </div>
+
+        </form>
+      </div>
+    </div>
+  </div> 

@@ -34,28 +34,23 @@
 			                            <div style="font-weight: bolder;">
 			                                <img src="${path }/resources/images/사람들.png" style="height: 30; width: 30;"/>
 			                                <span>
-			                                	 <c:choose>
+			                   <c:choose>
 			                                		
 			                                	 	<c:when test="${ m.meetingGender eq '무관' }">
-			                                			<span>성별 무관 | </span> <span>${m.meetingMinAge }~${m.meetingMaxAge }세</span>
+			                                			<span>성별 무관 || </span> <span>${m.meetingMinAge }~${m.meetingMaxAge }세</span>
 			                                			 
 			                                		</c:when>
-			                                		 <c:when test="${m.meetingGender eq '무관' || m.meetingMinAge eq 1 && m.meetingMaxAge eq 99}">
+			                                		 <c:when test="${m.meetingGender eq '무관' && m.meetingMinAge eq 1 && m.meetingMaxAge eq 99}">
 			                                			<span>누구나 참여 가능</span>
-			                                			 <%-- <span>${m.meetingMinAge}</span> 
-			                                			 <span>${m.meetingMaxAge} </span> 
-			                                			 <span>성별 ${m.meetingGender}</span>  --%>
 			                                		</c:when>
-			                                		<%-- <c:when test="${m.meetingMinAge  eq 1 && m.meetingMaxAge eq 99}">
-			                        
-			                                			<span>${m.meetingGender}모임 |</span><span> 나이대 무관</span>
-			                                			 -
-			                                		</c:when>  --%>
+			                                		<c:when test="${m.meetingMinAge eq 1 && m.meetingMaxAge eq 99 }">
+			                                			<span>${m.meetingGender}모임 || 나이대 무관</span>
+			                                		</c:when> 
 			                                		<c:otherwise>
 			                                			<span>${m.meetingGender}모임 | </span> <span> ${m.meetingMinAge }~${m.meetingMaxAge }세</span>
 			                                		</c:otherwise>   
 			                                		
-			                                	</c:choose> 
+			                                	</c:choose>  
 			                                    <%-- <span>${m.meetingGender } 모임</span> <span>${m.meetingMinAge }~${m.meetingMaxAge }세</span>누구나 참여 가능 
 			                                    [ --%>
 			                                    <span id="curNum">

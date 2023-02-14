@@ -45,7 +45,7 @@
                                 	<button id="edit-profile" type="button" class="btn btn-danger" onclick="location.href='${path }/member/myinfo'">프로필 편집</button>
                                 </c:if>
                                 <c:if test="${member!=null}">
-                                	<button id="report" data-bs-toggle="modal" data-bs-target="#report" type="button" class="btn btn-danger" onclick="location.href='${path }/장환'" style="width: 3rem;height:1.5rem;font-size: 0.5rem;">신고</button>
+                                	<button id="userreport" data-bs-toggle="modal" data-bs-target="#userreport" type="button" class="btn btn-danger" onclick="fun_memberReport('${member.memberNo}','${member.memberNickName}');" style="width: 3rem;height:1.5rem;font-size: 0.5rem;">신고</button>
                                 </c:if>
                             </div>
                             <div id="info-2" >
@@ -153,7 +153,7 @@
                                    </div>
                                    <script type="text/javascript">
                                       function signupmeetingList(a,b){
-                                        console.log(a,b);
+                                        console.log("참여내역"+a,b);
 
 
                                         $.ajax({
@@ -246,7 +246,77 @@
                              </div>
                             </div>
                               
+                             <script type="text/javascript">
+                             	var j_userNickName="";
+                         		var j_usermemberNo=0;
+                             function fun_memberReport(a,b) {
+                            	j_userNickName=b;
+                            	j_usermemberNo=a;
+                         		console.log(a)
+                         		console.log(b)
+                         		$("#reportUserNickName").text("신고할 유저 아이디 : "+j_userNickName);
+                         		$("#reportMemberNo").val(j_usermemberNo);
+                         	} 
                              
+                            
+                             
+                             
+                             const report_user=()=>{
+                         		//신고 제목 유효성 검사
+                         		if ($("#reprotTitle_user").val().trim()=="") {
+                         			$('#onsubmit_report_user').css('color', '#dc3545').text("신고제목을 입력해주세요");
+                         			$("#reprotTitle_user").focus();
+                         			return false;
+                         		}
+                         		else{
+                         			$('#onsubmit_report_user').text("");
+                         		}
+
+                         		const reportKind_user=$("select[name=reportKind_user]").val();
+                         		console.log(reportKind_user)
+                         	
+
+                         		//신고분류 유효성 검사
+                         		if(reportKind_user=="신고 분류 선택"){
+                         			$('#onsubmit_report_user').text('신고분류를 선택해주세요');
+                         			$('#onsubmit_report_user').css('color', '#dc3545');
+                         			return false;
+                         		}else{
+                         			$('#onsubmit_report_user').text('');
+                         		}
+
+                         		//신고사유 유효성검사
+                         		if ($("#reportContent_user").val().trim()=="") {
+                         			$('#onsubmit_report_user').css('color', '#dc3545').text("신고 내용을 입력해주세요");
+                         			$("#reportContent_user").focus();
+                         			return false;
+                         		}
+                         		else{
+                         			$('#onsubmit_report_user').text("");
+                         		}
+
+
+                         		}
+                             
+                             $('#reportContent_user').keyup(function (e) {
+                          		let content = $(this).val();
+                          	    
+                          	    // 글자수 세기
+                          	    if (content.length == 0 || content == '') {
+                          	    	$('.textCount').text('0자');
+                          	    } else {
+                          	    	$('.textCount').text(content.length + '자');
+                          	    }
+                          	    
+                          	    // 글자수 제한
+                          	    if (content.length > 1499) {
+                          	    	// 200자 부터는 타이핑 되지 않도록
+                          	        $(this).val($(this).val().substring(0, 1500));
+                          	        // 200자 넘으면 알림창 뜨도록
+                          	        alert('신고내용은 1500자까지만 입력할 수 있습니다.');
+                          	    };
+                          	});
+                             </script>
                              
                              
                                     

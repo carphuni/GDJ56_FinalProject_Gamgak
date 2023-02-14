@@ -242,7 +242,7 @@
 
          
          }else{
-        	 var dateTimeFormatted = meetingDate.format('{yyyy}-{MM}-{dd} {HH}:{mm}:{ss}'); // 2014-01-01 00:00:01
+        	 //var dateTimeFormatted = meetingDate.format('{yyyy}-{MM}-{dd} {HH}:{mm}:{ss}'); // 2014-01-01 00:00:01
             $('#date_check').text('');
          }
 
