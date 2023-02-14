@@ -5,12 +5,10 @@
 <c:set var="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"/>
 <link rel="stylesheet" type="text/css" href="${path }/resources/css/member.css">
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
-
 	<div id="profileInfo-wrapper">
 		<div id="profile-menu">
-            <div><button>프로필 편집</button></div>
-            <div><button>비밀번호 변경</button></div>
-    
+			<div><button onclick="location.assign('${path }/member/myinfo')">프로필 편집</button></div>
+	        <div><button onclick="location.assign('${path }/member/passwordUpdate')">비밀번호 변경</button></div>
         </div>
         <div id="verticalLine"></div>
 		<div id="updatePassword-contents">

@@ -44,7 +44,7 @@ div#profileInfo-wrapper span.guide{display:none;position:relative;}
 #profileInfo-wrapper{
 	margin-top: 1rem;
     width: 50rem;
-	height: 40rem;
+	height: 130dvh;
     background-color: white;
     padding: 1rem;
     border-radius: 0.5rem;
@@ -58,26 +58,59 @@ div#profileInfo-wrapper span.guide{display:none;position:relative;}
 }
 #profile-wrapper-contents{
 	margin-top: 1rem;
-    width: 100%;
-
+    width: 80rem;
 	text-align: center;
-	margin-left: 5rem;
+	margin-left: 3rem;
 	flex-direction: column;
 	font-family: '맑은 고딕';
 	display: flex;
-	border: 1px solid red;
 }
 
 #profile-wrapper-contents div{
 	margin-bottom : 3rem;
 }
 
-#profile-contents .inputbox{
+#profile-contents{
 	display:flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#profile-contents .inputbox{
+	display: flex;
+	flex-direction: row; 
 	justify-content:space-between;
-	border: 1px solid red;
 	margin-left: auto; 
 	margin-bottom: 2rem;
+	width: 25rem;
+}
+
+#profile-contents .inputbox input{
+	width : 15rem;
+}
+#profile-contents .inputbox textarea{
+	width : 15rem;
+}
+#profile-contents .inputbox div input{
+	width : 2rem;
+}
+#profile-contents .inputbox #submit{
+	width: 100%;
+}
+
+#withdrawal-content{
+	margin-top: 1rem;
+    width: 50rem;
+	display:flex;
+	flex-direction: row;
+	margin-top: 10px;
+	
+}
+#withdrawal-content input{
+	margin-left: auto;
+	border: none;
+	background-color: none;
 }
 
 /* findPassword */
@@ -108,8 +141,8 @@ div#profileInfo-wrapper span.guide{display:none;position:relative;}
 	font-family: '맑은 고딕';
 }
 #password-form{
-	width : 40%;
-	height : 70%;
+	width : 30rem;
+	height : 30rem;
     padding: 30px 80px;
     display: inline-block;
 	text-align: center;
@@ -120,13 +153,17 @@ div#profileInfo-wrapper span.guide{display:none;position:relative;}
 #text-form{
 	
 	padding:10px;
-    justify-content: center;
+    text-align: center;
     margin-top: 2rem;
 	
 }
-#text-form input{
-	width : 15rem;
-	margin-top: 1rem;
+#password-form #text-form input{
+	padding: 10px;
+	width : 20rem;
+	height: 3rem;
+	margin-top: 0.3rem;
+	align-items: center;
+	
 }
 #password-form button{
 	width : 15rem;

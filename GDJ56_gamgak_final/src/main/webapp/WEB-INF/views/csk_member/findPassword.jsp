@@ -34,10 +34,7 @@
 			<p>로그인에 문제가 있나요?<br> 가입시 입력한 이메일로 임시 비밀번호가 전송됩니다.<br>
 			로그인 후 마이페이지에서 비밀번호를 변경 해주세요.</p>
 			<div id="text-form">
-<!-- 	    		<label class="form-label">이름</label> -->
-<!-- 				<input type="text" id="memberName" name="memberName" placeholder="이름을 입력하세요" required/><br> -->
-		    	<label class="form-label">이메일</label>
-				<input type="email" id="memberEmail" name="memberEmail" placeholder="이메일을 입력하세요" required/><br>
+				<input type="email" class="form-control" id="memberEmail" name="memberEmail" placeholder="이메일을 입력하세요" required/><br>
 			</div>
 			<input type="submit" id="sendEmail" class="btn btn-danger" value="비밀번호 발송"/>
 		</form>
