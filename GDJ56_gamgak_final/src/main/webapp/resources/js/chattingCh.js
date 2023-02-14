@@ -6,13 +6,13 @@ function addMsgSystemCh(msg){
 
 //실시간 채팅 출력
 function printMsgCh(myId,msg){
-	console.log(msg.profileOriname)
+	console.log("시간확인"+msg.chattingEnrollDate)
     const $p=$("<p>");
     //대화내용
     $p.text(`${msg.chattingContent}`);
     //시간
-    let chattingEnrollDate=msg.chattingEnrollDate
-    console.log(chattingEnrollDate);
+    let chattingEnrollDate=msg.chattingEnrollDate2
+    console.log(chattingEnrollDate)
     if(myId==msg.memberSender){
 		const $divRr=$("<div>").attr("id","modal_sender");
 		const $divR=$("<div>").attr("id","modal_msg_text_r");
@@ -22,7 +22,7 @@ function printMsgCh(myId,msg){
 		if(msg.chattingUnreadCnt==1){
 			$divRead.text(msg.chattingUnreadCnt);
 		}		
-		$divTr.text(chattingEnrollDate.substr(11,5));
+		$divTr.text(chattingEnrollDate);
 		$divRr.append($divRead);
 		$divRr.append($divTr);
 		$divRr.append($divR);
@@ -44,7 +44,7 @@ function printMsgCh(myId,msg){
 		$b.text(`${msg.memberSender}`);
 		$divN.append($b);
 		$divS.append($p);
-		$divTs.text(chattingEnrollDate.substr(11,5));
+		$divTs.text(chattingEnrollDate);
 		$divTR.append($divReadS);
 		$divTR.append($divTs);	
 		$divT.append($divS);
@@ -73,6 +73,7 @@ function selectMsgList(data,loginMemberNo){
 	data.list.forEach(v => {
 		console.log(v)
 		let chattingEnrollDate=v.CHATTING_ENROLL_DATE
+		console.log("gg"+v.CHATTING_ENROLL_DATE)
 		const $b=$("<b>");
 		const $pText=$("<p>").attr("id","pText");
 		const $pTime=$("<p>").attr("id","pTime");
@@ -155,14 +156,15 @@ function selectMsgList(data,loginMemberNo){
 
 //채팅방 들어갔을 때 기존 대화 출력
 function msgRead(data,loginMemberNo,personalChatroomNo){
-	console.log(data)
 	  data.forEach(v => {
 		//대화내용
 	    const $p=$("<p>");
 	    $p.text(v.CHATTING_CONTENT);
 	    //시간
-	    let chattingEnrollDate=v.CHATTING_ENROLL_DATE
-	    
+		let chattingEnrollDate=v.CHATTING_ENROLL_DATE2;
+	    console.log(chattingEnrollDate)
+
+
 	    if(loginMemberNo==v.MEMBER_SENDER_NO){
 			const $divRr=$("<div>").attr("id","modal_sender");
 			const $divR=$("<div>").attr("id","modal_msg_text_r");
