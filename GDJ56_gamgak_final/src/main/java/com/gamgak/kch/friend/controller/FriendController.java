@@ -75,6 +75,7 @@ public class FriendController {
 	@RequestMapping("/deleteFriend.do")
 	@ResponseBody
 	public int deleteFriend(int loginMemberNo, int friendMemberNO) {
+		service.deleteFriend(loginMemberNo, friendMemberNO);
 		return service.deleteFriend(loginMemberNo, friendMemberNO);
 	}		
 }

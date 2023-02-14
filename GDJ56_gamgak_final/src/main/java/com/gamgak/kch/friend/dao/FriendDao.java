@@ -43,4 +43,8 @@ public interface FriendDao {
 	//친구삭제
 	@Delete("DELETE FROM FRIEND WHERE (MEMBER_FOLLOWING_NO=#{loginMemberNo} AND MEMBER_FOLLOWER_NO=#{friendMemberNO}) OR (MEMBER_FOLLOWING_NO=#{friendMemberNO} AND MEMBER_FOLLOWER_NO=#{loginMemberNo})")
 	int deleteFriend(int loginMemberNo, int friendMemberNO);
+	
+	//친구삭제 시 채팅방 삭제
+	@Delete("DELETE FROM ENTERCHAT WHERE PERSONAL_CHATROOM_NO=(SELECT PERSONAL_CHATROOM_NO FROM(SELECT * FROM ENTERCHAT WHERE MEMBER_NO=#{loginMemberNo}) JOIN (SELECT * FROM ENTERCHAT WHERE MEMBER_NO=#{friendMemberNO}) USING (PERSONAL_CHATROOM_NO))")
+	int deleteEnterchat(int loginMemberNo, int friendMemberNO);
 }
