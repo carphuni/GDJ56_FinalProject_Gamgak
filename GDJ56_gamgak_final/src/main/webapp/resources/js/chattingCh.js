@@ -1,6 +1,7 @@
 function addMsgSystemCh(msg){
 	const $p=$("<p>").css({"textAlign":"center","color":"gray","font-size":"13px"}).text(msg.msg);
 	$("#chat").append($p);
+	$('#chat').scrollTop($('#chat')[0].scrollHeight);
 }
 
 //실시간 채팅 출력
@@ -148,13 +149,11 @@ function selectMsgList(data,loginMemberNo){
 	$pageBar.append(data.pageBar);
 	$("#totalpage").append($pageBar);
 	msgPrint();
+	$('#chat').scrollTop($('#chat')[0].scrollHeight);
 }
 
 
 //채팅방 들어갔을 때 기존 대화 출력
-
-	
-
 function msgRead(data,loginMemberNo,personalChatroomNo){
 	console.log(data)
 	  data.forEach(v => {
@@ -220,10 +219,11 @@ function msgRead(data,loginMemberNo,personalChatroomNo){
 		$("#modal_msg_send").append($inputH);
 		
 		
-   			$('#chat').scrollTop($('#chat')[0].scrollHeight);
+   			//$('#chat').scrollTop($('#chat')[0].scrollHeight);
 		//$('#chat').scrollTop($('#chat').prop('scrollHeight'));
 		
 	});
+	$('#chat').scrollTop($('#chat')[0].scrollHeight);
 
 }
 
