@@ -75,8 +75,10 @@ public class ProfileController {
 	//다른 유저 프로필 화면 
 	@RequestMapping("/user")
 	public ModelAndView profileUser(ModelAndView mv,@RequestParam Map param) {
-		//Session에 저장된 회원 pk 가져오기
 		int memberNo=Integer.parseInt((String)param.get("memberNo"));
+		Member member=service.selectMember(memberNo);
+		log.debug("회원 정보 : {}",member);
+		mv.addObject("member", member);
 		//저장한 맛집 카운트 가져오기
 		mv.addObject("myResCount", service.selectMyResCount(memberNo));
 		//친구 카운트 가져오기
@@ -125,6 +127,7 @@ public class ProfileController {
 		}
 		log.debug(myResNos);
 		log.debug("{}",myResList);
+		mv.addObject("memberNo", memberNo);
 		mv.addObject("myResList", myResList);
 		mv.addObject("myPicList", myPicList);
 		mv.addObject("cPage",cPage);
@@ -149,6 +152,7 @@ public class ProfileController {
 		}
 		log.debug(myResNos);
 		log.debug("{}",myResList);
+		mv.addObject("memberNo", memberNo);
 		mv.addObject("myResList", myResList);
 		mv.addObject("myPicList", myPicList);
 		mv.addObject("cPage",cPage);
@@ -172,6 +176,7 @@ public class ProfileController {
 			if(i==0)myResNos+=((MyRes)(myResList.get(i))).getMyResNo();
 			else myResNos+=","+((MyRes)(myResList.get(i))).getMyResNo();
 		}
+		mv.addObject("memberNo", memberNo);
 		mv.addObject("myResList", myResList);
 		mv.addObject("myPicList", myPicList);
 		mv.addObject("cPage",cPage);
@@ -193,6 +198,7 @@ public class ProfileController {
 			if(i==0)myResNos+=((MyRes)(myResList.get(i))).getMyResNo();
 			else myResNos+=","+((MyRes)(myResList.get(i))).getMyResNo();
 		}
+		mv.addObject("memberNo", memberNo);
 		mv.addObject("myResList", myResList);
 		mv.addObject("myPicList", myPicList);
 		mv.addObject("cPage",cPage);
@@ -216,6 +222,7 @@ public class ProfileController {
 			if(i==0)myResNos+=((MyRes)(myResList.get(i))).getMyResNo();
 			else myResNos+=","+((MyRes)(myResList.get(i))).getMyResNo();
 		}
+		mv.addObject("memberNo", memberNo);
 		mv.addObject("myResList", myResList);
 		mv.addObject("myPicList", myPicList);
 		mv.addObject("cPage",cPage);
@@ -224,7 +231,7 @@ public class ProfileController {
 		return mv;
 	}
 	
-	//내 맛집 제목,카테고리 검색 조회
+	//다른 유저 맛집 제목,카테고리 검색 조회
 	@RequestMapping("/selectMyresTitleUser")
 	public ModelAndView selectMyresTitleUser(ModelAndView mv, int cPage, String search, int memberNo) {
 		//페이지 관련 변수 선언
@@ -237,6 +244,7 @@ public class ProfileController {
 			if(i==0)myResNos+=((MyRes)(myResList.get(i))).getMyResNo();
 			else myResNos+=","+((MyRes)(myResList.get(i))).getMyResNo();
 		}
+		mv.addObject("memberNo", memberNo);
 		mv.addObject("myResList", myResList);
 		mv.addObject("myPicList", myPicList);
 		mv.addObject("cPage",cPage);

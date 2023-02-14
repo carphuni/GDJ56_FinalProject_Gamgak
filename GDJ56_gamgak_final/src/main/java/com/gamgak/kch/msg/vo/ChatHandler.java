@@ -1,6 +1,6 @@
 package com.gamgak.kch.msg.vo;
 
-import java.sql.Date;
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,5 +21,7 @@ public class ChatHandler {
 	private String chattingContent;
 	private Date chattingEnrollDate;
 	private int chattingUnreadCnt;
+	private String profileOriname;
+	private String profileRename;
 }
 

@@ -6,8 +6,9 @@ let myresMapY=[];
 
 //dataClass
 class profileData{
-	constructor(cPage=1,area="",search="",url="/GDJ56_gamgak_final/profile/selectMyresAll")
-	{
+	constructor(memberNo,cPage=1,area="",search="",url="")
+	{	
+		this.memberNo=memberNo;
 		this.cPage=cPage;
 		this.area=area;
 		this.search=search;
@@ -73,6 +74,34 @@ class profileData{
 		this.onScroll();
 	}
 
+	setSelectMyresAllUser(){
+		//데이터 초기화
+		this.area="";
+		this.search="";
+		this.memberNo=$("#memberNo").val();
+		//스크롤 페이징 주소 변경
+		this.url="/GDJ56_gamgak_final/profile/selectMyresAllUser";
+		this.onScroll();
+	}
+
+	setSelectMyresAreaUser(){
+		//데이터 초기화
+		this.search="";
+		this.memberNo=$("#memberNo").val();
+		//스크롤 페이징 주소 변경
+		this.url="/GDJ56_gamgak_final/profile/selectMyresAreaUser";
+		this.onScroll();
+	}
+
+	setSelectMyresSearchUser(){
+		//데이터 초기화
+		this.area="";
+		this.memberNo=$("#memberNo").val();
+		//스크롤 페이징 주소 변경
+		this.url="/GDJ56_gamgak_final/profile/selectMyresTitleUser";
+		this.onScroll();
+	}
+
 
 	selectMyres(){
 		this.cPage=1;
@@ -97,6 +126,7 @@ class profileData{
 };
 
 let pd=new profileData();
+let memberFlag=$("#memberNo").val()=="";
 
 $(window).scroll(()=>{
 	pd.profileScroll();
@@ -104,13 +134,22 @@ $(window).scroll(()=>{
 
 
 $(()=>{
-	pd.setSelectMyresAll();
+	if(memberFlag){
+		pd.setSelectMyresAll();
+	}else{
+		pd.setSelectMyresAllUser();
+	}
 	pd.selectMyres();
+	
 })
 
 //내 맛집 클릭 시
 $("#show-click").click(()=>{
-	pd.setSelectMyresAll();
+	if(memberFlag){
+		pd.setSelectMyresAll();
+	}else{
+		pd.setSelectMyresAllUser();
+	}
 	pd.selectMyres();
 })
 
@@ -124,7 +163,11 @@ $("#area-click").click(()=>{
 $("#area-search").change((e)=>{
 	//선택한 지역 value 초기화
 	pd.area=$(e.target).val();
-	pd.setSelectMyresArea();
+	if(memberFlag){
+		pd.setSelectMyresArea();
+	}else{
+		pd.setSelectMyresAreaUser();
+	}
 	pd.selectMyres();
 })
 
@@ -137,8 +180,13 @@ $("#title-click").click(()=>{
 $("#title-search button").click(()=>{
 	//제목,카테고리 input value 초기화
 	pd.search=$("#title-search input").val();
-	pd.setSelectMyresSearch();
+	if(memberFlag){
+		pd.setSelectMyresSearch();
+	}else{
+		pd.setSelectMyresSearchUser();
+	}
 	pd.selectMyres();
+	
 })
 
 

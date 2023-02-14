@@ -37,7 +37,7 @@ public interface FriendDao {
 	int acceptFriend(int loginMemberNo, int memberNo);
 	
 	//친구신청수
-	@Select("SELECT COUNT(*)AS \"COUNT\" FROM FRIEND WHERE (MEMBER_FOLLOWING_NO=${loginMemberNo} OR MEMBER_FOLLOWER_NO=${loginMemberNo}) AND ACCEPT_YN='S'")
+	@Select("SELECT COUNT(*)AS \"COUNT\" FROM FRIEND WHERE MEMBER_FOLLOWER_NO=${loginMemberNo} AND ACCEPT_YN='S'")
 	int friendCount(int loginMemberNo);
 	
 	//친구삭제

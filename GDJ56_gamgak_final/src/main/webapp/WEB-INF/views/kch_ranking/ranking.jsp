@@ -310,9 +310,14 @@
 	    itemStrch = '<p id="list'+index+'">' +
 	    		'<span class="markerbg marker_' + (index+1) + '"></span>' +
 	                '<div class="info">' +
-	                '	<div id="places_info">' +
-	                '   	<h5 id="places_res_name">' + places.RES_NAME + '</h5>' +
-	                '			<h5 id="places_count">&nbsp; &nbsp; ♥ ' + places.COUNT + '</h5>' +
+	                '	<div id="places_info">';
+ 	                if(places.RES_NAME.length>8){
+ 	                	itemStrch+='   	<h5 id="places_res_name">' + places.RES_NAME.slice(0,8)+"..." + '</h5>' ;
+	                }else{
+	                	itemStrch+='   	<h5 id="places_res_name">' + places.RES_NAME + '</h5>' ;
+	                } 
+ 	                itemStrch+=
+ 	            	'			<h5 id="places_count">&nbsp; &nbsp; ♥ ' + places.COUNT + '</h5>' +
 	                '	</div>';
 	                if(places.RES_ADDRESS!=null&&places.RES_PHONE!=null){
 	                	itemStrch+=
