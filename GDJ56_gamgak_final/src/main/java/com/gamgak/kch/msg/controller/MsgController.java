@@ -1,5 +1,6 @@
 package com.gamgak.kch.msg.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gamgak.kch.msg.common.PageFactory;
 import com.gamgak.kch.msg.service.MsgService;
-import com.gamgak.psh.admin.vo.Member;
 
 @Controller
 @RequestMapping("/msg")
@@ -54,8 +54,8 @@ public class MsgController {
 	//메세지 저장
 	@RequestMapping("/insertMsg.do")
 	@ResponseBody
-	public int insertMsg(int personalChatroomNo,int receiverNo, int senderNo, String content) {
-		int result=service.insertMsg(personalChatroomNo,receiverNo,senderNo,content);
+	public int insertMsg(int personalChatroomNo,int receiverNo, int senderNo, String content, String time) {
+		int result=service.insertMsg(personalChatroomNo,receiverNo,senderNo,content,time);
 		return result;
 	}
 	

@@ -1,9 +1,9 @@
 package com.gamgak.kch.msg.dao;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -29,8 +29,8 @@ public interface MsgDao {
 	List<Map> selectChatList(int personalChatroomNo, int loginMemberNo);
 	
 	//대화 저장
-	@Insert("INSERT INTO CHAT VALUES(SEQ_CHATNO.NEXTVAL, NULL, #{personalChatroomNo}, #{receiverNo}, #{senderNo}, #{content}, DEFAULT, 1)")
-	int insertMsg(int personalChatroomNo, int receiverNo, int senderNo, String content);
+	@Insert("INSERT INTO CHAT VALUES(SEQ_CHATNO.NEXTVAL, NULL, #{personalChatroomNo}, #{receiverNo}, #{senderNo}, #{content}, DEFAULT, 1, #{time})")
+	int insertMsg(int personalChatroomNo, int receiverNo, int senderNo, String content, String time);
 	
 	//같은방 회원 정보 가져오기
 	@Select("SELECT * FROM MEMBER JOIN ENTERCHAT USING (MEMBER_NO) WHERE PERSONAL_CHATROOM_NO=#{personalChatroomNo} AND MEMBER_NO!=#{loginMemberNo}")
