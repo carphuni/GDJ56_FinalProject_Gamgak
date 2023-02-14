@@ -103,7 +103,7 @@
 						<span id="pwresult"></span>
 
 	                </div>
-	                <button id="loginButton" type="submit" class="btn btn-danger">회원가입</button>
+	                <button id="loginButton" type="submit" class="btn btn-danger">이메일 인증</button>
 	        	</div>
         	</form>
     	</div>

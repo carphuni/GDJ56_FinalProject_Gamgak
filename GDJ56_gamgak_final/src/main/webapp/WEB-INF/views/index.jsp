@@ -84,8 +84,8 @@
                 <div id="loginEtc">
                     <a href="${path }/enroll"><span>회원가입</span></a>
                     <div id="colLine"></div>
-                    <a><span>이메일 찾기</span></a>
-                    <div id="colLine"></div>
+<!--                     <a><span>이메일 찾기</span></a> -->
+<!--                     <div id="colLine"></div> -->
                     <a href="${path }/findPasswordEmail"><span>비밀번호 찾기</span></a>
                 </div>
                 <div id="rowLine"></div>
