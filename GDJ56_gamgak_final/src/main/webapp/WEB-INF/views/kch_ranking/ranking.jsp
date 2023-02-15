@@ -383,7 +383,8 @@
 	                const title=$(marker.ca).attr("alt");
 	              	$("#placesListch>li").css("backgroundColor","");
 	                $("#placesListch>li").each((i,e)=>{
-	                	if($(e).find("#places_res_name").text()==title){
+	                	const name=$(e).find("#places_res_name").text().slice(0,4);
+	                	if(title.includes(name)){
 	                		$(e).parent().prepend(e);
 	                		$(e).css("backgroundColor","#FFC6C6");
 	                	}

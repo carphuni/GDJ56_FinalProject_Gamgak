@@ -31,24 +31,24 @@
             <div class="carousel-inner">
               <div class="carousel-item active">
                 <img src="${path }/resources/images/메인 이미지.jpg" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
+                <!-- <div class="carousel-caption d-none d-md-block">
                   <h5>First slide label</h5>
                   <p>Some representative placeholder content for the first slide.</p>
-                </div>
+                </div> -->
               </div>
               <div class="carousel-item">
-                <img src="${path }/resources/images/메인 이미지.jpg" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
+                <img src="${path }/resources/images/메인 이미지2.jpg" class="d-block w-100" alt="...">
+                <!-- <div class="carousel-caption d-none d-md-block">
                   <h5>Second slide label</h5>
                   <p>Some representative placeholder content for the second slide.</p>
-                </div>
+                </div> -->
               </div>
               <div class="carousel-item">
-                <img src="${path }/resources/images/메인 이미지.jpg" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
+                <img src="${path }/resources/images/메인 이미지3.jpg" class="d-block w-100" alt="...">
+               <!--  <div class="carousel-caption d-none d-md-block">
                   <h5>Third slide label</h5>
                   <p>Some representative placeholder content for the third slide.</p>
-                </div>
+                </div> -->
               </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
@@ -84,8 +84,8 @@
                 <div id="loginEtc">
                     <a href="${path }/enroll"><span>회원가입</span></a>
                     <div id="colLine"></div>
-                    <a><span>이메일 찾기</span></a>
-                    <div id="colLine"></div>
+<!--                     <a><span>이메일 찾기</span></a> -->
+<!--                     <div id="colLine"></div> -->
                     <a href="${path }/findPasswordEmail"><span>비밀번호 찾기</span></a>
                 </div>
                 <div id="rowLine"></div>

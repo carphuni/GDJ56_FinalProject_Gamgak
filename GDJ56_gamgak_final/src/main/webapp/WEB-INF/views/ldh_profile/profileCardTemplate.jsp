@@ -55,7 +55,7 @@
 					<h1 class="modal-title fs-5" id="exampleModalLabel">${myres.restaurant.resName }</h1>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
-				<form id="insertModal-body" class="modal-body" action="${path }/profile/insertmyres.do" enctype="multipart/form-data" method="post">
+				<div id="insertModal-body" class="modal-body" >
 					<!-- 캐러셀 -->
 					<div id="mypicInfo-carousel${myres.myResNo }" class="carousel slide col-sm-6" data-bs-ride="carousel" style="height:100%;">
 						<div id="mypic-inner" class="carousel-inner" style="height:100%;">
@@ -115,7 +115,7 @@
 						<hr>
 					</div>
 					<input type="hidden" name="restaurant"/>
-				</form>   
+				</div>   
 				<div class="modal-footer" style="display: flex; justify-content: space-between;">
 					<c:if test="${memberNo==loginMember.memberNo}">
 						<button id="deleteMyres" class="btn btn-danger" value="${myres.myResNo }">삭제</button>

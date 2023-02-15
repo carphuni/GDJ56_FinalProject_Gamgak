@@ -204,7 +204,7 @@
 					loginMemberNo:loginMemberNo
 				},
 				success:data=>{
-					console.log(data[0]);
+					console.log(data);
 					console.log(loginMemberNo);
 					console.log(personalChatroomNo);
 					msgRead(data,loginMemberNo,personalChatroomNo);
@@ -215,6 +215,13 @@
 					// ---------- 채팅 ---------- 
 					
 					var today = new Date();
+					var time=today.toString().substring(16,21); //시간
+					//현재날짜 변환하기
+					var todayy = new Date();
+					todayy.setHours(today.getHours() + 9);
+					var today2=todayy.toISOString().replace('T', ' ').substring(0, 19);
+					console.log(today2)
+					
 					
 					const servername1="wss://gd1class.iptime.org:8844/GDJ56_gamgak_final/chatting_Server"
 					//ws://gd1class.iptime.org:9999/GDJ56_gamgak_final/chatting_Server
@@ -224,10 +231,10 @@
 					websocket.onopen=(data)=>{
 						console.log(data);
 						//const sendData2=new Chat("open","",personalChatroomNo,"",'${loginMember.memberNickName}',"",today,"");
-						websocket.send(JSON.stringify(new Chat("open","",personalChatroomNo,"user04",'${loginMember.memberNickName}',"",today,"")))
+						websocket.send(JSON.stringify(new Chat("open","",personalChatroomNo,"user04",'${loginMember.memberNickName}',"",today,"","","")))
 						//websocket.send(JSON.stringify(sendData2));
 					}
-					
+
 					websocket.onmessage=(response)=>{
 						console.log("onmassage-response"+response);
 						const msg=JSON.parse(response.data);
@@ -256,7 +263,7 @@
 									"loginMemberNo":${loginMember.memberNo}
 								},
 								success:data=>{
-									console.log(data.data);				
+									console.log("시간"+today);				
 									// 서버로 메세지 보내기
 									const sendData=new Chat("msgCh","",data.data.PERSONAL_CHATROOM_NO,data.data.MEMBER_NICKNAME,'${loginMember.memberNickName}',msg,today,1,data.data.PROFILE_ORINAME,data.data.PROFILE_RENAME);
 									console.log(sendData);
@@ -272,7 +279,8 @@
 											"personalChatroomNo":personalChatroomNo,
 											"receiverNo":data.data.MEMBER_NO,
 											"senderNo":${loginMember.memberNo},
-											"content":msg
+											"content":msg,
+											"time":today2
 										},
 										success:data=>{
 										}  
