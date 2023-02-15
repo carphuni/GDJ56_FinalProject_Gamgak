@@ -383,100 +383,104 @@ public class AdminController {
 	/**
      * 설정된 initialDelay 시간(milliseconds) 후부터 fixedDelay 시간(milliseconds) 간격으로 실행
      */
-//    @Scheduled(fixedDelay = 60000, initialDelay = 5000)
-//    public void stopMsgSend() {
-//        List<Map> stoplist=service.selectStopMember();
-////        List<Map> noticelist=service.selectReportMember();
-//        List<Map> send=service.selectSendMsg();
-//        int msgresult;
-//		for(int j=0;j<send.size();j++) {
-//			int sendMem=Integer.parseInt((send.get(j).get("PERSONAL_CHATROOM_NO")).toString());
-//	        for(int i=0;i<stoplist.size();i++) {
-//	        	//정지회원번호
-//	        	int su=Integer.parseInt((stoplist.get(i).get("MEMBER_NO")).toString());
-//	        	//방 여부
-//	        	Map room=service2.chatroomCheck(1,su);
-//	        	//오늘 보낸 채팅방 번호
-//	        	int su2=Integer.parseInt((room.get("MEMBER_NO")).toString());
-//	        	if(room==null){
-//					//방번호가 없으면 생성
-//					int chatroom=service2.personalChatRoomInsert();
-//					System.out.println("chatroom : "+chatroom);
-//					//생성된 방번호 찾기 
-//					int chatRoomNo=service2.personalChatRoomNo();
-//					System.out.println("chatRoomNo : "+chatRoomNo);
-//					
-//					
-//					//해당 방 번호에 어드민과 회원 참여
-//					int adinsert=service2.enterchatInsert(1, chatRoomNo);
-//					int meminsert=service2.enterchatFriend(su, chatRoomNo);
-//						
-//					//메세지 인서트
-//					msgresult=service2.insertMsg(chatRoomNo,su,1,"정지안내문구");
-//				}else{
-////					System.out.println(su==su2);
-//					if(su==su2){
-////		        		System.out.println("오늘 이미 전송");
-//		        	}else{
-//					int rno=Integer.parseInt(room.get("PERSONAL_CHATROOM_NO").toString());
-//	
-//					//메세지 인서트
-//					msgresult=service2.insertMsg(rno,su,1,"정지안내문구");
-//		        	}
-//	        	
-//				}
-//	        }
-//
-//		}
-////        
-//    }
-//    
-//    @Scheduled(fixedDelay = 60000, initialDelay = 5000)
-//    public void reportMsgSend() {
-////    	 List<Map> stoplist=service.selectStopMember();
-//       List<Map> noticelist=service.selectReportMember();
-//       List<Map> send=service.selectSendMsg();
-//       int msgresult;
-//		for(int j=0;j<send.size();j++) {
-//			int sendMem=Integer.parseInt((send.get(j).get("PERSONAL_CHATROOM_NO")).toString());
-//	        for(int i=0;i<noticelist.size();i++) {
-//	        	//정지회원번호
-//	        	int su=Integer.parseInt((noticelist.get(i).get("MEMBER_NO")).toString());
-//	        	//방 여부
-//	        	Map room=service2.chatroomCheck(1,su);
-//	        	//오늘 보낸 채팅방 번호
-//	        	int su2=Integer.parseInt((room.get("MEMBER_NO")).toString());
-//	        	if(room==null){
-//					//방번호가 없으면 생성
-//					int chatroom=service2.personalChatRoomInsert();
-//					System.out.println("chatroom : "+chatroom);
-//					//생성된 방번호 찾기 
-//					int chatRoomNo=service2.personalChatRoomNo();
-//					System.out.println("chatRoomNo : "+chatRoomNo);
-//					
-//					
-//					//해당 방 번호에 어드민과 회원 참여
-//					int adinsert=service2.enterchatInsert(1, chatRoomNo);
-//					int meminsert=service2.enterchatFriend(su, chatRoomNo);
-//						
-//					//메세지 인서트
-//					msgresult=service2.insertMsg(chatRoomNo,su,1,"정지안내문구");
-//				}else{
-////					System.out.println(su==su2);
-//					if(su==su2){
-////		        		System.out.println("오늘 이미 전송");
-//		        	}else{
-//					int rno=Integer.parseInt(room.get("PERSONAL_CHATROOM_NO").toString());
-//	
-//					//메세지 인서트
-//					msgresult=service2.insertMsg(rno,su,1,"정지안내문구");
-//		        	}
-//	        	
-//				}
-//	        }
-//
-//		}
-//	}
+    @Scheduled(fixedDelay = 60000, initialDelay = 5000)
+    public void stopMsgSend() {
+    	SimpleDateFormat formatter=new SimpleDateFormat("yy/MM/dd");
+		String today=formatter.format(new Date());
+        List<Map> stoplist=service.selectStopMember();
+//        List<Map> noticelist=service.selectReportMember();
+        List<Map> send=service.selectSendMsg();
+        int msgresult;
+		for(int j=0;j<send.size();j++) {
+			int sendMem=Integer.parseInt((send.get(j).get("PERSONAL_CHATROOM_NO")).toString());
+	        for(int i=0;i<stoplist.size();i++) {
+	        	//정지회원번호
+	        	int su=Integer.parseInt((stoplist.get(i).get("MEMBER_NO")).toString());
+	        	//방 여부
+	        	Map room=service2.chatroomCheck(1,su);
+	        	//오늘 보낸 채팅방 번호
+	        	int su2=Integer.parseInt((room.get("MEMBER_NO")).toString());
+	        	if(room==null){
+					//방번호가 없으면 생성
+					int chatroom=service2.personalChatRoomInsert();
+					System.out.println("chatroom : "+chatroom);
+					//생성된 방번호 찾기 
+					int chatRoomNo=service2.personalChatRoomNo();
+					System.out.println("chatRoomNo : "+chatRoomNo);
+					
+					
+					//해당 방 번호에 어드민과 회원 참여
+					int adinsert=service2.enterchatInsert(1, chatRoomNo);
+					int meminsert=service2.enterchatFriend(su, chatRoomNo);
+						
+					//메세지 인서트
+					msgresult=service2.insertMsg(chatRoomNo,su,1,"정지안내문구",today);
+				}else{
+//					System.out.println(su==su2);
+					if(su==su2){
+//		        		System.out.println("오늘 이미 전송");
+		        	}else{
+					int rno=Integer.parseInt(room.get("PERSONAL_CHATROOM_NO").toString());
+	
+					//메세지 인서트
+					msgresult=service2.insertMsg(rno,su,1,"정지안내문구",today);
+		        	}
+	        	
+				}
+	        }
+
+		}
+//        
+    }
+    
+    @Scheduled(fixedDelay = 60000, initialDelay = 5000)
+    public void reportMsgSend() {
+    	SimpleDateFormat formatter=new SimpleDateFormat("yy/MM/dd");
+		String today=formatter.format(new Date());
+//    	 List<Map> stoplist=service.selectStopMember();
+       List<Map> noticelist=service.selectReportMember();
+       List<Map> send=service.selectSendMsg();
+       int msgresult;
+		for(int j=0;j<send.size();j++) {
+			int sendMem=Integer.parseInt((send.get(j).get("PERSONAL_CHATROOM_NO")).toString());
+	        for(int i=0;i<noticelist.size();i++) {
+	        	//정지회원번호
+	        	int su=Integer.parseInt((noticelist.get(i).get("MEMBER_NO")).toString());
+	        	//방 여부
+	        	Map room=service2.chatroomCheck(1,su);
+	        	//오늘 보낸 채팅방 번호
+	        	int su2=Integer.parseInt((room.get("MEMBER_NO")).toString());
+	        	if(room==null){
+					//방번호가 없으면 생성
+					int chatroom=service2.personalChatRoomInsert();
+					System.out.println("chatroom : "+chatroom);
+					//생성된 방번호 찾기 
+					int chatRoomNo=service2.personalChatRoomNo();
+					System.out.println("chatRoomNo : "+chatRoomNo);
+					
+					
+					//해당 방 번호에 어드민과 회원 참여
+					int adinsert=service2.enterchatInsert(1, chatRoomNo);
+					int meminsert=service2.enterchatFriend(su, chatRoomNo);
+						
+					//메세지 인서트
+					msgresult=service2.insertMsg(chatRoomNo,su,1,"정지안내문구",today);
+				}else{
+//					System.out.println(su==su2);
+					if(su==su2){
+//		        		System.out.println("오늘 이미 전송");
+		        	}else{
+					int rno=Integer.parseInt(room.get("PERSONAL_CHATROOM_NO").toString());
+	
+					//메세지 인서트
+					msgresult=service2.insertMsg(rno,su,1,"정지안내문구",today);
+		        	}
+	        	
+				}
+	        }
+
+		}
+	}
 }
 	
 	
