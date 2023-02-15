@@ -223,7 +223,7 @@
 		const servername1="wss://gd1class.iptime.org:8844/GDJ56_gamgak_final/chatting_Server"
 			//ws://gd1class.iptime.org:9999/GDJ56_gamgak_final/chatting_Server
 			const servername="ws://localhost:9090/GDJ56_gamgak_final/jjh_chatting_Server"
-			const websocket=new WebSocket(servername);
+			const websocket=new WebSocket(servername1);
 	
 		//const websocket=new WebSocket("ws://localhost:9090/chatting_Server");
 		//소켓을 만드는 역활
