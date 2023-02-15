@@ -36,8 +36,8 @@ uri="http://java.sun.com/jsp/jstl/core" %>
             <th>Total</th>
           </tr>
           <tr>
-            <td>오늘 보낸 메세지</td>
-            <td>총 보낸 메세지</td>
+            <td></td>
+            <td></td>
           </tr>
         </table>
       </div>

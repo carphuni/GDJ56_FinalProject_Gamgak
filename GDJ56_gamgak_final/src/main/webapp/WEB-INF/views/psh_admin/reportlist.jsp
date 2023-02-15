@@ -85,7 +85,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
           모임신고
         </button>
       </div>
-      <div id="orderbox">
+      <!-- <div id="orderbox">
         <select id="order">
           <option value="">최신순</option>
           <option value="">신고순</option>
@@ -95,7 +95,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
           <option value="">불법정보</option>
           <option value="">기타</option>
         </select>
-      </div>
+      </div> -->
     </div>
 
     <!-- 리스트 -->
@@ -147,7 +147,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         </button>
       </div>
 
-      <div id="orderbox">
+      <!-- <div id="orderbox">
         <select id="order">
           <option value="">최신순</option>
           <option value="">신고순</option>
@@ -157,7 +157,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
           <option value="">불법정보</option>
           <option value="">기타</option>
         </select>
-      </div>
+      </div> -->
     </div>
     <!-- Modal -->
     <div

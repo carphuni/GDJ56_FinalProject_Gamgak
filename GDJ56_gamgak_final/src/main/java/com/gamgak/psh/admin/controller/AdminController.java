@@ -328,7 +328,7 @@ public class AdminController {
 	
 	@RequestMapping("/adminNoticeMsg.do")
 	@ResponseBody
-	public Map<String,Object> admonNotice(@RequestParam Map nodata,int loginMember,String msg){
+	public Map<String,Object> admonNotice(@RequestParam Map nodata,int loginMember,String msg,String today){
 		String data=(String)(nodata.get("nodata"));
 		Map memberlist=new HashMap();
 		List total=new ArrayList();
@@ -358,7 +358,7 @@ public class AdminController {
 				int meminsert=service2.enterchatFriend(Integer.parseInt(no), chatRoomNo);
 					
 				//메세지 인서트
-				msgresult=service2.insertMsg(chatRoomNo,Integer.parseInt(no),loginMember,msg);
+				msgresult=service2.insertMsg(chatRoomNo,Integer.parseInt(no),loginMember,msg,today);
 				total.add(msgresult);
 			}else{
 //				//해당 방 번호에 어드민과 회원 참여
@@ -368,7 +368,7 @@ public class AdminController {
 ////				System.out.println("msgresult : "+msgresult);
 
 				//메세지 인서트
-				msgresult=service2.insertMsg(rno,Integer.parseInt(no),loginMember,msg);
+				msgresult=service2.insertMsg(rno,Integer.parseInt(no),loginMember,msg,today);
 				System.out.println("msgresult : "+msgresult);
 				total.add(msgresult);
 			}

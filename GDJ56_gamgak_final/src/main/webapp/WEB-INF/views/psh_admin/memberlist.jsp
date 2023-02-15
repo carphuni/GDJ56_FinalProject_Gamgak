@@ -142,6 +142,12 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         // console.log(delmem[i].value)
         nodata.push(delmem[i].value);
       }
+      var today = new Date();
+      var time = today.toString().substring(16, 21); //시간
+      //현재날짜 변환하기
+      var todayy = new Date();
+      todayy.setHours(today.getHours() + 9);
+      var today2 = todayy.toISOString().replace("T", " ").substring(0, 19);
       // console.log(JSON.stringify(nodata))
       $.ajax({
         url: "${path}/admin/adminNoticeMsg.do",
@@ -149,6 +155,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
           nodata: JSON.stringify(nodata),
           loginMember: loginMemberNo,
           msg: msg,
+          today: today2,
         },
         success: (data) => {
           console.log(data.adminNotice);
