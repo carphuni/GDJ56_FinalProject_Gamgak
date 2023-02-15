@@ -3,6 +3,8 @@
     <!-- jQuery -->
    <script src = "${path }/resources/js/jquery-3.6.1.min.js"></script>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="path" value="${pageContext.request.contextPath }"/>
+<c:set var="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"/>
 	<c:choose>
 		<c:when test="${empty meetingsignlist }">
 			<div>없습니다.</div>
@@ -10,7 +12,7 @@
 		<c:otherwise>
 			<c:forEach var="m" items="${meetingsignlist }">
 				<div id="maindiv" style="border: 3.5px #dc3545 solid; display: flex; border-radius: 1rem; padding: 1rem; justify-content: space-between;">
-					<div id="signinfo" style="display: flex; ">
+					<div id="signinfo" style="display: flex; padding: 1rem;">
 						<img style="border: 1px black solid; border-radius: 100%; height: 60px; width: 60px;">
 						<div id="nickage" style="display: flex; flex-direction: column; padding: 0px 0px 0px 10px;">
 							<label>닉네임 : ${m.MEMBER_NICKNAME }</label>
@@ -37,7 +39,7 @@
 			console.log(a,b);
 			$.ajax({
 				type : "get",
-				url : "/meetting/meettingjoinEndY.do",
+				url : "${path}/meetting/meettingjoinEndY.do",
 				data :{
 				 "memberNo" : a,
                  "meetingNo" : b
@@ -60,11 +62,11 @@
 			
 		}
 		
-		function acceptmeetingN() {
+		function acceptmeetingN(a,b) {
 			console.log(a,b);
 			$.ajax({
 				type : "get",
-				url : "/meetting/meettingjoinEndN.do",
+				url : "${path}/meetting/meettingjoinEndN.do",
 				data :{
 				 "memberNo" : a,
                  "meetingNo" : b
@@ -76,7 +78,7 @@
 					
 				},
 				error :function(){
-                   
+					alert("참여를 거부를 실패했습니다.")
                   }
 			})
 			

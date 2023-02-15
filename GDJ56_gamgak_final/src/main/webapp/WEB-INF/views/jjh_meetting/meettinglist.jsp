@@ -21,7 +21,7 @@
                     		<c:forEach var="l" items="${joinmeetinglist}">
                     			<div id="meeting-item">
                         			<a href="" onclick="window.open('${path}/meetting/meettingchat.do?memberNo=${loginMember.memberNo}&meetingNo=${l.MEETING_NO } ','채팅방','_blank, resizable=no,width=1000px,height=720px,scrollbars=no')"><img id="meeting-img"  src="${path }/resources/upload/meeting/${l.MEETNG_RENAME}"></a>
-                        			<p>${l.MEETING_TITLE }</p>
+                        			<p style="white-space: nowrap;overflow:hidden;text-overflow: ellipsis;">${l.MEETING_TITLE }</p>
                    				 </div>
                     		
                     		</c:forEach>
@@ -33,7 +33,7 @@
                 <div id="profile-wrapper">
                     <div id="subheader-wrapper" style="display: flex; justify-content: space-between;">
                         <select id="meetingArea" style="border: 1px #a89e9f solid; border-radius: 5px; height: 40px; width: 200px;text-align: center; "onchange="area_Fn(this.value);">
-                           <option selected="selected">====지역 선택====</option>
+                           <option value="">====지역 선택====</option>
                                 <option value="경기도">경기도</option>
                                 <option value="강원도">강원도</option>
                                 <option value="서울특별시">서울특별시</option>
@@ -78,27 +78,20 @@
 			                                	 <c:choose>
 			                                		
 			                                	 	<c:when test="${ m.meetingGender eq '무관' }">
-			                                			<span>성별 무관 | </span> <span>${m.meetingMinAge }~${m.meetingMaxAge }세</span>
+			                                			<span>성별 무관 || </span> <span>${m.meetingMinAge }~${m.meetingMaxAge }세</span>
 			                                			 
 			                                		</c:when>
-			                                		 <c:when test="${m.meetingGender eq '무관' || m.meetingMinAge eq 1 && m.meetingMaxAge eq 99}">
+			                                		 <c:when test="${m.meetingGender eq '무관' && m.meetingMinAge eq 1 && m.meetingMaxAge eq 99}">
 			                                			<span>누구나 참여 가능</span>
-			                                			 <%-- <span>${m.meetingMinAge}</span> 
-			                                			 <span>${m.meetingMaxAge} </span> 
-			                                			 <span>성별 ${m.meetingGender}</span>  --%>
 			                                		</c:when>
-			                                		<%-- <c:when test="${m.meetingMinAge  eq 1 && m.meetingMaxAge eq 99}">
-			                        
-			                                			<span>${m.meetingGender}모임 |</span><span> 나이대 무관</span>
-			                                			 -
-			                                		</c:when>  --%>
+			                                		<c:when test="${m.meetingMinAge eq 1 && m.meetingMaxAge eq 99 }">
+			                                			<span>${m.meetingGender}모임 || 나이대 무관</span>
+			                                		</c:when> 
 			                                		<c:otherwise>
 			                                			<span>${m.meetingGender}모임 | </span> <span> ${m.meetingMinAge }~${m.meetingMaxAge }세</span>
 			                                		</c:otherwise>   
 			                                		
 			                                	</c:choose> 
-			                                    <%-- <span>${m.meetingGender } 모임</span> <span>${m.meetingMinAge }~${m.meetingMaxAge }세</span>누구나 참여 가능 
-			                                    [ --%>
 			                                    <span id="curNum">
 			                                        [ ${m.meetingCurrentCount }
 			                                    </span>
@@ -140,9 +133,9 @@
 			                                		<button type="button"  class="btn btn-danger" data-bs-toggle="modal" onclick="f_meettingjoin('${loginMember.memberNo }','${m.meetingNo}')" data-bs-target="#meettingjoin" >신청하기</button><br>
 													
 			                                	</c:if>
-			                                <c:if test="${(m.meetingPeopleNum eq m.meetingCurrentCount)}">
+			                                 <c:if test="${(m.meetingPeopleNum eq m.meetingCurrentCount)}">
 			                                	<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#meettingjoin" disabled="disabled" style="background-color: #C1BEBB; border: 1px #C1BEBB solid; color: black">모집완료</button><br>
-			                                </c:if>
+			                                </c:if> 
 			                                <c:if test="${loginMember.memberNo==m.memberLeaderNo }">
 			                                	<button type="button" class="btn btn-danger" data-bs-toggle="modal"  data-bs-target="#meettingjoin" disabled="disabled" style="background-color: #C1BEBB; border: 1px #C1BEBB solid; color: black">내 모임</button><br>
 			                                </c:if>
@@ -219,7 +212,7 @@
 								console.log("마지막 값"+jo_memberNo);
 								console.log("마지막 값"+jo_membertingNo);
 
-                    			window.location.replace("/meetting/meettingjoin.do?memberNo="+jo_memberNo+"&meetingNo="+jo_membertingNo);
+                    			window.location.replace("${path}/meetting/meettingjoin.do?memberNo="+jo_memberNo+"&meetingNo="+jo_membertingNo);
 
                     		} 
 							
@@ -239,7 +232,7 @@
 									success : function(data){
 										console.log(data);
 										console.log("성공");
-										$("#meetingList").html(data)
+										$("#meetingList").html(data);
 									},
 									 error:function(request,status,error){
 										 alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);

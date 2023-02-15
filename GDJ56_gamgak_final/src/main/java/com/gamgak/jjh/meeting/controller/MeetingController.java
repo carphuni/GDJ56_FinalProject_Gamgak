@@ -223,6 +223,9 @@ public class MeetingController {
 		m.put("memberNo", mee.getMemberLeaderNo());
 		System.out.println("리더정보"+mee.getMemberLeaderNo());
 		Meeting beforemee =service.selectMeeting(m);
+		
+		
+		
 		//파일업로드하기
 		 // 저장위치가져오기
 		String path=session.getServletContext().getRealPath("/resources/upload/meeting/");
@@ -316,8 +319,9 @@ public class MeetingController {
 		//mv.addObject("updateMeetingy",result);
 		//int result=service.meettingjoinEnd(m);
 		mv.addObject("msg",result>0?"모임신청 수락":"모임신청 실패");
-		mv.addObject("loc","/meetting/meettinglist.do");
+		mv.addObject("loc","/profile/");
 		mv.setViewName("/jjh_meetting/signuplist");
+		//mv.setViewName("/jjh_meetting/signuplist");
 		//mv.setViewName("jsonView");
 		
 		return mv;
@@ -329,8 +333,9 @@ public class MeetingController {
 			int result=service.updateMeetingn(m);
 			mv.addObject("updateMeetingN",result);
 			//int result=service.meettingjoinEnd(m);
-//			mv.addObject("msg",result>0?"모임신청 거절":"모임신청 거절실패");
-//			mv.addObject("loc","/meetting/meettinglist.do");
+			mv.addObject("msg",result>0?"모임신청 거절":"모임신청 거절실패");
+			mv.addObject("loc","/profile/");
+			mv.setViewName("/jjh_meetting/signuplist");
 //			mv.setViewName("/jjh_meetting/msg");
 			
 			return mv;
@@ -388,13 +393,52 @@ public class MeetingController {
 		@RequestMapping("/meetting/meettingDelete.do")
 		public ModelAndView meetingDelete(ModelAndView mv, @RequestParam Map<String,Object> m) {
 			System.out.println("삭제할 모임의 정보"+m);
+			Meeting renamefile=service.meetingRenamefile(m);
 			int result=service.meetingDelete(m);
-			mv.addObject("updateMeetingNN",result);
-			mv.addObject("msg",result>0?"모임 삭제 성공":"모임 삭제 실패");
+			if(result>0) {
+				
+				System.out.println("리네임명"+renamefile);
+				String path=httpSession.getServletContext().getRealPath("/resources/upload/meeting/");
+					File file=new File(path+renamefile.getMeetingRename());
+					System.out.println(file);
+					if(file.exists()) {
+						file.delete();
+					}
+				mv.addObject("updateMeetingNN",result);
+				mv.addObject("msg","모임 삭제 성공");
+				mv.addObject("loc","/profile/");
+				mv.setViewName("/jjh_meetting/msg");
+				return mv;
+			}else {
+				
+				mv.addObject("updateMeetingNN",result);
+				mv.addObject("msg","모임 삭제 실패");
+				mv.addObject("loc","/profile/");
+				mv.setViewName("/jjh_meetting/msg");
+				return mv;
+				
+			}
+			
+//			mv.addObject("updateMeetingNN",result);
+//			mv.addObject("msg",result>0?"모임 삭제 성공":"모임 삭제 실패");
+//			mv.addObject("loc","/profile/");
+//			mv.setViewName("/jjh_meetting/msg");
+			//return mv;
+		
+		}
+		//신고기능
+		@RequestMapping("/report/report.do")
+		public ModelAndView insertReport(ModelAndView mv, @RequestParam Map<String,Object>m) {
+			System.out.println("신고정보"+m);
+			int result= service.insertReport(m);
+			mv.addObject("msg",result>0?"신고 성공":"신고 실패");
 			mv.addObject("loc","/meetting/meettinglist.do");
 			mv.setViewName("/jjh_meetting/msg");
+			
+			
+			
+			
 			return mv;
-		
 		}
 		
 		}

@@ -119,6 +119,7 @@ public class ChattingServer extends TextWebSocketHandler{
 			//super.afterConnectionEstablished(session);
 			//sessionMap.put(session.getId(), session);
 			log.debug("{}"+"접속");
+			System.out.println("접속");
 			//log.debug("{}",sessionMap.size());
 	    }
 

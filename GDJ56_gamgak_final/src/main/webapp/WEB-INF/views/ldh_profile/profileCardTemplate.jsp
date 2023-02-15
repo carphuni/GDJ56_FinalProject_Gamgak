@@ -121,7 +121,7 @@
 						<button id="deleteMyres" class="btn btn-danger" value="${myres.myResNo }">삭제</button>
 					</c:if>
 					<c:if test="${memberNo!=loginMember.memberNo}">
-						<button id="장환" class="btn btn-danger">신고</button>
+						<button id="myresreport" id="myresreport" data-bs-toggle="modal" data-bs-target="#myresreport" onclick="fun_myresreport('${myres.myResNo }','${myres }');" class="btn btn-danger">신고</button>
 					</c:if>
 					<div>
 						<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#myresCardModal${myres.myResNo }">이전</button>
@@ -133,3 +133,68 @@
 	</div>
 </c:forEach>
 <script src="${path}/resources/js/profileCardTemplate.js"></script>
+<script type="text/javascript">
+
+function fun_myresreport(a,b) {
+	console.log("게시물"+a)
+	console.log("게시물"+b)
+	$("#reportmyres").text("신고할 게시물 번호 : "+a);
+	$("#reportmyresNo").val(a);
+}
+
+const report_myres=()=>{
+	//신고 제목 유효성 검사
+	if ($("#reprotTitle_myres").val().trim()=="") {
+		$('#onsubmit_report_myres').css('color', '#dc3545').text("신고제목을 입력해주세요");
+		$("#reprotTitle_myres").focus();
+		return false;
+	}
+	else{
+		$('#onsubmit_report_myres').text("");
+	}
+
+	const reportKind_user=$("select[name=reportKind_myres]").val();
+	console.log(reportKind_myres)
+
+
+	//신고분류 유효성 검사
+	if(reportKind_user=="신고 분류 선택"){
+		$('#onsubmit_report_myres').text('신고분류를 선택해주세요');
+		$('#onsubmit_report_myres').css('color', '#dc3545');
+		return false;
+	}else{
+		$('#onsubmit_report_myres').text('');
+	}
+
+	//신고사유 유효성검사
+	if ($("#reportContent_myres").val().trim()=="") {
+		$('#onsubmit_report_myres').css('color', '#dc3545').text("신고 내용을 입력해주세요");
+		$("#reportContent_myres").focus();
+		return false;
+	}
+	else{
+		$('#onsubmit_report_myres').text("");
+	}
+
+
+	}
+	
+$('#reportContent_myres').keyup(function (e) {
+		let content = $(this).val();
+	    
+	    // 글자수 세기
+	    if (content.length == 0 || content == '') {
+	    	$('.textCount').text('0자');
+	    } else {
+	    	$('.textCount').text(content.length + '자');
+	    }
+	    
+	    // 글자수 제한
+	    if (content.length > 1499) {
+	    	// 200자 부터는 타이핑 되지 않도록
+	        $(this).val($(this).val().substring(0, 1500));
+	        // 200자 넘으면 알림창 뜨도록
+	        alert('신고내용은 1500자까지만 입력할 수 있습니다.');
+	    };
+	});
+</script>

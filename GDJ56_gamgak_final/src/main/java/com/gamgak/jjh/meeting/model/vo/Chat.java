@@ -22,6 +22,7 @@ public class Chat {
 	private String chattingContent;
 	private Date chattingEnrollDate;
 	private int chattingUnreadCnt;
+	private String chattingEnrollDate2;
 	
 	
 	

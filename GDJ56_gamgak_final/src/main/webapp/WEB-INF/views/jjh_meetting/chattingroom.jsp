@@ -25,17 +25,17 @@
 
 <script src="${pageContext.request.contextPath }/resources/js/chatting.js"></script>
 <div style="display: flex;">
-	<div>
+	<div id="aa">
          <div id="chattingRoom" class="chattingRoom" style="border: 5px black solid; width: 750px; height: 600px; overflow-y: scroll;">
-			<div id="chat" >
+			 <!-- <div id="chat" style="border: 1px #dc3545 solid;">
 	
 			
-			</div>
-			<div id="chatStroy" >
+			</div> 
+			 <div id="chatStroy" style="border: 1px blue solid;">
 			
-			</div>
+			</div>  -->
 	
-             
+			
             
         </div>
         <div id="chatting input" style="display: flex; border: 1px black solid; width: 750px; height: 90px;  background-color: rgb(204, 205, 204);" >
@@ -119,7 +119,6 @@
 		                    <div >
 		                        <img style="border: 5px #dc3545 solid solid; width: 20px; height: 20px; border-radius: 100%; background-color: #dc3545;">
 		                        <span>리스트없습니다.</span>
-		                        <button style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px; " data-bs-toggle="modal" data-bs-target="#userreport">신고하기</button>
 		                    </div>
 		                    
 
@@ -135,11 +134,11 @@
 			                        	<span>${s.MEMBER_NICKNAME}</span>
 		                    		
 		                    		</div>
-		                        	<c:if test="${loginMember.memberNo!=m.MEMBER_NO}">
+		                        	<c:if test="${loginMember.memberNickName!=s.MEMBER_NICKNAME}">
+										<button style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px; " data-bs-toggle="modal" data-bs-target="#userreport" onclick="fun_userInfo('${s.MEMBER_NO}' ,'${s.MEMBER_NICKNAME}');">신고하기</button>
 		                        		
 		                        	</c:if>
-		                        	<c:if test="${loginMember.memberNo==m.MEMBER_NO}">
-				                        <button style="border: #dc3545 1px solid; background: #dc3545; border-radius: 5px; color: white; font-size: 12px; " data-bs-toggle="modal" data-bs-target="#userreport">신고하기</button>
+		                        	<c:if test="${loginMember.memberNickName==s.MEMBER_NICKNAME}">
 		                        		
 		                        	</c:if>
 		                        
@@ -181,6 +180,8 @@
 <!--채팅 js-->
 
  <script>
+
+
  function meetingDelete(a){
 		if (!confirm("모임을 삭제하시겠습니까?")) {
 			alert("취소(아니오)를 누르셨습니다.");
@@ -212,7 +213,7 @@
 	
 
 
-
+	// 모임 정보
  	var chatMeetngNo="${chatRoominfo[0].MEETING_NO}";
 	console.log(chatMeetngNo);
 	
@@ -222,7 +223,7 @@
 		const servername1="wss://gd1class.iptime.org:8844/GDJ56_gamgak_final/chatting_Server"
 			//ws://gd1class.iptime.org:9999/GDJ56_gamgak_final/chatting_Server
 			const servername="ws://localhost:9090/GDJ56_gamgak_final/jjh_chatting_Server"
-			const websocket=new WebSocket(servername);
+			const websocket=new WebSocket(servername1);
 	
 		//const websocket=new WebSocket("ws://localhost:9090/chatting_Server");
 		//소켓을 만드는 역활
@@ -257,7 +258,7 @@
 		success : function(data){
 			console.log(data);
 			console.log("채팅방 채팅정보 불러오기");
-			$("#chat").html(data);
+			$("#chattingRoom").html(data);
 			
 		},
 		error : function(error){
@@ -269,7 +270,7 @@
 	
 		
 		
-		$("#sendBtn").click(e=>{
+		 $("#sendBtn").click(e=>{ 
 			const msg=$("#inputmsg").val();
 			$("#inputmsg").val('');
 			//const sendData=new Message("msg",'${loginMember.memberNickName}',"",msg,"");
@@ -290,10 +291,22 @@
 				},
 				success : function(data){
 					console.log("성공");
-					//const sendData=new Chat("msg",chatMeetngNo,null,"",'${loginMember.memberNickName}',msg,today,null);
 	  				//타입, 모임 번호, 개인방번호, 리시버, 샌더, msg, 날짜 읽은 사람숫자
+					//const sendData=new Chat("msg",chatMeetngNo,null,"",'${loginMember.memberNickName}',msg,today,null);
 	  				websocket.send(JSON.stringify(sendData));
 	  				$("#inputmsg").val('');
+	  				$("#inputmsg").attr("placeholder","내용을 입력해주세요");
+				
+					
+
+
+					
+					
+					
+
+
+
+
 				},
 				error : function(error){
 					console.log("실패");
@@ -301,8 +314,6 @@
 
 			})
 
-
-	
 
 
 	})
@@ -341,18 +352,21 @@
 
 <c:set var="today" value="<%=new java.util.Date()%>" />
 <!-- 현재날짜 -->
-<c:set var="date"><fmt:formatDate value="${today}" pattern="yyyy-MM-dd hh:mm:ss" /></c:set> 
+<%-- <c:set var="date"><fmt:formatDate value="${today}" pattern="yyyy/MM/dd hh:mm:ss" /></c:set>  --%>
+ <c:set var="date"><fmt:formatDate value="${today}" pattern="yyyy/MM/dd" /></c:set>  
 
 
   <!-- meeting Modal-->
- <div class="modal fade" id="meettingreport" tabindex="-1" aria-labelledby="#meettingreport" aria-hidden="true" >
+ <div class="modal fade" id="meettingreport" data-bs-backdrop="static" tabindex="-1" aria-labelledby="#meettingreport" aria-hidden="true" >
     <div class="modal-dialog">
       <div class="modal-content">
-		<form>
+		<form action="${path}/report/report.do" onsubmit="return report();" method="post">
+			<input name="type" type="hidden" value="meeting">
         	<div class="modal-header" style="display: flex; flex-direction: column;">
         		<div>
-					<input type="text" style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 300px;" placeholder="신고제목을 입력하세요">
-					<select style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 150px;">
+					<input id="reprotTitle" name="reprotTitle" type="text" style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 300px;" placeholder="신고제목을 입력하세요">
+					<select name="reportKind" style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 150px;">
+						<option value="신고 분류 선택">신고 분류 선택</option>
                     	<option value="상업적/홍보성">상업적/홍보성</option>
                    		<option value="음란/선정성">음란/선정성</option>
                     	<option value="불법정보">불법정보</option>
@@ -361,17 +375,21 @@
                 	</select>
         		
         		</div>
-                <div style="display: flex; flex-direction: column; display: flex; font-weight: bolder; margin: 15px 0px 0px 0px;">
-                    <span style="margin: auto;">신고자 아이디 : ${loginMember.memberNickName }</span>
-                    <span style="margin: auto;">신고시간 : <c:out value="${date}" /></span>
+                <div style="display: flex; flex-direction: column; font-weight: bolder; margin: 15px 0px 0px 0px;">
+                    <span id="reportMeetingtitle" name="reportMeetingtitle" style="margin: auto;"></span>
+					<input type="hidden" id="reportMeetingtitleH" name="reportMeetingNo">
+                    <span name="reportTime" style="margin: auto;">신고시간 : <c:out value="${date}" /></span>
+					<input name="reportTime" type="hidden" value="${date}">
+					<span id="onsubmit_report" style="margin: auto; font-weight: bolder; font-size: 20px;"></span>
                 </div>
         	</div>
             <div class="modal-body">
-                <textarea style="border: 3px #dc3545 solid; height: 300px; width: 470px;" placeholder="내용을 입력하시오"></textarea>
+                <textarea name="reportContent" id="reportContent" style="border: 3px #dc3545 solid; height: 300px; width: 470px;" placeholder="내용을 입력하시오" maxlength="2000"></textarea>
             </div>
+			<div style="display: flex; justify-content: right; padding: 0px 10px 10px 0px;"><p class="textCount">0</pclass="textTotal"><p>/1500자</p></div>
             <div class="modal-footer">
                 <input class="btn btn-danger" type="submit" value="신고하기">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소하기</button>
+                <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">취소하기</button>
              
             </div>
 
@@ -381,36 +399,187 @@
   </div>
 
 
-   <!--user Modal -->
-    <div class="modal fade" id="userreport" tabindex="-1" aria-labelledby="#userreport" aria-hidden="true" >
+    <!-- user Modal -->
+    <div class="modal fade" id="userreport" data-bs-backdrop="static" tabindex="-1" aria-labelledby="#userreport" aria-hidden="true" >
     <div class="modal-dialog">
       <div class="modal-content">
-		<form action="" onsubmit="">
-        	<div class="modal-header">
-				<input type="text" style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 300px;" placeholder="신고제목을 입력하세요">
-				<select style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 150px;">
-                    <option value="상업적/홍보성">상업적/홍보성</option>
-                    <option value="음란/선정성">음란/선정성</option>
-                    <option value="불법정보">불법정보</option>
-                    <option value="욕설/인신공격">욕설/인신공격</option>
-                    <option value="기타">기타</option>
-                </select>
-                <div style="display: flex; flex-direction: column; display: flex; font-weight: bolder; margin: 15px 0px 0px 0px;">
-                    <span style="margin: auto;">신고자 닉네임 : ${loginMember.memberNickName }</span>
-                    <span style="margin: auto;">신고시간 :<fmt:formatDate value="${now}" pattern="yyyy-MM-dd hh:mm:ss" /></span>
+		 <form action="${path}/report/report.do" onsubmit="return report_user();" method="post">
+			<input name="type" type="hidden" value="user">
+        	<div class="modal-header" style="display: flex; flex-direction: column;">
+        	<input id="reportMemberNo" type="hidden" name="memberNo">
+				<div>
+
+					<input id="reprotTitle_user" name="reprotTitle" type="text" style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 300px;" placeholder="신고제목을 입력하세요">
+						<select id="reportKind_user" name="reportKind_user" style="border: 3px #dc3545 solid; border-radius: 5px; height: 40px; width: 150px;">
+						<option value="신고 분류 선택">신고 분류 선택</option>
+						<option value="상업적/홍보성">상업적/홍보성</option>
+						<option value="음란/선정성">음란/선정성</option>
+						<option value="불법정보">불법정보</option>
+						<option value="욕설/인신공격">욕설/인신공격</option>
+						<option value="기타">기타</option>
+					</select>
+				</div>
+                <div style="display: flex; flex-direction: column; font-weight: bolder; margin: 15px 0px 0px 0px;">
+                    <span id="reportUserNickName" name="reportUserNickName" style="margin: auto;"></span>
+                    <span name="reportTime" style="margin: auto;">신고시간 : <c:out value="${date}" /></span>
+					<input name="reportTime" type="hidden" value="${date}">
+					<span id="onsubmit_report_user" style="margin: auto; font-weight: bolder; font-size: 20px;"></span>
                 </div>
             </div>
             <div class="modal-body">
-                <textarea style="border: 3px #dc3545 solid; height: 300px; width: 470px;" placeholder="내용을 입력하시오"></textarea>
+                <textarea name="reportContent" id="reportContent_user" style="border: 3px #dc3545 solid; height: 300px; width: 470px;" placeholder="내용을 입력하시오"></textarea>
             </div>
+            <div style="display: flex; justify-content: right; padding: 0px 10px 10px 0px;"><p class="textCount">0</pclass="textTotal"><p>/1500자</p></div>
             <div class="modal-footer">
-                <input class="btn btn-danger" type="submit" value="참여하기">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소하기</button>
+                <input class="btn btn-danger" type="submit" value="신고하기">
+                <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">취소하기</button>
              
             </div>
 
         </form>
       </div>
     </div>
-  </div>
+  </div> 
            
+
+<!-- 모달 분기처리 -->
+  <script>
+  var reportMemberNo=0;
+  function fun_userInfo(a,b) {
+	console.log("userNo : "+a);
+	console.log("nickName : "+b);
+	reportMemberNo=a;
+  $("#reportMemberNo").val(a);
+  $("#reportUserNickName").text("신고할 유저 닉네임 :"+b)
+}
+
+	// 모임 정보
+	var chatMeetngTitle="${chatRoominfo[0].MEETING_TITLE}";
+	console.log(chatMeetngTitle);
+
+	$("#reportMeetingtitle").text("신고할 모임명 : "+chatMeetngTitle);
+	$("#reportMeetingtitleH").val(chatMeetngNo);
+	
+
+
+
+	$('#reportContent').keyup(function (e) {
+	let content = $(this).val();
+    
+    // 글자수 세기
+    if (content.length == 0 || content == '') {
+    	$('.textCount').text('0자');
+    } else {
+    	$('.textCount').text(content.length + '자');
+    }
+    
+    // 글자수 제한
+    if (content.length > 1499) {
+    	// 200자 부터는 타이핑 되지 않도록
+        $(this).val($(this).val().substring(0, 1500));
+        // 200자 넘으면 알림창 뜨도록
+        alert('신고내용은 1500자까지만 입력할 수 있습니다.');
+    };
+});
+
+
+$('#reportContent_user').keyup(function (e) {
+	let content = $(this).val();
+    
+    // 글자수 세기
+    if (content.length == 0 || content == '') {
+    	$('.textCount').text('0자');
+    } else {
+    	$('.textCount').text(content.length + '자');
+    }
+    
+    // 글자수 제한
+    if (content.length > 1499) {
+    	// 200자 부터는 타이핑 되지 않도록
+        $(this).val($(this).val().substring(0, 1500));
+        // 200자 넘으면 알림창 뜨도록
+        alert('신고내용은 1500자까지만 입력할 수 있습니다.');
+    };
+});
+
+
+
+	$("#reprotTitle").val()
+
+	const report=()=>{
+
+		//신고 제목 유효성 검사
+		if ($("#reprotTitle").val().trim()=="") {
+			$('#onsubmit_report').css('color', '#dc3545').text("신고제목을 입력해주세요");
+			$("#reprotTitle").focus();
+			return false;
+	 	}
+		else{
+			$('#onsubmit_report').text("");
+		}
+
+		const reportKind=$("select[name=reportKind]").val();
+        console.log("신고"+reportKind)
+       
+         //신고분류 유효성 검사
+        if(reportKind=="신고 분류 선택"){
+            $('#onsubmit_report').text('신고분류를 선택해주세요');
+            $('#onsubmit_report').css('color', '#dc3545');
+            return false;
+        }else{
+            $('#onsubmit_report').text('');
+        }
+
+		//신고사유 유효성검사
+		if ($("#reportContent").val().trim()=="") {
+			$('#onsubmit_report').css('color', '#dc3545').text("신고 내용을 입력해주세요");
+			$("#reportContent").focus();
+			return false;
+	 	}
+		else{
+			$('#onsubmit_report').text("");
+		}
+
+
+	}
+
+	const report_user=()=>{
+		//신고 제목 유효성 검사
+		if ($("#reprotTitle_user").val().trim()=="") {
+			$('#onsubmit_report_user').css('color', '#dc3545').text("신고제목을 입력해주세요");
+			$("#reprotTitle_user").focus();
+			return false;
+		}
+		else{
+			$('#onsubmit_report_user').text("");
+		}
+
+		const reportKind_user=$("select[name=reportKind_user]").val();
+		console.log(reportKind_user)
+	
+
+		//신고분류 유효성 검사
+		if(reportKind_user=="신고 분류 선택"){
+			$('#onsubmit_report_user').text('신고분류를 선택해주세요');
+			$('#onsubmit_report_user').css('color', '#dc3545');
+			return false;
+		}else{
+			$('#onsubmit_report_user').text('');
+		}
+
+		//신고사유 유효성검사
+		if ($("#reportContent_user").val().trim()=="") {
+			$('#onsubmit_report_user').css('color', '#dc3545').text("신고 내용을 입력해주세요");
+			$("#reportContent_user").focus();
+			return false;
+		}
+		else{
+			$('#onsubmit_report_user').text("");
+		}
+
+
+		}
+
+
+
+  </script>

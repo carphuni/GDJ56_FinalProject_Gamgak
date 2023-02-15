@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <c:set var="path" value="${pageContext.request.contextPath }"/>
+<c:set var="loginMember" value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"/>
                 <div id="meeting-wrapper">
                     <div id="meeting-item">
@@ -141,10 +142,10 @@
     const enrollmeetting_check=()=>{
         
         const gender=$('input[name=meetingGender]').is(':checked');
-        var titleJ=/^\s+|\s+$/g;
-        var timeDATE=/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01]) (0[1-9]|1[0-9]|2[0-4]):(0[1-9]|[1-5][0-9]):(0[1-9]|[1-5][0-9])$/;
+        //var titleJ=/^\s+|\s+$/g;
+        //var timeDATE=/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01]) (0[1-9]|1[0-9]|2[0-4]):(0[1-9]|[1-5][0-9]):(0[1-9]|[1-5][0-9])$/;
         var date=$('#meettingdate').val(); 
-        console.log(date)
+        console.log(date);
 
 
         var age=/^\d{1,2}$/;
@@ -211,13 +212,16 @@
             $('#gender_check').text('');
          }
 
+       
 
         //모임 날짜 유효성 검사
-         const dateckbox=$('#dateCKbox').is(':checked');
+          const dateckbox=$('#dateCKbox').is(':checked');
          console.log(dateckbox);
          const meetingDate=$("#meetingDate").val();
          console.log(meetingDate);
-         if(!dateckbox && !meetingDate){
+        // return false;
+ 
+         if(!dateckbox && meetingDate==''){
             $('#date_check').text('모임날짜를 입력해주세요');
             $('#date_check').css('color', '#dc3545');
             $("#meetingDate").focus();
@@ -226,11 +230,13 @@
 
          
          }else{
-        	 var dateTimeFormatted = meetingDate.format('{yyyy}-{MM}-{dd} {HH}:{mm}:{ss}'); // 2014-01-01 00:00:01
+            console.log(meetingDate)
+            //meetingDate = meetingDate.format('{yyyy}-{MM}-{dd} {HH}:{mm}:{ss}'); // 2014-01-01 00:00:01
             $('#date_check').text('');
+
          }
 
-         
+        
 
          //모임의 인원수 유효성검사
          if(!age.test($("#peopleNum").val())){
@@ -241,10 +247,9 @@
             $('#peopleNum_check').text('');
          }
 
-         
+  
         const meetingArea=$("select[name=meetingArea]").val();
         console.log("지역"+meetingArea)
-       
          //모임지역 유효성 검사
          if(meetingArea=="지역선택"){
             $('#area_check').text('모임 지역을 선택해주세요');
