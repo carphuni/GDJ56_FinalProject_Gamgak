@@ -211,7 +211,13 @@ uri="http://java.sun.com/jsp/jstl/core" %>
             );
             tr2.append($("<td>").text(v.MEETING_NO));
             tr2.append($("<td>").text(v.MEMBER_LEADER_NO));
-            tr2.append($("<td>").text(v.MEETING_TITLE));
+            // let su = v.MEETING_TITLE.length;
+            // console.log(su);
+            if (v.MEETING_TITLE.length > 8) {
+              tr2.append($("<td>").text(v.MEETING_TITLE.slice(0, 5) + "..."));
+            } else {
+              tr2.append($("<td>").text(v.MEETING_TITLE));
+            }
             tr2.append($("<td>").text(v.MEETING_GENDER));
             tr2.append($("<td>").text(v.MEETING_PEOPLENUM));
             tr2.append($("<td>").text(v.MEETING_CURRENT_COUNT));

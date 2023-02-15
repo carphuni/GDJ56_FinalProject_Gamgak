@@ -103,7 +103,7 @@
 						<span id="pwresult"></span>
 
 	                </div>
-	                <button id="loginButton" type="submit" class="btn btn-danger">회원가입</button>
+	                <button id="loginButton" type="submit" class="btn btn-danger">이메일 인증</button>
 	        	</div>
         	</form>
     	</div>
@@ -185,11 +185,7 @@
  		   			type:"POST",
  		   			url:"${path}/enroll/mailAuth",
  		   			data:{memberEmail:$("#email").val()},
-// 		   			datatype:"script",
  		   			async:false,
-//   		   			success:data=>{
-// 						$("#emailCode").script(data);	 		   			
-//  		   			}
  		   		});
  		   		
  		   	});	

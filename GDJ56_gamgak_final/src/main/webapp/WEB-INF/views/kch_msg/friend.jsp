@@ -319,7 +319,13 @@
                                        
                                        // ---------- 채팅 ---------- 
                                        
-                                       var today = new Date();
+	                   					var today = new Date();
+	                					var time=today.toString().substring(16,21); //시간
+	                					//현재날짜 변환하기
+	                					var todayy = new Date();
+	                					todayy.setHours(today.getHours() + 9);
+	                					var today2=todayy.toISOString().replace('T', ' ').substring(0, 19);
+	                					console.log(today2)
 
                                        const servername1="wss://gd1class.iptime.org:8844/GDJ56_gamgak_final/chatting_Server"
                                           //ws://gd1class.iptime.org:9999/GDJ56_gamgak_final/chatting_Server
@@ -374,7 +380,8 @@
                                                          "personalChatroomNo":result,
                                                          "receiverNo":friendMemberNO,
                                                          "senderNo":${loginMember.memberNo},
-                                                         "content":msg
+                                                         "content":msg,
+                                                         "time":today2
                                                       },
                                                       success:data=>{
                                                       }  
@@ -438,7 +445,13 @@
                
                // ---------- 채팅 ---------- 
                
-               var today = new Date();
+	           var today = new Date();
+	           var time=today.toString().substring(16,21); //시간
+	           //현재날짜 변환하기
+	           var todayy = new Date();
+	           todayy.setHours(today.getHours() + 9);
+	           var today2=todayy.toISOString().replace('T', ' ').substring(0, 19);
+	           console.log(today2)
 
                const servername1="wss://gd1class.iptime.org:8844/GDJ56_gamgak_final/chatting_Server"
                   //ws://gd1class.iptime.org:9999/GDJ56_gamgak_final/chatting_Server
@@ -492,7 +505,8 @@
                                  "personalChatroomNo":personalChatroomNo,
                                  "receiverNo":friendMemberNO,
                                  "senderNo":${loginMember.memberNo},
-                                 "content":msg
+                                 "content":msg,
+                                 "time":today2
                               },
                               success:data=>{
                               }  

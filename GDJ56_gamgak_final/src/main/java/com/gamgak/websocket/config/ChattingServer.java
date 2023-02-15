@@ -1,6 +1,9 @@
 package com.gamgak.websocket.config;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
@@ -147,10 +150,16 @@ public class ChattingServer extends TextWebSocketHandler{
 				ChatHandler clientInfo=(ChatHandler)client.getAttributes().get("info");
 				System.out.println(clientInfo);
 				
+				DateFormat sdFormat = new SimpleDateFormat("HH:mm");
+				String time=sdFormat.format(msg.getChattingEnrollDate());
+				System.out.println(time);
+
 				if((client.isOpen()&&msg.getPersonalChatroomNo()==clientInfo.getPersonalChatroomNo())&&sessionMap.size()==2) {
 					msg.setChattingUnreadCnt(0);
+					msg.setChattingEnrollDate2(time);
 					client.sendMessage(new TextMessage(mapper.writeValueAsString(msg)));
 		        }else {
+		        	msg.setChattingEnrollDate2(time);
 		        	client.sendMessage(new TextMessage(mapper.writeValueAsString(msg)));
 		        }
 				

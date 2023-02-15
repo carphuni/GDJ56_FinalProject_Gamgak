@@ -92,8 +92,6 @@
 	        		<input type="hidden" class="" name="memberNickName" id="" style="width: 300px; height:50px;" value="${member.memberNickName}">
 	        		<input type="hidden" class="" name="memberName" id="" style="width: 300px; height:50px;" value="${member.memberName}">
 	        		<input type="hidden" class="" name="memberPassword" id="" style="width: 300px; height:50px;" value="${member.memberPassword}">
-					${member}
-					${enrollMessage}
 	        		<input type="hidden" class="" name="enrollMessage" value="${enrollMessage}">
 	        	</div>
            	</form>

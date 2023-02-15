@@ -2,7 +2,7 @@ package com.gamgak.psh.admin.common;
 
 public class MsgPageFactory {
 	
-	public static String getPage(int loginMemberNo,int cPage, int numPerpage, int totalData, String url) {
+	public static String getPage(int loginMemberNo,int cPage, int numPerpage, int totalData, String url,String msg) {
 		//pagebar를 만들어서 반환해주는 기능을 하는 메소드
 		System.out.println("cPage"+cPage);
 		System.out.println("num"+numPerpage);
@@ -28,7 +28,7 @@ public class MsgPageFactory {
 			pageBar+="</span>";
 		}else {
 			pageBar+="<span class='page-item'>";
-			pageBar+="<a class='page-link' href='javascript:msgList("+(pageNo-1+","+loginMemberNo)+")'>이전</a>";
+			pageBar+="<a class='page-link' href='javascript:msglist("+(pageNo-1+","+loginMemberNo+","+msg)+")'>이전</a>";
 			pageBar+="</span>";
 		}
 		
@@ -39,7 +39,7 @@ public class MsgPageFactory {
 				pageBar+="</span>";
 			}else {
 				pageBar+="<span class='page-item'>";
-				pageBar+="<a class='page-link' href='javascript:msgList("+(pageNo+","+loginMemberNo)+")'>"
+				pageBar+="<a class='page-link' href='javascript:msglist("+(pageNo+","+loginMemberNo+","+msg)+")'>"
 				+pageNo+"</a>";
 				pageBar+="</span>";
 			}
@@ -53,7 +53,7 @@ public class MsgPageFactory {
 			pageBar+="</span>";
 		}else {
 			pageBar+="<span class='page-item'>";
-			pageBar+="<a class='page-link' href='javascript:msgList("+(pageNo+","+loginMemberNo)+")'>다음</a>";
+			pageBar+="<a class='page-link' href='javascript:msglist("+(pageNo+","+loginMemberNo+","+msg)+")'>다음</a>";
 			pageBar+="</span>";
 		}
 		

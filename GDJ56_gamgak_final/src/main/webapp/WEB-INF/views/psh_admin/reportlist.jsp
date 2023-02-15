@@ -52,7 +52,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
     <hr class="sep" />
     <hr class="sep" />
     <div id="searchbox">
-      <input id="search" placeholder="이름으로 검색" />
+      <input type="text" id="repsearch" placeholder="이름으로 검색" />
       <button class="btn btn-primary btn-circle" onclick="searchName()">
         <i class="search-icon"></i>
       </button>
@@ -85,7 +85,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
           모임신고
         </button>
       </div>
-      <div id="orderbox">
+      <!-- <div id="orderbox">
         <select id="order">
           <option value="">최신순</option>
           <option value="">신고순</option>
@@ -95,7 +95,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
           <option value="">불법정보</option>
           <option value="">기타</option>
         </select>
-      </div>
+      </div> -->
     </div>
 
     <!-- 리스트 -->
@@ -116,8 +116,8 @@ uri="http://java.sun.com/jsp/jstl/core" %>
     <hr class="sep" />
     <hr class="sep" />
     <div id="searchbox">
-      <input id="search" placeholder="이름으로 검색" />
-      <button class="btn btn-primary btn-circle" onclick="searchName()">
+      <input type="text" id="solvesearch" placeholder="이름으로 검색" />
+      <button class="btn btn-primary btn-circle" onclick="solvesearchName()">
         <i class="search-icon"></i>
       </button>
     </div>
@@ -147,7 +147,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         </button>
       </div>
 
-      <div id="orderbox">
+      <!-- <div id="orderbox">
         <select id="order">
           <option value="">최신순</option>
           <option value="">신고순</option>
@@ -157,15 +157,49 @@ uri="http://java.sun.com/jsp/jstl/core" %>
           <option value="">불법정보</option>
           <option value="">기타</option>
         </select>
+      </div> -->
+    </div>
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              신고 상세내용
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              닫기
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-
     <div id="solvereportListBox">
       <table id="solvereportList"></table>
     </div>
     <div id="solvepageBar"></div>
   </section>
 </div>
+
 <script>
   let cPage;
   let numPerpage;
@@ -177,6 +211,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
   reportmem = [];
   meetingmem = [];
   myresmem = [];
+
   //로딩시 실행
   (() => {
     let ynval = "N";
@@ -184,6 +219,41 @@ uri="http://java.sun.com/jsp/jstl/core" %>
     solvereportlist("start");
   })();
 
+  //모달
+  function openmodal(val) {
+    console.log(val);
+    $(".modal-body").empty();
+    $.ajax({
+      url: "${path}/admin/reportView.do",
+      // dataType:"JSON",
+      data: {
+        no: val,
+      },
+      success: (data) => {
+        data.list.forEach((v) => {
+          console.log(v);
+          const head = $("<div id='repview'>");
+          head.append($("<div id='repNo'>").text(v.REPORT_NO + ".No"));
+          head.append($("<div id='repTitle'>").text(v.REPORT_TITLE));
+          $(".modal-body").append(head);
+          let enrolldate = v.REPORT_DATE;
+          $(".modal-body").append(
+            $("<div id='reportDate'>").text(
+              "신고날짜 : " + enrolldate.slice(0, 10)
+            )
+          );
+          $(".modal-body").append(
+            $("<div id='repTag'>").text("신고태그 : " + v.REPORT_TAG)
+          );
+
+          $(".modal-body").append($("<hr>"));
+          $(".modal-body").append(
+            $("<div id='repReason'>").text(v.REPORT_REASON)
+          );
+        });
+      },
+    });
+  }
   //체크박스 전체선택 함수
   function selectAll() {
     const reportcheck = document.querySelectorAll("input[name='reportcheck']");
@@ -251,7 +321,8 @@ uri="http://java.sun.com/jsp/jstl/core" %>
     }
   }
 
-  function solvereport(cPage, ynval) {
+  //태그합쳐서 신고리스트 출력
+  function solvereport(cPage, ynval, msg) {
     if (ynval == "Y") {
       $("#solvereportList").empty();
       $("#solvepageBar").empty();
@@ -281,7 +352,11 @@ uri="http://java.sun.com/jsp/jstl/core" %>
             data.list.forEach((v) => {
               // console.log(v.member_no, v.introduce)
               // console.log(v)
-              let tr2 = $("<tr>");
+              let tr2 = $(
+                "<tr data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='openmodal(" +
+                  v.REPORT_NO +
+                  ")'>"
+              );
               let a = $("<a>");
               tr2.append($("<td>").text(v.REPORT_NO));
               tr2.append($("<td>").text(v.REPORT_TITLE));
@@ -330,7 +405,11 @@ uri="http://java.sun.com/jsp/jstl/core" %>
             data.list.forEach((v) => {
               // console.log(v.member_no, v.introduce)
               // console.log(v)
-              let tr2 = $("<tr>");
+              let tr2 = $(
+                "<tr data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='openmodal(" +
+                  v.REPORT_NO +
+                  ")'>"
+              );
               let a = $("<a>");
               tr2.append(
                 $("<td>").append(
@@ -426,7 +505,11 @@ uri="http://java.sun.com/jsp/jstl/core" %>
             data.list.forEach((v) => {
               // console.log(v.member_no, v.introduce)
               // console.log(v)
-              let tr2 = $("<tr>");
+              let tr2 = $(
+                "<tr data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='openmodal(" +
+                  v.REPORT_NO +
+                  ")'>"
+              );
               let a = $("<a>");
               tr2.append(
                 $("<td>").append(
@@ -474,14 +557,18 @@ uri="http://java.sun.com/jsp/jstl/core" %>
 
           $("#solvereportList").append(tr);
           if (data.list.length == 0) {
-            let tr2 = $("<tr>");
+            let tr2 = $("<tr >");
             tr2.append($("<td colspan='14'>").text("저장식당이 없습니다"));
             $("#solvereportList").append(tr2);
           } else {
             data.list.forEach((v) => {
               // console.log(v.member_no, v.introduce)
               // console.log(v)
-              let tr2 = $("<tr>");
+              let tr2 = $(
+                "<tr data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='openmodal(" +
+                  v.REPORT_NO +
+                  ")' >"
+              );
               let a = $("<a>");
               tr2.append($("<td>").text(v.REPORT_NO));
               tr2.append($("<td>").text(v.REPORT_TITLE));
@@ -536,7 +623,11 @@ uri="http://java.sun.com/jsp/jstl/core" %>
             data.list.forEach((v) => {
               // console.log(v.member_no, v.introduce)
               // console.log(v)
-              let tr2 = $("<tr>");
+              let tr2 = $(
+                "<tr data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='openmodal(" +
+                  v.REPORT_NO +
+                  ")'>"
+              );
               let a = $("<a>");
               tr2.append(
                 $("<td>").append(
@@ -591,7 +682,11 @@ uri="http://java.sun.com/jsp/jstl/core" %>
             data.list.forEach((v) => {
               // console.log(v.member_no, v.introduce)
               // console.log(v)
-              let tr2 = $("<tr>");
+              let tr2 = $(
+                "<tr data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='openmodal(" +
+                  v.REPORT_NO +
+                  ")'>"
+              );
               let a = $("<a>");
               tr2.append($("<td>").text(v.REPORT_NO));
               tr2.append($("<td>").text(v.REPORT_TITLE));
@@ -646,7 +741,11 @@ uri="http://java.sun.com/jsp/jstl/core" %>
             data.list.forEach((v) => {
               // console.log(v.member_no, v.introduce)
               // console.log(v)
-              let tr2 = $("<tr>");
+              let tr2 = $(
+                "<tr data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='openmodal(" +
+                  v.REPORT_NO +
+                  ")'>"
+              );
               let a = $("<a>");
               tr2.append(
                 $("<td>").append(
@@ -701,7 +800,11 @@ uri="http://java.sun.com/jsp/jstl/core" %>
             data.list.forEach((v) => {
               // console.log(v.member_no, v.introduce)
               // console.log(v)
-              let tr2 = $("<tr>");
+              let tr2 = $(
+                "<tr data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='openmodal(" +
+                  v.REPORT_NO +
+                  ")'>"
+              );
               let a = $("<a>");
               tr2.append($("<td>").text(v.REPORT_NO));
               tr2.append($("<td>").text(v.REPORT_TITLE));

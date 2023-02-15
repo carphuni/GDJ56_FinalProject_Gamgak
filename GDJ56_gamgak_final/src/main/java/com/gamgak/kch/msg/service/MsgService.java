@@ -1,5 +1,6 @@
 package com.gamgak.kch.msg.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -37,8 +38,8 @@ public class MsgService {
 
 	//대화 저장
 	@Transactional
-	public int insertMsg(int personalChatroomNo, int receiverNo, int senderNo, String content) {
-		int result=dao.insertMsg(personalChatroomNo, receiverNo, senderNo, content);
+	public int insertMsg(int personalChatroomNo, int receiverNo, int senderNo, String content, String time) {
+		int result=dao.insertMsg(personalChatroomNo, receiverNo, senderNo, content, time);
 		return result;
 	}
 	

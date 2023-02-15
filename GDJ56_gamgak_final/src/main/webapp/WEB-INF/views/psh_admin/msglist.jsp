@@ -36,8 +36,8 @@ uri="http://java.sun.com/jsp/jstl/core" %>
             <th>Total</th>
           </tr>
           <tr>
-            <td>오늘 보낸 메세지</td>
-            <td>총 보낸 메세지</td>
+            <td></td>
+            <td></td>
           </tr>
         </table>
       </div>
@@ -49,7 +49,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
     <hr class="sep" />
     <hr class="sep" />
 
-    <div id="headtext" onclick="msglist(cPage,ynval);">
+    <div id="headtext" onclick="msglist(cPage,1,'');">
       <h2>알림 메세지</h2>
     </div>
 
@@ -66,25 +66,25 @@ uri="http://java.sun.com/jsp/jstl/core" %>
       <div id="fnsmem">
         <button
           class="btn btn-primary btn-ghost btn-slide"
-          onclick="stopememlist()"
+          onclick="msglist(cPage,1,1)"
         >
           정지메세지
         </button>
         <button
           class="btn btn-primary btn-ghost btn-slide"
-          onclick="noticememlist()"
+          onclick="msglist(cPage,1,2)"
         >
           경고메세지
         </button>
         <button
           class="btn btn-primary btn-ghost btn-slide"
-          onclick="myresdellist()"
+          onclick="msglist(cPage,1,3)"
         >
           저장식당삭제메세지
         </button>
         <button
           class="btn btn-primary btn-ghost btn-slide"
-          onclick="meetingdellist()"
+          onclick="msglist(cPage,1,4)"
         >
           모임삭제메세지
         </button>
@@ -108,77 +108,29 @@ uri="http://java.sun.com/jsp/jstl/core" %>
   let ynval = "N";
   let N = "N";
   let Y = "Y";
+  let msg;
   //처음 로딩시 실행
   (() => {
     let ynval = "N";
-    msglist(cPage, ynval);
-    memberlist(cPage, ynval);
+    msglist(cPage);
   })();
 
-  //체크박스 전체선택 함수
-  function selectAll() {
-    const memcheck = document.querySelectorAll("input[name=memcheck]");
-    // console.log($("#selectAll").prop("checked"))
-    console.log();
-    if ($("#selectAll").prop("checked")) {
-      for (var i = 0; i < memcheck.length; i++) {
-        // console.log(memcheck[i].value)
-        memcheck[i].checked = true;
-      }
-    } else {
-      for (var i = 0; i < memcheck.length; i++) {
-        memcheck[i].checked = false;
-      }
-    }
-  }
-
-  //체크박스 값 가져와서 delete
-  function sendmsg() {
-    if (!window.confirm("메세지 전송을 계속 진행하시겠습니까?")) {
-      console.log("취소");
-    } else {
-      const delmem = document.querySelectorAll("input[name=memcheck]:checked");
-      nodata = [];
-      // let nodata="";
-      for (let i = 0; i < delmem.length; i++) {
-        // console.log(delmem[i].value)
-        nodata.push(delmem[i].value);
-      }
-      // console.log(JSON.stringify(nodata))
-      $.ajax({
-        url: "${path}/admin/sendMsg.do",
-        // dataType:"JSON",
-        traditional: true,
-        data: {
-          nodata: JSON.stringify(nodata),
-          tableN: "MEMBER",
-          columnN: "MEMBER_NO",
-          yn: "AUTHORITY_YN",
-        },
-        success: (data) => {
-          console.log(data.result);
-          for (let i = 0; i < data.result.length; i++) {
-            let total = +Number(data.result[i]);
-          }
-          if ((total = data.result.length)) memberlist(cPage, ynval);
-        },
-      });
-    }
-  }
-
   //메세지리스트 출력
-  function msglist(cPage) {
+  function msglist(cPage, loginMemberNo, msg) {
     // console.log(ynval)
     // if (ynval == null) ynval = "N";
+    if (msg == 1) msg = "정지";
+    if (msg == 2) msg = "경고";
+    if (msg == 3) msg = "식당";
+    if (msg == 4) msg = "모임";
     $("#msgList").empty();
     $("#msgpageBar").empty();
     $.ajax({
       url: "${path}/admin/msglist.do",
       data: {
         cPage: cPage,
-        functionN: "msglist",
         loginMemberNo: 1,
-        content: "",
+        content: msg,
         // numPerpage:numPerpage
       },
       success: (data) => {
@@ -201,14 +153,14 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         } else {
           data.list.forEach((v) => {
             // console.log(v.member_no, v.introduce)
-            // console.log(v)
+            console.log(v);
             let tr2 = $("<tr>");
             let a = $("<a>");
             tr2.append($("<td >").text(v.CHAT_NO));
-            tr2.append($("<td>").text(v.MEMBER_NO));
+            tr2.append($("<td>").text(v.MEMBER_RECEIVER_NO));
             tr2.append($("<td>").text(v.CHATTING_CONTENT));
-            let enrolldate = v.CHAT_ENROLL;
-            tr2.append($("<td>").text(enrolldate.slice(0, 10)));
+            // let enrolldate = v.CHAT_ENROLL;
+            tr2.append($("<td>").text(v.CHAT_ENROLL));
 
             $("#msgList").append(tr2);
           });

@@ -69,6 +69,7 @@ tr {
 #solvereportList,
 #msgListBox,
 #msgList,
+#myresList,
 #solvereportListBox {
   width: 100%;
 }
@@ -85,6 +86,8 @@ tr {
   justify-content: center;
   margin: auto;
 }
+#repsearch,
+#solvesearch,
 #search {
   height: 30px;
   align-self: center;
@@ -123,4 +126,20 @@ tr {
   background: transparent;
   background-color: #dc3546;
   box-shadow: inset 90px 0 0 0 var(background-color);
+}
+#repview {
+  display: flex;
+  flex-direction: row;
+}
+#reportDate,
+#repTag {
+  float: left;
+}
+#repTitle {
+  margin-left: 20px;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
 }

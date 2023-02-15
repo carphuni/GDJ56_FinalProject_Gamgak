@@ -7,6 +7,153 @@ uri="http://java.sun.com/jsp/jstl/core" %>
   var="loginMember"
   value="${sessionScope.SPRING_SECURITY_CONTEXT.authentication.principal }"
 />
+<!-- <style>
+    th {
+  text-align: center;
+  background-color: #dc354675;
+  padding-right: 10px;
+  padding-left: 10px;
+  font-size: 15px;
+}
+td {
+  text-align: center;
+  background-color: rgba(211, 211, 211, 0.219);
+}
+tr {
+  height: 50px;
+  padding-bottom: 10px;
+  border-bottom: rgba(0, 0, 0, 0.37) 5px solid;
+  border-color: white;
+}
+#pageBar {
+  margin-top: 20px;
+}
+#box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+#adInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: auto;
+}
+#adimg {
+  width: 100px;
+  height: 100px;
+  margin-right: 50px;
+  align-self: center;
+}
+.sep {
+  border-style: none;
+}
+#sep {
+  background-color: #dc3546;
+  height: 2px;
+  width: 100%;
+}
+#headbox {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+#fns {
+  align-self: first baseline;
+  margin: auto;
+  /* justify-content: space-between; */
+}
+#fnsmem,
+#stylebtn {
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+}
+#memberList,
+#reportList,
+#meetingList,
+#myresList,
+#solvereportList,
+#msgListBox,
+#msgList,
+#myresList,
+#solvereportListBox {
+  width: 100%;
+}
+#searchbox {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+#memdata,
+#mtdata,
+#reportdata {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: auto;
+}
+#repsearch,
+#solvesearch,
+#search {
+  height: 30px;
+  align-self: center;
+  width: 500px;
+}
+#orderbox {
+  display: flex;
+  float: right;
+}
+#order {
+  align-self: end;
+}
+.btn-primary.btn-circle {
+  margin: 1rem;
+  --btn-bg: rgba(211, 211, 211, 0.781);
+  --btn-border: #dc3546;
+}
+.btn.btn-primary.btn-ghost {
+  transition: 0.3s;
+  margin: 1rem;
+  --btn-color: #dc3546;
+  border-color: #dc3546;
+  /* font-style: ; */
+}
+.btn.btn-primary.btn-circle:hover {
+  background: transparent;
+  background-color: #dc3546;
+}
+
+/* .btn-slide {
+  --btn-bg: var(--primary-color);
+  --btn-border: 1pxsolidvar (--btn-bg);
+} */
+
+.btn-primary.btn-ghost.btn-slide:hover {
+  background: transparent;
+  background-color: #dc3546;
+  box-shadow: inset 90px 0 0 0 var(background-color);
+}
+#repview {
+  display: flex;
+  flex-direction: row;
+}
+#reportDate,
+#repTag {
+  float: left;
+}
+#repTitle {
+  margin-left: 20px;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+} -->
+
+</style>
 <div id="profile-wrapper">
   <section id="adContent">
     <hr class="sep" />
@@ -46,22 +193,15 @@ uri="http://java.sun.com/jsp/jstl/core" %>
           <i class="search-icon"></i>
         </button>
       </div>
-
-      <div id="orderbox">
-        <select id="order">
-          <option value="">공유Y</option>
-          <option value="">공유N</option>
-        </select>
-      </div>
     </div>
-    <!-- 리스트 -->
-    <input type="hidden" value="${no}" id="no" />
-    <div id="myresBox">
-      <table id="myresList"></table>
-      <div id="pageBar"></div>
-    </div>
-    <hr class="sep" />
-    <hr class="sep" />
+     <!-- 리스트 -->
+     <input type="hidden" value="${no}" id="no" />
+     <div id="myresBox">
+       <table id="myresList"></table>
+       <div id="pageBar"></div>
+     </div>
+     <hr class="sep" />
+     <hr class="sep" />
   </section>
 </div>
 <script>

@@ -16,11 +16,16 @@ uri="http://java.sun.com/jsp/jstl/core" %>
     <hr class="sep" />
     <!-- 관리자 프로필 -->
     <div id="box">
-      <div id="adInfo">
+      <div id="adInfo" value="${loginMember.memberNo}">
         <img id="adimg" src="${path}/resources/images/프로필 기본 이미지.jpg" />
         <div id="adText">
           <h5><b>${loginMember.memberEmail}</b></h5>
           <h5>${loginMember.memberNickName}</h5>
+          <input
+            id="loginMemberNo"
+            type="hidden"
+            value="${loginMember.memberNo}"
+          />
         </div>
       </div>
       <!-- 구분선 -->
@@ -78,25 +83,25 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         </button>
         <button
           class="btn btn-primary btn-ghost btn-slide"
-          onclick="stopemem()"
+          onclick="sendnoticememlist('정지문구안내')"
         >
           정지
         </button>
         <button
           class="btn btn-primary btn-ghost btn-slide"
-          onclick="sendnoticememlist()"
+          onclick="sendnoticememlist('경고문구안내')"
         >
           경고
         </button>
         <button
           class="btn btn-primary btn-ghost btn-slide"
-          onclick="sendmyresdellist()"
+          onclick="sendnoticememlist('저장식당삭제')"
         >
           저장식당삭제
         </button>
         <button
           class="btn btn-primary btn-ghost btn-slide"
-          onclick="sendmeetingdellist()"
+          onclick="sendnoticememlist('모임삭제')"
         >
           모임삭제
         </button>
@@ -116,11 +121,52 @@ uri="http://java.sun.com/jsp/jstl/core" %>
   let ynval = "N";
   let N = "N";
   let Y = "Y";
+  //   let search;
   //처음 로딩시 실행
   (() => {
     let ynval = "N";
     memberlist(cPage, ynval);
   })();
+
+  //메세지 전송
+  function sendnoticememlist(msg) {
+    const loginMemberNo = $("#loginMemberNo").val();
+    console.log(loginMemberNo);
+    if (!window.confirm("회원탈퇴를 계속 진행하시겠습니까?")) {
+      console.log("취소");
+    } else {
+      const delmem = document.querySelectorAll("input[name=memcheck]:checked");
+      nodata = [];
+      // let nodata="";
+      for (let i = 0; i < delmem.length; i++) {
+        // console.log(delmem[i].value)
+        nodata.push(delmem[i].value);
+      }
+      var today = new Date();
+      var time = today.toString().substring(16, 21); //시간
+      //현재날짜 변환하기
+      var todayy = new Date();
+      todayy.setHours(today.getHours() + 9);
+      var today2 = todayy.toISOString().replace("T", " ").substring(0, 19);
+      // console.log(JSON.stringify(nodata))
+      $.ajax({
+        url: "${path}/admin/adminNoticeMsg.do",
+        data: {
+          nodata: JSON.stringify(nodata),
+          loginMember: loginMemberNo,
+          msg: msg,
+          today: today2,
+        },
+        success: (data) => {
+          console.log(data.adminNotice);
+          for (let i = 0; i < data.adminNotice.length; i++) {
+            let total = +Number(data.adminNotice[i]);
+          }
+          if ((total = data.adminNotice.length)) memberlist(cPage, "N");
+        },
+      });
+    }
+  }
 
   //체크박스 전체선택 함수
   function selectAll() {
@@ -154,7 +200,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
       // console.log(JSON.stringify(nodata))
       $.ajax({
         url: "${path}/admin/deletedata.do",
-        // dataType:"JSON",
+        // dataType: "JSON",
         traditional: true,
         data: {
           nodata: JSON.stringify(nodata),
@@ -163,7 +209,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
           yn: "AUTHORITY_YN",
         },
         success: (data) => {
-          console.log(data.result);
+          console.log(data);
           for (let i = 0; i < data.result.length; i++) {
             let total = +Number(data.result[i]);
           }
@@ -182,6 +228,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
   //리스트 출력
   function memberlist(cPage, ynval) {
     // console.log(ynval)
+    const str = $("#search").val();
     if (ynval == null) ynval = "N";
     $("#memberList").empty();
     $("#pageBar").empty();
@@ -244,11 +291,16 @@ uri="http://java.sun.com/jsp/jstl/core" %>
             tr2.append($("<td>").text(v.MEMBER_NICKNAME));
             let enrolldate = v.MEMBER_ENROLLDATE;
             tr2.append($("<td>").text(enrolldate.slice(0, 10)));
-            // a.attr("href","http://localhost:9090/admin/myresview.do")
             a.attr(
               "href",
-              "http://localhost:9090/admin/myresview.do?no=" + v.MEMBER_NO
+              "http://localhost:9090/GDJ56_gamgak_final/admin/myresview.do?no=" +
+                v.MEMBER_NO
             ).text(v.MYRES_CNT);
+            // a.attr(
+            //   "href",
+            //   "http://gd1class.iptime.org:9999/GDJ56_gamgak_final/admin/myresview.do?no=" +
+            //     v.MEMBER_NO
+            // ).text(v.MYRES_CNT);
             tr2.append($("<td>").append(a));
             tr2.append($("<td>").text(v.REPORT_CNT));
             tr2.append($("<td>").text(v.AUTHORITY_YN));
