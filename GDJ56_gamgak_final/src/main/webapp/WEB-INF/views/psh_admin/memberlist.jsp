@@ -132,7 +132,7 @@ uri="http://java.sun.com/jsp/jstl/core" %>
   function sendnoticememlist(msg) {
     const loginMemberNo = $("#loginMemberNo").val();
     console.log(loginMemberNo);
-    if (!window.confirm("회원탈퇴를 계속 진행하시겠습니까?")) {
+    if (!window.confirm("메세지를 전송하시겠습니까?")) {
       console.log("취소");
     } else {
       const delmem = document.querySelectorAll("input[name=memcheck]:checked");
