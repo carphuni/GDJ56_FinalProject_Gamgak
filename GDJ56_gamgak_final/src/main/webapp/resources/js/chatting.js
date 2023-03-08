@@ -2,10 +2,8 @@ function addMsgSystem(msg){
     
   
      const $h3=$("<h5>").css("textAlign","center").text("======="+msg.msg+"=======");
-	$("#chattingRoom").append($h3);
+	$("#chatStroy").append($h3);
     
-	$('#chattingRoom').scrollTop($('#chattingRoom')[0].scrollHeight);
-	 
      
 }
 
@@ -40,7 +38,7 @@ function printMsg(myId,msg){
         $myNameChat.append($myp)
         //$mydiv.append($mycheck)
         $mydiv.append($myNameChat)
-        $("#chattingRoom").append($mydiv);
+        $("#chatStroy").append($mydiv);
 
     }else{
         const $ontherMsgwaf=$("<div>").attr("id","ontherMsgwaf");
@@ -57,10 +55,9 @@ function printMsg(myId,msg){
        
         $ontherMsgwaf.append($ontherImg);
         $ontherMsgwaf.append($ontherNameChat);
-        $("#chattingRoom").append($ontherMsgwaf);
+        $("#chatStroy").append($ontherMsgwaf);
     }
-	
-	$('#chattingRoom').scrollTop($('#chattingRoom')[0].scrollHeight);
+
 
 }
 

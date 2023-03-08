@@ -17,7 +17,7 @@ class profileData{
 
 	//스크롤 시 페이징 처리
 	profileScroll() {
-		if (Math.round($(window).scrollTop())-15> $(document).height() - $(window).height()) {
+		if (Math.round($(window).scrollTop())> $(document).height() - $(window).height()) {
 			this.cPage++;
 			$("#profileLoading").show();
 			$.ajax({
